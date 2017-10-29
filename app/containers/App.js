@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import Navigation from '../components/Navigation';
 
@@ -16,7 +16,7 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   view: {
     flex: 1,
-    backgroundColor: '#ff0000',
+    backgroundColor: '#ffffff',
     paddingTop: 24
   }
 });

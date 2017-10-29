@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk'
+import { Font } from 'expo';
 
-import * as reducers from '../reducers';
+import rootReducer from './rootReducer';
 import App from './App';
 
-const reducer = combineReducers(reducers);
-const store = createStore(reducer, applyMiddleware(thunk))
+const store = createStore(rootReducer, applyMiddleware(thunk))
 
 export default class Root extends Component {
   render() {

@@ -1,0 +1,5 @@
+export const AUTH_IN_PROGRESS = 'AUTH_IN_PROGRESS';
+export const AUTH_SUCCESS = 'AUTH_SUCCESS';
+export const AUTH_FAILED = 'AUTH_FAILED';
+export const USER_FETCHED = 'USER_FETCHED';
+export const USER_LOGGED_OUT = 'USER_LOGGED_OUT';

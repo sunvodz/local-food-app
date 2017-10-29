@@ -1,0 +1,2 @@
+export const USER_FETCHED = 'USER_FETCHED';
+export const USER_LOGGED_OUT = 'USER_LOGGED_OUT';
