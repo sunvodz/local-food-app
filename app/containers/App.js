@@ -16,7 +16,7 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   view: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#fff',
     paddingTop: 24
   }
 });

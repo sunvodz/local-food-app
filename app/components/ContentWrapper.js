@@ -13,7 +13,7 @@ class ContentWrapper extends Component {
 
 const styles = StyleSheet.create({
   contentWrapper: {
-    backgroundColor: '#fafafa',
+    backgroundColor: '#eee',
     flex: 1,
     padding: 20
   }

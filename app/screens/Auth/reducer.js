@@ -1,12 +1,27 @@
 import * as actionTypes from './actionTypes';
+import { sharedActionTypes } from '../../shared';
 
 function authReducer(state, action) {
   switch (action.type) {
-    case actionTypes.USER_FETCHED:
-    case actionTypes.AUTH_SUCCESS:
-    case actionTypes.USER_LOGGED_OUT:
+    case sharedActionTypes.ERROR:
       return Object.assign({}, state, {
-        user: action.user
+        loading: action.loading,
+      });
+      break;
+
+    case sharedActionTypes.LOGIN_IN_PROGRESS:
+    case sharedActionTypes.LOGGED_IN:
+    case sharedActionTypes.LOGGED_OUT:
+      return Object.assign({}, state, {
+        user: action.user,
+        token: action.token,
+        loading: action.loading,
+      });
+      break;
+
+    case sharedActionTypes.SAVE_TOKEN:
+      return Object.assign({}, state, {
+        token: action.token,
       });
       break;
 

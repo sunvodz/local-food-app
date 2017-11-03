@@ -1,7 +1,7 @@
 import * as actionTypes from './actionTypes';
 import { sharedActionTypes } from '../../shared';
 
-function notificationReducer(state, action) {
+function userSettingsReducer(state, action) {
   switch (action.type) {
     case sharedActionTypes.ALERT:
     case sharedActionTypes.RESET_ALERT:
@@ -16,4 +16,4 @@ function notificationReducer(state, action) {
   }
 }
 
-export default notificationReducer;
+export default userSettingsReducer;

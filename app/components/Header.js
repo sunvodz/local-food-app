@@ -16,14 +16,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
     flexDirection: 'row',
-    height: 64,
     justifyContent: 'space-between',
     paddingHorizontal: 20,
     paddingVertical: 10,
-    elevation: 1,
+    borderBottomColor: '#ccc',
+    borderBottomWidth: 1,
   },
   text: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: 'bold',
     color: '#333'
   }

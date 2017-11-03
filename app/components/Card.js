@@ -1,11 +1,19 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
 export default class Card extends React.Component {
   render() {
+    let header = null;
+    if (this.props.header) {
+      header = <Text style={styles.header}>{this.props.header}</Text>;
+    }
+
     return (
       <View style={styles.card}>
-        {this.props.children}
+        {header}
+        <View style={styles.content}>
+          {this.props.children}
+        </View>
       </View>
     );
   }
@@ -14,8 +22,17 @@ export default class Card extends React.Component {
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#fff',
-    padding: 20,
-    elevation: 2,
-    borderRadius: 4
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+    marginBottom: 20,
+  },
+  content: {
+    padding: 10,
+  },
+  header: {
+    color: '#ccc',
+
+    paddingHorizontal: 10,
+    paddingTop: 10,
   }
 });

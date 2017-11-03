@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Text, View, Image, Button, StyleSheet } from 'react-native';
+import { Text, View, Image, Button } from 'react-native';
 
 import * as actions from './actions';
-import TextInput from '../../components/TextInput';
-import Card from '../../components/Card';
+import { sharedActions } from '../../shared';
+
+import { TextInput, Card } from '../../components';
 
 export default class AuthScreen extends Component {
   constructor(props) {
@@ -21,7 +22,7 @@ export default class AuthScreen extends Component {
   }
 
   onLogin() {
-    this.props.dispatch(actions.authUser(this.state.email, this.state.password));
+    this.props.dispatch(sharedActions.loginUser(this.state.email, this.state.password));
   }
 
   render() {
@@ -34,7 +35,3 @@ export default class AuthScreen extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-
-});

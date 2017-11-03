@@ -7,22 +7,8 @@ import AuthScreen from '../Auth';
 import { Header, TextInput, ContentWrapper, Card } from '../../components';
 
 import * as actions from './actions';
-import * as authActions from '../Auth/actions';
 
 class NodeScreen extends React.Component {
-  componentDidMount() {
-    this.props.dispatch(authActions.fetchUser());
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    const alert = this.props.node && this.props.node.alert ? this.props.node.alert : null;
-
-    if (alert && this.dropdownAlert) {
-      this.props.dispatch(actions.resetAlert());
-      this.dropdownAlert.alertWithType(alert.type, alert.label, alert.message);
-    }
-  }
-
   render() {
     let content = null;
 

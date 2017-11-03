@@ -9,19 +9,6 @@ import * as authActions from '../Auth/actions';
 import { Header, ContentWrapper } from '../../components';
 
 class NotificationScreen extends React.Component {
-  componentDidMount() {
-    this.props.dispatch(authActions.fetchUser());
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    const alert = this.props.notification && this.props.notification.alert ? this.props.notification.alert : null;
-
-    if (alert && this.dropdownAlert) {
-      this.props.dispatch(actions.resetAlert());
-      this.dropdownAlert.alertWithType(alert.type, alert.label, alert.message);
-    }
-  }
-
   render() {
     let content = null;
 

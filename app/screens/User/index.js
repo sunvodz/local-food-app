@@ -4,56 +4,44 @@ import { Text, View, Button } from 'react-native';
 import DropdownAlert from 'react-native-dropdownalert';
 
 import AuthScreen from '../Auth';
-import { Header, TextInput, ContentWrapper, Card } from '../../components';
-import { resetAlert } from '../../shared/actions';
+import { Header, TextInput, ContentWrapper, Card, Loader } from '../../components';
+import { sharedActions } from '../../shared';
 
 import * as actions from './actions';
-import * as authActions from '../Auth/actions';
+
+import UserNavigation from './components/Navigation';
 
 class UserScreen extends Component {
-  componentDidMount() {
-    this.props.dispatch(authActions.fetchUser());
-  }
-
   componentDidUpdate(prevProps, prevState) {
     const alert = this.props.user && this.props.user.alert ? this.props.user.alert : null;
 
     if (alert && this.dropdownAlert) {
-      this.props.dispatch(resetAlert());
+      this.props.dispatch(sharedActions.resetAlert());
       this.dropdownAlert.alertWithType(alert.type, alert.label, alert.message);
     }
   }
 
-  onLogout() {
-    this.props.dispatch(authActions.logoutUser());
-  }
-
   render() {
     let content = null;
+    let headerLabel = 'Account';
 
     if (this.props.auth.loading) {
-      return <Text>Loading...</Text>;
-    }
-
-    if (!this.props.auth.user) {
-       content = <AuthScreen {...this.props} />;
-    }
-
-    if (this.props.auth.user) {
+      content = <Loader />;
+    } else if (!this.props.auth.user) {
       content = (
-        <View>
-          <Text>{this.props.auth.user.name} is logged in!</Text>
-          <Button onPress={this.onLogout.bind(this)} title="Logout" accessibilityLabel="Logout" />
-        </View>
+        <ContentWrapper>
+          <AuthScreen {...this.props} />
+        </ContentWrapper>
       );
+    } else if (this.props.auth.user) {
+      headerLabel = this.props.auth.user.name;
+      content = <UserNavigation />;
     }
 
     return (
       <View style={{flex: 1}}>
-        <Header label='Account' />
-        <ContentWrapper>
-          {content}
-        </ContentWrapper>
+        <Header label={headerLabel} />
+        {content}
         <DropdownAlert ref={ref => this.dropdownAlert = ref} />
       </View>
     );

@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-import * as sharedActionTypes from '../../shared/actionTypes';
+import { sharedActionTypes } from '../../shared';
 
 function nodeReducer(state, action) {
   switch (action.type) {
