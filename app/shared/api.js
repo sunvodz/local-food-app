@@ -1,37 +1,37 @@
-import axios from 'axios';
-import { API_URL } from 'react-native-dotenv';
+import { API_URL, API_CLIENT_ID, API_SECRET, API_USERNAME, API_PASSWORD } from 'react-native-dotenv';
+import sdk from 'localfoodnodes-js-sdk';
 
+class Api {
+  async call(request, options) {
+    request.url = API_URL + request.url; // Set base url
 
-let client = axios.create({
-  baseURL: API_URL,
-  timeout: 10000,
-  headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json',
-  }
-});
+    options = this.extendOptions(options);
 
-/**
- * Make API call.
- *
- * @param  {object} payload
- * @return {promise}
- */
-export function call(request, options) {
-  if (options && options.token) {
-    request.headers = Object.assign({}, request.headers, {
-      'Authorization': 'Bearer ' + options.token.access_token
-    });
+    return await sdk.call(request, options);
   }
 
-  return client(request)
-  .catch(function(error) {
-    console.error('API error', error);
-  });
+  formData(data) {
+    return sdk.formatData(data);
+  }
+
+  extendOptions(options) {
+    if (!options) {
+      options = {};
+    }
+
+    options.baseUrl = API_URL;
+
+    // Check if user is logged in and add user credentials
+
+    options.auth = {
+      clientId: API_CLIENT_ID,
+      secret: API_SECRET,
+      username: API_USERNAME,
+      password: API_PASSWORD,
+    };
+
+    return options;
+  }
 }
 
-export function formData(data) {
-  return Object.keys(data).map(function(d) {
-    return encodeURIComponent(d) + '=' + encodeURIComponent(data[d]);
-  }).join('&');
-}
+export default new Api();

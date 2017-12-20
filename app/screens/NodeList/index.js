@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Text, View } from 'react-native';
+import { Text, View, Button } from 'react-native';
 import DropdownAlert from 'react-native-dropdownalert';
 
 import AuthScreen from '../Auth';
-import * as authActions from '../Auth/actions';
+import { Header, TextInput, ContentWrapper, Card } from '../../components';
 
-import { ContentWrapper } from '../../components';
+import * as actions from './actions';
 
-class NotificationScreen extends React.Component {
+class UserNodesScreen extends React.Component {
   render() {
     let content = null;
 
@@ -17,15 +17,20 @@ class NotificationScreen extends React.Component {
     }
 
     if (!this.props.auth.user) {
-      content = <AuthScreen {...this.props} />;
+       content = <AuthScreen {...this.props} />;
     }
 
     if (this.props.auth.user) {
-      content = <Text>Notifications for {this.props.auth.user.name}</Text>;
+      content = (
+        <View>
+          <Text>{this.props.auth.user.name} is logged in!</Text>
+        </View>
+      );
     }
 
     return (
       <View style={{flex: 1}}>
+        <Header label='Nodes' />
         <ContentWrapper>
           {content}
         </ContentWrapper>
@@ -36,13 +41,12 @@ class NotificationScreen extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { auth, notifications } = state;
+  const { auth, userNodes } = state;
 
   return {
     auth,
-    notifications,
-  };
+    userNodes,
+  }
 }
 
-
-export default connect(mapStateToProps)(NotificationScreen);
+export default connect(mapStateToProps)(UserNodesScreen);

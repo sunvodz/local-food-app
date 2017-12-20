@@ -1,5 +1,5 @@
 import { API_URL } from 'react-native-dotenv';
-import { api } from '../../shared';
+import { api } from 'app/shared';
 import * as actionTypes from './actionTypes';
 
 export function requestCurrentLocation() {

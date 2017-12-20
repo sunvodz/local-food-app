@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import { TabNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import MapScreen from '../screens/Map';
-import NodeScreen from '../screens/Node';
-import NotificationScreen from '../screens/Notification';
-import UserScreen from '../screens/User';
+import MapScreen from 'app/screens/Map';
+import UserNodesScreen from 'app/screens/NodeList';
+import NotificationScreen from 'app/screens/Notification';
+import UserNavigation from 'app/screens/User';
 
 const RouteConfigs = {
   MapScreen: {
@@ -15,8 +15,8 @@ const RouteConfigs = {
       tabBarIcon: ({ tintColor }) => (<Icon name='explore' size={24} color={tintColor} />)
 		})
   },
-  NodeScreen: {
-    screen: NodeScreen,
+  UserNodesScreen: {
+    screen: UserNodesScreen,
     navigationOptions: ({ navigation }) => ({
 			tabBarLabel: 'Nodes',
       tabBarIcon: ({ tintColor }) => (<Icon name='place' size={24} color={tintColor} />)
@@ -29,8 +29,8 @@ const RouteConfigs = {
       tabBarIcon: ({ tintColor }) => (<Icon name='announcement' size={24} color={tintColor} />)
 		})
   },
-  UserScreen: {
-    screen: UserScreen,
+  User: {
+    screen: UserNavigation,
     navigationOptions: ({ navigation }) => ({
 			tabBarLabel: 'User',
       tabBarIcon: ({ tintColor }) => (<Icon name='person' size={24} color={tintColor} />)

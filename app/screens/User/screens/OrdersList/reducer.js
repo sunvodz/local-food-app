@@ -1,7 +1,7 @@
 import * as actionTypes from './actionTypes';
-import { sharedActionTypes } from '../../shared';
+import { sharedActionTypes } from 'app/shared';
 
-function userOrdersReducer(state, action) {
+function ordersReducer(state, action) {
   switch (action.type) {
     case sharedActionTypes.ALERT:
     case sharedActionTypes.RESET_ALERT:
@@ -25,4 +25,4 @@ function userOrdersReducer(state, action) {
   }
 }
 
-export default userOrdersReducer;
+export default ordersReducer;

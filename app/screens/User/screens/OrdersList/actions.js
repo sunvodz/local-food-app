@@ -1,24 +1,21 @@
 import { AsyncStorage } from 'react-native';
-import { API_URL } from 'react-native-dotenv';
 import _ from 'lodash';
 import moment from 'moment';
 
 import * as actionTypes from './actionTypes';
-import { api, sharedActions } from '../../shared';
+import { api } from 'app/shared';
 
 /**
  * Async action - fetch orders.
  *
  * @return {function}
  */
-export function requestOrders(token) {
+export function requestOrders() {
   return async function(dispatch, getState) {
     dispatch(fetchingOrders());
-    let refreshedToken = await sharedActions.refreshToken(token);
-    dispatch(sharedActions.saveToken(refreshedToken));
 
-    let response = await api.call({url: API_URL + '/api/v1/users/orders'}, {
-      token: refreshedToken
+    let response = await api.call({
+      url: '/api/v1/users/orders'
     });
 
     let orders = response.data;

@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Text, View, Button } from 'react-native';
 
-import { ContentWrapper, Card } from '../../components';
-import { sharedActions } from '../../shared';
+import { ContentWrapper, Card } from 'app/components';
+import { sharedActions } from 'app/shared';
 
-class SettingsScreen extends Component {
-
+class Settings extends Component {
   onLogout() {
     this.props.dispatch(sharedActions.logoutUser());
   }
@@ -33,4 +32,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(SettingsScreen);
+export default connect(mapStateToProps)(Settings);

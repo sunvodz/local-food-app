@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, Image, Button } from 'react-native';
 
 import * as actions from './actions';
-import { sharedActions } from '../../shared';
+import { sharedActions } from 'app/shared';
 
 import { TextInput, Card } from '../../components';
 

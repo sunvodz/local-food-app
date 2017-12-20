@@ -2,25 +2,25 @@ import React, {Component} from 'react';
 import { TabNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import UserOrdersScreen from '../../UserOrders';
-import UserSettingsScreen from '../../UserSettings';
+import Orders from '../screens/Orders';
+import Settings from '../screens/Settings';
 
-const RouteConfigs = {
-  UserOrdersScreen: {
-    screen: UserOrdersScreen,
+const routeConfig = {
+  OrderList: {
+    screen: Orders,
     navigationOptions: ({ navigation }) => ({
       tabBarLabel: 'Orders',
 		})
   },
   UserSettingsScreen: {
-    screen: UserSettingsScreen,
+    screen: Settings,
     navigationOptions: ({ navigation }) => ({
 			tabBarLabel: 'Settings',
 		})
   },
 };
 
-const TabNavigatorConfig = {
+const navigatorConfig = {
   animationEnabled: true,
   lazy: true,
   swipeEnabled: true,
@@ -44,4 +44,4 @@ const TabNavigatorConfig = {
   tabBarPosition: 'top',
 };
 
-export default TabNavigator(RouteConfigs, TabNavigatorConfig);
+export default TabNavigator(routeConfig, navigatorConfig);

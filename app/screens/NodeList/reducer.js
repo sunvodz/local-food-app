@@ -1,13 +1,12 @@
 import * as actionTypes from './actionTypes';
-import { sharedActionTypes } from '../../shared';
+import { sharedActionTypes } from 'app/shared';
 
-function userReducer(state, action) {
+function nodeReducer(state, action) {
   switch (action.type) {
-    case sharedActionTypes.ERROR:
+    case sharedActionTypes.ALERT:
     case sharedActionTypes.RESET_ALERT:
       return Object.assign({}, state, {
         alert: action.alert,
-        loading: action.loading,
       });
       break;
 
@@ -17,4 +16,4 @@ function userReducer(state, action) {
   }
 }
 
-export default userReducer;
+export default nodeReducer;
