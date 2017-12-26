@@ -47,7 +47,7 @@ class Node extends React.Component {
 
   renderProduct(product) {
     return (
-      <Card header={product.name} onPress={this.navigateProduct.bind(this)}>
+      <Card header={product.name} onPress={this.navigateProduct.bind(this, product)}>
         <Text>{ent.decode(striptags(product.info))}</Text>
       </Card>
     );

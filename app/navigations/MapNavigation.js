@@ -24,10 +24,14 @@ const routeConfig = {
   },
   Product: {
     screen: Product,
-    navigationOptions: ({ navigation }) => ({
-      title: 'Product',
-      headerBackTitle: 'Node',
-		})
+    navigationOptions: ({ navigation }) => {
+      const product = navigation.state.params;
+
+      return {
+        title: product.name,
+        headerBackTitle: 'Node',
+  		};
+		}
   },
 };
 

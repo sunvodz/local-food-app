@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 import authReducer from 'app/screens/Auth/reducer';
 import mapReducer from 'app/screens/Map/reducer';
 import nodeReducer from 'app/screens/Node/reducer';
+import productReducer from 'app/screens/Product/reducer';
 
 import userReducer from 'app/screens/User/screens/Profile/reducer';
 import cartReducer from 'app/screens/User/screens/Cart/reducer';
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   map: mapReducer,
   node: nodeReducer,
+  product: productReducer,
   cart: cartReducer,
   user: userReducer,
   nodes: nodesReducer,
