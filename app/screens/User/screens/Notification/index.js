@@ -1,12 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Text, View } from 'react-native';
-import DropdownAlert from 'react-native-dropdownalert';
 
-import AuthScreen from '../Auth';
-import * as authActions from '../Auth/actions';
+import AuthScreen from 'app/screens/Auth';
 
-import { ContentWrapper } from '../../components';
+import { ContentWrapper } from 'app/components';
 
 class NotificationScreen extends React.Component {
   render() {
@@ -29,7 +27,6 @@ class NotificationScreen extends React.Component {
         <ContentWrapper>
           {content}
         </ContentWrapper>
-        <DropdownAlert ref={ref => this.dropdownAlert = ref} />
       </View>
     );
   }

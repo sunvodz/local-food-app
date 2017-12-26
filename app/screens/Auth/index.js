@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { Text, View, Image, Button } from 'react-native';
 
-import * as actions from './actions';
 import { sharedActions } from 'app/shared';
-
-import { TextInput, Card } from '../../components';
+import { TextInput, Card } from 'app/components';
 
 export default class AuthScreen extends Component {
   constructor(props) {

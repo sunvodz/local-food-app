@@ -1,5 +1,5 @@
 import { AsyncStorage } from 'react-native';
-import { API_CLIENT_ID, API_SECRET, API_USERNAME, API_PASSWORD } from 'react-native-dotenv';
+import { API_CLIENT_ID, API_CLIENT_SECRET, API_USERNAME, API_PASSWORD } from 'react-native-dotenv';
 import config from '../../config';
 import api from './api';
 import * as sharedActionTypes from './sharedActionTypes';
@@ -46,24 +46,5 @@ export function logoutUser() {
     type: sharedActionTypes.LOGGED_OUT,
     loading: false,
     user: null
-  }
-}
-
-export function error(alert) {
-  return {
-    type: sharedActionTypes.ERROR,
-    loading: false,
-    alert: {
-      type: alert.type,
-      label: alert.label,
-      message: alert.message,
-    }
-  }
-}
-
-export function resetAlert() {
-  return {
-    type: sharedActionTypes.RESET_ALERT,
-    alert: null,
   }
 }

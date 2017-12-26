@@ -1,4 +1,4 @@
-import { API_URL, API_CLIENT_ID, API_SECRET, API_USERNAME, API_PASSWORD } from 'react-native-dotenv';
+import { API_URL, API_CLIENT_ID, API_CLIENT_SECRET, API_USERNAME, API_PASSWORD } from 'react-native-dotenv';
 import sdk from 'localfoodnodes-js-sdk';
 
 class Api {
@@ -25,7 +25,7 @@ class Api {
 
     options.auth = {
       clientId: API_CLIENT_ID,
-      secret: API_SECRET,
+      secret: API_CLIENT_SECRET,
       username: API_USERNAME,
       password: API_PASSWORD,
     };

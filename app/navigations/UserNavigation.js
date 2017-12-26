@@ -1,10 +1,9 @@
 import { StackNavigator } from 'react-navigation';
 
-
-import Profile from './screens/Profile';
-import OrdersList from './screens/OrdersList';
-import OrderDetails from './screens/OrderDetails';
-import Settings from './screens/Settings';
+import Profile from 'app/screens/User/screens/Profile';
+import Orders from 'app/screens/User/screens/Orders';
+import OrderDetails from 'app/screens/User/screens/OrderDetails';
+import Settings from 'app/screens/User/screens/Settings';
 
 const routeConfig = {
   Profile: {
@@ -13,8 +12,8 @@ const routeConfig = {
       title: 'Profile',
 		})
   },
-  OrdersList: {
-    screen: OrdersList,
+  Orders: {
+    screen: Orders,
     navigationOptions: ({ navigation }) => ({
       title: 'Orders',
       headerBackTitle: 'Profile',
@@ -35,9 +34,7 @@ const routeConfig = {
   },
 };
 
-const navigatorConfig = {
-
-};
+const navigatorConfig = {};
 
 const UserNavigation = StackNavigator(routeConfig, navigatorConfig);
 

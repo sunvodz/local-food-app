@@ -2,31 +2,31 @@ import React, {Component} from 'react';
 import { TabNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import MapScreen from 'app/screens/Map';
-import UserNodesScreen from 'app/screens/NodeList';
-import NotificationScreen from 'app/screens/Notification';
-import UserNavigation from 'app/screens/User';
+import MapNavigation from './MapNavigation';
+import Nodes from 'app/screens/User/screens/Nodes';
+import Cart from 'app/screens/User/screens/Cart';
+import UserNavigation from './UserNavigation';
 
 const RouteConfigs = {
-  MapScreen: {
-    screen: MapScreen,
+  Map: {
+    screen: MapNavigation,
     navigationOptions: ({ navigation }) => ({
       tabBarLabel: 'Map',
       tabBarIcon: ({ tintColor }) => (<Icon name='explore' size={24} color={tintColor} />)
 		})
   },
-  UserNodesScreen: {
-    screen: UserNodesScreen,
+  Nodes: {
+    screen: Nodes,
     navigationOptions: ({ navigation }) => ({
 			tabBarLabel: 'Nodes',
       tabBarIcon: ({ tintColor }) => (<Icon name='place' size={24} color={tintColor} />)
 		})
   },
-  NotificationScreen: {
-    screen: NotificationScreen,
+  Cart: {
+    screen: Cart,
     navigationOptions: ({ navigation }) => ({
-			tabBarLabel: 'Notifications',
-      tabBarIcon: ({ tintColor }) => (<Icon name='announcement' size={24} color={tintColor} />)
+			tabBarLabel: 'Cart',
+      tabBarIcon: ({ tintColor }) => (<Icon name='shopping-cart' size={24} color={tintColor} />)
 		})
   },
   User: {
@@ -45,15 +45,15 @@ const TabNavigatorConfig = {
   tabBarOptions: {
     showIcon: true,
     showLabel: false,
-    activeTintColor: '#333333',
+    activeTintColor: '#fff',
     activeBackgroundColor: '#fff',
-    inactiveTintColor: '#333333',
+    inactiveTintColor: '#fff',
     inactiveBackgroundColor: '#fff',
     indicatorStyle: {
-      backgroundColor: '#fff',
+      backgroundColor: '#fd962a',
     },
     style: {
-      backgroundColor: '#fff',
+      backgroundColor: '#bc3b1f',
     }
   },
   tabBarPosition: 'bottom',

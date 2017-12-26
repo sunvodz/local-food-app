@@ -4,11 +4,11 @@ import { Text, View, Button, Modal, StyleSheet } from 'react-native';
 import MapView from 'react-native-maps';
 import _ from 'lodash';
 
-import Map from './components/Map';
+import MapViewWrapper from './components/MapViewWrapper';
 import { Header, ContentWrapper, Loader } from '../../components';
 import * as actions from './actions';
 
-class MapScreen extends React.Component {
+class Map extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -16,8 +16,8 @@ class MapScreen extends React.Component {
   componentDidMount() {
     const { dispatch, map } = this.props;
 
-    dispatch(actions.requestNodes());
-    dispatch(actions.requestCurrentLocation());
+    dispatch(actions.fetchNodes());
+    dispatch(actions.fetchCurrentLocation());
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -31,7 +31,7 @@ class MapScreen extends React.Component {
   render() {
     const { map } = this.props;
 
-    return <Map {...this.props} />;
+    return <MapViewWrapper {...this.props} />;
   }
 }
 
@@ -43,7 +43,7 @@ function mapStateToProps(state) {
   }
 }
 
-MapScreen.defaultProps = {
+Map.defaultProps = {
   map: {
     nodes: null,
     location: null
@@ -56,4 +56,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps)(MapScreen);
+export default connect(mapStateToProps)(Map);

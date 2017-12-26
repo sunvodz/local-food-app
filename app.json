@@ -1,5 +1,8 @@
 {
   "expo": {
-    "sdkVersion": "21.0.0"
+    "name": "Local Food Nodes",
+    "privacy": "unlisted",
+    "sdkVersion": "23.0.0",
+    "slug": "local-food-nodes"
   }
 }

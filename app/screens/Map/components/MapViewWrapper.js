@@ -4,16 +4,22 @@ import { Text, View, Button, Modal, StyleSheet } from 'react-native';
 import MapView from 'react-native-maps';
 import _ from 'lodash';
 
-import { ContentWrapper, Loader } from '../../../components';
+import { ContentWrapper, Loader } from 'app/components';
 import * as actions from './../actions';
+import mapStyle from '../mapStyle';
 
-export default class Map extends React.Component {
+export default class MapViewWrapper extends React.Component {
+  navigateToNode(node) {
+    this.props.navigation.navigate('Node', node);
+  }
+
   render() {
     const { map } = this.props;
 
     let content = null;
 
     let mapViewProps = {
+      customMapStyle: mapStyle,
       region: {
         latitude: 56, // Default
         longitude: 13, // Default
@@ -38,14 +44,10 @@ export default class Map extends React.Component {
           longitude: parseFloat(node.location.lng)
         };
 
-        let navigateToNode = function(node) {
-          this.props.navigation.navigate('NodeScreen');
-        }
-
         return (
           <MapView.Marker key={node.id} coordinate={coordinate}>
-            <MapView.Callout onPress={() => this.props.openNodeModal(node)} style={styles.callout}>
-              <Text style={styles.calloutHeader}>{node.name}</Text>
+            <MapView.Callout onPress={this.navigateToNode.bind(this, node)}>
+              <Text>{node.name}</Text>
               <Text>
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500.
               </Text>
@@ -65,13 +67,12 @@ export default class Map extends React.Component {
   }
 }
 
-Map.defaultProps = {
+MapViewWrapper.defaultProps = {
   openNodeModal: function(){}
 };
 
 const styles = StyleSheet.create({
   callout: {
-
   },
   calloutHeader: {
     fontWeight: 'bold',

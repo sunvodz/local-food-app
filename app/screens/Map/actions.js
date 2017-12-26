@@ -2,9 +2,9 @@ import { API_URL } from 'react-native-dotenv';
 import { api } from 'app/shared';
 import * as actionTypes from './actionTypes';
 
-export function requestCurrentLocation() {
+export function fetchCurrentLocation() {
   return function(dispatch, getState) {
-    dispatch(fetchingCurrentLocation());
+    dispatch(requestCurrentLocation());
 
     let location = navigator.geolocation.getCurrentPosition(function(location) {
       dispatch(receiveCurrentLocation(location));
@@ -14,9 +14,9 @@ export function requestCurrentLocation() {
   }
 }
 
-export function fetchingCurrentLocation() {
+export function requestCurrentLocation() {
   return {
-    type: actionTypes.FETCHING_CURRENT_LOCATION,
+    type: actionTypes.REQUEST_CURRENT_LOCATION,
     location: null,
     loading: true,
   }
@@ -30,12 +30,17 @@ export function receiveCurrentLocation(location) {
   }
 }
 
-export function requestNodes() {
+export function fetchNodes() {
   return async function (dispatch, getState) {
     try {
-      dispatch(fetchingNodes());
-      let response = await api.call({url: '/api/v1/nodes'});
+      dispatch(requestNodes());
+
+      let response = await api.call({
+        url: '/api/v1/nodes'
+      });
+
       let nodes = response.data;
+
       dispatch(receiveNodes(nodes));
     } catch (error) {
       console.error(error);
@@ -43,9 +48,9 @@ export function requestNodes() {
   }
 }
 
-export function fetchingNodes() {
+export function requestNodes() {
   return {
-    type: actionTypes.FETCHING_NODES,
+    type: actionTypes.REQUEST_NODES,
     loading: true,
     nodes: null,
   }

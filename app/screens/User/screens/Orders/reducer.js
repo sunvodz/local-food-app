@@ -3,13 +3,6 @@ import { sharedActionTypes } from 'app/shared';
 
 function ordersReducer(state, action) {
   switch (action.type) {
-    case sharedActionTypes.ALERT:
-    case sharedActionTypes.RESET_ALERT:
-      return Object.assign({}, state, {
-        alert: action.alert,
-      });
-      break;
-
     case actionTypes.REQUEST_ORDERS:
     case actionTypes.FETCHING_ORDERS:
     case actionTypes.RECEIVE_ORDERS:

@@ -9,23 +9,13 @@ import { sharedActions } from 'app/shared';
 import * as actions from './actions';
 
 class Profile extends Component {
-  componentDidUpdate(prevProps, prevState) {
-    const alert = this.props.user && this.props.user.alert ? this.props.user.alert : null;
-
-    if (alert && this.dropdownAlert) {
-      this.props.dispatch(sharedActions.resetAlert());
-    }
-  }
-
   navigateOrders() {
-    console.log('nav orders', this.props);
     const { navigate } = this.props.navigation;
 
-    navigate('OrdersList');
+    navigate('Orders');
   }
 
   navigateSettings() {
-    console.log('nav settings', this.props);
     const { navigate } = this.props.navigation;
 
     navigate('Settings');

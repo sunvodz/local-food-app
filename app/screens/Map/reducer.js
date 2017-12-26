@@ -19,13 +19,6 @@ function mapReducer(state, action) {
       });
       break;
 
-    case sharedActionTypes.ALERT:
-    case sharedActionTypes.RESET_ALERT:
-      return Object.assign({}, state, {
-        alert: action.alert,
-      });
-      break;
-
     default:
       return Object.assign({}, state, {});
       break;

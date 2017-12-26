@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import Navigation from '../components/Navigation';
+import MainNavigation from 'app/navigations/MainNavigation';
 
 export default class App extends Component {
   render() {
     return (
       <View style={styles.view}>
-        <Navigation />
+        <MainNavigation />
       </View>
     );
   }

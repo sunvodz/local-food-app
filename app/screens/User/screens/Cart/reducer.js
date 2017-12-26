@@ -1,7 +1,7 @@
 import * as actionTypes from './actionTypes';
 import { sharedActionTypes } from 'app/shared';
 
-function userReducer(state, action) {
+function cartReducer(state, action) {
   switch (action.type) {
     default:
       return Object.assign({}, state, {});
@@ -9,4 +9,4 @@ function userReducer(state, action) {
   }
 }
 
-export default userReducer;
+export default cartReducer;

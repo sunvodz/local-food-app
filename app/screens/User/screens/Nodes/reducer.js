@@ -1,11 +1,11 @@
 import * as actionTypes from './actionTypes';
 
-function nodeReducer(state, action) {
+function nodesReducer(state, action) {
   switch (action.type) {
-    case actionTypes.REQUEST_NODE:
-    case actionTypes.RECEIVE_NODE:
+    case actionTypes.REQUEST_USER_NODES:
+    case actionTypes.RECEIVE_USER_NODES:
       return Object.assign({}, state, {
-        node: action.node,
+        nodes: action.nodes,
         loading: action.loading,
       });
       break;
@@ -16,4 +16,4 @@ function nodeReducer(state, action) {
   }
 }
 
-export default nodeReducer;
+export default nodesReducer;

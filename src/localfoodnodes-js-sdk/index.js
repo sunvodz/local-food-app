@@ -36,7 +36,7 @@ class LocalFoodNodesSDK {
     return this.client(request)
     .catch(function(error) {
       // Refresh token here if needed
-      console.log('Error in localfoodnodes-js-sdk.call', error);
+      console.error('Error in localfoodnodes-js-sdk.call', error);
     });
   }
 
@@ -91,7 +91,7 @@ class LocalFoodNodesSDK {
       let data = {
         grant_type: 'refresh_token',
         client_id: API_CLIENT_ID,
-        client_secret: API_SECRET,
+        client_secret: API_CLIENT_SECRET,
         refresh_token: token.refresh_token
       };
 
