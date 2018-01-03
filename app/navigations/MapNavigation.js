@@ -1,15 +1,18 @@
+import React from 'react';
 import { StackNavigator } from 'react-navigation';
 
 import Map from 'app/screens/Map';
 import Node from 'app/screens/Node';
 import Product from 'app/screens/Product';
 
+import DateFilter from 'app/screens/Node/containers/DateFilter';
+
 const routeConfig = {
   Map: {
     screen: Map,
     navigationOptions: ({ navigation }) => ({
       title: 'Map',
-		})
+    })
   },
   Node: {
     screen: Node,
@@ -18,8 +21,8 @@ const routeConfig = {
 
       return {
         title: node.name,
-        headerBackTitle: 'Map',
-  		};
+        headerRight: <DateFilter nodeId={node.id} />,
+      };
     }
   },
   Product: {
@@ -29,9 +32,8 @@ const routeConfig = {
 
       return {
         title: product.name,
-        headerBackTitle: 'Node',
-  		};
-		}
+      };
+    }
   },
 };
 

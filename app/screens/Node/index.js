@@ -23,21 +23,27 @@ class Node extends React.Component {
     const node = this.props.navigation.state.params;
 
     this.props.dispatch(actions.fetchNode(node.id));
+    this.props.dispatch(actions.fetchProducts({
+      node: node.id
+    }));
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { node } = this.props.node;
-    const prevNode = prevProps.node;
+    const { loading, node, products, filters } = this.props.node;
+    const prevNode = _.get(prevProps, 'node.node');
+    const prevProducts = _.get(prevProps, 'node.products');
+    const prevFilters = _.get(prevProps, 'node.filters');
 
-    if (node && prevProps.node.node !== node) {
+    if (products && products !== prevProducts && !loading) {
       this.setState({
-        dataSource: DataSource.cloneWithRows(node.products)
+        dataSource: DataSource.cloneWithRows(products)
       });
     }
-  }
 
-  onRefresh() {
-    this.props.dispatch(actions.requestNode());
+    if (filters !== prevFilters && !loading) {
+      console.log('filter changed - refresh profucts');
+      this.props.dispatch(actions.fetchProducts(filters));
+    }
   }
 
   navigateProduct(product) {
@@ -54,17 +60,14 @@ class Node extends React.Component {
   }
 
   render() {
-    const { node } = this.props.node;
+    const { loading, node } = this.props.node;
 
     let content = <Loader />;
 
-    if (this.state.dataSource) {
-      let refreshControl = <RefreshControl refreshing={this.props.node.loading} onRefresh={this.onRefresh.bind(this)} />;
-
+    if (this.state.dataSource && !loading) {
       let listViewProps = {
         dataSource: this.state.dataSource,
         renderRow: this.renderProduct.bind(this),
-        refreshControl: refreshControl
       }
 
       content = <ListView {...listViewProps} />;

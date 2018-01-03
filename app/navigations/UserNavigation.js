@@ -10,27 +10,27 @@ const routeConfig = {
     screen: Profile,
     navigationOptions: ({ navigation }) => ({
       title: 'Profile',
-		})
+  })
   },
   Orders: {
     screen: Orders,
     navigationOptions: ({ navigation }) => ({
       title: 'Orders',
       headerBackTitle: 'Profile',
-		})
+  })
   },
   OrderDetails: {
     screen: OrderDetails,
     navigationOptions: ({ navigation }) => ({
       title: 'Order',
       headerBackTitle: 'Orders',
-		})
+  })
   },
   Settings: {
     screen: Settings,
     navigationOptions: ({ navigation }) => ({
-			title: 'Settings',
-		})
+  title: 'Settings',
+  })
   },
 };
 

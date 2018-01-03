@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { TabNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -13,28 +13,28 @@ const RouteConfigs = {
     navigationOptions: ({ navigation }) => ({
       tabBarLabel: 'Map',
       tabBarIcon: ({ tintColor }) => (<Icon name='explore' size={24} color={tintColor} />)
-		})
+    })
   },
   Nodes: {
     screen: Nodes,
     navigationOptions: ({ navigation }) => ({
-			tabBarLabel: 'Nodes',
+    tabBarLabel: 'Nodes',
       tabBarIcon: ({ tintColor }) => (<Icon name='place' size={24} color={tintColor} />)
-		})
+    })
   },
   Cart: {
     screen: Cart,
     navigationOptions: ({ navigation }) => ({
-			tabBarLabel: 'Cart',
+    tabBarLabel: 'Cart',
       tabBarIcon: ({ tintColor }) => (<Icon name='shopping-cart' size={24} color={tintColor} />)
-		})
+    })
   },
   User: {
     screen: UserNavigation,
     navigationOptions: ({ navigation }) => ({
-			tabBarLabel: 'User',
+    tabBarLabel: 'User',
       tabBarIcon: ({ tintColor }) => (<Icon name='person' size={24} color={tintColor} />)
-		})
+    })
   },
 };
 
