@@ -41,7 +41,6 @@ class Node extends React.Component {
     }
 
     if (filters !== prevFilters && !loading) {
-      console.log('filter changed - refresh profucts');
       this.props.dispatch(actions.fetchProducts(filters));
     }
   }
