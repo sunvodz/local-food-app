@@ -47,8 +47,10 @@ const TabNavigatorConfig = {
     showLabel: false,
     activeTintColor: '#fff',
     activeBackgroundColor: '#fff',
+    activeTintColor: '#fff',
     inactiveTintColor: '#fff',
-    inactiveBackgroundColor: '#fff',
+    activeBackgroundColor: '#bc3b1f',
+    inactiveBackgroundColor: '#bc3b1f',
     indicatorStyle: {
       backgroundColor: '#fd962a',
     },

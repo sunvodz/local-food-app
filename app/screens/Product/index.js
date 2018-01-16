@@ -11,37 +11,38 @@ import * as actions from './actions';
 class Product extends React.Component {
   constructor(props) {
     super(props);
+
+    const { product, node, dates, filters } = props.navigation.state.params;
+
     this.state = {
+      product: product,
+      node: node,
+      dates: dates,
+      filters: filters,
       modal: {
-        visible: false
+        isVisible: false
       }
     }
   }
 
-  componentDidMount() {
-    const product = this.props.navigation.state.params;
-
-    this.props.dispatch(actions.fetchProduct(product.id));
-  }
-
   toggleModal(visible) {
     let state = this.state;
-    state.modal.visible = visible;
+    state.modal.isVisible = visible;
     this.setState(state);
   }
 
   render() {
-    if (!this.props.product.product) {
+    if (!this.state.product) {
       return <Loader />;
     }
 
     return (
       <View style={{flex: 1}}>
         <ContentWrapper>
-          <Text>{ent.decode(striptags(this.props.product.product.info))}</Text>
+          <Text>{ent.decode(striptags(this.state.product.info))}</Text>
           <Button onPress={this.toggleModal.bind(this, true)} title="Buy" color="#bc3b1f" />
         </ContentWrapper>
-        <OrderModal visible={this.state.modal.visible} onRequestClose={this.toggleModal.bind(this, false)} />
+        <OrderModal {...this.state} isVisible={this.state.modal.isVisible} onClose={this.toggleModal.bind(this, false)} />
       </View>
     );
   }

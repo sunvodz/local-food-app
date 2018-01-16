@@ -5,6 +5,7 @@ import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import _ from 'lodash';
 
+import { Button, Badge, BadgeWrapper } from 'app/components';
 import * as actions from '../../actions';
 
 class DateFilter extends React.Component {
@@ -30,12 +31,22 @@ class DateFilter extends React.Component {
     this.setState({modal: false});
   }
 
-  selectDate(date) {
-    this.props.dispatch(actions.setDateFilter(date));
+  toggleDate(date) {
+    let selectedDate = _.get(this.props.node, 'filters.date');
+
+    if (date === selectedDate) {
+      this.props.dispatch(actions.setDateFilter());
+    } else {
+      this.props.dispatch(actions.setDateFilter(date));
+    }
+
     this.setState({modal: false});
   }
 
   render() {
+    let isActive = _.get(this.props.node, 'filters.date');
+    let selectedDate = _.get(this.props.node, 'filters.date');
+
     let modalProps = {
       onBackButtonPress: this.closeModal,
       onBackdropPress: this.closeModal,
@@ -46,16 +57,17 @@ class DateFilter extends React.Component {
 
     if (this.props.node.dates) {
       nodeDates = _.map(this.props.node.dates, (date) => {
-        return <Text key={date} onPress={this.selectDate.bind(this, date)}>{date}</Text>;
+        let isSelected = (date === selectedDate);
+        return <Badge key={date} label={date} selected={isSelected} onPress={this.toggleDate.bind(this, date)} />;
       })
     }
 
     return (
       <View>
-        <Icon name='date-range' size={24} onPress={this.openModal} style={styles.icon}/>
+        <Icon name='date-range' size={24} onPress={this.openModal} style={[styles.icon, isActive && styles.activeIcon]}/>
         <Modal {...modalProps}>
           <View style={{ flex: 1, backgroundColor: '#fff'}}>
-            {nodeDates}
+            <BadgeWrapper>{nodeDates}</BadgeWrapper>
           </View>
         </Modal>
       </View>
@@ -77,5 +89,11 @@ export default connect(mapStateToProps)(DateFilter);
 const styles = StyleSheet.create({
   icon: {
     marginRight: 15,
+  },
+  activeIcon: {
+    color: 'red',
+  },
+  activeDate: {
+    color: 'red',
   }
 });

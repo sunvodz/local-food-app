@@ -115,6 +115,6 @@ export function receiveNodeDates(dates) {
 export function setDateFilter(date) {
   return {
     type: actionTypes.SET_DATE_FILTER,
-    date: date,
+    date: date || '',
   }
 }
