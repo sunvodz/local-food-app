@@ -10,6 +10,14 @@ function productReducer(state, action) {
       });
       break;
 
+    case actionTypes.REQUEST_DATES:
+    case actionTypes.RECEIVE_DATES:
+      return Object.assign({}, state, {
+        dates: action.dates, // Add to product?
+        loading: action.loading,
+      });
+      break;
+
     default:
       return Object.assign({}, state, {});
       break;

@@ -35,8 +35,8 @@ class LocalFoodNodesSDK {
 
     return this.client(request)
     .catch(function(error) {
-      // Refresh token here if needed
-      console.error('Error in localfoodnodes-js-sdk.call', error);
+      console.log('Error in sdk.call');
+      return error.response;
     });
   }
 
@@ -75,7 +75,8 @@ class LocalFoodNodesSDK {
 
       return response.data;
     } catch(error) {
-      console.error('Error in localfoodnodes-js-sdk.getToken', error);
+      console.log('Error in sdk.getToken');
+      return error.response;
     }
   }
 

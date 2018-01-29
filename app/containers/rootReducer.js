@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux';
 
+import alertReducer from 'app/containers/Alert/reducer';
+
 import authReducer from 'app/screens/Auth/reducer';
 import mapReducer from 'app/screens/Map/reducer';
 import nodeReducer from 'app/screens/Node/reducer';
@@ -14,6 +16,7 @@ import notificationReducer from 'app/screens/User/screens/Notification/reducer';
 
 
 const rootReducer = combineReducers({
+  alert: alertReducer,
   auth: authReducer,
   map: mapReducer,
   node: nodeReducer,

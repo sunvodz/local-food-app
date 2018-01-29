@@ -5,12 +5,41 @@ import MapView from 'react-native-maps';
 import _ from 'lodash';
 
 import { ContentWrapper, Loader } from 'app/components';
+import MapCallout from './MapCallout';
 import * as actions from './../actions';
 import mapStyle from '../mapStyle';
 
 export default class MapViewWrapper extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showMapCallout: false,
+      mapCenter: {
+        latitude: 56,
+        longitude: 13,
+      } 
+    }
+  }
+
   navigateToNode(node) {
+    this.closeMapCallout();
     this.props.navigation.navigate('Node', node);
+  }
+
+  openMapCallout(node, coordinate) {
+    this.setState({
+      showMapCallout: true,
+      selectedNode: node,
+      mapCenter: coordinate
+    });
+  }
+
+  closeMapCallout() {
+    this.setState({
+      showMapCallout: false,
+      selectedNode: null,
+    });
   }
 
   render() {
@@ -20,9 +49,8 @@ export default class MapViewWrapper extends React.Component {
 
     let mapViewProps = {
       customMapStyle: mapStyle,
+      moveOnMarkerPress: false,
       region: {
-        latitude: 56, // Default
-        longitude: 13, // Default
         latitudeDelta: 0.5,
         longitudeDelta: 0.5,
       },
@@ -31,7 +59,10 @@ export default class MapViewWrapper extends React.Component {
       }
     };
 
-    if (map.location) {
+    if (this.state.mapCenter) {
+      mapViewProps.region.latitude = this.state.mapCenter.latitude;
+      mapViewProps.region.longitude = this.state.mapCenter.longitude;
+    } else if (map.location) {
       mapViewProps.region.latitude = map.location.coords.latitude;
       mapViewProps.region.longitude = map.location.coords.longitude;
     }
@@ -44,21 +75,33 @@ export default class MapViewWrapper extends React.Component {
           longitude: parseFloat(node.location.lng)
         };
 
+        let markerProps = {
+          key: node.id,
+          coordinate: coordinate,
+          onPress: this.openMapCallout.bind(this, node, coordinate),
+          tracksViewChanges: false
+        };
+
         return (
-          <MapView.Marker key={node.id} coordinate={coordinate}>
-            <MapView.Callout onPress={this.navigateToNode.bind(this, node)}>
-              <Text>{node.name}</Text>
-              <Text>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500.
-              </Text>
-            </MapView.Callout>
-          </MapView.Marker>
+          <MapView.Marker {...markerProps} />
         );
       }.bind(this));
     }
 
+    mapCallout = null;
+    if (this.state.showMapCallout) {
+      let calloutProps = {
+        node: this.state.selectedNode,
+        onClose: this.closeMapCallout.bind(this),
+        navigateToNode: this.navigateToNode.bind(this),
+      };
+
+      mapCallout = <MapCallout {...calloutProps} />;
+    }
+
     return (
       <View style={{flex: 1}}>
+        {mapCallout}
         <MapView {...mapViewProps}>
           {markers}
         </MapView>

@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Text, View, Modal } from 'react-native';
+import { Text, View } from 'react-native';
 import striptags from 'striptags';
 import ent from 'ent';
 
 import { Loader, TextInput, ContentWrapper, Card, Button } from 'app/components';
-import OrderModal from './components/OrderModal';
+import { Alert } from 'app/containers';
+import OrderForm from './components/OrderForm';
 import * as actions from './actions';
 
 class Product extends React.Component {
@@ -25,25 +26,45 @@ class Product extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.props.dispatch(actions.fetchDates(this.state.product.id, this.state.node.id));
+  }
+
   toggleModal(visible) {
     let state = this.state;
     state.modal.isVisible = visible;
     this.setState(state);
   }
 
+  addToCart(data) {
+    this.props.dispatch(actions.addProductToCart({
+      product_id: this.state.product.id,
+      node_id: this.state.node.id,
+      variant_id: data.variant_id,
+      delivery_dates: data.dates,
+      quantity: data.quantity,
+    }));
+  }
+
   render() {
-    if (!this.state.product) {
+    if (this.props.product.loading) {
       return <Loader />;
     }
 
     return (
-      <View style={{flex: 1}}>
-        <ContentWrapper>
+      <ContentWrapper>
+        <Card header="About the product">
           <Text>{ent.decode(striptags(this.state.product.info))}</Text>
-          <Button onPress={this.toggleModal.bind(this, true)} title="Buy" color="#bc3b1f" />
-        </ContentWrapper>
-        <OrderModal {...this.state} isVisible={this.state.modal.isVisible} onClose={this.toggleModal.bind(this, false)} />
-      </View>
+        </Card>
+        <OrderForm 
+          {...this.state}
+          dates={this.props.product.dates}
+          addToCart={this.addToCart.bind(this)}
+          isVisible={this.state.modal.isVisible}
+          onClose={this.toggleModal.bind(this, false)}
+        />
+      </ContentWrapper>
+      
     );
   }
 }

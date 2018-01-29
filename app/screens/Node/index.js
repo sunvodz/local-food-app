@@ -16,7 +16,9 @@ class Node extends React.Component {
     this.state = {
       dataSource: null,
       refreshing: false,
-    }
+    };
+
+    this.renderProduct = this.renderProduct.bind(this);
   }
 
   componentDidMount() {
@@ -58,26 +60,26 @@ class Node extends React.Component {
     });
   }
 
-  addToCart() {
-    console.log('Add to cart');
-  }
-
-  renderProduct(product) {
-    let addToCartForm = null;
-    if (_.has(this.props.node, 'filters.date')) {
-      addToCartForm = (
-        <View>
-          <NumberInput value="3" />
-          <Button title="Add to cart" onPress={this.addToCart.bind(this)}/>
-        </View>
-      );
+  renderProduct(product, sectionId, rowId) {
+    let style = {
+      card: { 
+        margin: 20,
+        marginBottom: 0
+      }
     }
 
+    if (this.props.node.products && (this.props.node.products.length - 1) == rowId) {
+      style.card.marginBottom = 20;
+    }
+
+    let image = null; // Fallback here
+    if (product.image_relationship && product.image_relationship.length > 0) {
+      image = product.image_relationship[0].urls.medium;
+    }
 
     return (
-      <Card header={product.name} onPress={this.navigateProduct.bind(this, product)}>
+      <Card header={product.name} onPress={this.navigateProduct.bind(this, product)} style={style} image={image}>
         <Text>{ent.decode(striptags(product.info))}</Text>
-        {addToCartForm}
       </Card>
     );
   }
@@ -85,12 +87,22 @@ class Node extends React.Component {
   render() {
     const { loading, node } = this.props.node;
 
-    let content = <Loader />;
+    if (loading) {
+      return <Loader />;
+    }
 
-    if (this.state.dataSource && !loading) {
+    if (!this.props.products) {
+      return (
+        <Card header="No products" style={style}>
+          <Text>No products here...</Text>
+        </Card>
+      );
+    }
+
+    if (this.state.dataSource) {
       let listViewProps = {
         dataSource: this.state.dataSource,
-        renderRow: this.renderProduct.bind(this),
+        renderRow: this.renderProduct,
         enableEmptySections: true
       }
 
@@ -102,6 +114,13 @@ class Node extends React.Component {
         {content}
       </View>
     );
+  }
+}
+
+let style = {
+  card: { 
+    margin: 20,
+    marginBottom: 0
   }
 }
 

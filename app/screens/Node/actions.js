@@ -57,7 +57,7 @@ export function fetchProducts(filters) {
 
       dispatch(receiveProducts(products));
     } catch (error) {
-      console.error(error);
+      console.error('ABC123 error!', error);
     }
   }
 }

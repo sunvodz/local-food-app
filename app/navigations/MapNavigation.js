@@ -11,7 +11,7 @@ const routeConfig = {
   Map: {
     screen: Map,
     navigationOptions: ({ navigation }) => ({
-      title: 'Map',
+      title: 'Map'
     })
   },
   Node: {
@@ -28,7 +28,7 @@ const routeConfig = {
   Product: {
     screen: Product,
     navigationOptions: ({ navigation }) => {
-      const product = navigation.state.params;
+      const { product } = navigation.state.params;
 
       return {
         title: product.name,
@@ -37,7 +37,9 @@ const routeConfig = {
   },
 };
 
-const navigatorConfig = {};
+const navigatorConfig = {
+  headerMode: 'float',
+};
 
 const UserNavigation = StackNavigator(routeConfig, navigatorConfig);
 
