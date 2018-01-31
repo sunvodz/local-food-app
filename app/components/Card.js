@@ -13,7 +13,7 @@ export default class Card extends React.Component {
 
     let header = null;
     if (this.props.header) {
-      header = <Text style={styles.header}>{this.props.header.toUpperCase()}</Text>;
+      header = <Text style={styles.header}>{this.props.header}</Text>;
     }
 
     let touchableOpacityProps = {
@@ -51,17 +51,18 @@ export default class Card extends React.Component {
 const defaultStyles = {
   card: {
     backgroundColor: '#fff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-    marginBottom: 20,
+    elevation: 2,
+    margin: 5,
+    marginBottom: 15,
   },
   content: {
-    padding: 10,
+    padding: 15,
   },
   header: {
     color: '#333',
     fontWeight: 'bold',
-    paddingHorizontal: 10,
-    paddingTop: 10,
+    fontSize: 24,
+    paddingHorizontal: 15,
+    paddingTop: 15,
   }
 };

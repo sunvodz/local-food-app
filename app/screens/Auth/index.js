@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Text, View, Image, Button } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { sharedActions } from 'app/shared';
-import { TextInput, Card } from 'app/components';
+import { TextInput, Card, Button } from 'app/components';
 
 export default class AuthScreen extends Component {
   constructor(props) {
@@ -25,9 +25,9 @@ export default class AuthScreen extends Component {
 
   render() {
     return (
-      <Card>
-        <TextInput placeholder='Email' onChangeText={this.onChange.bind(this, 'email')} />
-        <TextInput placeholder='Password' onChangeText={this.onChange.bind(this, 'password')} secureTextEntry />
+      <Card header="Logga in på Local Food Nodes">
+        <TextInput label="Email" placeholder='johanna@email.com' onChangeText={this.onChange.bind(this, 'email')} />
+        <TextInput label="password" placeholder='Skriv in ditt lösenord' onChangeText={this.onChange.bind(this, 'password')} secureTextEntry />
         <Button onPress={this.onLogin.bind(this)} title="Login" accessibilityLabel="Login" />
       </Card>
     );

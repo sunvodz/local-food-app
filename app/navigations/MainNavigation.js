@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { TabNavigator } from 'react-navigation';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import MapNavigation from './MapNavigation';
 import Nodes from 'app/screens/User/screens/Nodes';
@@ -12,14 +12,14 @@ const RouteConfigs = {
     screen: MapNavigation,
     navigationOptions: ({ navigation }) => ({
       tabBarLabel: 'Map',
-      tabBarIcon: ({ tintColor }) => (<Icon name='explore' size={24} color={tintColor} />)
+      tabBarIcon: ({ tintColor }) => (<Icon name='search' size={24} color={tintColor} />)
     })
   },
   Nodes: {
     screen: Nodes,
     navigationOptions: ({ navigation }) => ({
     tabBarLabel: 'Nodes',
-      tabBarIcon: ({ tintColor }) => (<Icon name='place' size={24} color={tintColor} />)
+      tabBarIcon: ({ tintColor }) => (<Icon name='map-marker' size={24} color={tintColor} />)
     })
   },
   Cart: {
@@ -33,7 +33,7 @@ const RouteConfigs = {
     screen: UserNavigation,
     navigationOptions: ({ navigation }) => ({
     tabBarLabel: 'User',
-      tabBarIcon: ({ tintColor }) => (<Icon name='person' size={24} color={tintColor} />)
+      tabBarIcon: ({ tintColor }) => (<Icon name='user' size={24} color={tintColor} />)
     })
   },
 };

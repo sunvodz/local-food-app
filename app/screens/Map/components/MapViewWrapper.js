@@ -1,12 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Text, View, Button, Modal, StyleSheet } from 'react-native';
-import MapView from 'react-native-maps';
+import { Text, View, Button, Modal } from 'react-native';
+// import MapView from 'react-native-maps';
+import MapView from 'react-native-map-clustering';
+import { Marker } from 'react-native-maps';
 import _ from 'lodash';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { ContentWrapper, Loader } from 'app/components';
 import MapCallout from './MapCallout';
 import * as actions from './../actions';
+
 import mapStyle from '../mapStyle';
 
 export default class MapViewWrapper extends React.Component {
@@ -14,11 +18,41 @@ export default class MapViewWrapper extends React.Component {
     super(props);
 
     this.state = {
-      showMapCallout: false,
-      mapCenter: {
-        latitude: 56,
-        longitude: 13,
-      } 
+      showMapCallout: false
+    };
+
+    this.mapProps = {
+      customMapStyle: mapStyle,
+      moveOnMarkerPress: false,
+      initialRegion: {
+        latitudeDelta: 0.5,
+        longitudeDelta: 0.5,
+        latitude: 56.0, // Default position
+        longitude: 13.3,
+      },
+      onRegionChangeComplete: this.onRegionChangeComplete.bind(this),
+      style: {
+        flex: 1
+      },
+      clusterColor: '#982b0a',
+      clusterTextColor: '#fff',
+      clusterBorderWidth: 0,
+    };
+  }
+
+  onRegionChangeComplete(region) {
+    this.updateRegion(region);
+  }
+
+  updateRegion(region) {
+    this.mapProps.region = Object.assign({}, this.mapProps.region, region);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const prevLocation = _.get(prevProps, 'map.location');
+
+    if (this.props.map.location !== prevLocation) {
+      // this.updateRegion(this.props.map.location.coords);
     }
   }
 
@@ -43,28 +77,10 @@ export default class MapViewWrapper extends React.Component {
   }
 
   render() {
-    const { map } = this.props;
+    const { loading, map } = this.props;
 
-    let content = null;
-
-    let mapViewProps = {
-      customMapStyle: mapStyle,
-      moveOnMarkerPress: false,
-      region: {
-        latitudeDelta: 0.5,
-        longitudeDelta: 0.5,
-      },
-      style: {
-        flex: 1
-      }
-    };
-
-    if (this.state.mapCenter) {
-      mapViewProps.region.latitude = this.state.mapCenter.latitude;
-      mapViewProps.region.longitude = this.state.mapCenter.longitude;
-    } else if (map.location) {
-      mapViewProps.region.latitude = map.location.coords.latitude;
-      mapViewProps.region.longitude = map.location.coords.longitude;
+    if (loading || !map.nodes) {
+      return <Loader />;
     }
 
     let markers = null;
@@ -83,12 +99,14 @@ export default class MapViewWrapper extends React.Component {
         };
 
         return (
-          <MapView.Marker {...markerProps} />
+          <Marker {...markerProps}>
+            <Icon name="map-marker" size={50} color="#c0370c" />
+          </Marker>
         );
       }.bind(this));
     }
 
-    mapCallout = null;
+    let mapCallout = null;
     if (this.state.showMapCallout) {
       let calloutProps = {
         node: this.state.selectedNode,
@@ -102,7 +120,7 @@ export default class MapViewWrapper extends React.Component {
     return (
       <View style={{flex: 1}}>
         {mapCallout}
-        <MapView {...mapViewProps}>
+        <MapView {...this.mapProps}>
           {markers}
         </MapView>
       </View>
@@ -113,11 +131,3 @@ export default class MapViewWrapper extends React.Component {
 MapViewWrapper.defaultProps = {
   openNodeModal: function(){}
 };
-
-const styles = StyleSheet.create({
-  callout: {
-  },
-  calloutHeader: {
-    fontWeight: 'bold',
-  },
-});

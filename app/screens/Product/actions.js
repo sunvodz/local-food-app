@@ -67,15 +67,19 @@ export function fetchDates(productId, nodeId, variantId) {
 
       if (res.error) {
         dispatch({
-          type: actionTypes.SHOW_ALERT,
-          level: 'error',
-          message: 'Hello'
+          type: actionTypes.SHOW_ERROR,
+          title: 'Problems requesting dates',
+          message: 'Server returned an error',
         });
       }
 
       dispatch(receiveDates(res));
     } catch (error) {
-      console.error(error);
+      dispatch({
+        type: actionTypes.SHOW_ERROR,
+        title: 'Problem connecting to server',
+        message: 'Requesting dates failed'
+      });
     }
   }
 }

@@ -64,7 +64,7 @@ class Node extends React.Component {
     let style = {
       card: { 
         margin: 20,
-        marginBottom: 0
+        marginBottom: 5
       }
     }
 
@@ -85,13 +85,13 @@ class Node extends React.Component {
   }
 
   render() {
-    const { loading, node } = this.props.node;
+    const { loading, node, products } = this.props.node;
 
-    if (loading) {
+    if (!this.state.dataSource) {
       return <Loader />;
     }
 
-    if (!this.props.products) {
+    if (!products || products.length === 0) {
       return (
         <Card header="No products" style={style}>
           <Text>No products here...</Text>
@@ -99,19 +99,15 @@ class Node extends React.Component {
       );
     }
 
-    if (this.state.dataSource) {
-      let listViewProps = {
-        dataSource: this.state.dataSource,
-        renderRow: this.renderProduct,
-        enableEmptySections: true
-      }
-
-      content = <ListView {...listViewProps} />;
+    let listViewProps = {
+      dataSource: this.state.dataSource,
+      renderRow: this.renderProduct,
+      enableEmptySections: true
     }
 
     return (
       <View style={{flex: 1}}>
-        {content}
+        <ListView {...listViewProps} />
       </View>
     );
   }

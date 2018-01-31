@@ -41,15 +41,28 @@ class Orders extends Component {
     navigate('OrderDetails', orderData);
   }
 
-  renderOrders(rowData) {
-    let orderDate = moment(rowData[0].date.date.date).format('YYYY-MM-DD');
-    let orders = _.map(rowData, (order) => {
+  renderOrderDateCard(orders, sectionId, rowId) {
+    let date = moment(orders[0].date.date.date).format('YYYY-MM-DD');
+    let orderRows = _.map(orders, (order) => {
       return <Text onPress={this.navigateOrder.bind(this, order)} key={order.id}>{order.ref}</Text>;
     });
 
+    let style = {
+      card: { 
+        margin: 15,
+        marginBottom: 5
+      }
+    }
+
+    let numberOfOrders = Object.keys(this.props.orders.orders).length;
+    console.log(numberOfOrders, sectionId, rowId);
+    if ((numberOfOrders - 1) == rowId) {
+      style.card.marginBottom = 15;
+    }
+
     return (
-      <Card header={orderDate}>
-        {orders}
+      <Card header={date} style={style}>
+        {orderRows}
       </Card>
     );
   }
@@ -62,7 +75,7 @@ class Orders extends Component {
 
       let listViewProps = {
         dataSource: this.state.dataSource,
-        renderRow: this.renderOrders.bind(this),
+        renderRow: this.renderOrderDateCard.bind(this),
         refreshControl: refreshControl
       }
 
@@ -71,9 +84,7 @@ class Orders extends Component {
 
     return (
       <View style={{flex: 1}}>
-        <ContentWrapper>
-          {content}
-        </ContentWrapper>
+        {content}
       </View>
     );
   }

@@ -11,15 +11,15 @@ export default class Badge extends React.Component {
 
 const styles = StyleSheet.create({
   badge: {
-    backgroundColor: '#bc3b1f',
-    color: '#fff',
-    fontWeight: 'bold',
+    backgroundColor: '#e0e0e0',
+    color: '#333',
     borderRadius: 15,
     margin: 5,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
+    paddingVertical: 6,
+    paddingHorizontal: 15,
   },
   activeBadge: {
-    backgroundColor: 'blue'
+    backgroundColor: '#efcec4',
+    color: '#c4441f',
   }
 });

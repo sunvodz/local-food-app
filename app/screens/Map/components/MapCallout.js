@@ -4,7 +4,7 @@ import { Text, View, StyleSheet, Dimensions, Image } from 'react-native';
 import Modal from 'react-native-modal';
 import _ from 'lodash';
 
-import { ContentWrapper, Loader, Button } from 'app/components';
+import { ContentWrapper, Loader, Link } from 'app/components';
 
 export default class MapCallout extends React.Component {
   navigateToNode() {
@@ -15,15 +15,10 @@ export default class MapCallout extends React.Component {
     const { node } = this.props;
 
     let modalProps = {
-      animationInTiming: 1, 
-      animationOutTiming: 1,
       isVisible: true,
       onBackButtonPress: this.props.onClose,
       onBackdropPress: this.props.onClose,
-      backdropOpacity: 0.2,
-      style: {
-        elevation: 4
-      }
+      backdropOpacity: 0,
     };
 
     let image = null; // Fallback here
@@ -38,10 +33,14 @@ export default class MapCallout extends React.Component {
 
     return (
       <Modal {...modalProps}>
-        {image}
         <View style={styles.modal}>
-          <Text>{node.name}</Text>
-          <Button title="Visit node" onPress={this.navigateToNode.bind(this)}/>
+          {image}
+          <View style={styles.modalContent}>
+            <Text>{node.name}</Text>
+          </View>
+          <View style={styles.modalFooter}>
+            <Link title="Visit node" onPress={this.navigateToNode.bind(this)}/>
+          </View>
         </View>
       </Modal>
     );
@@ -49,9 +48,17 @@ export default class MapCallout extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    modal: {
-      backgroundColor: '#fff',
-     
-      padding: 20
-    }
+  modal: {
+    elevation: 4,
+    margin: 5,
+    backgroundColor: '#fff',
+  },
+  modalContent: {
+    padding: 15
+  },
+  modalFooter: {
+    borderTopColor: '#f0f0f0',
+    borderTopWidth: 2,
+    padding: 15
+  }
 });

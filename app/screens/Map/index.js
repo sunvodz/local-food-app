@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Text, View, Button, Modal, StyleSheet } from 'react-native';
-import MapView from 'react-native-maps';
+// import MapView from 'react-native-maps';
 import _ from 'lodash';
 
 import MapViewWrapper from './components/MapViewWrapper';

@@ -1,12 +1,12 @@
 import React from 'react';
-import { Text, View, Picker } from 'react-native';
+import { Text, View } from 'react-native';
 import Modal from 'react-native-modal';
 import _ from 'lodash';
 import moment from 'moment';
 
-import { NumberInput, Button, Badge, BadgeWrapper, Card } from 'app/components';
+import { NumberInput, Button, Badge, BadgeWrapper, Card, Picker } from 'app/components';
 
-class OrderModal extends React.Component {
+class OrderForm extends React.Component {
   constructor(props) {
     super(props);
 
@@ -59,7 +59,7 @@ class OrderModal extends React.Component {
   render() {
     const { product } = this.props;
 
-    if (this.props.dates.length === 0) {
+    if (!this.props.dates || this.props.dates.length === 0) {
       return (
         <Card header="Place your order">
           <Text>Produkten är inte tillgänglig</Text>
@@ -69,7 +69,7 @@ class OrderModal extends React.Component {
 
     let dates = _.map(this.props.dates, (quantity, date) => {
       let selected = _.includes(this.state.dates, date);
-      let label = `${date} (${quantity})`;
+      let label = `${date}`;
 
       return <Badge key={date} label={label} selected={selected} onPress={this.toggleDate.bind(this, date)} />;
     });
@@ -81,21 +81,21 @@ class OrderModal extends React.Component {
       });
 
       variants = (
-        <Picker selectedValue={this.state.variant_id} onValueChange={this.onSelectVariant.bind(this)}>
+        <Picker label="Variant" selectedValue={this.state.variant_id} onValueChange={this.onSelectVariant.bind(this)}>
           {pickerItems}
         </Picker>
       );
     }
 
     return (
-      <Card header="Place your order">
-        <BadgeWrapper>{dates}</BadgeWrapper>
+      <Card header="Place your order" style={{marginBottom: 15}}>
+        <BadgeWrapper label="Delivery dates">{dates}</BadgeWrapper>
         {variants}
-        <NumberInput onChangeText={this.setQuantity.bind(this)} value={this.state.quantity} />
+        <NumberInput label="Quantity" onChangeText={this.setQuantity.bind(this)} value={this.state.quantity} />
         <Button onPress={this.addToCart.bind(this)} title="Add to cart" color="#bc3b1f" />
       </Card>
     );
   }
 }
 
-export default OrderModal;
+export default OrderForm;

@@ -11,7 +11,8 @@ const routeConfig = {
   Map: {
     screen: Map,
     navigationOptions: ({ navigation }) => ({
-      title: 'Map'
+      title: 'Map',
+      header: null,
     })
   },
   Node: {
