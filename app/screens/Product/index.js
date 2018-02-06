@@ -26,6 +26,10 @@ class Product extends React.Component {
     }
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return !_.isEqual(nextProps.product, this.props.product);
+  }
+
   componentDidMount() {
     this.props.dispatch(actions.fetchDates(this.state.product.id, this.state.node.id));
   }
@@ -56,7 +60,7 @@ class Product extends React.Component {
         <Card header="About the product">
           <Text>{ent.decode(striptags(this.state.product.info))}</Text>
         </Card>
-        <OrderForm 
+        <OrderForm
           {...this.state}
           dates={this.props.product.dates}
           addToCart={this.addToCart.bind(this)}
@@ -64,16 +68,15 @@ class Product extends React.Component {
           onClose={this.toggleModal.bind(this, false)}
         />
       </ContentWrapper>
-      
+
     );
   }
 }
 
 function mapStateToProps(state) {
-  const { auth, product } = state;
+  const { product } = state;
 
   return {
-    auth,
     product,
   }
 }

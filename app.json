@@ -4,5 +4,17 @@
     "privacy": "unlisted",
     "sdkVersion": "23.0.0",
     "slug": "local-food-nodes"
+  },
+  "hooks": {
+    "postPublish": [
+      {
+        "file": "sentry-expo/upload-sourcemaps",
+        "config": {
+          "organization": "Local Food Nodes",
+          "project": "Bazaar",
+          "authToken": "f8515b9a073d11e8a43f4201c0a8d03b"
+        }
+      }
+    ]
   }
 }

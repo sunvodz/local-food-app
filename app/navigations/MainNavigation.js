@@ -3,8 +3,8 @@ import { TabNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import MapNavigation from './MapNavigation';
-import Nodes from 'app/screens/User/screens/Nodes';
-import Cart from 'app/screens/User/screens/Cart';
+import NodesNavigation from './NodesNavigation';
+import CartNavigation from './CartNavigation';
 import UserNavigation from './UserNavigation';
 
 const RouteConfigs = {
@@ -16,14 +16,14 @@ const RouteConfigs = {
     })
   },
   Nodes: {
-    screen: Nodes,
+    screen: NodesNavigation,
     navigationOptions: ({ navigation }) => ({
-    tabBarLabel: 'Nodes',
+      tabBarLabel: 'Nodes',
       tabBarIcon: ({ tintColor }) => (<Icon name='map-marker' size={24} color={tintColor} />)
     })
   },
   Cart: {
-    screen: Cart,
+    screen: CartNavigation,
     navigationOptions: ({ navigation }) => ({
     tabBarLabel: 'Cart',
       tabBarIcon: ({ tintColor }) => (<Icon name='shopping-cart' size={24} color={tintColor} />)

@@ -23,6 +23,11 @@ const routeConfig = {
       return {
         title: node.name,
         headerRight: <DateFilter nodeId={node.id} />,
+        headerTitleStyle: {
+          fontFamily: 'montserrat-bold',
+          fontWeight: 'normal',
+          fontSize: 20,
+        }
       };
     }
   },

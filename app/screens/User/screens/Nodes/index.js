@@ -4,11 +4,15 @@ import { Text, View, Button } from 'react-native';
 import _ from 'lodash';
 
 import AuthScreen from 'app/screens/Auth';
-import { ContentWrapper, Loader, Header } from 'app/components';
+import { ContentWrapper, Loader } from 'app/components';
 
 import * as actions from './actions';
 
 class Nodes extends React.Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    return !_.isEqual(nextProps.nodes, this.props.nodes) || !_.isEqual(nextProps.auth, this.props.auth);
+  }
+
   componentDidUpdate(prevProps, prevState) {
     this.fetchUserNodes();
   }
@@ -27,6 +31,10 @@ class Nodes extends React.Component {
     }
   }
 
+  navigateToNode(node) {
+    this.props.navigation.navigate('Node', node);
+  }
+
   render() {
     let content = null;
 
@@ -43,7 +51,7 @@ class Nodes extends React.Component {
 
       if (this.props.nodes.nodes) {
         nodes = _.map(this.props.nodes.nodes, (node) => {
-          return <Text key={node.id}>{node.name}</Text>;
+          return <Text key={node.id} onPress={this.navigateToNode.bind(this, node)}>{node.name}</Text>;
         });
       }
 
@@ -56,7 +64,6 @@ class Nodes extends React.Component {
 
     return (
       <View style={{flex: 1}}>
-        <Header label="Your nodes"></Header>
         <ContentWrapper>
           {content}
         </ContentWrapper>

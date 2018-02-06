@@ -9,7 +9,7 @@ export default class BadgeWrapper extends React.PureComponent {
     });
 
     let label = this.props.label || '';
-    
+
     return (
       <View>
         <Text style={styles.label}>{label.toUpperCase()}</Text>

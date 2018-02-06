@@ -9,16 +9,15 @@ export function loginUser(username, password) {
   password = API_PASSWORD;
 
   return async function(dispatch, getState) {
-    dispatch(loginInProgress());
-
     try {
+      dispatch(loginInProgress());
+
       let response = await api.call({
         url: '/api/v1/users/self'
       });
 
       let user = response.data;
 
-      await AsyncStorage.setItem('@Store:user', JSON.stringify(user));
       return dispatch(loggedIn(user));
     } catch(error) {
       console.error(error);

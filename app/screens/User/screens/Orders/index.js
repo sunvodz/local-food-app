@@ -18,6 +18,10 @@ class Orders extends Component {
     }
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return !_.isEqual(nextProps.orders, this.props.orders);
+  }
+
   componentDidMount() {
     this.props.dispatch(actions.requestOrders());
   }
@@ -48,14 +52,14 @@ class Orders extends Component {
     });
 
     let style = {
-      card: { 
+      card: {
         margin: 15,
         marginBottom: 5
       }
     }
 
     let numberOfOrders = Object.keys(this.props.orders.orders).length;
-    console.log(numberOfOrders, sectionId, rowId);
+
     if ((numberOfOrders - 1) == rowId) {
       style.card.marginBottom = 15;
     }
@@ -95,10 +99,9 @@ Orders.defaultProps = {
 };
 
 function mapStateToProps(state) {
-  const { auth, orders } = state;
+  const { orders } = state;
 
   return {
-    auth,
     orders,
   }
 }

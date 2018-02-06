@@ -19,6 +19,10 @@ class DateFilter extends React.Component {
     this.closeModal = this.closeModal.bind(this);
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return !_.isEqual(nextProps.node, this.props.node);
+  }
+
   componentDidMount() {
     this.props.dispatch(actions.fetchNodeDates(this.props.nodeId));
   }
@@ -76,10 +80,9 @@ class DateFilter extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { auth, node } = state;
+  const { node } = state;
 
   return {
-    auth,
     node,
   }
 }

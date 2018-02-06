@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Text, View, StyleSheet, Dimensions, Image } from 'react-native';
+import { View, StyleSheet, Dimensions, Image } from 'react-native';
 import Modal from 'react-native-modal';
 import _ from 'lodash';
 
-import { ContentWrapper, Loader, Link } from 'app/components';
+import { ContentWrapper, Loader, Link, Text } from 'app/components';
 
 export default class MapCallout extends React.Component {
   navigateToNode() {

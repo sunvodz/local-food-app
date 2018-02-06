@@ -35,7 +35,12 @@ class LocalFoodNodesSDK {
 
     return this.client(request)
     .catch(function(error) {
-      console.log('Error in sdk.call');
+      const status = error.response.status;
+
+      if (status >= 500 && status <= 599) {
+        console.log('Error in sdk.call');
+      }
+
       return error.response;
     });
   }

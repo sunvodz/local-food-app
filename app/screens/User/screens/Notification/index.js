@@ -7,6 +7,10 @@ import AuthScreen from 'app/screens/Auth';
 import { ContentWrapper } from 'app/components';
 
 class NotificationScreen extends React.Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    return !_.isEqual(nextProps.notifications, this.props.notifications) || !_.isEqual(nextProps.auth, this.props.auth);
+  }
+
   render() {
     let content = null;
 

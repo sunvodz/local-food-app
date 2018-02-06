@@ -1,14 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { ListView, RefreshControl, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import _ from 'lodash';
 import striptags from 'striptags';
 import ent from 'ent';
 
 import { ContentWrapper, Loader, Card, NumberInput, Button } from 'app/components';
 import * as actions from './actions';
-
-const DataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
 class Node extends React.Component {
   constructor(props) {
@@ -19,6 +17,10 @@ class Node extends React.Component {
     };
 
     this.renderProduct = this.renderProduct.bind(this);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !_.isEqual(nextProps.node, this.props.node) || !_.isEqual(nextProps.auth, this.props.auth);
   }
 
   componentDidMount() {
@@ -38,9 +40,9 @@ class Node extends React.Component {
     const prevFilters = _.get(prevProps, 'node.filters');
 
     if (products && products !== prevProducts && !loading) {
-      this.setState({
-        dataSource: DataSource.cloneWithRows(products)
-      });
+      // this.setState({
+      //   dataSource: DataSource.cloneWithRows(products)
+      // });
     }
 
     if (filters !== prevFilters && !loading) {
@@ -60,26 +62,16 @@ class Node extends React.Component {
     });
   }
 
-  renderProduct(product, sectionId, rowId) {
-    let style = {
-      card: { 
-        margin: 20,
-        marginBottom: 5
-      }
-    }
-
-    if (this.props.node.products && (this.props.node.products.length - 1) == rowId) {
-      style.card.marginBottom = 20;
-    }
-
+  renderProduct(product, rowId) {
     let image = null; // Fallback here
     if (product.image_relationship && product.image_relationship.length > 0) {
       image = product.image_relationship[0].urls.medium;
     }
 
+    //  <Text>{ent.decode(striptags(product.info))}</Text>
     return (
-      <Card header={product.name} onPress={this.navigateProduct.bind(this, product)} style={style} image={image}>
-        <Text>{ent.decode(striptags(product.info))}</Text>
+      <Card key={product.id} header={product.name} onPress={this.navigateProduct.bind(this, product)} image={image}>
+
       </Card>
     );
   }
@@ -87,36 +79,27 @@ class Node extends React.Component {
   render() {
     const { loading, node, products } = this.props.node;
 
-    if (!this.state.dataSource) {
+    if (loading) {
       return <Loader />;
     }
 
     if (!products || products.length === 0) {
       return (
-        <Card header="No products" style={style}>
+        <Card header="No products">
           <Text>No products here...</Text>
         </Card>
       );
     }
 
-    let listViewProps = {
-      dataSource: this.state.dataSource,
-      renderRow: this.renderProduct,
-      enableEmptySections: true
-    }
+    let p = products.map((product, index) => {
+      return this.renderProduct(product, index);
+    });
 
     return (
-      <View style={{flex: 1}}>
-        <ListView {...listViewProps} />
-      </View>
+      <ContentWrapper>
+        {p}
+      </ContentWrapper>
     );
-  }
-}
-
-let style = {
-  card: { 
-    margin: 20,
-    marginBottom: 0
   }
 }
 

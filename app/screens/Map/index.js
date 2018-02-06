@@ -13,6 +13,10 @@ class Map extends React.Component {
     super(props);
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return !_.isEqual(nextProps.map, this.props.map);
+  }
+
   componentDidMount() {
     const { dispatch, map } = this.props;
 

@@ -4,7 +4,7 @@ import { View, Text, TextInput, StyleSheet } from 'react-native';
 export default class TextInputComponent extends React.Component {
   render() {
     let label = this.props.label || '';
-    
+
     return (
       <View>
         <Text style={styles.label}>{label.toUpperCase()}</Text>

@@ -1,19 +1,27 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Dimensions } from 'react-native';
 
 export default class Card extends React.Component {
-  render() {
-    let styles = {};
-    Object.keys(defaultStyles).map(key => {
-      styles[key] = defaultStyles[key];
+  mergeStyles() {
+    let mergeStyles = {};
+
+    Object.keys(styles).map(key => {
+      mergeStyles[key] = styles[key];
+
       if (this.props.style && this.props.style[key]) {
-        styles[key] = Object.assign({}, defaultStyles[key], this.props.style[key]);
+        mergeStyles[key] = Object.assign({}, styles[key], this.props.style[key]);
       }
     });
 
+    return mergeStyles;
+  }
+
+  render() {
+    let mergedStyles = this.mergeStyles();
+
     let header = null;
     if (this.props.header) {
-      header = <Text style={styles.header}>{this.props.header}</Text>;
+      header = <Text style={mergedStyles.header}>{this.props.header}</Text>;
     }
 
     let touchableOpacityProps = {
@@ -36,10 +44,10 @@ export default class Card extends React.Component {
 
     return (
       <TouchableOpacity {...touchableOpacityProps}>
-        <View style={styles.card}>
+        <View style={mergedStyles.card}>
           {image}
           {header}
-          <View style={styles.content}>
+          <View style={mergedStyles.content}>
             {this.props.children}
           </View>
         </View>
@@ -48,20 +56,21 @@ export default class Card extends React.Component {
   }
 }
 
-const defaultStyles = {
+const styles = {
   card: {
     backgroundColor: '#fff',
-    elevation: 2,
+    elevation: 0,
     margin: 5,
     marginBottom: 15,
+    // width: '50%'
   },
   content: {
     padding: 15,
   },
   header: {
     color: '#333',
-    fontWeight: 'bold',
-    fontSize: 24,
+    fontSize: 16,
+    fontFamily: 'montserrat-bold',
     paddingHorizontal: 15,
     paddingTop: 15,
   }

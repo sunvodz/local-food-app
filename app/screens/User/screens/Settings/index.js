@@ -24,10 +24,9 @@ class Settings extends Component {
 }
 
 function mapStateToProps(state) {
-  const { auth, settings } = state;
+  const { settings } = state;
 
   return {
-    auth,
     settings,
   }
 }
