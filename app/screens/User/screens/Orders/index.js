@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Text, View, Button, ListView, RefreshControl } from 'react-native';
+import { Text, View, Button, RefreshControl, ListView } from 'react-native';
 import moment from 'moment';
 import _ from 'lodash';
 
-import { ContentWrapper, Card, Loader } from 'app/components';
+import { ContentWrapper, Card, Loader, List, ListSection, ListItem } from 'app/components';
 import * as actions from './actions';
 
+const br = '\n';
 const DataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
 class Orders extends Component {
@@ -23,80 +24,60 @@ class Orders extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(actions.requestOrders());
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    const { orders } = this.props.orders;
-
-    if (orders && prevProps.orders.orders !== orders) {
-      this.setState({
-        dataSource: DataSource.cloneWithRows(orders)
-      });
-    }
+    this.props.dispatch(actions.fetchOrders());
   }
 
   onRefresh() {
-    this.props.dispatch(actions.requestOrders());
+    this.props.dispatch(actions.fetchOrders());
   }
 
   navigateOrder(orderData) {
-    const { navigate } = this.props.navigation;
+    const { navigate } = this.props.userStackNavigation.navigation;
     navigate('OrderDetails', orderData);
   }
 
-  renderOrderDateCard(orders, sectionId, rowId) {
+  renderListSection(orders, sectionId, rowId) {
     let date = moment(orders[0].date.date.date).format('YYYY-MM-DD');
-    let orderRows = _.map(orders, (order) => {
-      return <Text onPress={this.navigateOrder.bind(this, order)} key={order.id}>{order.ref}</Text>;
+    let numberOfListItems = orders.length - 1;
+
+    let listItems = _.map(orders, (order, index) => {
+      let orderItem = order.order_item_relationship[0];
+      let isLastListItem = index === numberOfListItems;
+
+      return (
+        <ListItem key={order.id} onPress={this.navigateOrder.bind(this, order)} last={isLastListItem}>
+          <Text>
+            {orderItem.product.name.toUpperCase()} {br}
+            {orderItem.node.name}
+          </Text>
+        </ListItem>
+      );
     });
 
-    let style = {
-      card: {
-        margin: 15,
-        marginBottom: 5
-      }
-    }
-
-    let numberOfOrders = Object.keys(this.props.orders.orders).length;
-
-    if ((numberOfOrders - 1) == rowId) {
-      style.card.marginBottom = 15;
-    }
-
     return (
-      <Card header={date} style={style}>
-        {orderRows}
-      </Card>
+      <ListSection label={date}>
+        {listItems}
+      </ListSection>
     );
   }
 
   render() {
-    let content = <Loader />;
+    const  { loading, refreshing, orders } = this.props.orders;
 
-    if (this.state.dataSource) {
-      let refreshControl = <RefreshControl refreshing={this.props.orders.loading} onRefresh={this.onRefresh.bind(this)} />;
-
-      let listViewProps = {
-        dataSource: this.state.dataSource,
-        renderRow: this.renderOrderDateCard.bind(this),
-        refreshControl: refreshControl
-      }
-
-      content = <ListView {...listViewProps} />;
+    if (loading || _.isEmpty(orders)) {
+      return <Loader />;
     }
 
-    return (
-      <View style={{flex: 1}}>
-        {content}
-      </View>
-    );
+    let listProps = {
+      dataSource: DataSource.cloneWithRows(orders),
+      renderRow: this.renderListSection.bind(this),
+      onRefresh: this.onRefresh.bind(this),
+      refreshing: refreshing,
+    }
+
+    return <List {...listProps} />;
   }
 }
-
-Orders.defaultProps = {
-  loading: false,
-};
 
 function mapStateToProps(state) {
   const { orders } = state;

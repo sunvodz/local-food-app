@@ -27,6 +27,7 @@ export function fetchCart(refreshing) {
 export function refreshCart() {
   return {
     type: actionTypes.REFRESH_CART,
+    cart: null,
     refreshing: true,
   }
 }
@@ -102,9 +103,15 @@ export function updateCartItem(id, quantity) {
       }
     });
 
-    let cartItem = response.data;
-
-    return dispatch(updatedCartItem(id, cartItem));
+    if (response.status === 200) {
+      dispatch(updatedCartItem(id, response.data));
+    } else {
+      dispatch({
+        type: actionTypes.SHOW_ERROR,
+        title: 'Fel kvantitet',
+        message: 'för stor',
+      });
+    }
   }
 }
 

@@ -7,6 +7,7 @@ function nodesReducer(state, action) {
       return Object.assign({}, state, {
         nodes: action.nodes,
         loading: action.loading,
+        refreshing: action.refreshing || false,
       });
       break;
 

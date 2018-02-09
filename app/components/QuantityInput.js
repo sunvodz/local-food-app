@@ -5,31 +5,33 @@ import TextInput from './TextInput';
 
 export default class QuantityInput extends React.Component {
   onDecrease() {
-    let newValue = this.props.value - 1;
-    this.props.onChange(newValue);
+    this.props.onChange(this.props.value - 1);
   }
 
   onIncrease() {
-    let newValue = this.props.value + 1;
-    this.props.onChange(newValue);
+    this.props.onChange(this.props.value + 1);
   }
 
   render() {
-    let content = <ActivityIndicator color='#ccc' size='small' />;
-    let increaseProps = {};
-    let decreaseProps = {};
+    let increaseProps = {
+      name: 'plus-circle',
+      style: [styles.icon, this.props.loading && styles.disabledIcon],
+      size: 24,
+      onPress: this.onIncrease.bind(this),
+    };
 
-    if (!this.props.loading) {
-      increaseProps.onPress = this.onIncrease.bind(this);
-      decreaseProps.onPress = this.onDecrease.bind(this);
-      content = <Text style={styles.text}>{this.props.value}</Text>;
-    }
+    let decreaseProps = {
+      name: 'minus-circle',
+      style: [styles.icon, this.props.loading && styles.disabledIcon],
+      size: 24,
+      onPress: this.onDecrease.bind(this),
+    };
 
     return (
       <View style={styles.view}>
-        <Icon style={[styles.icon, this.props.loading && styles.disabledIcon]} name='minus-circle' size={24} {...decreaseProps} />
-        {content}
-        <Icon style={[styles.icon, this.props.loading && styles.disabledIcon]} name='plus-circle' size={24} {...increaseProps} />
+        <Icon {...decreaseProps} />
+        <Text style={styles.text}>{this.props.value}</Text>
+        <Icon {...increaseProps} />
       </View>
     );
   }

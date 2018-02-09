@@ -10,9 +10,9 @@ import { api } from 'app/shared';
  *
  * @return {function}
  */
-export function requestOrders() {
+export function fetchOrders() {
   return async function(dispatch, getState) {
-    dispatch(fetchingOrders());
+    dispatch(requestOrders());
 
     let response = await api.call({
       url: '/api/v1/users/orders'
@@ -28,9 +28,9 @@ export function requestOrders() {
   }
 }
 
-export function fetchingOrders() {
+export function requestOrders() {
   return {
-    type: actionTypes.FETCHING_ORDERS,
+    type: actionTypes.REQUEST_ORDERS,
     loading: true,
   }
 }

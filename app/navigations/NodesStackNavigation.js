@@ -1,19 +1,19 @@
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
 
-import Map from 'app/screens/Map';
+import Nodes from 'app/screens/User/screens/Nodes';
 import Node from 'app/screens/Node';
 import Product from 'app/screens/Product';
-
 import DateFilter from 'app/screens/Node/containers/DateFilter';
 
 const routeConfig = {
-  Map: {
-    screen: Map,
-    navigationOptions: ({ navigation }) => ({
-      title: 'Map',
-      header: null,
-    })
+  Nodes: {
+    screen: Nodes,
+    navigationOptions: ({ navigation }) => {
+      return {
+        title: 'Your Nodes',
+      }
+    }
   },
   Node: {
     screen: Node,
@@ -40,13 +40,9 @@ const routeConfig = {
         title: product.name,
       };
     }
-  },
+  }
 };
 
-const navigatorConfig = {
-  headerMode: 'float',
-};
+const navigatorConfig = {};
 
-const UserNavigation = StackNavigator(routeConfig, navigatorConfig);
-
-export default UserNavigation;
+export default StackNavigator(routeConfig, navigatorConfig);

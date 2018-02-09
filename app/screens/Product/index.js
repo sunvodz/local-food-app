@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { Text, View } from 'react-native';
 import striptags from 'striptags';
 import ent from 'ent';
+import _ from 'lodash';
 
 import { Loader, TextInput, ContentWrapper, Card, Button } from 'app/components';
-import { Alert } from 'app/containers';
 import OrderForm from './components/OrderForm';
 import * as actions from './actions';
 

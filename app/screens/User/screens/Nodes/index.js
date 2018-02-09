@@ -1,12 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Text, View, Button } from 'react-native';
+import { Text, View, Button, ListView } from 'react-native';
 import _ from 'lodash';
 
 import AuthScreen from 'app/screens/Auth';
-import { ContentWrapper, Loader } from 'app/components';
+import { ContentWrapper, Loader, List, ListItem } from 'app/components';
 
 import * as actions from './actions';
+
+const DataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
 class Nodes extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
@@ -35,40 +37,62 @@ class Nodes extends React.Component {
     this.props.navigation.navigate('Node', node);
   }
 
-  render() {
-    let content = null;
+  renderListItems(node, sectionId, rowId) {
+    let numberOfRows = this.props.nodes.nodes.length - 1;
+    let isLastItem = numberOfRows == rowId;
 
-    if (this.props.auth.loading) {
+    return (
+      <ListItem key={node.id} onPress={this.navigateToNode.bind(this, node)} last={isLastItem}>
+        <Text>{node.name}</Text>
+      </ListItem>
+    );
+  }
+
+  onRefresh() {
+
+  }
+
+  render() {
+    const { loading, refreshing, nodes } = this.props.nodes;
+
+    if (!this.props.auth.user) {
+      return <AuthScreen {...this.props} />;
+   }
+
+    if (loading || _.isEmpty(nodes)) {
       return <Loader />;
     }
 
-    if (!this.props.auth.user) {
-       content = <AuthScreen {...this.props} />;
+    let listProps = {
+      dataSource: DataSource.cloneWithRows(nodes),
+      renderRow: this.renderListItems.bind(this),
+      refreshing: refreshing,
+      onRefresh: this.onRefresh.bind(this),
     }
 
-    if (this.props.auth.user) {
-      let nodes = null;
+    return <List {...listProps} />;
 
-      if (this.props.nodes.nodes) {
-        nodes = _.map(this.props.nodes.nodes, (node) => {
-          return <Text key={node.id} onPress={this.navigateToNode.bind(this, node)}>{node.name}</Text>;
-        });
-      }
+    // let nodes = null;
 
-      content = (
-        <View>
-          {nodes}
-        </View>
-      );
-    }
+    // if (this.props.nodes.nodes) {
+    //   nodes = _.map(this.props.nodes.nodes, (node) => {
+    //     return <Text key={node.id} onPress={this.navigateToNode.bind(this, node)}>{node.name}</Text>;
+    //   });
+    // }
 
-    return (
-      <View style={{flex: 1}}>
-        <ContentWrapper>
-          {content}
-        </ContentWrapper>
-      </View>
-    );
+    // content = (
+    //   <View>
+    //     {nodes}
+    //   </View>
+    // );
+
+    // return (
+    //   <View style={{flex: 1}}>
+    //     <ContentWrapper>
+    //       {content}
+    //     </ContentWrapper>
+    //   </View>
+    // );
   }
 }
 

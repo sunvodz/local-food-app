@@ -2,35 +2,35 @@ import React, { Component } from 'react';
 import { TabNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import MapNavigation from './MapNavigation';
-import NodesNavigation from './NodesNavigation';
-import CartNavigation from './CartNavigation';
-import UserNavigation from './UserNavigation';
+import MapStackNavigation from './MapStackNavigation';
+import NodesStackNavigation from './NodesStackNavigation';
+import CartStackNavigation from './CartStackNavigation';
+import UserStackNavigation from './UserStackNavigation';
 
 const RouteConfigs = {
-  Map: {
-    screen: MapNavigation,
+  MapStackNavigation: {
+    screen: MapStackNavigation,
     navigationOptions: ({ navigation }) => ({
       tabBarLabel: 'Map',
       tabBarIcon: ({ tintColor }) => (<Icon name='search' size={24} color={tintColor} />)
     })
   },
-  Nodes: {
-    screen: NodesNavigation,
+  NodesStackNavigation: {
+    screen: NodesStackNavigation,
     navigationOptions: ({ navigation }) => ({
       tabBarLabel: 'Nodes',
       tabBarIcon: ({ tintColor }) => (<Icon name='map-marker' size={24} color={tintColor} />)
     })
   },
-  Cart: {
-    screen: CartNavigation,
+  CartStackNavigation: {
+    screen: CartStackNavigation,
     navigationOptions: ({ navigation }) => ({
     tabBarLabel: 'Cart',
       tabBarIcon: ({ tintColor }) => (<Icon name='shopping-cart' size={24} color={tintColor} />)
     })
   },
-  User: {
-    screen: UserNavigation,
+  UserStackNavigation: {
+    screen: UserStackNavigation, // Use UserNavigation to get the stack navigation header
     navigationOptions: ({ navigation }) => ({
     tabBarLabel: 'User',
       tabBarIcon: ({ tintColor }) => (<Icon name='user' size={24} color={tintColor} />)
@@ -45,8 +45,6 @@ const TabNavigatorConfig = {
   tabBarOptions: {
     showIcon: true,
     showLabel: false,
-    activeTintColor: '#fff',
-    activeBackgroundColor: '#fff',
     activeTintColor: '#fff',
     inactiveTintColor: '#fff',
     activeBackgroundColor: '#bc3b1f',

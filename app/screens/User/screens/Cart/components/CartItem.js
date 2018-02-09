@@ -7,31 +7,23 @@ import moment from 'moment';
 import { Card, Text, QuantityInput } from 'app/components';
 
 export default class CartItem extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      quantity: props.data.quantity
-    };
-  }
-
-  removeCartItem(id) {
-    this.props.dispatch(actions.removeCartItem(id));
+  removeCartItem() {
+    this.props.dispatch(actions.removeCartItem(this.props.data.id));
   }
 
   onChange(newValue) {
-    this.setState({quantity: newValue});
     this.props.onUpdate(this.props.data.id, newValue);
   }
 
   render() {
-    const { data, loading } = this.props;
+    const { data } = this.props;
     const cartItem = data.cart_item_relationship[0];
 
     return (
       <View key={data.ref}>
         <Text>{cartItem.product.name} {data.id}</Text>
-        <Icon name='trash' size={24} onPress={this.removeCartItem.bind(this, data.id)} />
-        <QuantityInput value={this.state.quantity} onChange={this.onChange.bind(this)} loading={loading} />
+        <Icon name='trash' size={24} onPress={this.removeCartItem.bind(this)} />
+        <QuantityInput value={data.quantity} onChange={this.onChange.bind(this)} />
       </View>
     );
   }

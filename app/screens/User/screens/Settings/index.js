@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Text, View, Button } from 'react-native';
+import { Text } from 'react-native';
 
-import { ContentWrapper, Card } from 'app/components';
+import { ContentWrapper, Card, Button } from 'app/components';
 import { sharedActions } from 'app/shared';
 
 class Settings extends Component {
@@ -12,13 +12,9 @@ class Settings extends Component {
 
   render() {
     return (
-      <View style={{flex: 1, backgroundColor: 'red'}}>
-        <ContentWrapper>
-          <Card>
-            <Button onPress={this.onLogout.bind(this)} title="Logout" accessibilityLabel="Logout" />
-          </Card>
-        </ContentWrapper>
-      </View>
+      <ContentWrapper>
+          <Button onPress={this.onLogout.bind(this)} title="Logout" accessibilityLabel="Logout" />
+      </ContentWrapper>
     );
   }
 }

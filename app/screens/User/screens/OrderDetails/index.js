@@ -13,6 +13,10 @@ class OrderDetails extends Component {
   render() {
     const order = this.getOrder();
 
+    if (!order) {
+      return null;
+    }
+
     return (
       <View style={{flex: 1}}>
         <ContentWrapper>

@@ -15,6 +15,4 @@ const routeConfig = {
 
 const navigatorConfig = {};
 
-const CartNavigation = StackNavigator(routeConfig, navigatorConfig);
-
-export default CartNavigation;
+export default StackNavigator(routeConfig, navigatorConfig);
