@@ -3,24 +3,24 @@ import { StackNavigator } from 'react-navigation';
 
 import Profile from 'app/screens/User/screens/Profile';
 import OrderDetails from 'app/screens/User/screens/OrderDetails';
+import globalStyles from 'app/styles';
 
 const routeConfig = {
   Profile: {
     screen: (navigation) => {
       return <Profile screenProps={{ userStackNavigation: navigation }} />;
     },
-    navigationOptions: {
-      title: 'Profile',
-      headerStyle: {
-        elevation: 0,
-        borderBottomWidth: 2,
-        borderColor: '#eee'
+    navigationOptions: (navigation) => {
+      return {
+        title: 'Profile',
+        headerStyle: globalStyles.stackNavigator.headerStyle
       }
     }
   },
   OrderDetails: {
     screen: OrderDetails,
     navigationOptions: {
+      headerStyle: globalStyles.stackNavigator.headerStyle,
       title: 'Order',
       headerBackTitle: 'Orders',
     }

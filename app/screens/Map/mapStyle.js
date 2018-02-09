@@ -46,7 +46,7 @@ const mapStyle = [
               "visibility": "on"
           },
           {
-              "color": "#f3f3f3"
+              "color": "#f4f4f0"
           }
       ]
   },

@@ -50,7 +50,7 @@ const TabNavigatorConfig = {
     activeBackgroundColor: '#bc3b1f',
     inactiveBackgroundColor: '#bc3b1f',
     indicatorStyle: {
-      backgroundColor: '#fd962a',
+      backgroundColor: '#bc3b1f',
     },
     style: {
       backgroundColor: '#bc3b1f',

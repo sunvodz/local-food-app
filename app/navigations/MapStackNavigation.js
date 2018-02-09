@@ -1,5 +1,6 @@
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
+import globalStyles from 'app/styles';
 
 import Map from 'app/screens/Map';
 import Node from 'app/screens/Node';
@@ -9,10 +10,10 @@ import DateFilter from 'app/screens/Node/containers/DateFilter';
 const routeConfig = {
   Map: {
     screen: Map,
-    navigationOptions: ({ navigation }) => ({
+    navigationOptions: {
       title: 'Map',
       header: null,
-    })
+    }
   },
   Node: {
     screen: Node,
@@ -26,7 +27,8 @@ const routeConfig = {
           fontFamily: 'montserrat-bold',
           fontWeight: 'normal',
           fontSize: 20,
-        }
+        },
+        headerStyle: globalStyles.stackNavigator.headerStyle
       };
     }
   },
@@ -37,6 +39,7 @@ const routeConfig = {
 
       return {
         title: product.name,
+        headerStyle: globalStyles.stackNavigator.headerStyle
       };
     }
   }

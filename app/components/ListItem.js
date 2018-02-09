@@ -41,7 +41,6 @@ const styles = {
   },
   column: {
     marginHorizontal: 15,
-    fontFamily: 'montserrat-medium',
   },
   chevron: {
     marginRight: 5,

@@ -1,5 +1,6 @@
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
+import globalStyles from 'app/styles';
 
 import Nodes from 'app/screens/User/screens/Nodes';
 import Node from 'app/screens/Node';
@@ -9,10 +10,9 @@ import DateFilter from 'app/screens/Node/containers/DateFilter';
 const routeConfig = {
   Nodes: {
     screen: Nodes,
-    navigationOptions: ({ navigation }) => {
-      return {
-        title: 'Your Nodes',
-      }
+    navigationOptions: {
+      title: 'Your Nodes',
+      headerStyle: globalStyles.stackNavigator.headerStyle
     }
   },
   Node: {
@@ -27,7 +27,8 @@ const routeConfig = {
           fontFamily: 'montserrat-bold',
           fontWeight: 'normal',
           fontSize: 20,
-        }
+        },
+        headerStyle: globalStyles.stackNavigator.headerStyle
       };
     }
   },
@@ -38,6 +39,9 @@ const routeConfig = {
 
       return {
         title: product.name,
+        headerStyle: {
+          elevation: 0,
+        },
       };
     }
   }

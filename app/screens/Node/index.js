@@ -33,20 +33,10 @@ class Node extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { loading, node, products, filters } = this.props.node;
-
-    const prevNode = _.get(prevProps, 'node.node');
-    const prevProducts = _.get(prevProps, 'node.products');
     const prevFilters = _.get(prevProps, 'node.filters');
 
-    if (products && products !== prevProducts && !loading) {
-      // this.setState({
-      //   dataSource: DataSource.cloneWithRows(products)
-      // });
-    }
-
-    if (filters !== prevFilters && !loading) {
-      this.props.dispatch(actions.fetchProducts(filters));
+    if (!_.isEqual(this.props.node.filters, prevFilters) && !this.props.node.loadingProducts) {
+      this.props.dispatch(actions.fetchProducts(this.props.node.filters));
     }
   }
 
@@ -77,9 +67,9 @@ class Node extends React.Component {
   }
 
   render() {
-    const { loading, node, products } = this.props.node;
+    const { node, products } = this.props.node;
 
-    if (loading) {
+    if (this.props.node.loadingProducts) {
       return <Loader />;
     }
 

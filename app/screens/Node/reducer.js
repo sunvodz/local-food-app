@@ -9,7 +9,7 @@ function nodeReducer(state, action) {
         filters: {
           node: action.node ? action.node.id : null,
         },
-        loading: action.loading,
+        loadingNodes: action.loadingNodes,
       });
       break;
 
@@ -17,7 +17,7 @@ function nodeReducer(state, action) {
     case actionTypes.RECEIVE_PRODUCTS:
       return Object.assign({}, state, {
         products: action.products,
-        loading: action.loading,
+        loadingProducts: action.loadingProducts,
       });
       break;
 
@@ -25,7 +25,7 @@ function nodeReducer(state, action) {
     case actionTypes.RECEIVE_NODE_DATES:
       return Object.assign({}, state, {
         dates: action.dates,
-        loading: action.loading,
+        loadingDates: action.loadingDates,
       });
       break;
 

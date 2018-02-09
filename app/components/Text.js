@@ -1,18 +1,26 @@
 import React from 'react';
-import { Text, StyleSheet } from 'react-native';
+import { Text } from 'react-native';
 
 export default class TextComponent extends React.Component {
+  mergeStyles() {
+    let mergeStyles = {};
+
+    mergeStyles['text'] = Object.assign({}, styles['text'], this.props.style);
+
+    return mergeStyles;
+  }
+
   render() {
-    // merge styles?
+    let mergedStyles = this.mergeStyles();
 
     return (
-      <Text {...this.props} style={styles.text}>{this.props.children}</Text>
+      <Text {...this.props} style={mergedStyles.text}>{this.props.children}</Text>
     );
   }
 }
 
-const styles = StyleSheet.create({
+const styles = {
   text: {
     fontFamily: 'montserrat-regular'
   }
-});
+};

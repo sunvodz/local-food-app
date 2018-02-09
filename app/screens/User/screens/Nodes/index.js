@@ -70,29 +70,7 @@ class Nodes extends React.Component {
       onRefresh: this.onRefresh.bind(this),
     }
 
-    return <List {...listProps} />;
-
-    // let nodes = null;
-
-    // if (this.props.nodes.nodes) {
-    //   nodes = _.map(this.props.nodes.nodes, (node) => {
-    //     return <Text key={node.id} onPress={this.navigateToNode.bind(this, node)}>{node.name}</Text>;
-    //   });
-    // }
-
-    // content = (
-    //   <View>
-    //     {nodes}
-    //   </View>
-    // );
-
-    // return (
-    //   <View style={{flex: 1}}>
-    //     <ContentWrapper>
-    //       {content}
-    //     </ContentWrapper>
-    //   </View>
-    // );
+    return <List {...listProps} style={{marginTop: 15}} />;
   }
 }
 

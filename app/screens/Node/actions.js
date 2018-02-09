@@ -24,7 +24,7 @@ export function requestNode() {
   return {
     type: actionTypes.REQUEST_NODE,
     node: null,
-    loading: true,
+    loadingNode: true,
   }
 }
 
@@ -32,7 +32,7 @@ export function receiveNode(node) {
   return {
     type: actionTypes.RECEIVE_NODE,
     node: node,
-    loading: false,
+    loadingNode: false,
   }
 }
 
@@ -66,7 +66,7 @@ export function requestProducts() {
   return {
     type: actionTypes.REQUEST_PRODUCTS,
     products: null,
-    loading: true,
+    loadingProducts: true,
   }
 }
 
@@ -74,7 +74,7 @@ export function receiveProducts(products) {
   return {
     type: actionTypes.RECEIVE_PRODUCTS,
     products: products,
-    loading: false,
+    loadingProducts: false,
   }
 }
 
@@ -100,7 +100,7 @@ export function requestNodeDates() {
   return {
     type: actionTypes.REQUEST_NODE_DATES,
     dates: null,
-    loading: true,
+    loadingDates: true,
   }
 }
 
@@ -108,7 +108,7 @@ export function receiveNodeDates(dates) {
   return {
     type: actionTypes.RECEIVE_NODE_DATES,
     dates: dates,
-    loading: false,
+    loadingDates: false,
   }
 }
 

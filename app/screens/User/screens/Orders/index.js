@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Text, View, Button, RefreshControl, ListView } from 'react-native';
+import { View, Button, RefreshControl, ListView } from 'react-native';
 import moment from 'moment';
 import _ from 'lodash';
 
-import { ContentWrapper, Card, Loader, List, ListSection, ListItem } from 'app/components';
+import { ContentWrapper, Card, Loader, List, ListSection, ListItem, Text} from 'app/components';
 import * as actions from './actions';
 
 const br = '\n';
@@ -46,10 +46,10 @@ class Orders extends Component {
 
       return (
         <ListItem key={order.id} onPress={this.navigateOrder.bind(this, order)} last={isLastListItem}>
-          <Text>
-            {orderItem.product.name.toUpperCase()} {br}
-            {orderItem.node.name}
-          </Text>
+          <View>
+            <Text>{orderItem.product.name.toUpperCase()} {br}</Text>
+            <Text style={{color: '#b4b4b0'}}>{orderItem.node.name}</Text>
+          </View>
         </ListItem>
       );
     });
