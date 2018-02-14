@@ -12,7 +12,7 @@ import cartReducer from 'app/screens/User/screens/Cart/reducer';
 import ordersReducer from 'app/screens/User/screens/Orders/reducer';
 import nodesReducer from 'app/screens/User/screens/Nodes/reducer';
 import settingsReducer from 'app/screens/User/screens/Settings/reducer';
-import notificationReducer from 'app/screens/User/screens/Notification/reducer';
+import notificationsReducer from 'app/screens/User/screens/Notifications/reducer';
 
 
 const rootReducer = combineReducers({
@@ -26,7 +26,7 @@ const rootReducer = combineReducers({
   nodes: nodesReducer,
   orders: ordersReducer,
   settings: settingsReducer,
-  notification: notificationReducer,
+  notifications: notificationsReducer,
   logger: function(state, action) {
     console.log(action.type);
     return Object.assign({}, state, {});

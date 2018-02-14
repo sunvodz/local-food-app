@@ -23,7 +23,7 @@ export default class CartItem extends React.Component {
       <View key={data.ref}>
         <Text>{cartItem.product.name} {data.id}</Text>
         <Icon name='trash' size={24} onPress={this.removeCartItem.bind(this)} />
-        <QuantityInput value={data.quantity} onChange={this.onChange.bind(this)} />
+        <QuantityInput loading={this.props.loading} value={data.quantity} onChange={this.onChange.bind(this)} />
       </View>
     );
   }

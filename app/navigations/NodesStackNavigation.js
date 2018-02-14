@@ -12,7 +12,8 @@ const routeConfig = {
     screen: Nodes,
     navigationOptions: {
       title: 'Your Nodes',
-      headerStyle: globalStyles.stackNavigator.headerStyle
+      headerStyle: globalStyles.stackNavigator.headerStyle,
+      headerTitleStyle: globalStyles.stackNavigator.headerTitleStyle,
     }
   },
   Node: {
@@ -28,7 +29,8 @@ const routeConfig = {
           fontWeight: 'normal',
           fontSize: 20,
         },
-        headerStyle: globalStyles.stackNavigator.headerStyle
+        headerStyle: globalStyles.stackNavigator.headerStyle,
+        headerTitleStyle: globalStyles.stackNavigator.headerTitleStyle,
       };
     }
   },
@@ -39,9 +41,8 @@ const routeConfig = {
 
       return {
         title: product.name,
-        headerStyle: {
-          elevation: 0,
-        },
+        headerStyle: globalStyles.stackNavigator.headerStyle,
+        headerTitleStyle: globalStyles.stackNavigator.headerTitleStyle,
       };
     }
   }

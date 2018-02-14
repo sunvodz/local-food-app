@@ -4,8 +4,11 @@ export default {
   stackNavigator: {
     headerStyle: {
       elevation: 0,
-      borderBottomWidth: 2,
-      borderColor: '#f4f4f0'
+    },
+    headerTitleStyle: {
+      fontFamily: 'montserrat-bold',
+      fontWeight: 'normal',
+      fontSize: 20,
     }
   }
 };

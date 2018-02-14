@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Text, View, Button, Modal } from 'react-native';
-// import MapView from 'react-native-maps';
 import MapView from 'react-native-map-clustering';
 import { Marker } from 'react-native-maps';
 import _ from 'lodash';
@@ -52,7 +51,12 @@ export default class MapViewWrapper extends React.Component {
     const prevLocation = _.get(prevProps, 'map.location');
 
     if (this.props.map.location !== prevLocation) {
-      // this.updateRegion(this.props.map.location.coords);
+      this.updateRegion({
+        latitude: this.props.map.location.coords.latitude,
+        latitudeDelta: 0.5,
+        longitude: this.props.map.location.coords.longitude,
+        longitudeDelta: 0.5,
+      });
     }
   }
 

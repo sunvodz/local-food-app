@@ -7,7 +7,13 @@ class Api {
 
     options = this.extendOptions(options);
 
-    return await sdk.call(request, options);
+    let response = await sdk.call(request, options);
+
+    if (response.error) {
+      console.error('Error in api', response);
+    }
+
+    return response;
   }
 
   formData(data) {

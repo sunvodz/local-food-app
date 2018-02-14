@@ -9,7 +9,7 @@ function cartReducer(state, action) {
       return Object.assign({}, state, {
         cart: action.cart,
         loading: action.loading,
-        loadingCartItems: [],
+        updatingCartItems: [],
         refreshing: action.refreshing || false,
       });
       break;
@@ -28,13 +28,13 @@ function cartReducer(state, action) {
 
     case actionTypes.UPDATING_CART_ITEM:
       return Object.assign({}, state, {
-        loadingCartItems: addCartItemId(state, action.id),
+        updatingCartItems: addCartItemId(state, action.id),
       });
       break;
 
     case actionTypes.UPDATED_CART_ITEM:
       return Object.assign({}, state, {
-        loadingCartItems: removeCartItemId(state, action.id),
+        updatingCartItems: removeCartItemId(state, action.id),
         cart: setUpdatedCartItem(state, action)
       });
       break;
@@ -62,13 +62,13 @@ function setUpdatedCartItem(state, action) {
  * @param {*} id
  */
 function addCartItemId(state, id) {
-  let loadingCartItems = state.loadingCartItems || [];
+  let updatingCartItems = state.updatingCartItems || [];
 
-  if (loadingCartItems.indexOf(id) === -1) {
-    loadingCartItems.push(id);
+  if (updatingCartItems.indexOf(id) === -1) {
+    updatingCartItems.push(id);
   }
 
-  return loadingCartItems;
+  return updatingCartItems;
 }
 
 /**
@@ -77,10 +77,10 @@ function addCartItemId(state, id) {
  * @param {*} id
  */
 function removeCartItemId(state, id) {
-  let loadingCartItems = state.loadingCartItems;
-  loadingCartItems.splice(loadingCartItems.indexOf(id), 1);
+  let updatingCartItems = state.updatingCartItems;
+  updatingCartItems.splice(updatingCartItems.indexOf(id), 1);
 
-  return loadingCartItems;
+  return updatingCartItems;
 }
 
 export default cartReducer;

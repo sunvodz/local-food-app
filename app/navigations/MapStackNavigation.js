@@ -11,8 +11,9 @@ const routeConfig = {
   Map: {
     screen: Map,
     navigationOptions: {
-      title: 'Map',
-      header: null,
+      title: 'Find nodes',
+      headerStyle: globalStyles.stackNavigator.headerStyle,
+      headerTitleStyle: globalStyles.stackNavigator.headerTitleStyle,
     }
   },
   Node: {
@@ -23,12 +24,8 @@ const routeConfig = {
       return {
         title: node.name,
         headerRight: <DateFilter nodeId={node.id} />,
-        headerTitleStyle: {
-          fontFamily: 'montserrat-bold',
-          fontWeight: 'normal',
-          fontSize: 20,
-        },
-        headerStyle: globalStyles.stackNavigator.headerStyle
+        headerTitleStyle: globalStyles.stackNavigator.headerTitleStyle,
+        headerStyle: globalStyles.stackNavigator.headerStyle,
       };
     }
   },
@@ -39,7 +36,8 @@ const routeConfig = {
 
       return {
         title: product.name,
-        headerStyle: globalStyles.stackNavigator.headerStyle
+        headerStyle: globalStyles.stackNavigator.headerStyle,
+        headerTitleStyle: globalStyles.stackNavigator.headerTitleStyle,
       };
     }
   }

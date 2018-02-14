@@ -81,13 +81,13 @@ class Node extends React.Component {
       );
     }
 
-    let p = products.map((product, index) => {
+    let productCards = _.map(products, (product, index) => {
       return this.renderProduct(product, index);
     });
 
     return (
       <ContentWrapper>
-        {p}
+        {productCards}
       </ContentWrapper>
     );
   }

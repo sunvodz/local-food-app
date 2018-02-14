@@ -8,7 +8,8 @@ const routeConfig = {
     screen: Cart,
     navigationOptions: {
       title: 'Cart',
-      headerStyle: globalStyles.stackNavigator.headerStyle
+      headerStyle: globalStyles.stackNavigator.headerStyle,
+      headerTitleStyle: globalStyles.stackNavigator.headerTitleStyle,
     }
   },
 };

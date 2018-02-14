@@ -18,14 +18,16 @@ const RouteConfigs = {
     screen: Notifications,
     navigationOptions: {
       tabBarLabel: 'Notifications',
-      headerStyle: globalStyles.stackNavigator.headerStyle
+      headerStyle: globalStyles.stackNavigator.headerStyle,
+      headerTitleStyle: globalStyles.stackNavigator.headerTitleStyle,
     }
   },
   Settings: {
     screen: Settings,
     navigationOptions: {
       tabBarLabel: 'Settings',
-      headerStyle: globalStyles.stackNavigator.headerStyle
+      headerStyle: globalStyles.stackNavigator.headerStyle,
+      headerTitleStyle: globalStyles.stackNavigator.headerTitleStyle,
     }
   },
 };
@@ -46,7 +48,7 @@ const TabNavigatorConfig = {
     },
     labelStyle: {
       fontSize: 12,
-      fontFamily: 'montserrat-medium',
+      fontFamily: 'montserrat-bold',
     },
     style: {
       elevation: 0,

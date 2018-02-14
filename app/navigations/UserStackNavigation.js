@@ -10,19 +10,23 @@ const routeConfig = {
     screen: (navigation) => {
       return <Profile screenProps={{ userStackNavigation: navigation }} />;
     },
-    navigationOptions: (navigation) => {
-      return {
-        title: 'Profile',
-        headerStyle: globalStyles.stackNavigator.headerStyle
-      }
+    navigationOptions: {
+      title: 'Profile',
+      headerStyle: Object.assign({}, globalStyles.stackNavigator.headerStyle, {
+        borderBottomWidth: 2,
+        borderBottomColor: '#f4f4f0',
+      }),
+      headerTitleStyle: globalStyles.stackNavigator.headerTitleStyle,
     }
   },
   OrderDetails: {
     screen: OrderDetails,
     navigationOptions: {
-      headerStyle: globalStyles.stackNavigator.headerStyle,
       title: 'Order',
       headerBackTitle: 'Orders',
+      headerStyle: globalStyles.stackNavigator.headerStyle,
+      headerTitleStyle: globalStyles.stackNavigator.headerTitleStyle,
+
     }
   }
 };

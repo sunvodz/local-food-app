@@ -10,17 +10,12 @@ import AuthScreen from 'app/screens/Auth';
 import { ContentWrapper, Loader, Card, Text, QuantityInput, Button } from 'app/components';
 import CartItem from './components/CartItem';
 import * as actions from './actions';
+import { updateCartItem } from './actions';
 
 class Cart extends React.Component {
-  constructor(props) {
-    super(props);
-    this.debouncedUpdateCartItem = _.debounce(this.updateCartItem.bind(this), 300, {trailing: true});
-    this.debouncedRemoveCartItem = _.debounce(this.removeCartItem.bind(this), 300, {trailing: true});
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return !_.isEqual(nextProps.cart, this.props.cart) || !_.isEqual(nextProps.auth, this.props.auth);
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   return !_.isEqual(nextProps.cart, this.props.cart) || !_.isEqual(nextProps.auth, this.props.auth);
+  // }
 
   componentDidMount() {
     this.fetchCart();
@@ -62,7 +57,7 @@ class Cart extends React.Component {
   }
 
   render() {
-    const { loading, refreshing, cart } = this.props.cart;
+    const { loading, updatingCartItems, refreshing, cart } = this.props.cart;
 
     if (!this.props.auth.user || this.props.auth.loading) {
       return <AuthScreen {...this.props} />;
@@ -89,11 +84,14 @@ class Cart extends React.Component {
 
       // Render cart items
       let cartItems = cartDateItemLinks.map(cartDateItemLink => {
+        let loading = updatingCartItems.indexOf(cartDateItemLink.id) !== -1;
+
         let cartItemProps = {
           key: cartDateItemLink.id,
           data: cartDateItemLink,
-          onRemove: this.debouncedRemoveCartItem,
-          onUpdate: this.debouncedUpdateCartItem
+          loading: loading,
+          onRemove: this.removeCartItem.bind(this),
+          onUpdate: this.updateCartItem.bind(this)
         }
 
         return <CartItem {...cartItemProps}/>;

@@ -11,7 +11,7 @@ import App from './App';
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
-// Sentry.enableInExpoDevelopment = true; // Remove this once Sentry is correctly setup.
+Sentry.enableInExpoDevelopment = true; // Remove this once Sentry is correctly setup.
 Sentry.config(SENTRY_PUBLIC_DSN).install();
 
 export default class Root extends Component {

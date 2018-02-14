@@ -103,15 +103,15 @@ export function updateCartItem(id, quantity) {
       }
     });
 
-    if (response.status === 200) {
-      dispatch(updatedCartItem(id, response.data));
-    } else {
+    if (response.status !== 200) {
       dispatch({
         type: actionTypes.SHOW_ERROR,
         title: 'Fel kvantitet',
         message: 'för stor',
       });
     }
+
+    dispatch(updatedCartItem(id, response.data));
   }
 }
 
