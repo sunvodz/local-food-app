@@ -1,11 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Text, View, Button, Modal, StyleSheet } from 'react-native';
-// import MapView from 'react-native-maps';
 import _ from 'lodash';
 
 import MapViewWrapper from './components/MapViewWrapper';
-import { Header, ContentWrapper, Loader } from '../../components';
+import { Header, ContentWrapper, Loader, ServerError } from '../../components';
 import * as actions from './actions';
 
 class Map extends React.Component {
@@ -24,16 +23,10 @@ class Map extends React.Component {
     dispatch(actions.fetchCurrentLocation());
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const { map } = this.props;
-
-    if (map.nodes !== prevProps.map.nodes) {
-
-    }
-  }
-
   render() {
-    const { map } = this.props;
+    if (this.props.map.serverError) {
+      return <ServerError />;
+    }
 
     return <MapViewWrapper {...this.props} />;
   }

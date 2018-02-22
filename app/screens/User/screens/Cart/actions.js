@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes'
 import { api } from 'app/shared';
+import _ from 'lodash';
 
 /**
  * Async action - fetch cart.
@@ -111,7 +112,11 @@ export function updateCartItem(id, quantity) {
       });
     }
 
-    dispatch(updatedCartItem(id, response.data));
+    if (_.isArray(response.data)) {
+      dispatch(updatedCartItems(response.data));
+    } else {
+      dispatch(updatedCartItem(response.data));
+    }
   }
 }
 
@@ -122,10 +127,42 @@ export function updatingCartItem(id) {
   }
 }
 
-export function updatedCartItem(id, cartItem) {
+export function updatedCartItem(cartItem) {
   return {
     type: actionTypes.UPDATED_CART_ITEM,
     cartItem: cartItem,
-    id: id
+  }
+}
+
+export function updatedCartItems(cartItems) {
+  return {
+    type: actionTypes.UPDATED_CART_ITEMS,
+    cartItems: cartItems
+  }
+}
+
+/**
+ * Async action - update cart item.
+ *
+ * @return {function}
+ */
+export function createOrder() {
+  return async function(dispatch, getState) {
+    dispatch(creatingOrder());
+
+    let response = await api.call({
+      url: '/api/v1/users/self/order',
+      method: 'post',
+    });
+
+    if (response.status !== 200) {
+      dispatch({
+        type: actionTypes.SHOW_ERROR,
+        title: 'Fel kvantitet',
+        message: 'för stor',
+      });
+    }
+
+    dispatch(orderCreated());
   }
 }

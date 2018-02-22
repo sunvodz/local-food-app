@@ -16,7 +16,7 @@ export default class ListSection extends React.Component {
 
 const styles = {
   label: {
-    fontFamily: 'montserrat-bold',
+    fontFamily: 'montserrat-semibold',
     color: '#b4b4b0',
     marginTop: 15,
     marginBottom: 2,

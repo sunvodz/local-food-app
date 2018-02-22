@@ -25,7 +25,7 @@ const routeConfig = {
         title: node.name,
         headerRight: <DateFilter nodeId={node.id} />,
         headerTitleStyle: {
-          fontFamily: 'montserrat-bold',
+          fontFamily: 'montserrat-semibold',
           fontWeight: 'normal',
           fontSize: 20,
         },

@@ -48,7 +48,7 @@ const TabNavigatorConfig = {
     },
     labelStyle: {
       fontSize: 12,
-      fontFamily: 'montserrat-bold',
+      fontFamily: 'montserrat-semibold',
     },
     style: {
       elevation: 0,

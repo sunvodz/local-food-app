@@ -1,42 +1,60 @@
+import { AsyncStorage } from 'react-native';
 import { API_URL, API_CLIENT_ID, API_CLIENT_SECRET, API_USERNAME, API_PASSWORD } from 'react-native-dotenv';
 import sdk from 'localfoodnodes-js-sdk';
+import * as sharedActions from './sharedActions';
+import _ from 'lodash';
 
 class Api {
-  async call(request, options) {
-    request.url = API_URL + request.url; // Set base url
+  async call(request) {
+    try {
+      request.url = API_URL + request.url; // Add base url
+      options = await this.extendOptions(request.options);
 
-    options = this.extendOptions(options);
+      let response = await sdk.call(request, options);
 
-    let response = await sdk.call(request, options);
-
-    if (response.error) {
-      console.error('Error in api', response);
+      return response;
+    } catch (error) {
+      throw error;
     }
-
-    return response;
   }
 
   formData(data) {
     return sdk.formatData(data);
   }
 
-  extendOptions(options) {
-    if (!options) {
-      options = {};
+  async extendOptions(options) {
+    try {
+      if (!options) {
+        options = {};
+      }
+
+      options.baseUrl = API_URL;
+
+      let user = await AsyncStorage.getItem('@store:user');
+      user = JSON.parse(user);
+
+      options.auth = {
+        clientId: API_CLIENT_ID,
+        secret: API_CLIENT_SECRET,
+        username: API_USERNAME,
+        password: API_PASSWORD,
+      };
+
+      if (_.has(options, 'username') && _.has(options, 'password')) {
+        // Login in progress, generate new token
+        options.auth.username = options.username;
+        options.auth.password = options.password;
+        options.renewToken = true;
+      } else if (user) {
+        // User already logged in. Used if new token is needed
+        options.auth.username = user.email;
+        options.auth.password = user.password;
+      }
+
+      return options;
+    } catch (error) {
+      throw error;
     }
-
-    options.baseUrl = API_URL;
-
-    // Check if user is logged in and add user credentials
-
-    options.auth = {
-      clientId: API_CLIENT_ID,
-      secret: API_CLIENT_SECRET,
-      username: API_USERNAME,
-      password: API_PASSWORD,
-    };
-
-    return options;
   }
 }
 

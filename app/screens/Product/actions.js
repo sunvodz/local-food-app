@@ -49,8 +49,8 @@ export function fetchDates(productId, nodeId, variantId) {
 
       let url = `/api/v1/products/${productId}/dates`;
       let params = {
-        nodeId,
-        variantId,
+        node_id: nodeId,
+        variant_id: variantId,
       };
 
       if (params) {

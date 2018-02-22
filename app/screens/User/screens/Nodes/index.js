@@ -4,7 +4,7 @@ import { Text, View, Button, ListView } from 'react-native';
 import _ from 'lodash';
 
 import AuthScreen from 'app/screens/Auth';
-import { ContentWrapper, Loader, List, ListItem } from 'app/components';
+import { ContentWrapper, Loader, List, ListItem, ServerError } from 'app/components';
 
 import * as actions from './actions';
 
@@ -55,8 +55,12 @@ class Nodes extends React.Component {
   render() {
     const { loading, refreshing, nodes } = this.props.nodes;
 
+    if (this.props.nodes.serverError) {
+      return <ServerError />;
+    }
+
     if (!this.props.auth.user) {
-      return <AuthScreen {...this.props} />;
+      return <AuthScreen {...this.props} fullscreen={true} />;
    }
 
     if (loading || _.isEmpty(nodes)) {

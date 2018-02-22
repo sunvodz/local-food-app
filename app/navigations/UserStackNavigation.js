@@ -12,10 +12,7 @@ const routeConfig = {
     },
     navigationOptions: {
       title: 'Profile',
-      headerStyle: Object.assign({}, globalStyles.stackNavigator.headerStyle, {
-        borderBottomWidth: 2,
-        borderBottomColor: '#f4f4f0',
-      }),
+      headerStyle: globalStyles.stackNavigator.headerStyle,
       headerTitleStyle: globalStyles.stackNavigator.headerTitleStyle,
     }
   },

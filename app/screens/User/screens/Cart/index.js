@@ -7,7 +7,7 @@ import _ from 'lodash';
 
 import AuthScreen from 'app/screens/Auth';
 
-import { ContentWrapper, Loader, Card, Text, QuantityInput, Button } from 'app/components';
+import { ContentWrapper, Loader, Card, Text, QuantityInput, Button, ServerError } from 'app/components';
 import CartItem from './components/CartItem';
 import * as actions from './actions';
 import { updateCartItem } from './actions';
@@ -56,11 +56,19 @@ class Cart extends React.Component {
     this.props.dispatch(actions.updateCartItem(id, quantity));
   }
 
+  sendOrder() {
+    this.props.dispatch(actions.sendOrder());
+  }
+
   render() {
     const { loading, updatingCartItems, refreshing, cart } = this.props.cart;
 
+    if (this.props.cart.serverError) {
+      return <ServerError />;
+    }
+
     if (!this.props.auth.user || this.props.auth.loading) {
-      return <AuthScreen {...this.props} />;
+      return <AuthScreen {...this.props} fullscreen={true} />;
     }
 
     if (loading) {
@@ -107,7 +115,7 @@ class Cart extends React.Component {
     return (
       <ContentWrapper onRefresh={this.fetchCart.bind(this)} refreshing={refreshing}>
         {cartDates}
-        <Button title="Skicka beställning" />
+        <Button title="Skicka beställning" onPress={this.sendOrder.bind(this)} />
       </ContentWrapper>
     );
   }

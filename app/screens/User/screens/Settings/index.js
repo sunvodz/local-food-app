@@ -7,7 +7,7 @@ import { sharedActions } from 'app/shared';
 
 class Settings extends Component {
   onLogout() {
-    this.props.dispatch(sharedActions.logoutUser());
+    this.props.dispatch(sharedActions.logout());
   }
 
   render() {

@@ -1,6 +1,7 @@
 import { API_URL } from 'react-native-dotenv';
 import { api } from 'app/shared';
 import * as actionTypes from './actionTypes';
+import { sharedActions } from 'app/shared';
 
 export function fetchCurrentLocation() {
   return function(dispatch, getState) {
@@ -36,14 +37,16 @@ export function fetchNodes() {
       dispatch(requestNodes());
 
       let response = await api.call({
-        url: '/api/v1/nodes'
+        url: '/api/v1/nodes',
       });
 
       let nodes = response.data;
 
       dispatch(receiveNodes(nodes));
     } catch (error) {
-      console.error(error);
+      // GLOBAL ERROR
+      // console.error('error in map!!!', error);
+      dispatch(sharedActions.serverError(error));
     }
   }
 }

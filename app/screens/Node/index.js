@@ -2,10 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Text, View } from 'react-native';
 import _ from 'lodash';
-import striptags from 'striptags';
-import ent from 'ent';
 
-import { ContentWrapper, Loader, Card, NumberInput, Button } from 'app/components';
+import { ContentWrapper, Loader, ProductCard, NumberInput, Button } from 'app/components';
 import * as actions from './actions';
 
 class Node extends React.Component {
@@ -58,11 +56,8 @@ class Node extends React.Component {
       image = product.image_relationship[0].urls.medium;
     }
 
-    //  <Text>{ent.decode(striptags(product.info))}</Text>
     return (
-      <Card key={product.id} header={product.name} onPress={this.navigateProduct.bind(this, product)} image={image}>
-
-      </Card>
+      <ProductCard key={product.id} header={product.name} onPress={this.navigateProduct.bind(this, product)} image={image} column={2} />
     );
   }
 
@@ -75,9 +70,9 @@ class Node extends React.Component {
 
     if (!products || products.length === 0) {
       return (
-        <Card header="No products">
+        <ProductCard header="No products">
           <Text>No products here...</Text>
-        </Card>
+        </ProductCard>
       );
     }
 

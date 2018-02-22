@@ -26,7 +26,7 @@ export default class Root extends Component {
     await Font.loadAsync({
       'montserrat-regular': require('../../assets/fonts/Montserrat-Regular.ttf'),
       'montserrat-medium': require('../../assets/fonts/Montserrat-Medium.ttf'),
-      'montserrat-bold': require('../../assets/fonts/Montserrat-Bold.ttf'),
+      'montserrat-semibold': require('../../assets/fonts/Montserrat-SemiBold.ttf'),
     });
 
     this.setState({ loading: false });
@@ -35,7 +35,6 @@ export default class Root extends Component {
   render() {
     if (this.state.loading) {
       return <AppLoading />;
-      // return <Text>Loading...</Text>;
     }
 
     return (

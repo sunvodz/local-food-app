@@ -3,6 +3,12 @@ import { sharedActionTypes } from 'app/shared';
 
 function mapReducer(state, action) {
   switch (action.type) {
+    case sharedActionTypes.SERVER_ERROR:
+      return Object.assign({}, state, {
+        serverError: true,
+      });
+      break;
+
     case actionTypes.FETCHING_CURRENT_LOCATION:
     case actionTypes.RECEIVE_CURRENT_LOCATION:
       return Object.assign({}, state, {

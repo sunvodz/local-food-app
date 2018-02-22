@@ -22,8 +22,7 @@ class LocalFoodNodesSDK {
    * @return {promise}
    */
   async call(request, options) {
-    if (!this.token) {
-      // Get token
+    if (!this.token || options.renewToken) {
       this.token = await this.getToken(options);
     }
 
@@ -35,13 +34,7 @@ class LocalFoodNodesSDK {
 
     return this.client(request)
     .catch(function(error) {
-      const status = error.response.status;
-
-      if (status >= 500 && status <= 599) {
-        console.log('Error in sdk.call');
-      }
-
-      return error.response;
+      throw error;
     });
   }
 
@@ -72,16 +65,11 @@ class LocalFoodNodesSDK {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         }
-      })
-      .catch(function(error) {
-        // Refresh token here if needed
-        console.error('Error in localfoodnodes-js-sdk.getToken client', error);
       });
 
       return response.data;
     } catch(error) {
-      console.log('Error in sdk.getToken');
-      return error.response;
+      throw error;
     }
   }
 
@@ -92,31 +80,31 @@ class LocalFoodNodesSDK {
    * @param {string} password
    * @return {string}
    */
-  refreshToken(options, token) {
-    try {
-      let data = {
-        grant_type: 'refresh_token',
-        client_id: API_CLIENT_ID,
-        client_secret: API_CLIENT_SECRET,
-        refresh_token: token.refresh_token
-      };
+  // refreshToken(options, token) {
+  //   try {
+  //     let data = {
+  //       grant_type: 'refresh_token',
+  //       client_id: API_CLIENT_ID,
+  //       client_secret: API_CLIENT_SECRET,
+  //       refresh_token: token.refresh_token
+  //     };
 
-      let formData = api.formData(data);
+  //     let formData = api.formData(data);
 
-      let response = api.call({
-        url: options.baseUrl + '/oauth/token',
-        method: 'post',
-        data: formData,
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        }
-      });
+  //     let response = api.call({
+  //       url: options.baseUrl + '/oauth/token',
+  //       method: 'post',
+  //       data: formData,
+  //       headers: {
+  //         'Content-Type': 'application/x-www-form-urlencoded',
+  //       }
+  //     });
 
-      return response.data;
-    } catch(error) {
-      console.error(error);
-    }
-  }
+  //     return response.data;
+  //   } catch(error) {
+  //     console.error(error);
+  //   }
+  // }
 
   /**
    * [formData description]

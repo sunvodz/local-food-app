@@ -11,29 +11,25 @@ const RouteConfigs = {
   MapStackNavigation: {
     screen: MapStackNavigation,
     navigationOptions: ({ navigation }) => ({
-      tabBarLabel: 'Map',
-      tabBarIcon: ({ tintColor }) => (<Icon name='search' size={24} color={tintColor} />)
+      tabBarLabel: ({ tintColor }) => (<Icon name='search' size={24} color={tintColor} />)
     })
   },
   NodesStackNavigation: {
     screen: NodesStackNavigation,
     navigationOptions: ({ navigation }) => ({
-      tabBarLabel: 'Nodes',
-      tabBarIcon: ({ tintColor }) => (<Icon name='map-marker' size={24} color={tintColor} />)
+      tabBarLabel: ({ tintColor }) => (<Icon name='map-marker' size={24} color={tintColor} />)
     })
   },
   CartStackNavigation: {
     screen: CartStackNavigation,
     navigationOptions: ({ navigation }) => ({
-    tabBarLabel: 'Cart',
-      tabBarIcon: ({ tintColor }) => (<Icon name='shopping-cart' size={24} color={tintColor} />)
+      tabBarLabel: ({ tintColor }) => (<Icon name='shopping-basket' size={24} color={tintColor} />)
     })
   },
   UserStackNavigation: {
     screen: UserStackNavigation, // Use UserNavigation to get the stack navigation header
     navigationOptions: ({ navigation }) => ({
-    tabBarLabel: 'User',
-      tabBarIcon: ({ tintColor }) => (<Icon name='user' size={24} color={tintColor} />)
+      tabBarLabel: ({ tintColor }) => (<Icon name='user' size={24} color={tintColor} />)
     })
   },
 };
@@ -43,17 +39,18 @@ const TabNavigatorConfig = {
   lazy: true,
   swipeEnabled: false,
   tabBarOptions: {
-    showIcon: true,
-    showLabel: false,
-    activeTintColor: '#fff',
-    inactiveTintColor: '#fff',
-    activeBackgroundColor: '#bc3b1f',
-    inactiveBackgroundColor: '#bc3b1f',
+    showIcon: false,
+    showLabel: true,
+    activeTintColor: '#bf360c',
+    inactiveTintColor: '#999',
+    activeBackgroundColor: '#fff',
+    inactiveBackgroundColor: '#fff',
     indicatorStyle: {
-      backgroundColor: '#bc3b1f',
+      backgroundColor: '#fff',
     },
     style: {
-      backgroundColor: '#bc3b1f',
+      padding: 5,
+      backgroundColor: '#fff',
     }
   },
   tabBarPosition: 'bottom',

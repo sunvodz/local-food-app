@@ -10,6 +10,8 @@ import ListItem from './ListItem';
 import Loader from './Loader';
 import NumberInput from './NumberInput';
 import Picker from './Picker';
+import ProductCard from './ProductCard';
+import ServerError from './ServerError';
 import Text from './Text';
 import TextInput from './TextInput';
 import QuantityInput from './QuantityInput';
@@ -27,6 +29,8 @@ export {
   Loader,
   NumberInput,
   Picker,
+  ProductCard,
+  ServerError,
   Text,
   TextInput,
   QuantityInput,

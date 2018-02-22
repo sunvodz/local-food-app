@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Text, View } from 'react-native';
-import striptags from 'striptags';
-import ent from 'ent';
+import HTMLView from 'react-native-htmlview';
 import _ from 'lodash';
 
+import AuthScreen from 'app/screens/Auth';
+import MembershipScreen from 'app/screens/Membership';
 import { Loader, TextInput, ContentWrapper, Card, Button } from 'app/components';
 import OrderForm from './components/OrderForm';
 import * as actions from './actions';
@@ -27,7 +28,7 @@ class Product extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return !_.isEqual(nextProps.product, this.props.product);
+    return !_.isEqual(nextProps, this.props);
   }
 
   componentDidMount() {
@@ -51,22 +52,36 @@ class Product extends React.Component {
   }
 
   render() {
-    if (this.props.product.loading) {
+    const { auth, product } = this.props;
+
+    if (product.loading) {
       return <Loader />;
+    }
+
+    let orderForm = <AuthScreen {...this.props} />;
+    if (auth.user) {
+      if (auth.user.membership_payments_relationship && auth.user.membership_payments_relationship.length > 0) {
+        orderForm = (
+          <OrderForm
+            {...this.state}
+            dates={product.dates}
+            addToCart={this.addToCart.bind(this)}
+            isVisible={this.state.modal.isVisible}
+            onClose={this.toggleModal.bind(this, false)}
+          />
+        );
+      } else {
+        orderForm = <MembershipScreen {...this.props} />;
+      }
     }
 
     return (
       <ContentWrapper>
         <Card header="About the product">
-          <Text>{ent.decode(striptags(this.state.product.info))}</Text>
+          <HTMLView value={this.state.product.info} />
         </Card>
-        <OrderForm
-          {...this.state}
-          dates={this.props.product.dates}
-          addToCart={this.addToCart.bind(this)}
-          isVisible={this.state.modal.isVisible}
-          onClose={this.toggleModal.bind(this, false)}
-        />
+
+        {orderForm}
       </ContentWrapper>
 
     );
@@ -74,10 +89,12 @@ class Product extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { product } = state;
+  const { product, auth, membership } = state;
 
   return {
     product,
+    auth,
+    membership
   }
 }
 

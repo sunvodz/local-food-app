@@ -19,14 +19,27 @@ export default class Card extends React.Component {
   render() {
     let mergedStyles = this.mergeStyles();
 
-    let header = null;
+    let headerInside = null;
+    let headerOutside = null;
     if (this.props.header) {
-      header = <Text style={mergedStyles.header}>{this.props.header}</Text>;
+      if (this.props.headerPosition === 'outside') {
+        headerOutside = <Text style={mergedStyles.headerOutside}>{this.props.header}</Text>;
+      } else {
+        headerInside = <Text style={mergedStyles.headerInside}>{this.props.header}</Text>;
+      }
+    }
+
+    let columnWidth = '100%';
+    if (this.props.column) {
+      columnWidth = (100 / this.props.column) + '%';
     }
 
     let touchableOpacityProps = {
       activeOpacity: 1,
       onPress: null,
+      style: {
+        width: columnWidth,
+      }
     };
 
     if (this.props.onPress) {
@@ -44,9 +57,10 @@ export default class Card extends React.Component {
 
     return (
       <TouchableOpacity {...touchableOpacityProps}>
+        {headerOutside}
         <View style={mergedStyles.card}>
           {image}
-          {header}
+          {headerInside}
           <View style={mergedStyles.content}>
             {this.props.children}
           </View>
@@ -62,16 +76,23 @@ const styles = {
     elevation: 0,
     margin: 5,
     marginBottom: 15,
-    // width: '50%'
   },
   content: {
     padding: 15,
   },
-  header: {
+  headerInside: {
     color: '#333',
     fontSize: 16,
-    fontFamily: 'montserrat-bold',
+    fontFamily: 'montserrat-semibold',
     paddingHorizontal: 15,
     paddingTop: 15,
-  }
+  },
+  headerOutside: {
+    fontFamily: 'montserrat-semibold',
+    color: '#b4b4b0',
+    marginTop: 15,
+    marginBottom: 2,
+    marginLeft: 5,
+    marginRight: 5,
+  },
 };

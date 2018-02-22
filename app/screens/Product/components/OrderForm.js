@@ -4,7 +4,7 @@ import Modal from 'react-native-modal';
 import _ from 'lodash';
 import moment from 'moment';
 
-import { NumberInput, Button, Badge, BadgeWrapper, Card, Picker } from 'app/components';
+import { QuantityInput, Button, Badge, BadgeWrapper, Card, Picker } from 'app/components';
 
 class OrderForm extends React.Component {
   constructor(props) {
@@ -91,7 +91,7 @@ class OrderForm extends React.Component {
       <Card header="Place your order" style={{marginBottom: 15}}>
         <BadgeWrapper label="Delivery dates">{dates}</BadgeWrapper>
         {variants}
-        <NumberInput label="Quantity" onChangeText={this.setQuantity.bind(this)} value={this.state.quantity} />
+        <QuantityInput label="Quantity" onChange={this.setQuantity.bind(this)} value={this.state.quantity} instant={true} />
         <Button onPress={this.addToCart.bind(this)} title="Add to cart" color="#bc3b1f" />
       </Card>
     );

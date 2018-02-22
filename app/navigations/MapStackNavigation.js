@@ -7,13 +7,16 @@ import Node from 'app/screens/Node';
 import Product from 'app/screens/Product';
 import DateFilter from 'app/screens/Node/containers/DateFilter';
 
+const style = globalStyles.stackNavigator;
+
 const routeConfig = {
   Map: {
     screen: Map,
     navigationOptions: {
       title: 'Find nodes',
-      headerStyle: globalStyles.stackNavigator.headerStyle,
-      headerTitleStyle: globalStyles.stackNavigator.headerTitleStyle,
+      headerStyle: style.headerStyle,
+      headerTitleStyle: style.headerTitleStyle,
+      headerTintColor: style.headerTintColor,
     }
   },
   Node: {
@@ -24,8 +27,9 @@ const routeConfig = {
       return {
         title: node.name,
         headerRight: <DateFilter nodeId={node.id} />,
-        headerTitleStyle: globalStyles.stackNavigator.headerTitleStyle,
-        headerStyle: globalStyles.stackNavigator.headerStyle,
+        headerTitleStyle: style.headerTitleStyle,
+        headerStyle: style.headerStyle,
+        headerTintColor: style.headerTintColor,
       };
     }
   },
@@ -36,8 +40,9 @@ const routeConfig = {
 
       return {
         title: product.name,
-        headerStyle: globalStyles.stackNavigator.headerStyle,
-        headerTitleStyle: globalStyles.stackNavigator.headerTitleStyle,
+        headerStyle: style.headerStyle,
+        headerTitleStyle: style.headerTitleStyle,
+        headerTintColor: style.headerTintColor,
       };
     }
   }

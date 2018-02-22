@@ -10,12 +10,13 @@ export default class QuantityInput extends React.Component {
     super(props);
 
     this.state = {
-      internalValue: props.value,
-      savedValue: props.value,
+      internalValue: parseInt(props.value),
+      savedValue: parseInt(props.value),
       loading: false,
     };
 
-    this.debouncedUpdateQuantity = _.debounce(this.updateQuantity.bind(this), 1000);
+    let debounceTime = this.props.instant ? 0 : 1000;
+    this.debouncedUpdateQuantity = _.debounce(this.updateQuantity.bind(this), debounceTime);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -32,16 +33,19 @@ export default class QuantityInput extends React.Component {
 
   onDecrease() {
     this.setState({loading: true});
-    this.debouncedUpdateQuantity(this.props.value - 1);
+    this.debouncedUpdateQuantity(parseInt(this.props.value) - 1);
   }
 
   onIncrease() {
     this.setState({loading: true});
-    this.debouncedUpdateQuantity(this.props.value + 1);
+    this.debouncedUpdateQuantity(parseInt(this.props.value) + 1);
   }
 
   render() {
-    let loading = this.props.loading || this.state.loading;
+    let loading = false;
+    if (!this.props.instant) {
+      loading = this.props.loading || this.state.loading;
+    }
 
     let increaseProps = {
       name: 'plus-circle',
@@ -80,7 +84,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 24,
-    fontFamily: 'montserrat-bold',
+    fontFamily: 'montserrat-semibold',
     marginHorizontal: 15
   },
   icon: {

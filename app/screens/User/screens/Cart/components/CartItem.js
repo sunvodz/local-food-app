@@ -8,7 +8,7 @@ import { Card, Text, QuantityInput } from 'app/components';
 
 export default class CartItem extends React.Component {
   removeCartItem() {
-    this.props.dispatch(actions.removeCartItem(this.props.data.id));
+    this.props.onRemove(this.props.data.id);
   }
 
   onChange(newValue) {

@@ -47,10 +47,13 @@ const styles = {
   contentWrapper: {
     backgroundColor: '#f4f4f0',
     flex: 1,
+    flexDirection: 'row',
   },
   scrollView: {
     paddingHorizontal: 5,
-    paddingVertical: 15
+    paddingVertical: 15,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   }
 };
 

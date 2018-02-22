@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View, Text } from 'react-native';
 import Modal from 'react-native-modal';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import _ from 'lodash';
 
 import { Button, Badge, BadgeWrapper } from 'app/components';
@@ -66,9 +66,14 @@ class DateFilter extends React.Component {
       })
     }
 
+    let icon = <Icon name='calendar-o' size={24} onPress={this.openModal} style={[styles.icon, isActive && styles.activeIcon]}/>;
+    if (selectedDate) {
+      icon = <Icon name='calendar-check-o' size={24} onPress={this.openModal} style={[styles.icon, isActive && styles.activeIcon]}/>;
+    }
+
     return (
       <View>
-        <Icon name='date-range' size={24} onPress={this.openModal} style={[styles.icon, isActive && styles.activeIcon]}/>
+        {icon}
         <Modal {...modalProps}>
           <View style={{ flex: 1, backgroundColor: '#fff'}}>
             <BadgeWrapper>{nodeDates}</BadgeWrapper>
@@ -92,6 +97,7 @@ export default connect(mapStateToProps)(DateFilter);
 const styles = StyleSheet.create({
   icon: {
     marginRight: 15,
+    color: '#fff'
   },
   activeIcon: {
     color: 'red',
