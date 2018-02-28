@@ -52,7 +52,7 @@ export default class ProductCard extends React.Component {
 const styles = {
   card: {
     backgroundColor: '#fff',
-    elevation: 2,
+    elevation: 0,
     margin: 10,
   },
   content: {

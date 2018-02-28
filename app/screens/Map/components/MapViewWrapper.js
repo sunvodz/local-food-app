@@ -6,7 +6,7 @@ import { Marker } from 'react-native-maps';
 import _ from 'lodash';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import { ContentWrapper, Loader } from 'app/components';
+import { ContentWrapper, Loader, Empty } from 'app/components';
 import MapCallout from './MapCallout';
 import * as actions from './../actions';
 
@@ -16,13 +16,13 @@ export default class MapViewWrapper extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      showMapCallout: false
-    };
-
     this.mapProps = {
+      ref: ref => {
+        mapView = ref
+      },
       customMapStyle: mapStyle,
       moveOnMarkerPress: false,
+      onMapReady: this.onMapReady.bind(this),
       initialRegion: {
         latitudeDelta: 0.5,
         longitudeDelta: 0.5,
@@ -33,10 +33,35 @@ export default class MapViewWrapper extends React.Component {
       style: {
         flex: 1
       },
+      onClusterPress: coordinate => {
+        this.animate(coordinate);
+      },
       clusterColor: '#982b0a',
       clusterTextColor: '#fff',
       clusterBorderWidth: 0,
     };
+
+    this.state = {
+      showMapCallout: false,
+      mapIsReady: false,
+    };
+  }
+
+  animate(coordinate){
+    let region = {
+         latitude: coordinate.latitude,
+         longitude: coordinate.longitude,
+         latitudeDelta: mapView.state.region.latitudeDelta - (mapView.state.region.latitudeDelta / 2),
+         longitudeDelta: mapView.state.region.longitudeDelta - (mapView.state.region.longitudeDelta / 2),
+     };
+
+     mapView._root.animateToRegion(region, 200)
+ }
+
+  onMapReady() {
+    this.setState({
+      mapIsReady: true
+    });
   }
 
   onRegionChangeComplete(region) {
@@ -44,13 +69,14 @@ export default class MapViewWrapper extends React.Component {
   }
 
   updateRegion(region) {
-    this.mapProps.region = Object.assign({}, this.mapProps.region, region);
+    this.mapProps.region = region;
+    this.forceUpdate();
   }
 
   componentDidUpdate(prevProps, prevState) {
     const prevLocation = _.get(prevProps, 'map.location');
 
-    if (this.props.map.location !== prevLocation) {
+    if (this.props.map.location && this.props.map.location !== prevLocation) {
       this.updateRegion({
         latitude: this.props.map.location.coords.latitude,
         latitudeDelta: 0.5,
@@ -81,10 +107,14 @@ export default class MapViewWrapper extends React.Component {
   }
 
   render() {
-    const { loading, map } = this.props;
+    const { map } = this.props;
 
-    if (loading || !map.nodes) {
+    if (map.loading) {
       return <Loader />;
+    }
+
+    if (!map.nodes && !map.loading) {
+      return <Empty icon="map-marker" header="Couldn't find any nodes" text="This is probably because we're having trouble connecting to the server" />;
     }
 
     let markers = null;

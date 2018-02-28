@@ -44,9 +44,8 @@ export function fetchNodes() {
 
       dispatch(receiveNodes(nodes));
     } catch (error) {
-      // GLOBAL ERROR
-      // console.error('error in map!!!', error);
-      dispatch(sharedActions.serverError(error));
+      // Maybe add alert here too?
+      dispatch(receiveNodes(null)); // No nodes will show server error warning
     }
   }
 }

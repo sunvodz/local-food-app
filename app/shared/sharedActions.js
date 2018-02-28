@@ -7,13 +7,69 @@ import * as sharedActionTypes from './sharedActionTypes';
 import { STRIPE_PUBLISHABLE_KEY } from 'react-native-dotenv';
 var stripe = require('stripe-client')(STRIPE_PUBLISHABLE_KEY);
 
-export function serverError() {
+export function toggleAuthForm() {
   return {
-    type: sharedActionTypes.SERVER_ERROR,
+    type: sharedActionTypes.TOGGLE_AUTH_FORM,
   }
 }
 
-export function loginUser(username, password) {
+/**
+ * Create account actions
+ */
+export function createAccount(data) {
+  return async function(dispatch, getState) {
+    try {
+      dispatch(createAccountInProgress());
+
+      let response = await api.call({
+        url: '/api/v1/users',
+        method: 'post',
+        data: {
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          password: data.password,
+        }
+      });
+
+      return dispatch(createAccountComplete());
+    } catch (exception) {
+      dispatch({
+        type: sharedActionTypes.SHOW_ERROR,
+        title: 'Create account',
+        message: exception.error,
+      });
+
+      return dispatch(createAccountFailed());
+    }
+  }
+}
+
+export function createAccountInProgress() {
+  return {
+    type: sharedActionTypes.CREATE_ACCOUNT_IN_PROGRESS,
+    loading: true,
+  }
+}
+
+export function createAccountComplete(user) {
+  return {
+    type: sharedActionTypes.CREATE_ACCOUNT_COMPLETE,
+    loading: false,
+  }
+}
+
+export function createAccountFailed() {
+  return {
+    type: sharedActionTypes.CREATE_ACCOUNT_FAILED,
+    loading: false,
+  }
+}
+
+/**
+ * Login actions
+ */
+export function loginUser(data) {
   return async function(dispatch, getState) {
     try {
       dispatch(loginInProgress());
@@ -21,21 +77,21 @@ export function loginUser(username, password) {
       let response = await api.call({
         url: '/api/v1/users/self',
         options: {
-          username: username,
-          password: password
+          username: data.email,
+          password: data.password
         }
       });
 
       let user = response.data;
-      user.password = password;
+      user.password = data.password;
       await AsyncStorage.setItem('@store:user', JSON.stringify(user));
 
       return dispatch(loginComplete(user));
-    } catch (error) {
+    } catch (exception) {
       dispatch({
         type: sharedActionTypes.SHOW_ERROR,
-        title: 'Inloggning misslyckades',
-        message: 'Dubbelkolla dina uppgifter',
+        title: 'Login',
+        message: exception.error,
       });
 
       return dispatch(loginFailed());
@@ -58,12 +114,15 @@ export function loginComplete(user) {
   }
 }
 
+/**
+ * Logout actions
+ */
 export function logout() {
   return async function(dispatch, getState) {
     try {
       await AsyncStorage.removeItem('@store:user');
       dispatch(logoutComplete());
-    } catch (error) {
+    } catch (exception) {
       dispatch(logoutFailed());
     }
   }
@@ -85,18 +144,57 @@ export function loginFailed() {
   }
 }
 
+/**
+ * Load user from storage
+ */
 export function loadUser() {
   return async function(dispatch, getState) {
     try {
+      dispatch(loadUserInProgress());
+
+      // Check if user object is in storage
       let user = await AsyncStorage.getItem('@store:user');
-      user = JSON.parse(user);
-      return dispatch(loginComplete(user));
-    } catch (error) {
-      return dispatch(loginFailed());
+      if (user) {
+        user = JSON.parse(user);
+
+        // Authenticate against the API
+        let response = await api.call({
+          url: '/api/v1/users/self',
+          options: {
+            username: user.email,
+            password: user.password
+          }
+        });
+
+        return dispatch(loginComplete(user));
+      } else {
+        throw 'err in loadUser';
+      }
+    } catch (exception) {
+      dispatch(loadUserFailed());
+      return dispatch(logout());
     }
   }
 }
 
+export function loadUserInProgress() {
+  return {
+    type: sharedActionTypes.LOAD_USER_IN_PROGRESS,
+    loading: true,
+  }
+}
+
+export function loadUserFailed() {
+  return {
+    type: sharedActionTypes.LOAD_USER_FAILED,
+    loading: false,
+    user: null
+  }
+}
+
+/**
+ * Payment actions
+ */
 export function processPayment(data) {
   return async function(dispatch, getState) {
     try {
@@ -130,8 +228,8 @@ export function processPayment(data) {
 
       dispatch(paymentComplete());
       // Todo: dispatch reload user to get new user data (or returned from succesful payment?)
-    } catch (error) {
-      dispatch(paymentFailed(error));
+    } catch (exception) {
+      dispatch(paymentFailed(exception));
     }
   }
 }
@@ -143,18 +241,18 @@ export function paymentInProgress(user) {
   }
 }
 
-export function paymentFailed(error) {
+export function paymentFailed(exception) {
   return {
     type: sharedActionTypes.SHOW_ERROR,
-    title: 'Betalning kunde inte genomföras',
-    message: error,
+    title: 'Membership payment',
+    message: exception.error,
   }
 }
 
 export function paymentComplete() {
   return {
     type: sharedActionTypes.SHOW_SUCCESS,
-    title: 'Tack för din betalning',
-    message: 'Du är nu medlem i Local Food Nodes och kan handla produkter.',
+    title: 'Membership payment',
+    message: 'Thank you for your payment, you are now a Local Food Nodes member.',
   };
 }

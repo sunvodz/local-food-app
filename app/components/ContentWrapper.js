@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, ScrollView, StyleSheet, RefreshControl } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 class ContentWrapper extends Component {
   onRefresh() {
@@ -23,6 +24,9 @@ class ContentWrapper extends Component {
   render() {
     let scrollViewProps = {
       contentContainerStyle: styles.scrollView,
+      keyboardShouldPersistTaps: 'always',
+      enableOnAndroid: true,
+      extraScrollHeight: 50,
     };
 
     if (this.props.onRefresh) {
@@ -34,20 +38,19 @@ class ContentWrapper extends Component {
     let mergedStyles = this.mergeStyles();
 
     return (
-      <View style={mergedStyles.contentWrapper}>
-        <ScrollView {...scrollViewProps}>
+      <View style={styles.view}>
+        <KeyboardAwareScrollView {...scrollViewProps}>
           {this.props.children}
-        </ScrollView>
+        </KeyboardAwareScrollView>
       </View>
     );
   }
 }
 
 const styles = {
-  contentWrapper: {
+  view: {
     backgroundColor: '#f4f4f0',
     flex: 1,
-    flexDirection: 'row',
   },
   scrollView: {
     paddingHorizontal: 5,

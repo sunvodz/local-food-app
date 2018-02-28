@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import AuthScreen from 'app/screens/Auth';
 
-import { ContentWrapper } from 'app/components';
+import { ContentWrapper, Empty } from 'app/components';
 
 class Notifications extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
@@ -13,6 +13,12 @@ class Notifications extends React.Component {
   }
 
   render() {
+    const { notifications } = this.props.notifications;
+
+    if (_.isEmpty(notifications)) {
+      return <Empty icon="bell" header="You're up to date" text="There are no new notifications at the moment" />;
+    }
+
     return (
       <ContentWrapper>
         <Text>Notifications here</Text>

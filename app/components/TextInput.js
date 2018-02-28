@@ -22,7 +22,7 @@ export default class TextInputComponent extends React.Component {
 
     return (
       <View style={{flex: 1}}>
-        <Text style={mergedStyles.label}>{label.toUpperCase()}</Text>
+        <Text style={mergedStyles.label}>{label}</Text>
         <TextInput {...this.props} style={mergedStyles.textInput} underlineColorAndroid='transparent' />
       </View>
     );
@@ -32,6 +32,8 @@ export default class TextInputComponent extends React.Component {
 const styles = {
   label: {
     marginBottom: 5,
+    fontFamily: 'montserrat-semibold',
+    color: '#949490',
   },
   textInput: {
     paddingVertical: 10,
@@ -39,7 +41,7 @@ const styles = {
     marginBottom: 15,
     padding: 10,
     borderWidth: 1,
-    borderColor: '#9e9e9e',
+    borderColor: '#c4c4c0',
     borderRadius: 2,
   }
 };

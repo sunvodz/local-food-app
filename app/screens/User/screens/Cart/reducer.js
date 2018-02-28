@@ -4,12 +4,6 @@ import _ from 'lodash';
 
 function cartReducer(state, action) {
   switch (action.type) {
-    case sharedActionTypes.SERVER_ERROR:
-      return Object.assign({}, state, {
-        serverError: true,
-      });
-      break;
-
     case actionTypes.REQUEST_CART:
     case actionTypes.RECEIVE_CART:
     case actionTypes.REMOVED_CART_ITEM:

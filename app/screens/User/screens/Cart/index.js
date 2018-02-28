@@ -7,7 +7,7 @@ import _ from 'lodash';
 
 import AuthScreen from 'app/screens/Auth';
 
-import { ContentWrapper, Loader, Card, Text, QuantityInput, Button, ServerError } from 'app/components';
+import { ContentWrapper, Loader, Card, Text, QuantityInput, Button, Empty } from 'app/components';
 import CartItem from './components/CartItem';
 import * as actions from './actions';
 import { updateCartItem } from './actions';
@@ -63,10 +63,6 @@ class Cart extends React.Component {
   render() {
     const { loading, updatingCartItems, refreshing, cart } = this.props.cart;
 
-    if (this.props.cart.serverError) {
-      return <ServerError />;
-    }
-
     if (!this.props.auth.user || this.props.auth.loading) {
       return <AuthScreen {...this.props} fullscreen={true} />;
     }
@@ -76,13 +72,7 @@ class Cart extends React.Component {
     }
 
     if (!refreshing && _.isEmpty(cart)) {
-      return (
-        <ContentWrapper onRefresh={this.fetchCart.bind(this)} refreshing={false}>
-          <Card header="Cart is empty">
-            <Text>Visit a node to see products</Text>
-          </Card>
-        </ContentWrapper>
-      );
+      return <Empty icon="shopping-basket" header="Your cart is empty" text="Visit a node to find available products" />;
     }
 
     let cartDateItemLinksByDate = this.sortCartDateItemLinksByDate(cart);

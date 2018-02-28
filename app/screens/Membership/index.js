@@ -29,9 +29,9 @@ export default class MembershipScreen extends Component {
 
   render() {
     return (
-      <Card header="Bli medlem på Local Food Nodes" headerPosition="outside">
+      <Card header="Membership" headerPosition="outside">
 
-        <Text>Innan du kan handla på Local Food Nodes behöver du bli medlem. Betala enkelt ditt medlemskap här.</Text>
+        <Text style={styles.info}>Before you can place an order you need to become a member. Pay what you want.</Text>
 
         <NumberInput label="Amount" placeholder="Valfri summa" onChangeText={this.onChange.bind(this, 'amount')} />
         <NumberInput label="Card number" placeholder="4242 4242 4242 4242" onChangeText={this.onChange.bind(this, 'cardNumber')} />
@@ -40,27 +40,30 @@ export default class MembershipScreen extends Component {
             <NumberInput style={styles.groupItem} label="Expire month" placeholder="01" onChangeText={this.onChange.bind(this, 'expMonth')} />
             <NumberInput style={[styles.groupItem, styles.groupItemLast]} label="CVC" placeholder="123" onChangeText={this.onChange.bind(this, 'cvc')} />
         </View>
-        <Button onPress={this.onPayment.bind(this)} title="Pay" accessibilityLabel="Pay" loading={this.props.membership.paymentInProgress}/>
+        <Button onPress={this.onPayment.bind(this)} title="Become a member" accessibilityLabel="Become a member" loading={this.props.membership.paymentInProgress}/>
       </Card>
     );
   }
 }
 
 const styles = {
-    group: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-    groupItem: {
-        textInput: {
-            flex: 1,
-            marginRight: 15,
-        }
-    },
-    groupItemLast: {
-        textInput: {
-            marginRight: 0
-        }
-    }
+  info: {
+    marginBottom: 15,
+  },
+  group: {
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+  },
+  groupItem: {
+      textInput: {
+          flex: 1,
+          marginRight: 15,
+      }
+  },
+  groupItemLast: {
+      textInput: {
+          marginRight: 0
+      }
+  }
 };

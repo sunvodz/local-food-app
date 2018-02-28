@@ -4,7 +4,7 @@ import { View, Button, RefreshControl, ListView } from 'react-native';
 import moment from 'moment';
 import _ from 'lodash';
 
-import { ContentWrapper, Card, Loader, List, ListSection, ListItem, Text} from 'app/components';
+import { ContentWrapper, Card, Loader, List, ListSection, ListItem, Text, Empty } from 'app/components';
 import * as actions from './actions';
 
 const br = '\n';
@@ -64,8 +64,12 @@ class Orders extends Component {
   render() {
     const  { loading, refreshing, orders } = this.props.orders;
 
-    if (loading || _.isEmpty(orders)) {
+    if (loading) {
       return <Loader />;
+    }
+
+    if (_.isEmpty(orders)) {
+      return <Empty icon="list" header="No orders" text="You have not places any orders. Visit a node to find available products." />;
     }
 
     let listProps = {

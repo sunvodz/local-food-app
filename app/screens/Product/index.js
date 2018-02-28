@@ -60,6 +60,7 @@ class Product extends React.Component {
 
     let orderForm = <AuthScreen {...this.props} />;
     if (auth.user) {
+      // if (auth.)
       if (auth.user.membership_payments_relationship && auth.user.membership_payments_relationship.length > 0) {
         orderForm = (
           <OrderForm

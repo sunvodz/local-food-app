@@ -4,7 +4,7 @@ import { Text, View, Button, Modal, StyleSheet } from 'react-native';
 import _ from 'lodash';
 
 import MapViewWrapper from './components/MapViewWrapper';
-import { Header, ContentWrapper, Loader, ServerError } from '../../components';
+import { Header, ContentWrapper, Loader } from '../../components';
 import * as actions from './actions';
 
 class Map extends React.Component {
@@ -17,17 +17,15 @@ class Map extends React.Component {
   }
 
   componentDidMount() {
-    const { dispatch, map } = this.props;
-
-    dispatch(actions.fetchNodes());
-    dispatch(actions.fetchCurrentLocation());
+    this.props.dispatch(actions.fetchNodes());
+    this.props.dispatch(actions.fetchCurrentLocation());
   }
 
-  render() {
-    if (this.props.map.serverError) {
-      return <ServerError />;
-    }
+  // componentDidUpdate(prevProps, prevState) {
+  //   this.props.dispatch(actions.fetchCurrentLocation());
+  // }
 
+  render() {
     return <MapViewWrapper {...this.props} />;
   }
 }

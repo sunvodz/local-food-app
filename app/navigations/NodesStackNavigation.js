@@ -7,6 +7,8 @@ import Node from 'app/screens/Node';
 import Product from 'app/screens/Product';
 import DateFilter from 'app/screens/Node/containers/DateFilter';
 
+import { ProductHeader } from 'app/components';
+
 const routeConfig = {
   Nodes: {
     screen: Nodes,
@@ -41,6 +43,7 @@ const routeConfig = {
 
       return {
         title: product.name,
+        header: <ProductHeader product={product} />,
         headerStyle: globalStyles.stackNavigator.headerStyle,
         headerTitleStyle: globalStyles.stackNavigator.headerTitleStyle,
       };

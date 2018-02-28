@@ -13,24 +13,25 @@ export function addProductToCart(data) {
         data: data
       });
 
-      let res = response.data;
+      dispatch({
+        type: actionTypes.SHOW_SUCCESS,
+        title: 'Add to cart',
+        message: 'Product was added to your cart'
+      });
 
-      if (res.error) {
-        dispatch({
-          type: actionTypes.SHOW_ERROR,
-          title: 'Fel i kundvagn',
-          message: res.error
-        });
-      } else {
-        dispatch({
-          type: actionTypes.SHOW_SUCCESS,
-          title: 'Kundvagn',
-          message: 'Added to cart!'
-        });
-      }
+      dispatch({
+        type: actionTypes.RECEIVE_CART,
+        cart: response.data,
+        loading: false,
+        refreshing: false,
+      });
 
-    } catch (error) {
-      console.error(error);
+    } catch (exception) {
+      dispatch({
+        type: actionTypes.SHOW_ERROR,
+        title: 'Add to cart',
+        message: exception.error
+      });
     }
   }
 }
@@ -63,22 +64,12 @@ export function fetchDates(productId, nodeId, variantId) {
         url: url
       });
 
-      let res = response.data;
-
-      if (res.error) {
-        dispatch({
-          type: actionTypes.SHOW_ERROR,
-          title: 'Problems requesting dates',
-          message: 'Server returned an error',
-        });
-      }
-
-      dispatch(receiveDates(res));
-    } catch (error) {
+      dispatch(receiveDates(response.data));
+    } catch (exception) {
       dispatch({
         type: actionTypes.SHOW_ERROR,
-        title: 'Problem connecting to server',
-        message: 'Requesting dates failed'
+        title: 'Problem loading product',
+        message: exception.error
       });
     }
   }
