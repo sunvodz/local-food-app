@@ -74,7 +74,7 @@ class Nodes extends React.Component {
       onRefresh: this.onRefresh.bind(this),
     }
 
-    return <List {...listProps} style={{marginTop: 15}} />;
+    return <List {...listProps} />;
   }
 }
 

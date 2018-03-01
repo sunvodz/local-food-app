@@ -130,7 +130,7 @@ const mapStyle = [
               "visibility": "on"
           },
           {
-              "color": "#ff8b00"
+              "color": "#ff9801"
           }
       ]
   },
@@ -139,7 +139,7 @@ const mapStyle = [
       "elementType": "geometry.fill",
       "stylers": [
           {
-              "color": "#ff9701"
+              "color": "#ff9801"
           },
           {
               "visibility": "off"
@@ -163,7 +163,7 @@ const mapStyle = [
       "elementType": "all",
       "stylers": [
           {
-              "color": "#ffa533"
+              "color": "#ff9801"
           }
       ]
   },
@@ -184,7 +184,7 @@ const mapStyle = [
               "visibility": "simplified"
           },
           {
-              "color": "#ffca47"
+              "color": "#ffc946"
           }
       ]
   },

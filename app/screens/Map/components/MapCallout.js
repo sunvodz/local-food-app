@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, StyleSheet, Dimensions, Image } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import Modal from 'react-native-modal';
 import _ from 'lodash';
 
@@ -21,22 +22,16 @@ export default class MapCallout extends React.Component {
       backdropOpacity: 0,
     };
 
-    let image = null; // Fallback here
-    if (node.image_relationship && node.image_relationship.length > 0) {
-      const uri = node.image_relationship[0].urls.medium;
-      const dimensions = Dimensions.get('window');
-      const imageHeight = Math.round(dimensions.width * 9 / 16);
-      const imageWidth = dimensions.width;
-
-      image = <Image source={{uri: uri}} style={{width: imageWidth, height: imageHeight}} />;
-    }
-
     return (
       <Modal {...modalProps}>
         <View style={styles.modal}>
-          {image}
+          <View style={styles.modalHeader}>
+            <Icon style={styles.modalHeaderIcon} name="map-marker" />
+          </View>
           <View style={styles.modalContent}>
-            <Text>{node.name}</Text>
+            <Text style={styles.node.title}>{node.name}</Text>
+            <Text style={styles.node.address}>{node.address}, {node.zip}, {node.city}</Text>
+            <Text style={styles.node.info}>Welcome to visit our node {node.name}</Text>
           </View>
           <View style={styles.modalFooter}>
             <Link title="Visit node" onPress={this.navigateToNode.bind(this)}/>
@@ -47,18 +42,40 @@ export default class MapCallout extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = {
   modal: {
     elevation: 4,
     margin: 5,
     backgroundColor: '#fff',
   },
+  modalHeader: {
+    backgroundColor: '#fef2e0',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalHeaderIcon: {
+    fontSize: 80,
+    color: '#efcec4',
+    padding: 30,
+  },
   modalContent: {
     padding: 15
+  },
+  node: {
+    title: {
+      fontFamily: 'montserrat-medium',
+      fontSize: 20,
+    },
+    address: {
+      marginVertical: 5,
+    },
+    info: {
+      marginVertical: 15,
+    },
   },
   modalFooter: {
     borderTopColor: '#f0f0f0',
     borderTopWidth: 2,
-    padding: 15
+    padding: 15,
   }
-});
+};

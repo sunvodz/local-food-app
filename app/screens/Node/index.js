@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import _ from 'lodash';
 
-import { ContentWrapper, Loader, ProductCard, NumberInput, Button } from 'app/components';
+import { Loader, ProductCard, NumberInput, Button } from 'app/components';
+import NodeHeader from './containers/NodeHeader';
 import * as actions from './actions';
 
 class Node extends React.Component {
@@ -62,10 +63,16 @@ class Node extends React.Component {
   }
 
   render() {
-    const { node, products } = this.props.node;
+    const { products } = this.props.node;
+    const node = this.props.node.node || this.props.navigation.state.params;
 
     if (this.props.node.loadingProducts) {
-      return <Loader />;
+      return (
+        <View style={styles.scrollView}>
+          <NodeHeader node={node} />
+          <Loader />
+        </View>
+      );
     }
 
     if (!products || products.length === 0) {
@@ -81,9 +88,12 @@ class Node extends React.Component {
     });
 
     return (
-      <ContentWrapper>
-        {productCards}
-      </ContentWrapper>
+      <ScrollView style={styles.scrollView} bounces={false}>
+        <NodeHeader node={node} />
+        <View style={styles.productWrapper}>
+          {productCards}
+        </View>
+      </ScrollView>
     );
   }
 }
@@ -98,3 +108,15 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(Node);
+
+const styles = {
+  scrollView: {
+    backgroundColor: '#fff',
+    flex: 1,
+  },
+  productWrapper: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    paddingVertical: 15,
+  }
+};

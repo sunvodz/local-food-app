@@ -13,6 +13,6 @@ const styles = StyleSheet.create({
   link: {
     color: '#c0370c',
     fontSize: 14,
-    fontFamily: 'montserrat-medium'
+    fontFamily: 'montserrat-semibold'
   }
 });

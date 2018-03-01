@@ -12,7 +12,6 @@ import Loader from './Loader';
 import NumberInput from './NumberInput';
 import Picker from './Picker';
 import ProductCard from './ProductCard';
-import ProductHeader from './ProductHeader';
 import Text from './Text';
 import TextInput from './TextInput';
 import QuantityInput from './QuantityInput';
@@ -32,7 +31,6 @@ export {
   NumberInput,
   Picker,
   ProductCard,
-  ProductHeader,
   Text,
   TextInput,
   QuantityInput,

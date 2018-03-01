@@ -19,13 +19,13 @@ class Empty extends Component {
 const styles = {
   view: {
     alignItems: 'center',
-    backgroundColor: '#f4f4f0',
+    backgroundColor: '#fff',
     flex: 1,
     justifyContent: 'center',
   },
   iconWrapper: {
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#bf360c',
     borderRadius: 200,
     height: 100,
     justifyContent: 'center',
@@ -33,7 +33,7 @@ const styles = {
     width: 100,
   },
   icon: {
-    color: '#c4c4c0',
+    color: '#fff',
     fontSize: 48,
   },
   header: {

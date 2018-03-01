@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Text, View } from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
 import HTMLView from 'react-native-htmlview';
 import _ from 'lodash';
 
 import AuthScreen from 'app/screens/Auth';
 import MembershipScreen from 'app/screens/Membership';
 import { Loader, TextInput, ContentWrapper, Card, Button } from 'app/components';
+import ProductHeader from './components/ProductHeader';
 import OrderForm from './components/OrderForm';
 import * as actions from './actions';
 
@@ -55,7 +56,12 @@ class Product extends React.Component {
     const { auth, product } = this.props;
 
     if (product.loading) {
-      return <Loader />;
+      return (
+        <View>
+          <ProductHeader product={this.state.product} />
+          <Loader />
+        </View>
+      );
     }
 
     let orderForm = <AuthScreen {...this.props} />;
@@ -77,14 +83,16 @@ class Product extends React.Component {
     }
 
     return (
-      <ContentWrapper>
-        <Card header="About the product">
-          <HTMLView value={this.state.product.info} />
-        </Card>
+      <ScrollView>
+        <ProductHeader product={this.state.product} />
+        <ContentWrapper>
+          <Card header="About the product">
+            <HTMLView value={this.state.product.info} />
+          </Card>
 
-        {orderForm}
-      </ContentWrapper>
-
+          {orderForm}
+        </ContentWrapper>
+      </ScrollView>
     );
   }
 }

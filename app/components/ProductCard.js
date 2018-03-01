@@ -19,13 +19,15 @@ export default class ProductCard extends React.Component {
     }
 
     const dimensions = Dimensions.get('window');
-    const imageHeight = Math.round((dimensions.width / column) * 9 / 16);
-    const imageWidth = dimensions.width / column;
+    const imageWidth = Math.round(dimensions.width / column);
+    const imageHeight = Math.round(imageWidth * 0.8);
     let imageProps = {
       source: require('../../assets/images/product-placeholder.jpg'), // Product fallback image
       style: {
         width: imageWidth,
-        height: imageHeight
+        height: imageHeight,
+        borderTopLeftRadius: 3,
+        borderTopRightRadius: 3,
       }
     }
 
@@ -40,9 +42,6 @@ export default class ProductCard extends React.Component {
         <View style={styles.card}>
           {image}
           <Text numberOfLines={1} style={styles.header}>{this.props.header}</Text>
-          <View style={styles.content}>
-            {this.props.children}
-          </View>
         </View>
       </TouchableOpacity>
     );
@@ -52,18 +51,14 @@ export default class ProductCard extends React.Component {
 const styles = {
   card: {
     backgroundColor: '#fff',
-    elevation: 0,
+    elevation: 2,
     margin: 10,
-  },
-  content: {
-    padding: 15,
+    borderRadius: 3,
   },
   header: {
     color: '#333',
-    fontSize: 16,
     fontFamily: 'montserrat-semibold',
     paddingHorizontal: 15,
-    paddingTop: 15,
-
+    paddingVertical: 10,
   },
 };
