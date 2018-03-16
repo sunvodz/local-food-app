@@ -4,7 +4,7 @@ import { Text, View, Button, ListView } from 'react-native';
 import _ from 'lodash';
 
 import AuthScreen from 'app/screens/Auth';
-import { ContentWrapper, Loader, List, ListItem, Empty } from 'app/components';
+import { ContentWrapper, Loader, Empty, NodeCard } from 'app/components';
 
 import * as actions from './actions';
 
@@ -37,25 +37,10 @@ class Nodes extends React.Component {
     this.props.navigation.navigate('Node', node);
   }
 
-  renderListItems(node, sectionId, rowId) {
-    let numberOfRows = this.props.nodes.nodes.length - 1;
-    let isLastItem = numberOfRows == rowId;
-
-    return (
-      <ListItem key={node.id} onPress={this.navigateToNode.bind(this, node)} last={isLastItem}>
-        <Text>{node.name}</Text>
-      </ListItem>
-    );
-  }
-
-  onRefresh() {
-
-  }
-
   render() {
     const { loading, refreshing, nodes } = this.props.nodes;
 
-    if (!this.props.auth.user) {
+    if (!this.props.auth.user || this.props.auth.loading) {
       return <AuthScreen {...this.props} fullscreen={true} />;
    }
 
@@ -67,14 +52,15 @@ class Nodes extends React.Component {
       return <Empty icon="map-marker" header="Nothing here" text="You don't follow any nodes. Visit a node and add it to your list." />;
     }
 
-    let listProps = {
-      dataSource: DataSource.cloneWithRows(nodes),
-      renderRow: this.renderListItems.bind(this),
-      refreshing: refreshing,
-      onRefresh: this.onRefresh.bind(this),
-    }
+    let nodeCards = _.map(nodes, node => {
+      return <NodeCard key={node.id} node={node} />;
+    });
 
-    return <List {...listProps} />;
+    return (
+      <ContentWrapper>
+        {nodeCards}
+      </ContentWrapper>
+    );
   }
 }
 

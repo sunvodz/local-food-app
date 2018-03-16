@@ -4,6 +4,8 @@ function authReducer(state, action) {
   switch (action.type) {
     case sharedActionTypes.CREATE_ACCOUNT_IN_PROGRESS:
     case sharedActionTypes.CREATE_ACCOUNT_FAILED:
+    case sharedActionTypes.LOAD_USER_IN_PROGRESS:
+    case sharedActionTypes.LOAD_USER_FAILED:
     case sharedActionTypes.LOGIN_IN_PROGRESS:
     case sharedActionTypes.LOGIN_COMPLETE:
     case sharedActionTypes.LOGIN_FAILED:

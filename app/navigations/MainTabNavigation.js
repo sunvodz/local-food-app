@@ -1,35 +1,35 @@
 import React, { Component } from 'react';
 import { TabNavigator } from 'react-navigation';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { MapIcon, NodesIcon, NotificationsIcon, CartIcon, UserIcon } from './icons';
 
 import MapStackNavigation from './MapStackNavigation';
 import NodesStackNavigation from './NodesStackNavigation';
-import CartStackNavigation from './CartStackNavigation';
+import Notifications from 'app/screens/User/screens/Notifications';
 import UserStackNavigation from './UserStackNavigation';
 
 const RouteConfigs = {
   MapStackNavigation: {
     screen: MapStackNavigation,
     navigationOptions: ({ navigation }) => ({
-      tabBarLabel: ({ tintColor }) => (<Icon name='search' size={24} color={tintColor} />)
+      tabBarLabel: ({ tintColor }) => (<MapIcon size={24} color={tintColor} />)
     })
   },
   NodesStackNavigation: {
     screen: NodesStackNavigation,
     navigationOptions: ({ navigation }) => ({
-      tabBarLabel: ({ tintColor }) => (<Icon name='map-marker' size={24} color={tintColor} />)
+      tabBarLabel: ({ tintColor }) => (<NodesIcon size={24} color={tintColor} />)
     })
   },
-  CartStackNavigation: {
-    screen: CartStackNavigation,
+  Notifications: {
+    screen: Notifications,
     navigationOptions: ({ navigation }) => ({
-      tabBarLabel: ({ tintColor }) => (<Icon name='shopping-basket' size={24} color={tintColor} />)
+      tabBarLabel: ({ tintColor }) => (<NotificationsIcon size={24} color={tintColor} />)
     })
   },
   UserStackNavigation: {
     screen: UserStackNavigation, // Use UserNavigation to get the stack navigation header
     navigationOptions: ({ navigation }) => ({
-      tabBarLabel: ({ tintColor }) => (<Icon name='user' size={24} color={tintColor} />)
+      tabBarLabel: ({ tintColor }) => (<UserIcon size={24} color={tintColor} />)
     })
   },
 };

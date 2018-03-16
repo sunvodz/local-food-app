@@ -25,7 +25,7 @@ const styles = {
   },
   iconWrapper: {
     alignItems: 'center',
-    backgroundColor: '#bf360c',
+    backgroundColor: '#f4f4f0',
     borderRadius: 200,
     height: 100,
     justifyContent: 'center',
@@ -33,17 +33,17 @@ const styles = {
     width: 100,
   },
   icon: {
-    color: '#fff',
+    color: '#c4c4c0',
     fontSize: 48,
   },
   header: {
-    color: '#c4c4c0',
+    color: '#a4a4a0',
     fontFamily: 'montserrat-semibold',
     fontSize: 24,
     textAlign: 'center',
   },
   text: {
-    color: '#c4c4c0',
+    color: '#a4a4a0',
     fontSize: 16,
     fontFamily: 'montserrat-regular',
     margin: 15,

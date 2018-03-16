@@ -9,9 +9,9 @@ import List from './List';
 import ListSection from './ListSection';
 import ListItem from './ListItem';
 import Loader from './Loader';
+import NodeCard from './NodeCard';
 import NumberInput from './NumberInput';
 import Picker from './Picker';
-import ProductCard from './ProductCard';
 import Text from './Text';
 import TextInput from './TextInput';
 import QuantityInput from './QuantityInput';
@@ -28,9 +28,9 @@ export {
   ListSection,
   ListItem,
   Loader,
+  NodeCard,
   NumberInput,
   Picker,
-  ProductCard,
   Text,
   TextInput,
   QuantityInput,

@@ -1,10 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Text, View, Button, Modal, StyleSheet } from 'react-native';
+import { Text, View, Button, Modal } from 'react-native';
 import _ from 'lodash';
 
 import MapViewWrapper from './components/MapViewWrapper';
-import { Header, ContentWrapper, Loader } from '../../components';
 import * as actions from './actions';
 
 class Map extends React.Component {
@@ -45,10 +44,10 @@ Map.defaultProps = {
   }
 };
 
-const styles = StyleSheet.create({
+const styles = {
   calloutHeader: {
     fontWeight: 'bold',
   },
-});
+};
 
 export default connect(mapStateToProps)(Map);

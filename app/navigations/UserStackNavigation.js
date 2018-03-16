@@ -2,30 +2,31 @@ import React from 'react';
 import { StackNavigator } from 'react-navigation';
 
 import Profile from 'app/screens/User/screens/Profile';
-import OrderDetails from 'app/screens/User/screens/OrderDetails';
-import globalStyles from 'app/styles';
+import Order from 'app/screens/User/screens/Order';
+import SmallHeader from './headers/SmallHeader';
 
 const routeConfig = {
   Profile: {
     screen: (navigation) => {
       return <Profile screenProps={{ userStackNavigation: navigation }} />;
     },
-    navigationOptions: {
-      title: 'Profile',
-      headerStyle: globalStyles.stackNavigator.headerStyle,
-      headerTitleStyle: globalStyles.stackNavigator.headerTitleStyle,
+    navigationOptions: ({navigation}) => {
+      return {
+        header: <SmallHeader title='Your account' navigation={navigation} />,
+      }
     }
   },
-  OrderDetails: {
-    screen: OrderDetails,
-    navigationOptions: {
-      title: 'Order',
-      headerBackTitle: 'Orders',
-      headerStyle: globalStyles.stackNavigator.headerStyle,
-      headerTitleStyle: globalStyles.stackNavigator.headerTitleStyle,
+  Order: {
+    screen: Order,
+    navigationOptions: ({navigation}) => {
+      const order = navigation.state.params;
+      let title = 'Order ' + order.ref;
 
+      return {
+        header: <SmallHeader title={title} navigation={navigation} />,
+      }
     }
-  }
+  },
 };
 
 const navigatorConfig = {};

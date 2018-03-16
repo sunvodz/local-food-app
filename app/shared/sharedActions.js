@@ -214,7 +214,7 @@ export function processPayment(data) {
       }
 
       let response = await api.call({
-        url: '/api/v1/users/self/membership',
+        url: '/api/v1/users/membership',
         method: 'post',
         data: {
           stripeToken: token.id,

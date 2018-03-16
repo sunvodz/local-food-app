@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, Image, Dimensions } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import _ from 'lodash';
 
 import { sharedActions } from 'app/shared';
@@ -8,6 +9,7 @@ import { ContentWrapper, TextInput, Card, Button, Loader } from 'app/components'
 export default class AuthScreen extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       name: null,
       email: null,
@@ -47,51 +49,106 @@ export default class AuthScreen extends Component {
       return <Loader />;
     }
 
+    let scrollViewProps = {
+      contentContainerStyle: styles.scrollView,
+      keyboardShouldPersistTaps: 'always',
+      enableOnAndroid: true,
+      style: {
+        backgroundColor: '#bf360c',
+      }
+    };
+
     let card = (
-      <Card header="Sign in">
-        <TextInput defaultValue={this.state.email} editable={!this.props.auth.loading} label="Email" placeholder='john@doe.com' onChangeText={this.onChange.bind(this, 'email')} />
-        <TextInput defaultValue={this.state.password} editable={!this.props.auth.loading} label="Password" placeholder='Your password' onChangeText={this.onChange.bind(this, 'password')} secureTextEntry />
-        <Button onPress={this.onLogin.bind(this)} title="Login" accessibilityLabel="Login" loading={this.props.auth.loading} />
-        <Text onPress={this.toggleForms.bind(this)} style={styles.toggleLink}>Create account</Text>
-      </Card>
+      <View style={styles.wrapper}>
+        <Text style={styles.infoText}>Login to your account to shop local food directly from your local producers</Text>
+
+        <TextInput style={textInputStyle} defaultValue={this.state.email} editable={!this.props.auth.loading} placeholder='Your email' onChangeText={this.onChange.bind(this, 'email')} />
+
+        <TextInput style={textInputStyle} defaultValue={this.state.password} editable={!this.props.auth.loading} placeholder='Your password' onChangeText={this.onChange.bind(this, 'password')} secureTextEntry />
+
+        <Button style={buttonStyle} onPress={this.onLogin.bind(this)} title="Login" accessibilityLabel="Login" loading={this.props.auth.loading} />
+
+        <Text onPress={this.toggleForms.bind(this)} style={styles.toggleLink}>or sign up</Text>
+      </View>
     );
 
     if (this.props.auth.createAccountForm) {
       card = (
-        <Card header="Create account">
-          <TextInput defaultValue={this.state.name} editable={!this.props.auth.loading} label="Name" placeholder='John Doe' onChangeText={this.onChange.bind(this, 'name')} />
-          <TextInput defaultValue={this.state.email} editable={!this.props.auth.loading} label="Email" placeholder='john@doe.com' onChangeText={this.onChange.bind(this, 'email')} />
-          <TextInput defaultValue={this.state.phone} editable={!this.props.auth.loading} label="Phone" placeholder='0701234567' onChangeText={this.onChange.bind(this, 'phone')} />
-          <TextInput defaultValue={this.state.password} editable={!this.props.auth.loading} label="Password" placeholder='8 characters' onChangeText={this.onChange.bind(this, 'password')} secureTextEntry />
-          <Button onPress={this.onSignup.bind(this)} title="Create account" accessibilityLabel="Create account" loading={this.props.auth.loading} />
-          <Text onPress={this.toggleForms.bind(this)} style={styles.toggleLink}>Login</Text>
-        </Card>
+        <View style={styles.wrapper}>
+          <Text style={styles.infoText}>Find local food nodes near you and order directly from your local producers</Text>
+          <TextInput style={textInputStyle} defaultValue={this.state.name} editable={!this.props.auth.loading} placeholder="Your name" onChangeText={this.onChange.bind(this, 'name')} />
+
+          <TextInput style={textInputStyle} defaultValue={this.state.email} editable={!this.props.auth.loading} placeholder="Your email" onChangeText={this.onChange.bind(this, 'email')} />
+
+          <TextInput style={textInputStyle} defaultValue={this.state.phone} editable={!this.props.auth.loading} placeholder="Your phone number" onChangeText={this.onChange.bind(this, 'phone')} />
+
+          <TextInput style={textInputStyle} defaultValue={this.state.password} editable={!this.props.auth.loading} placeholder="Choose a password" hint="Minimum 8 characters" onChangeText={this.onChange.bind(this, 'password')} secureTextEntry />
+
+          <Button style={buttonStyle} onPress={this.onSignup.bind(this)} title="Sign up" accessibilityLabel="Sign up" loading={this.props.auth.loading} />
+
+          <Text onPress={this.toggleForms.bind(this)} style={styles.toggleLink}>or login to your account</Text>
+        </View>
       );
     }
 
-    if (this.props.fullscreen) {
-      const wrapperStyle = {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-      };
-
-      return (
-        <ContentWrapper>
-          {card}
-        </ContentWrapper>
-      );
-    } else {
-      return card;
-    }
+    return (
+      <KeyboardAwareScrollView {...scrollViewProps}>
+        <Image style={styles.logo} source={require('../../../assets/images/logo-white.png')} />
+        {card}
+      </KeyboardAwareScrollView>
+    );
   }
 }
 
 const styles = {
-  toggleLink: {
-    color: '#ffa522',
-    paddingTop: 15,
-    paddingBottom: 0,
+  logo: {
+    height: 60,
+    width: 70,
+    margin: 15,
+    justifyContent: 'center',
     alignSelf: 'center',
+  },
+  infoText: {
+    color: '#fff',
+    fontFamily: 'montserrat-regular',
+    marginBottom: 15,
+    marginHorizontal: 30,
+    textAlign: 'center',
+  },
+  wrapper: {
+    padding: 15,
+  },
+  header: {
+    color: '#fff',
+    fontFamily: 'montserrat-semibold',
+  },
+  toggleLink: {
+    alignSelf: 'center',
+    color: '#fff',
+    fontFamily: 'montserrat-regular',
+    paddingTop: 5,
+    paddingBottom: 0,
+    textDecorationLine: 'underline',
   }
+};
+
+const textInputStyle = {
+  label: {
+    color: '#fff',
+    fontFamily: 'montserrat-semibold',
+  },
+  textInput: {
+    backgroundColor: '#fff',
+    borderWidth: 0,
+  },
+};
+
+const buttonStyle = {
+  button: {
+    backgroundColor: '#fff',
+  },
+  title: {
+    color: '#333',
+    fontFamily: 'montserrat-semibold',
+  },
 };

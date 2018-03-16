@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, StyleSheet } from 'react-native';
+import { Text } from 'react-native';
 
 export default class Badge extends React.Component {
   render() {
@@ -9,7 +9,7 @@ export default class Badge extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = {
   badge: {
     backgroundColor: '#e0e0e0',
     color: '#333',
@@ -22,4 +22,4 @@ const styles = StyleSheet.create({
     backgroundColor: '#efcec4',
     color: '#c4441f',
   }
-});
+};

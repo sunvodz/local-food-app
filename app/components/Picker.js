@@ -1,16 +1,36 @@
 import React from 'react';
-import { View, Text, Picker, StyleSheet } from 'react-native';
+import { View, Text, Picker } from 'react-native';
 
 export default class PickerComponent extends React.Component {
   static Item = Picker.Item;
 
+  mergeStyles() {
+    let mergeStyles = {};
+
+    Object.keys(styles).map(key => {
+      mergeStyles[key] = styles[key];
+
+      if (this.props.style && this.props.style[key]) {
+        mergeStyles[key] = Object.assign({}, styles[key], this.props.style[key]);
+      }
+    });
+
+    return mergeStyles;
+  }
+
   render() {
-    let label = this.props.label || '';
+    let mergedStyles = this.mergeStyles();
+
+    let label = null;
+    if (this.props.label) {
+      label = <Text style={mergedStyles.label}>{this.props.label.toUpperCase()}</Text>;
+    }
+
     return (
       <View>
-        <Text style={styles.label}>{label.toUpperCase()}</Text>
-        <View style={styles.pickerWrapper}>
-          <Picker {...this.props} style={styles.picker}>
+        {label}
+        <View style={mergedStyles.pickerWrapper}>
+          <Picker {...this.props} style={mergedStyles.picker}>
             {this.props.children}
           </Picker>
         </View>
@@ -19,17 +39,16 @@ export default class PickerComponent extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = {
   label: {
+    fontFamily: 'montserrat-semibold',
     marginBottom: 5,
   },
   pickerWrapper: {
-    marginBottom: 15,
     borderWidth: 1,
-    borderColor: '#9e9e9e',
+    borderColor: '#c4c4c0',
     borderRadius: 2,
   },
   picker: {
-
   }
-});
+};

@@ -7,7 +7,7 @@ import { Alert } from 'app/containers';
 export default class App extends Component {
   render() {
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, backgroundColor: '#f4f4f0'}}>
         <Alert />
         <MainTabNavigation />
       </View>

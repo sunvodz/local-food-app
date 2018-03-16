@@ -16,7 +16,7 @@ export function fetchCart(refreshing) {
     }
 
     let response = await api.call({
-      url: '/api/v1/users/self/cart'
+      url: '/api/v1/users/cart'
     });
 
     let cart = response.data;
@@ -61,7 +61,7 @@ export function removeCartItem(cartDateItemLinkId) {
     dispatch(removingCartItem());
 
     let response = await api.call({
-      url: `/api/v1/users/self/cart/${cartDateItemLinkId}`,
+      url: `/api/v1/users/cart/${cartDateItemLinkId}`,
       method: 'delete',
     });
 
@@ -96,7 +96,7 @@ export function updateCartItem(id, quantity) {
     dispatch(updatingCartItem(id));
 
     let response = await api.call({
-      url: '/api/v1/users/self/cart',
+      url: '/api/v1/users/cart',
       method: 'put',
       data: {
         cartDateItemLinkId: id,
@@ -142,27 +142,52 @@ export function updatedCartItems(cartItems) {
 }
 
 /**
- * Async action - update cart item.
+ * Async action - create order.
  *
  * @return {function}
  */
 export function createOrder() {
   return async function(dispatch, getState) {
-    dispatch(creatingOrder());
+    try {
+      dispatch(createOrderInProgress());
 
-    let response = await api.call({
-      url: '/api/v1/users/self/order',
-      method: 'post',
-    });
+      let response = await api.call({
+        method: 'post',
+        url: '/api/v1/users/order'
+      });
 
-    if (response.status !== 200) {
+      if (response.status !== 200) {
+        dispatch({
+          type: actionTypes.SHOW_SUCCESS,
+          title: 'Send order',
+          message: 'Your order was created',
+        });
+      }
+
+      // Todo: reload order table
+
+      return dispatch(createOrderComplete());
+    } catch (error) {
       dispatch({
         type: actionTypes.SHOW_ERROR,
-        title: 'Fel kvantitet',
-        message: 'för stor',
+        title: 'Send order',
+        message: error.message,
       });
     }
+  }
+}
 
-    dispatch(orderCreated());
+export function createOrderInProgress() {
+  return {
+    type: actionTypes.CREATE_ORDER_IN_PROGRESS,
+    creating: true,
+  }
+}
+
+export function createOrderComplete() {
+  return {
+    type: actionTypes.CREATE_ORDER_COMPLETE,
+    creating: false,
+    cart: null,
   }
 }

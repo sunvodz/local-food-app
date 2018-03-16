@@ -15,8 +15,10 @@ export default class ListItem extends React.Component {
       navigationArrow = <Icon style={styles.chevron} name="chevron-right" />;
     }
 
+    let isLastItem = this.props.last || false;
+
     return (
-      <TouchableOpacity onPress={this.props.onPress} style={styles.listItem} activeOpacity={1}>
+      <TouchableOpacity onPress={this.props.onPress} style={[styles.listItem, isLastItem && styles.lastListItem]} activeOpacity={1}>
         {columns}
         {navigationArrow}
       </TouchableOpacity>
@@ -31,7 +33,11 @@ const styles = {
     paddingVertical: 15,
     backgroundColor: '#fff',
     borderBottomWidth: 2,
-    borderColor: '#ebebeb',
+    borderColor: '#f4f4f0',
+  },
+  lastListItem: {
+    borderBottomWidth: 0,
+    marginBottom: 15,
   },
   column: {
     marginHorizontal: 15,

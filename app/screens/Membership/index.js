@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import _ from 'lodash';
 
 import { sharedActions } from 'app/shared';
-import { ContentWrapper, TextInput, NumberInput, Card, Button } from 'app/components';
+import { NumberInput, Card, Button } from 'app/components';
 
 export default class MembershipScreen extends Component {
   constructor(props) {

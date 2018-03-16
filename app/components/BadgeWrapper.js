@@ -1,8 +1,24 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { ScrollView, View, Text } from 'react-native';
+import Swiper from 'react-native-swiper'
 
 export default class BadgeWrapper extends React.PureComponent {
+  mergeStyles() {
+    let mergeStyles = {};
+
+    Object.keys(styles).map(key => {
+      mergeStyles[key] = styles[key];
+
+      if (this.props.style && this.props.style[key]) {
+        mergeStyles[key] = Object.assign({}, styles[key], this.props.style[key]);
+      }
+    });
+
+    return mergeStyles;
+  }
+
   render() {
+    let mergedStyles = this.mergeStyles();
 
     let children = React.Children.map(this.props.children, (child) => {
       return React.cloneElement(child);
@@ -11,24 +27,25 @@ export default class BadgeWrapper extends React.PureComponent {
     let label = this.props.label || '';
 
     return (
-      <View>
-        <Text style={styles.label}>{label.toUpperCase()}</Text>
-        <View style={styles.badgeWrapper}>
+      <View style={mergedStyles.badgeWrapper}>
+        <Text style={mergedStyles.label}>{label}</Text>
+        <ScrollView horizontal style={mergedStyles.scrollView}>
           {children}
-        </View>
+        </ScrollView>
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
+const styles = {
   badgeWrapper: {
-    flexWrap: 'wrap',
-    alignItems: 'flex-start',
-    flexDirection:'row',
+  },
+  scrollView: {
+    flexDirection: 'row',
     marginBottom: 15,
   },
   label: {
+    fontFamily: 'montserrat-semibold',
     marginBottom: 5,
   },
-});
+};

@@ -99,7 +99,6 @@ export function fetchNodeDates(nodeId) {
 export function requestNodeDates() {
   return {
     type: actionTypes.REQUEST_NODE_DATES,
-    dates: null,
     loadingDates: true,
   }
 }
@@ -116,5 +115,52 @@ export function setDateFilter(date) {
   return {
     type: actionTypes.SET_DATE_FILTER,
     date: date || '',
+  }
+}
+
+export function resetNode() {
+  return {
+    type: actionTypes.RESET_NODE,
+  }
+}
+
+export function addProductToCart(data) {
+  return async function (dispatch, getState) {
+    try {
+      dispatch(addToCart());
+
+      let response = await api.call({
+        method: 'post',
+        url: '/api/v1/users/cart',
+        data: data
+      });
+
+      dispatch({
+        type: actionTypes.SHOW_SUCCESS,
+        title: 'Add to cart',
+        message: 'Product was added to your cart'
+      });
+
+      dispatch({
+        type: actionTypes.RECEIVE_CART,
+        cart: response.data,
+        loading: false,
+        refreshing: false,
+      });
+
+    } catch (exception) {
+      dispatch({
+        type: actionTypes.SHOW_ERROR,
+        title: 'Add to cart',
+        message: exception.error
+      });
+    }
+  }
+}
+
+export function addToCart() {
+  return {
+    type: actionTypes.ADD_TO_CART,
+    loading: true,
   }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { View, Text, TextInput } from 'react-native';
 
 export default class TextInputComponent extends React.Component {
   mergeStyles() {
@@ -19,29 +19,40 @@ export default class TextInputComponent extends React.Component {
   render() {
     let mergedStyles = this.mergeStyles();
     let label = this.props.label || '';
+    let hint = this.props.hint || '';
 
     return (
-      <View style={{flex: 1}}>
+      <View style={mergedStyles.wrapper}>
         <Text style={mergedStyles.label}>{label}</Text>
-        <TextInput {...this.props} style={mergedStyles.textInput} underlineColorAndroid='transparent' />
+        <TextInput {...this.props} style={mergedStyles.textInput} underlineColorAndroid='transparent' placeholderTextColor={mergedStyles.placeholderColor} />
+        <Text style={mergedStyles.hint} >{hint}</Text>
       </View>
     );
   }
 }
 
 const styles = {
+  wrapper: {
+    flex: 1,
+    marginBottom: 15,
+  },
   label: {
     marginBottom: 5,
     fontFamily: 'montserrat-semibold',
     color: '#949490',
   },
   textInput: {
-    paddingVertical: 10,
-    textDecorationLine: 'none',
-    marginBottom: 15,
-    padding: 10,
     borderWidth: 1,
     borderColor: '#c4c4c0',
     borderRadius: 2,
+    elevation: 1,
+    padding: 7,
+    textDecorationLine: 'none',
+  },
+  placeholderColor: '#999',
+  hint: {
+    color: '#fff',
+    fontFamily: 'montserrat-regular',
+    fontSize: 12,
   }
 };

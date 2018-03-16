@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Text, View } from 'react-native';
 import _ from 'lodash';
 
+import SmallHeader from 'app/navigations/headers/SmallHeader';
 import AuthScreen from 'app/screens/Auth';
 
 import { ContentWrapper, Empty } from 'app/components';
@@ -15,14 +16,20 @@ class Notifications extends React.Component {
   render() {
     const { notifications } = this.props.notifications;
 
-    if (_.isEmpty(notifications)) {
-      return <Empty icon="bell" header="You're up to date" text="There are no new notifications at the moment" />;
+    let content = <Empty icon="bell" header="You're up to date" text="There are no new notifications at the moment" />;
+    if (!_.isEmpty(notifications)) {
+      content = (
+        <ContentWrapper>
+          <Text>Notifications here</Text>
+        </ContentWrapper>
+      );
     }
 
     return (
-      <ContentWrapper>
-        <Text>Notifications here</Text>
-      </ContentWrapper>
+      <View style={{flex: 1}}>
+        <SmallHeader title='Notifications' right navigation={this.props.navigation} />
+        {content}
+      </View>
     );
   }
 }

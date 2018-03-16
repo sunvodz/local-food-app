@@ -6,7 +6,7 @@ import { Marker } from 'react-native-maps';
 import _ from 'lodash';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import { ContentWrapper, Loader, Empty } from 'app/components';
+import { Loader, Empty } from 'app/components';
 import MapCallout from './MapCallout';
 import * as actions from './../actions';
 

@@ -22,6 +22,11 @@ function nodeReducer(state, action) {
       break;
 
     case actionTypes.REQUEST_NODE_DATES:
+      return Object.assign({}, state, {
+        loadingDates: action.loadingDates,
+      });
+      break;
+
     case actionTypes.RECEIVE_NODE_DATES:
       return Object.assign({}, state, {
         dates: action.dates,
@@ -34,6 +39,19 @@ function nodeReducer(state, action) {
         filters: Object.assign({}, state.filters, {
           date: action.date
         })
+      });
+      break;
+
+    case actionTypes.RESET_NODE:
+      return Object.assign({}, state, {
+        node: null,
+        products: null,
+        dates: null,
+        filters: {
+          node: null,
+        },
+        loadingNodes: false,
+        loadingDates: false,
       });
       break;
 

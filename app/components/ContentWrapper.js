@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, StyleSheet, RefreshControl } from 'react-native';
+import { View, ScrollView, RefreshControl } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 class ContentWrapper extends Component {
@@ -49,7 +49,7 @@ class ContentWrapper extends Component {
 
 const styles = {
   view: {
-    backgroundColor: '#fff',
+    backgroundColor: '#f4f4f0',
     flex: 1,
   },
   scrollView: {

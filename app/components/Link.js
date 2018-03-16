@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { Text } from 'react-native';
 
 export default class Link extends React.Component {
   render() {
@@ -9,10 +9,10 @@ export default class Link extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = {
   link: {
     color: '#c0370c',
     fontSize: 14,
     fontFamily: 'montserrat-semibold'
   }
-});
+};

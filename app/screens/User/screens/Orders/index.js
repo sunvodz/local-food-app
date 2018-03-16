@@ -4,7 +4,7 @@ import { View, Button, RefreshControl, ListView } from 'react-native';
 import moment from 'moment';
 import _ from 'lodash';
 
-import { ContentWrapper, Card, Loader, List, ListSection, ListItem, Text, Empty } from 'app/components';
+import { Loader, List, ListSection, ListItem, Text, Empty } from 'app/components';
 import * as actions from './actions';
 
 const br = '\n';
@@ -33,7 +33,8 @@ class Orders extends Component {
 
   navigateOrder(orderData) {
     const { navigate } = this.props.userStackNavigation.navigation;
-    navigate('OrderDetails', orderData);
+
+    navigate('Order', orderData);
   }
 
   renderListSection(orders, sectionId, rowId) {

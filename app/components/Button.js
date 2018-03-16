@@ -1,35 +1,81 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Text, ActivityIndicator } from 'react-native';
+import { View, TouchableOpacity, Text, ActivityIndicator } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class ButtonComponent extends React.Component {
+  mergeStyles() {
+    let mergeStyles = {};
+
+    Object.keys(styles).map(key => {
+      mergeStyles[key] = styles[key];
+
+      if (this.props.style && this.props.style[key]) {
+        mergeStyles[key] = Object.assign({}, styles[key], this.props.style[key]);
+      }
+    });
+
+    return mergeStyles;
+  }
+
   render() {
-    let text = <Text style={styles.title}>{this.props.title.toUpperCase()}</Text>;
+    let mergedStyles = this.mergeStyles();
+
+    let icon = null;
+    let title = null;
     let onPress = this.props.onPress;
 
+    if (this.props.title) {
+      title = <Text style={mergedStyles.title}>{this.props.title.toUpperCase()}</Text>;
+    }
+
     if (this.props.loading) {
-      text = <ActivityIndicator color='#fff' size='small' />;
+      title = <ActivityIndicator color='#fff' size='small' />;
       onPress = null;
     }
 
+    if (this.props.disabled) {
+      icon = <Icon style={mergedStyles.icon} name='ban' />;
+      onPress = null;
+    } else if (this.props.icon) {
+      icon = <Icon style={mergedStyles.icon} name={this.props.icon} />;
+    }
+
+    let subTitle = null;
+    if (this.props.subTitle) {
+      subTitle = <Text style={styles.subRow}>{this.props.subTitle}</Text>;
+    }
+
     return (
-      <TouchableOpacity onPress={onPress} style={styles.button} activeOpacity={0.9}>
-        {text}
+      <TouchableOpacity onPress={onPress} style={[mergedStyles.button, this.props.disabled && styles.disabled]} activeOpacity={0.9}>
+        {icon}
+        {title}
       </TouchableOpacity>
     );
   }
 }
 
-const styles = StyleSheet.create({
+const styles = {
   button: {
-    flex: 1,
+    alignSelf: 'center',
     backgroundColor: '#bc3b1f',
-    padding: 15,
     borderRadius: 3,
-    elevation: 0,
+    elevation: 1,
+    flexDirection: 'row',
+    paddingHorizontal: 15,
+    paddingVertical: 12,
+  },
+  icon: {
+    alignSelf: 'center',
+    color: '#fff',
+    fontSize: 16,
+    paddingHorizontal: 5,
   },
   title: {
     color: '#fff',
     alignSelf: 'center',
     fontFamily: 'montserrat-medium'
+  },
+  disabled: {
+    backgroundColor: 'rgba(188, 59, 31, 0.6)',
   }
-});
+};

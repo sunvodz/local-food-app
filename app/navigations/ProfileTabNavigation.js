@@ -4,7 +4,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import globalStyles from 'app/styles';
 
 import Orders from 'app/screens/User/screens/Orders';
-import OrderDetails from 'app/screens/User/screens/OrderDetails';
 import Settings from 'app/screens/User/screens/Settings';
 import Notifications from 'app/screens/User/screens/Notifications';
 

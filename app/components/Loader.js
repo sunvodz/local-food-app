@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class Loader extends React.Component {
@@ -12,10 +12,12 @@ export default class Loader extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = {
   view: {
+    alignItems: 'center',
+    alignSelf: 'center',
+    backgroundColor: '#fff',
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
   }
-});
+};

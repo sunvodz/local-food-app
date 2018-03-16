@@ -23,6 +23,7 @@ export default class Root extends Component {
   }
 
   async componentDidMount() {
+    Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.PORTRAIT);
     await Font.loadAsync({
       'montserrat-regular': require('../../assets/fonts/Montserrat-Regular.ttf'),
       'montserrat-medium': require('../../assets/fonts/Montserrat-Medium.ttf'),

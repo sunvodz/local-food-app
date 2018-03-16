@@ -2,12 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { View, Dimensions, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Modal from 'react-native-modal';
 import _ from 'lodash';
 
 import { Link, Text } from 'app/components';
 
-export default class MapCallout extends React.Component {
+export default class NodeCard extends React.Component {
   navigateToNode() {
     this.props.navigateToNode(this.props.node);
   }
@@ -15,29 +14,20 @@ export default class MapCallout extends React.Component {
   render() {
     const { node } = this.props;
 
-    let modalProps = {
-      isVisible: true,
-      onBackButtonPress: this.props.onClose,
-      onBackdropPress: this.props.onClose,
-      backdropOpacity: 0,
-    };
-
     return (
-      <Modal {...modalProps}>
-        <View style={styles.modal}>
-          <View style={styles.modalHeader}>
-            <Icon style={styles.modalHeaderIcon} name="map-marker" />
-          </View>
-          <View style={styles.modalContent}>
-            <Text style={styles.node.title}>{node.name}</Text>
-            <Text style={styles.node.address}>{node.address}, {node.zip}, {node.city}</Text>
-            <Text style={styles.node.info}>Welcome to visit our node {node.name}</Text>
-          </View>
-          <View style={styles.modalFooter}>
-            <Link title="Visit node" onPress={this.navigateToNode.bind(this)}/>
-          </View>
+      <View style={styles.modal}>
+        <View style={styles.modalHeader}>
+          <Icon style={styles.modalHeaderIcon} name="map-marker" />
         </View>
-      </Modal>
+        <View style={styles.modalContent}>
+          <Text style={styles.node.title}>{node.name}</Text>
+          <Text style={styles.node.address}>{node.address}, {node.zip}, {node.city}</Text>
+          <Text style={styles.node.info}>Welcome to visit our node {node.name}</Text>
+        </View>
+        <View style={styles.modalFooter}>
+          <Link title="Visit node" onPress={this.navigateToNode.bind(this)}/>
+        </View>
+      </View>
     );
   }
 }

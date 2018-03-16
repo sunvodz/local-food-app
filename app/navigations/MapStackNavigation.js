@@ -4,20 +4,20 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Map from 'app/screens/Map';
 import Node from 'app/screens/Node';
-import Product from 'app/screens/Product';
+import Cart from 'app/screens/User/screens/Cart';
+
+import SmallHeader from './headers/SmallHeader';
 
 import globalStyles from 'app/styles';
-
 const style = globalStyles.stackNavigator;
 
 const routeConfig = {
   Map: {
     screen: Map,
-    navigationOptions: {
-      title: 'Find nodes',
-      headerStyle: style.headerStyle,
-      headerTitleStyle: style.headerTitleStyle,
-      headerTintColor: style.headerTintColor,
+    navigationOptions: ({ navigation }) => {
+      return {
+        header: <SmallHeader title='Find nodes' right navigation={navigation} />
+      };
     }
   },
   Node: {
@@ -26,26 +26,18 @@ const routeConfig = {
       const node = navigation.state.params;
 
       return {
-        headerTitle: node.name,
-        headerStyle: style.headerStyle,
-        headerTitleStyle: style.headerTitleStyle,
-        headerTintColor: style.headerTintColor,
+        header: <SmallHeader title={node.name} left right navigation={navigation} />,
       };
     }
   },
-  Product: {
-    screen: Product,
+  Cart: {
+    screen: Cart,
     navigationOptions: ({ navigation }) => {
-      const { product } = navigation.state.params;
-
       return {
-        headerTitle: product.name,
-        headerStyle: style.headerStyle,
-        headerTitleStyle: style.headerTitleStyle,
-        headerTintColor: style.headerTintColor,
+        header: <SmallHeader title='Cart' left navigation={navigation} />
       };
     }
-  }
+  },
 };
 
 const navigatorConfig = {

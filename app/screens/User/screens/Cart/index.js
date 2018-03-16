@@ -56,8 +56,8 @@ class Cart extends React.Component {
     this.props.dispatch(actions.updateCartItem(id, quantity));
   }
 
-  sendOrder() {
-    this.props.dispatch(actions.sendOrder());
+  createOrder() {
+    this.props.dispatch(actions.createOrder());
   }
 
   render() {
@@ -96,7 +96,7 @@ class Cart extends React.Component {
       });
 
       return (
-        <Card key={date} header={moment(date, 'YYYYMMDD').format('YYYY-MM-DD')}>
+        <Card key={date} header={moment(date, 'YYYYMMDD').format('YYYY-MM-DD')} headerPosition="outside">
           {cartItems}
         </Card>
       );
@@ -105,7 +105,7 @@ class Cart extends React.Component {
     return (
       <ContentWrapper onRefresh={this.fetchCart.bind(this)} refreshing={refreshing}>
         {cartDates}
-        <Button title="Skicka beställning" onPress={this.sendOrder.bind(this)} />
+        <Button loading={this.props.cart.creating} title="Skicka beställning" onPress={this.createOrder.bind(this)} />
       </ContentWrapper>
     );
   }

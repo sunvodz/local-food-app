@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import { ScrollView, Text, View } from 'react-native';
 import _ from 'lodash';
 
-import { Loader, ProductCard, NumberInput, Button } from 'app/components';
-import NodeHeader from './containers/NodeHeader';
+import { Loader, NumberInput, Button, Empty } from 'app/components';
+import DatePicker from './component/DatePicker';
+import ProductCard from './component/ProductCard';
 import * as actions from './actions';
 
 class Node extends React.Component {
@@ -26,9 +27,14 @@ class Node extends React.Component {
     const node = this.props.navigation.state.params;
 
     this.props.dispatch(actions.fetchNode(node.id));
+    this.props.dispatch(actions.fetchNodeDates(node.id));
     this.props.dispatch(actions.fetchProducts({
       node: node.id
     }));
+  }
+
+  componentWillUnmount() {
+    this.props.dispatch(actions.resetNode());
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -39,16 +45,27 @@ class Node extends React.Component {
     }
   }
 
-  navigateProduct(product) {
-    const { navigate } = this.props.navigation;
-    const { node, dates, filters } = this.props.node;
+  onSelectDate(date) {
+    let selectedDate = this.getSelectedDate();
 
-    navigate('Product', {
-      product: product,
-      node: node,
-      dates: dates,
-      filters: filters,
-    });
+    if (date === selectedDate) {
+      this.props.dispatch(actions.setDateFilter());
+    } else {
+      this.props.dispatch(actions.setDateFilter(date));
+    }
+  }
+
+  getSelectedDate() {
+    return _.get(this.props.node, 'filters.date');
+  }
+
+  addToCart(data) {
+    let selectedDate = this.getSelectedDate();
+
+    data.node_id = this.props.node.node.id;
+    data.delivery_dates = selectedDate ? [selectedDate] : [];
+
+    this.props.dispatch(actions.addProductToCart(data));
   }
 
   renderProduct(product, rowId) {
@@ -57,43 +74,34 @@ class Node extends React.Component {
       image = product.image_relationship[0].urls.medium;
     }
 
-    return (
-      <ProductCard key={product.id} header={product.name} onPress={this.navigateProduct.bind(this, product)} image={image} column={2} />
-    );
+    return <ProductCard key={product.id} product={product} image={image} auth={this.props.auth} addToCart={this.addToCart.bind(this)} />;
   }
 
   render() {
-    const { products } = this.props.node;
-    const node = this.props.node.node || this.props.navigation.state.params;
+    const { products, loadingProducts, dates, node } = this.props.node;
 
-    if (this.props.node.loadingProducts) {
+    if (!this.props.node.loadingProducts && (!products || products.length === 0)) {
       return (
-        <View style={styles.scrollView}>
-          <NodeHeader node={node} />
-          <Loader />
+        <View style={styles.view}>
+          <Empty icon="exclamation" header="No products" text="No available products at the moment" />
         </View>
       );
     }
 
-    if (!products || products.length === 0) {
-      return (
-        <ProductCard header="No products">
-          <Text>No products here...</Text>
-        </ProductCard>
-      );
+    let productCards = <Loader />;
+    if (!loadingProducts) {
+      productCards = _.map(products, (product, index) => {
+        return this.renderProduct(product, index);
+      });
     }
-
-    let productCards = _.map(products, (product, index) => {
-      return this.renderProduct(product, index);
-    });
 
     return (
-      <ScrollView style={styles.scrollView} bounces={false}>
-        <NodeHeader node={node} />
-        <View style={styles.productWrapper}>
+      <View style={styles.view}>
+        <DatePicker dates={dates} onSelectDate={this.onSelectDate.bind(this)} selectedDate={this.getSelectedDate()}/>
+        <ScrollView>
           {productCards}
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
     );
   }
 }
@@ -110,7 +118,7 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps)(Node);
 
 const styles = {
-  scrollView: {
+  view: {
     backgroundColor: '#fff',
     flex: 1,
   },
@@ -118,5 +126,5 @@ const styles = {
     flexDirection: 'row',
     flexWrap: 'wrap',
     paddingVertical: 15,
-  }
+  },
 };

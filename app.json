@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "Local Food Nodes",
+    "orientation": "portrait",
     "privacy": "unlisted",
     "sdkVersion": "23.0.0",
     "slug": "local-food-nodes"
