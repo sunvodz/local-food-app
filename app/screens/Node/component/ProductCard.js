@@ -43,6 +43,10 @@ export default class ProductCard extends React.Component {
     this.props.addToCart(data);
   }
 
+  navigateToSignIn() {
+    this.props.navigateToSignIn();
+  }
+
   render() {
     const { product } = this.props;
     const producer = product.producer_relationship;
@@ -88,7 +92,7 @@ export default class ProductCard extends React.Component {
         <Text numberOfLines={1} style={styles.product}>{product.name} {variantHeader}</Text>
         <Text numberOfLines={1} style={styles.producer}>{product.producer_relationship.name}</Text>
         {swipe}
-        <OrderForm auth={this.props.auth} product={product} variant={this.state.variant} addToCart={this.addToCart.bind(this)} />
+        <OrderForm auth={this.props.auth} product={product} variant={this.state.variant} addToCart={this.addToCart.bind(this)} navigateToSignIn={this.navigateToSignIn.bind(this)}/>
         <Text style={styles.info}>{product.infoRaw}</Text>
       </View>
     );

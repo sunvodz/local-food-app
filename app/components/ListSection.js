@@ -19,11 +19,10 @@ const styles = {
     fontFamily: 'montserrat-semibold',
     color: '#333',
     marginTop: 15,
+    marginLeft: 15,
     marginBottom: 2,
-    marginLeft: 5,
-    marginRight: 5,
   },
   rowWrapper: {
-    marginHorizontal: 5
+
   }
 };

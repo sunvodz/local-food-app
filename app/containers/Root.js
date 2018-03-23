@@ -4,14 +4,18 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { Font, AppLoading } from 'expo'
 import Sentry from 'sentry-expo';
-import { SENTRY_PUBLIC_DSN } from 'react-native-dotenv';
+import { SENTRY_PUBLIC_DSN, SENTRY_ENABLE_IN_DEV, PUSHER_LOG_TO_CONSOLE } from 'react-native-dotenv';
+import Pusher from 'pusher-js/react-native';
 
 import rootReducer from './rootReducer';
 import App from './App';
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
-Sentry.enableInExpoDevelopment = true; // Remove this once Sentry is correctly setup.
+// Remove this once Sentry is correctly setup.
+Sentry.enableInExpoDevelopment = SENTRY_ENABLE_IN_DEV;
+Pusher.logToConsole = PUSHER_LOG_TO_CONSOLE;
+
 Sentry.config(SENTRY_PUBLIC_DSN).install();
 
 export default class Root extends Component {

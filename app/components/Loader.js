@@ -14,8 +14,6 @@ export default class Loader extends React.Component {
 
 const styles = {
   view: {
-    alignItems: 'center',
-    alignSelf: 'center',
     backgroundColor: '#fff',
     flex: 1,
     justifyContent: 'center',

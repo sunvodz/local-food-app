@@ -34,9 +34,7 @@ export default DatePicker;
 
 const badgeWrapperStyle = {
   badgeWrapper: {
-    backgroundColor: '#fafafa',
-    borderBottomWidth: 1,
-    borderColor: '#f4f4f0',
+    backgroundColor: '#f4f4f0',
   },
   label: {
     marginLeft: 15,

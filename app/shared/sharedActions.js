@@ -88,6 +88,7 @@ export function loginUser(data) {
 
       return dispatch(loginComplete(user));
     } catch (exception) {
+      console.log(exception);
       dispatch({
         type: sharedActionTypes.SHOW_ERROR,
         title: 'Login',

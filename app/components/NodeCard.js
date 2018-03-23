@@ -16,9 +16,6 @@ export default class NodeCard extends React.Component {
 
     return (
       <View style={styles.modal}>
-        <View style={styles.modalHeader}>
-          <Icon style={styles.modalHeaderIcon} name="map-marker" />
-        </View>
         <View style={styles.modalContent}>
           <Text style={styles.node.title}>{node.name}</Text>
           <Text style={styles.node.address}>{node.address}, {node.zip}, {node.city}</Text>
@@ -34,19 +31,9 @@ export default class NodeCard extends React.Component {
 
 const styles = {
   modal: {
-    elevation: 4,
+    elevation: 2,
     margin: 5,
     backgroundColor: '#fff',
-  },
-  modalHeader: {
-    backgroundColor: '#fef2e0',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalHeaderIcon: {
-    fontSize: 80,
-    color: '#efcec4',
-    padding: 30,
   },
   modalContent: {
     padding: 15
@@ -65,7 +52,7 @@ const styles = {
   },
   modalFooter: {
     borderTopColor: '#f0f0f0',
-    borderTopWidth: 2,
+    borderTopWidth: 1,
     padding: 15,
   }
 };

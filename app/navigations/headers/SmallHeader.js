@@ -20,7 +20,7 @@ class SmallHeader extends React.Component {
   render() {
     let left = null;
     if (this.props.left === true) {
-      left = <Icon name='chevron-left' style={styles.backIcon} onPress={this.goBack.bind(this)} />;
+      left = <Icon name='chevron-left' style={styles.backIcon} size={20} color='#fff' onPress={this.goBack.bind(this)} />;
     } else if (this.props.left) {
       left = this.props.left;
     }

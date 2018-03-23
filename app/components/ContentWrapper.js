@@ -7,20 +7,6 @@ class ContentWrapper extends Component {
     this.props.onRefresh(true);
   }
 
-  mergeStyles() {
-    let mergeStyles = {};
-
-    Object.keys(styles).map(key => {
-      mergeStyles[key] = styles[key];
-
-      if (this.props.style && this.props.style[key]) {
-        mergeStyles[key] = Object.assign({}, styles[key], this.props.style[key]);
-      }
-    });
-
-    return mergeStyles;
-  }
-
   render() {
     let scrollViewProps = {
       contentContainerStyle: styles.scrollView,
@@ -34,8 +20,6 @@ class ContentWrapper extends Component {
         <RefreshControl refreshing={this.props.refreshing} onRefresh={this.onRefresh.bind(this)} />
       );
     }
-
-    let mergedStyles = this.mergeStyles();
 
     return (
       <View style={styles.view}>
@@ -53,10 +37,7 @@ const styles = {
     flex: 1,
   },
   scrollView: {
-    paddingHorizontal: 5,
-    paddingVertical: 15,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    padding: 15,
   }
 };
 

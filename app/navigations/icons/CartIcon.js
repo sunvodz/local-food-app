@@ -17,7 +17,7 @@ class CartIcon extends Component {
     }
 
     return (
-      <View>
+      <View style={{ paddingTop: 10, paddingRight: 10}}>
         <Icon name="shopping-basket" size={this.props.size} color={this.props.color} onPress={this.props.onPress}/>
         {notification}
       </View>
@@ -41,7 +41,7 @@ const styles = {
     backgroundColor: '#fff',
     borderRadius: 30,
     color: '#bf360c',
-    elevation: 2,
+    elevation: 4,
     fontFamily: 'montserrat-semibold',
     fontSize: 12,
     height: 20,
@@ -49,7 +49,7 @@ const styles = {
     textAlign: 'center',
     lineHeight: 17,
     position: 'absolute',
-    top: -10,
-    right: -5,
+    top: 0,
+    right: 0,
   }
 };

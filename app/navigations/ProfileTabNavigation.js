@@ -5,20 +5,11 @@ import globalStyles from 'app/styles';
 
 import Orders from 'app/screens/User/screens/Orders';
 import Settings from 'app/screens/User/screens/Settings';
-import Notifications from 'app/screens/User/screens/Notifications';
 
 const RouteConfigs = {
   Orders: {
     screen: (navigation) => {
       return <Orders userStackNavigation={navigation.screenProps.userStackNavigation} />;
-    }
-  },
-  Notifications: {
-    screen: Notifications,
-    navigationOptions: {
-      tabBarLabel: 'Notifications',
-      headerStyle: globalStyles.stackNavigator.headerStyle,
-      headerTitleStyle: globalStyles.stackNavigator.headerTitleStyle,
     }
   },
   Settings: {

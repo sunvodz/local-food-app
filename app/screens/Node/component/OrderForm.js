@@ -33,11 +33,15 @@ export default class OrderForm extends React.Component {
     });
   }
 
+  navigateToSignIn() {
+    this.props.navigateToSignIn();
+  }
+
   render() {
     const { auth, product, variant } = this.props;
     const producer = product.producer_relationship;
 
-    let orderForm = <Text style={styles.signin}>Sign in to shop</Text>;
+    let orderForm = <Link title='Sign in to shop' onPress={this.navigateToSignIn.bind(this)} />;
 
     let productPrice = product.price;
     let totalPrice = this.state.quantity * product.price;
@@ -113,18 +117,17 @@ export default class OrderForm extends React.Component {
 
 const styles = {
   view: {
-    borderBottomWidth: 1,
-    borderColor: '#f4f4f0',
+
   },
   signin: {
-    backgroundColor: '#fafafa',
+    backgroundColor: '#f4f4f0',
     fontFamily: 'montserrat-regular',
     padding: 15,
     textAlign: 'right',
     flex: 1,
   },
   orderFormRow: {
-    backgroundColor: '#fafafa',
+    backgroundColor: '#f4f4f0',
     flexDirection: 'row',
   },
   quantity: {

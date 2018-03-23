@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { TabNavigator } from 'react-navigation';
-import { MapIcon, NodesIcon, NotificationsIcon, CartIcon, UserIcon } from './icons';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { NodesIcon, NotificationsIcon, UserIcon } from './icons';
 
 import MapStackNavigation from './MapStackNavigation';
 import NodesStackNavigation from './NodesStackNavigation';
@@ -11,13 +12,7 @@ const RouteConfigs = {
   MapStackNavigation: {
     screen: MapStackNavigation,
     navigationOptions: ({ navigation }) => ({
-      tabBarLabel: ({ tintColor }) => (<MapIcon size={24} color={tintColor} />)
-    })
-  },
-  NodesStackNavigation: {
-    screen: NodesStackNavigation,
-    navigationOptions: ({ navigation }) => ({
-      tabBarLabel: ({ tintColor }) => (<NodesIcon size={24} color={tintColor} />)
+      tabBarLabel: ({ tintColor }) => (<Icon name='home' size={24} color={tintColor} />)
     })
   },
   Notifications: {
@@ -43,14 +38,14 @@ const TabNavigatorConfig = {
     showLabel: true,
     activeTintColor: '#bf360c',
     inactiveTintColor: '#999',
-    activeBackgroundColor: '#fff',
-    inactiveBackgroundColor: '#fff',
+    activeBackgroundColor: '#fafafa',
+    inactiveBackgroundColor: '#fafafa',
     indicatorStyle: {
-      backgroundColor: '#fff',
+      backgroundColor: '#fafafa',
     },
     style: {
       padding: 5,
-      backgroundColor: '#fff',
+      backgroundColor: '#fafafa',
     }
   },
   tabBarPosition: 'bottom',

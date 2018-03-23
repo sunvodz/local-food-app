@@ -26,6 +26,8 @@ const routeConfig = {
   },
 };
 
-const navigatorConfig = {};
+const navigatorConfig = {
+  initialRouteName: 'Nodes',
+};
 
 export default StackNavigator(routeConfig, navigatorConfig);

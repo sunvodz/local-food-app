@@ -4,7 +4,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import _ from 'lodash';
 
 import { sharedActions } from 'app/shared';
-import { ContentWrapper, TextInput, Card, Button, Loader } from 'app/components';
+import { TextInput, Card, Button, Loader } from 'app/components';
 
 export default class AuthScreen extends Component {
   constructor(props) {
@@ -16,10 +16,6 @@ export default class AuthScreen extends Component {
       phone: null,
       password: null,
     }
-  }
-
-  componentDidMount() {
-    this.props.dispatch(sharedActions.loadUser());
   }
 
   shouldComponentUpdate(nextProps, nextState) {

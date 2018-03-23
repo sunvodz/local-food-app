@@ -32,7 +32,7 @@ const styles = {
     justifyContent: 'space-between',
     paddingVertical: 15,
     backgroundColor: '#fff',
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
     borderColor: '#f4f4f0',
   },
   lastListItem: {

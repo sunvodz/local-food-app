@@ -13,7 +13,10 @@ class Settings extends Component {
   render() {
     return (
       <ContentWrapper>
-          <Button onPress={this.onLogout.bind(this)} title="Logout" accessibilityLabel="Logout" />
+        <Card>
+          <Text>Notification settings here</Text>
+        </Card>
+        <Button onPress={this.onLogout.bind(this)} title="Logout" accessibilityLabel="Logout" />
       </ContentWrapper>
     );
   }

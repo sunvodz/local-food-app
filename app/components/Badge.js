@@ -11,7 +11,9 @@ export default class Badge extends React.Component {
 
 const styles = {
   badge: {
-    backgroundColor: '#e0e0e0',
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#e4e4e0',
     color: '#333',
     borderRadius: 15,
     margin: 5,
@@ -20,6 +22,7 @@ const styles = {
   },
   activeBadge: {
     backgroundColor: '#efcec4',
+    borderColor: 'transparent',
     color: '#c4441f',
   }
 };

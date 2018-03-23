@@ -68,13 +68,19 @@ class Node extends React.Component {
     this.props.dispatch(actions.addProductToCart(data));
   }
 
+  navigateToSignIn() {
+    const { navigate } = this.props.navigation;
+
+    navigate('Profile');
+  }
+
   renderProduct(product, rowId) {
     let image = null; // Fallback here
     if (product.image_relationship && product.image_relationship.length > 0) {
       image = product.image_relationship[0].urls.medium;
     }
 
-    return <ProductCard key={product.id} product={product} image={image} auth={this.props.auth} addToCart={this.addToCart.bind(this)} />;
+    return <ProductCard key={product.id} product={product} image={image} auth={this.props.auth} addToCart={this.addToCart.bind(this)} naviagateToSignIn={this.navigateToSignIn.bind(this)}/>;
   }
 
   render() {
@@ -88,19 +94,28 @@ class Node extends React.Component {
       );
     }
 
-    let productCards = <Loader />;
+    let content = (
+      <View style={{flex: 1}}>
+        <Loader />
+      </View>
+    );
+
     if (!loadingProducts) {
       productCards = _.map(products, (product, index) => {
         return this.renderProduct(product, index);
       });
+
+      content = (
+        <ScrollView >
+          {productCards}
+        </ScrollView>
+      );
     }
 
     return (
       <View style={styles.view}>
         <DatePicker dates={dates} onSelectDate={this.onSelectDate.bind(this)} selectedDate={this.getSelectedDate()}/>
-        <ScrollView>
-          {productCards}
-        </ScrollView>
+        {content}
       </View>
     );
   }

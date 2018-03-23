@@ -12,7 +12,7 @@ const routeConfig = {
     },
     navigationOptions: ({navigation}) => {
       return {
-        header: <SmallHeader title='Your account' navigation={navigation} />,
+        header: <SmallHeader title='Your account' right navigation={navigation} />,
       }
     }
   },

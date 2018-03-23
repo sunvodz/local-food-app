@@ -53,11 +53,15 @@ class Nodes extends React.Component {
     }
 
     let nodeCards = _.map(nodes, node => {
-      return <NodeCard key={node.id} node={node} />;
+      return (
+        <View key={node.id} style={{marginBottom: 15}}>
+          <NodeCard node={node} navigateToNode={this.navigateToNode.bind(this)} />
+        </View>
+        );
     });
 
     return (
-      <ContentWrapper>
+      <ContentWrapper style={{backgroundColor: 'red'}}>
         {nodeCards}
       </ContentWrapper>
     );

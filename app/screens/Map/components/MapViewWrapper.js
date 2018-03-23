@@ -22,13 +22,13 @@ export default class MapViewWrapper extends React.Component {
       },
       customMapStyle: mapStyle,
       moveOnMarkerPress: false,
-      onMapReady: this.onMapReady.bind(this),
       initialRegion: {
         latitudeDelta: 0.5,
         longitudeDelta: 0.5,
         latitude: 56.0, // Default position
         longitude: 13.3,
       },
+      maxZoomLevel: 15,
       onRegionChangeComplete: this.onRegionChangeComplete.bind(this),
       style: {
         flex: 1
@@ -43,7 +43,6 @@ export default class MapViewWrapper extends React.Component {
 
     this.state = {
       showMapCallout: false,
-      mapIsReady: false,
     };
   }
 
@@ -56,12 +55,6 @@ export default class MapViewWrapper extends React.Component {
      };
 
      mapView._root.animateToRegion(region, 200)
- }
-
-  onMapReady() {
-    this.setState({
-      mapIsReady: true
-    });
   }
 
   onRegionChangeComplete(region) {
@@ -161,7 +154,3 @@ export default class MapViewWrapper extends React.Component {
     );
   }
 }
-
-MapViewWrapper.defaultProps = {
-  openNodeModal: function(){}
-};
