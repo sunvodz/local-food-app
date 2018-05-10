@@ -9,10 +9,16 @@ import Notifications from 'app/screens/User/screens/Notifications';
 import UserStackNavigation from './UserStackNavigation';
 
 const RouteConfigs = {
+  UserStackNavigation: {
+    screen: UserStackNavigation, // Use UserNavigation to get the stack navigation header
+    navigationOptions: ({ navigation }) => ({
+      tabBarLabel: ({ tintColor }) => (<UserIcon size={24} color={tintColor} />)
+    })
+  },
   MapStackNavigation: {
     screen: MapStackNavigation,
     navigationOptions: ({ navigation }) => ({
-      tabBarLabel: ({ tintColor }) => (<Icon name='home' size={24} color={tintColor} />)
+      tabBarLabel: ({ tintColor }) => (<Icon name='map-marker' size={24} color={tintColor} />)
     })
   },
   Notifications: {
@@ -21,15 +27,11 @@ const RouteConfigs = {
       tabBarLabel: ({ tintColor }) => (<NotificationsIcon size={24} color={tintColor} />)
     })
   },
-  UserStackNavigation: {
-    screen: UserStackNavigation, // Use UserNavigation to get the stack navigation header
-    navigationOptions: ({ navigation }) => ({
-      tabBarLabel: ({ tintColor }) => (<UserIcon size={24} color={tintColor} />)
-    })
-  },
 };
 
 const TabNavigatorConfig = {
+  ...TabNavigator.Presets.AndroidTopTabs,
+  initialRouteName: 'MapStackNavigation',
   animationEnabled: false,
   lazy: true,
   swipeEnabled: false,

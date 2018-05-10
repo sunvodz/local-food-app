@@ -1,7 +1,6 @@
 import { API_URL } from 'react-native-dotenv';
 import { api } from 'app/shared';
 import * as actionTypes from './actionTypes';
-import { sharedActions } from 'app/shared';
 
 export function fetchCurrentLocation() {
   return function(dispatch, getState) {

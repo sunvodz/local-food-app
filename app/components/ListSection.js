@@ -6,7 +6,7 @@ export default class ListSection extends React.Component {
     return (
       <View style={{flex: 1}}>
         <Text style={styles.label}>{this.props.label}</Text>
-        <View style={styles.rowWrapper}>
+        <View>
           {this.props.children}
         </View>
       </View>
@@ -22,7 +22,4 @@ const styles = {
     marginLeft: 15,
     marginBottom: 2,
   },
-  rowWrapper: {
-
-  }
 };

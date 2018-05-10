@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View } from 'react-native';
+import { View, StatusBar } from 'react-native';
 import DropdownAlert from 'react-native-dropdownalert';
 
 import * as actionTypes from './actionTypes';
@@ -14,7 +14,7 @@ class Alert extends React.Component {
 
   componentDidUpdate() {
     if (this.props.alert.level && this.props.alert.message) {
-      this.showAlert(this.props.alert);   
+      this.showAlert(this.props.alert);
     }
   }
 
@@ -47,9 +47,7 @@ class Alert extends React.Component {
 
   render() {
     return (
-      <View>
-        <DropdownAlert ref={ref => this.dropdown = ref} onClose={data => this.onClose(data)} translucent={true} />
-      </View>
+      <DropdownAlert errorColor='#bc3b1f' ref={ref => this.dropdown = ref} onClose={data => this.onClose(data)} translucent={true} />
     );
   }
 }

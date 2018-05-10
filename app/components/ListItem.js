@@ -31,6 +31,7 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingVertical: 15,
+    marginHorizontal: 15,
     backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderColor: '#f4f4f0',

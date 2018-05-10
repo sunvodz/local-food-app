@@ -26,10 +26,15 @@ class SmallHeader extends React.Component {
     }
 
     let right = null;
-    if (this.props.right === true) {
+    if (this.props.right === true && this.props.auth.user) {
       right = <CartIcon style={styles.shoppingIcon} size={20} color='#fff' onPress={this.navigateToCart.bind(this)} />;
     } else if (this.props.right) {
       right = this.props.right;
+    }
+
+    let sub = null;
+    if (this.props.sub) {
+      sub = <Text style={styles.middleSub}>{this.props.sub}</Text>;
     }
 
     return (
@@ -37,7 +42,10 @@ class SmallHeader extends React.Component {
         <View style={styles.left}>
           {left}
         </View>
-        <Text style={styles.middle}>{this.props.title}</Text>
+        <View style={styles.middle}>
+          <Text numberOfLines={1} style={styles.middleTitle}>{this.props.title}</Text>
+          {sub}
+        </View>
         <View style={styles.right}>
           {right}
         </View>
@@ -71,12 +79,19 @@ const styles = {
     marginLeft: 10,
   },
   middle: {
-    alignSelf: 'center',
-    color: '#fff',
+    alignItems: 'center',
     flex: 3,
+    justifyContent: 'center',
+  },
+  middleTitle: {
+    color: '#fff',
     fontFamily: 'montserrat-semibold',
     fontSize: 16,
-    textAlign: 'center',
+  },
+  middleSub: {
+    color: '#fff',
+    fontFamily: 'montserrat-regular',
+    fontSize: 12,
   },
   right: {
     alignItems: 'flex-end',
@@ -87,6 +102,8 @@ const styles = {
   backIcon: {
     color: '#fff',
     fontSize: 20,
+    paddingVertical: 20,
+    paddingRight: 20,
   },
   shoppingIcon: {
     color: '#fff',

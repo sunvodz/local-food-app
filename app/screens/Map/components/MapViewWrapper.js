@@ -16,6 +16,15 @@ export default class MapViewWrapper extends React.Component {
   constructor(props) {
     super(props);
 
+    let location = {lat: 56.0, lng: 13.3};
+    if (props.map.location) {
+      location = {
+        lat: props.map.location.coords.latitude,
+        lng: props.map.location.coords.longitude,
+      }
+    }
+
+
     this.mapProps = {
       ref: ref => {
         mapView = ref
@@ -25,11 +34,10 @@ export default class MapViewWrapper extends React.Component {
       initialRegion: {
         latitudeDelta: 0.5,
         longitudeDelta: 0.5,
-        latitude: 56.0, // Default position
-        longitude: 13.3,
+        latitude: location.lat,
+        longitude: location.lng,
       },
-      maxZoomLevel: 15,
-      onRegionChangeComplete: this.onRegionChangeComplete.bind(this),
+      // onRegionChangeComplete: this.onRegionChangeComplete.bind(this),
       style: {
         flex: 1
       },
@@ -46,38 +54,42 @@ export default class MapViewWrapper extends React.Component {
     };
   }
 
-  animate(coordinate){
-    let region = {
-         latitude: coordinate.latitude,
-         longitude: coordinate.longitude,
-         latitudeDelta: mapView.state.region.latitudeDelta - (mapView.state.region.latitudeDelta / 2),
-         longitudeDelta: mapView.state.region.longitudeDelta - (mapView.state.region.longitudeDelta / 2),
-     };
-
-     mapView._root.animateToRegion(region, 200)
-  }
-
-  onRegionChangeComplete(region) {
-    this.updateRegion(region);
-  }
-
-  updateRegion(region) {
-    this.mapProps.region = region;
-    this.forceUpdate();
+  componentDidMount() {
+    this.props.dispatch(actions.fetchCurrentLocation());
   }
 
   componentDidUpdate(prevProps, prevState) {
     const prevLocation = _.get(prevProps, 'map.location');
 
     if (this.props.map.location && this.props.map.location !== prevLocation) {
-      this.updateRegion({
+      this.animate({
         latitude: this.props.map.location.coords.latitude,
-        latitudeDelta: 0.5,
         longitude: this.props.map.location.coords.longitude,
+        latitudeDelta: 0.5,
         longitudeDelta: 0.5,
       });
     }
   }
+
+  animate(coordinate){
+    let region = {
+         latitude: coordinate.latitude,
+         longitude: coordinate.longitude,
+         latitudeDelta: (mapView.state.region.latitudeDelta / 3),
+         longitudeDelta: (mapView.state.region.longitudeDelta / 3),
+     };
+
+     mapView._root.animateToRegion(region, 200)
+  }
+
+  // onRegionChangeComplete(region) {
+  //   this.updateRegion(region);
+  // }
+
+  // updateRegion(region) {
+  //   this.mapProps.region = region;
+  //   // this.forceUpdate();
+  // }
 
   navigateToNode(node) {
     this.closeMapCallout();

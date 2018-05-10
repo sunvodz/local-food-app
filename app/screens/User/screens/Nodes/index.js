@@ -15,26 +15,36 @@ class Nodes extends React.Component {
     return !_.isEqual(nextProps.nodes, this.props.nodes) || !_.isEqual(nextProps.auth, this.props.auth);
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    this.fetchUserNodes();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    this.fetchUserNodes();
-  }
-
-  fetchUserNodes() {
-    const { auth, nodes } = this.props;
-
-    if (auth && auth.user) {
-      if (!nodes.nodes && !nodes.loading) {
-        this.props.dispatch(actions.fetchUserNodes());
-      }
+  componentDidMount() {
+    if (this.props.auth.user) {
+      this.props.dispatch(actions.fetchUserNodes())
     }
   }
 
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (this.props.auth.user) {
+  //     if (prevProps.nodes.nodes !== this.props.nodes.nodes && !nodes.loading) {
+  //       this.props.dispatch(actions.fetchUserNodes());
+  //     }
+  //   }
+  // }
+
+  // fetchUserNodes() {
+  //   const { auth, nodes } = this.props;
+
+  //   if (auth && auth.user) {
+  //     if (!nodes.nodes && !nodes.loading) {
+  //       this.props.dispatch(actions.fetchUserNodes());
+  //     }
+  //   }
+  // }
+
   navigateToNode(node) {
     this.props.navigation.navigate('Node', node);
+  }
+
+  removeNode(nodeId) {
+    this.props.dispatch(actions.removeNodeFromUser(nodeId));
   }
 
   render() {
@@ -55,7 +65,7 @@ class Nodes extends React.Component {
     let nodeCards = _.map(nodes, node => {
       return (
         <View key={node.id} style={{marginBottom: 15}}>
-          <NodeCard node={node} navigateToNode={this.navigateToNode.bind(this)} />
+          <NodeCard node={node} navigateToNode={this.navigateToNode.bind(this)} removeNode={this.removeNode.bind(this)} />
         </View>
         );
     });

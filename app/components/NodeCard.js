@@ -11,8 +11,14 @@ export default class NodeCard extends React.Component {
     this.props.navigateToNode(this.props.node);
   }
 
+  removeNode() {
+    this.props.removeNode(this.props.node.id);
+  }
+
   render() {
     const { node } = this.props;
+
+    let remove = this.props.removeNode ? <Link title="Remove" onPress={this.removeNode.bind(this)}/> : null;
 
     return (
       <View style={styles.modal}>
@@ -22,7 +28,8 @@ export default class NodeCard extends React.Component {
           <Text style={styles.node.info}>Welcome to visit our node {node.name}</Text>
         </View>
         <View style={styles.modalFooter}>
-          <Link title="Visit node" onPress={this.navigateToNode.bind(this)}/>
+          <Link title="Go to node" onPress={this.navigateToNode.bind(this)}/>
+          {remove}
         </View>
       </View>
     );
@@ -53,6 +60,8 @@ const styles = {
   modalFooter: {
     borderTopColor: '#f0f0f0',
     borderTopWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     padding: 15,
   }
 };

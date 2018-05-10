@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-import { sharedActionTypes } from 'app/shared';
+import _ from 'lodash';
 
 function nodesReducer(state, action) {
   switch (action.type) {
@@ -9,6 +9,16 @@ function nodesReducer(state, action) {
         nodes: action.nodes,
         loading: action.loading,
         refreshing: action.refreshing || false,
+      });
+      break;
+
+    case actionTypes.USER_NODE_REMOVED:
+      let nodes = _.filter(state.nodes, (node) => {
+        return node.id !== action.nodeId;
+      });
+
+      return Object.assign({}, state, {
+        nodes: nodes,
       });
       break;
 

@@ -11,19 +11,43 @@ import { api } from 'app/shared';
  */
 export function fetchOrders() {
   return async function(dispatch, getState) {
-    dispatch(requestOrders());
+    try {
+      dispatch(requestOrders());
 
-    let response = await api.call({
-      url: '/api/v1/users/orders'
-    });
+      let response = await api.call({
+        url: '/api/v1/users/orders'
+      });
 
-    let orders = response.data;
+      let orders = response.data;
 
-    let groupedOrders = _.groupBy(orders, (order) => {
-      return moment(order.date.date.date).format('YYYYMMDD');
-    });
+      let orderedOrders = [];
+      for (let i = 0; i < orders.length; i++) {
+        let order = orders[i];
+        let orderDate = order.order_date_relationship[0];
+        let key = moment(orderDate.date.date).format('YYYYMMDD');
 
-    return dispatch(receiveOrders(groupedOrders));
+        // Check if key exists
+        let index = _.findIndex(orderedOrders, function(o) {
+          return o.key == key;
+        });
+
+        if (index === -1) {
+          orderedOrders.push({
+            key: key,
+            items: [],
+          });
+
+          // Set index
+          index = orderedOrders.length - 1;
+        }
+
+        orderedOrders[index].items.push(order);
+      }
+
+      return dispatch(receiveOrders(orderedOrders.reverse()));
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 

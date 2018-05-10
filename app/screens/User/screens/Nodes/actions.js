@@ -35,3 +35,23 @@ export function receiveUserNodes(nodes) {
     loading: false,
   }
 }
+
+export function removeNodeFromUser(nodeId) {
+  return async function (dispatch, getState) {
+    try {
+      let response = await api.call({
+        method: 'delete',
+        url: `/api/v1/users/nodes/${nodeId}`
+      });
+
+      return dispatch(userNodeRemoved(nodeId));
+    } catch (error) {}
+  }
+}
+
+export function userNodeRemoved(nodeId) {
+  return {
+    type: actionTypes.USER_NODE_REMOVED,
+    nodeId: nodeId,
+  }
+}

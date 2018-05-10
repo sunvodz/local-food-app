@@ -10,6 +10,14 @@ function alertReducer(state, action) {
       });
       break;
 
+    case actionTypes.SHOW_INFO:
+      return Object.assign({}, state, {
+        level: 'info',
+        title: action.title,
+        message: action.message
+      });
+      break;
+
     case actionTypes.SHOW_WARNING:
       return Object.assign({}, state, {
         level: 'warning',

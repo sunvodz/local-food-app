@@ -13,11 +13,15 @@ class CartIcon extends Component {
   render() {
     let notification = null;
     if (this.props.cart.cart && this.props.cart.cart.length > 0 && this.props.auth && this.props.auth.user) {
-      notification = <Text style={styles.notification}>{this.props.cart.cart.length}</Text>;
+      notification = (
+        <View style={styles.notificationWrapper}>
+          <Text style={styles.notificationText}>{this.props.cart.cart.length}</Text>
+        </View>
+      );
     }
 
     return (
-      <View style={{ paddingTop: 10, paddingRight: 10}}>
+      <View style={styles.wrapper}>
         <Icon name="shopping-basket" size={this.props.size} color={this.props.color} onPress={this.props.onPress}/>
         {notification}
       </View>
@@ -37,19 +41,28 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps)(CartIcon);
 
 const styles = {
-  notification: {
+  wrapper: {
+    paddingTop: 20,
+    paddingRight: 20,
+    paddingBottom: 10,
+    paddingLeft: 10,
+  },
+  notificationWrapper: {
     backgroundColor: '#fff',
     borderRadius: 30,
-    color: '#bf360c',
     elevation: 4,
-    fontFamily: 'montserrat-semibold',
-    fontSize: 12,
     height: 20,
     width: 20,
-    textAlign: 'center',
-    lineHeight: 17,
     position: 'absolute',
-    top: 0,
-    right: 0,
+    top: 10,
+    right: 10,
+    overflow: 'hidden',
+  },
+  notificationText: {
+    color: '#bf360c',
+    fontFamily: 'montserrat-semibold',
+    fontSize: 12,
+    lineHeight: 17,
+    textAlign: 'center',
   }
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import _ from 'lodash';
 
@@ -10,21 +10,21 @@ export default class OrderForm extends React.Component {
     super(props);
 
     this.state = {
-      quantity: 1,
+      quantity: 0,
     }
   }
 
   onDecrease() {
     let newQuantity = parseInt(this.state.quantity) - 1;
 
-    if (newQuantity > 0) {
-      this.setState({quantity: newQuantity})
+    if (newQuantity >= 0) {
+      this.setState({quantity: newQuantity});
     }
   }
 
   onIncrease() {
     let newQuantity = parseInt(this.state.quantity) + 1;
-    this.setState({quantity: newQuantity})
+    this.setState({quantity: newQuantity});
   }
 
   addToCart() {
@@ -41,22 +41,35 @@ export default class OrderForm extends React.Component {
     const { auth, product, variant } = this.props;
     const producer = product.producer_relationship;
 
-    let orderForm = <Link title='Sign in to shop' onPress={this.navigateToSignIn.bind(this)} />;
+    let orderForm = (
+      <View style={styles.quantity}>
+        <View style={styles.buttonWrapper}>
+          <View style={styles.button}>
+            <Icon name='user' size={20} color='#fff' style={styles.buttonIcon} onPress={this.navigateToSignIn.bind(this)} />
+          </View>
+          <Text style={styles.buttonText}>Login to shop</Text>
+        </View>
+      </View>
+    );
 
-    let productPrice = product.price;
-    let totalPrice = this.state.quantity * product.price;
     let productUnitString = null;
-
     if (product.package_unit && product.package_unit !== 'product') {
       productUnitString = `/${product.package_unit}`;
     }
 
+    let variantName = <Text numberOfLines={1} style={styles.variantName}>{product.name}</Text>;
+    let totalPrice = this.state.quantity * product.price;
+    let productPrice = <Text numberOfLines={1} style={styles.price}>{product.price} {producer.currency}{productUnitString}</Text>;
+    let available_quantity = product.available_quantity;
+
     if (variant) {
-      productPrice = variant.price;
+      variantName = <Text numberOfLines={1} style={styles.variantName}>{variant.name}</Text>;
       totalPrice = this.state.quantity * variant.price;
+      productPrice = <Text numberOfLines={1} style={styles.price}>{variant.price} {producer.currency}{productUnitString}</Text>;
+      available_quantity = variant.available_quantity;
     }
 
-    let summary = null;
+    let summaryPriceItem = null;
 
     // Need to become member first
     if (this.props.auth.user && this.props.auth.user.active) {
@@ -74,41 +87,69 @@ export default class OrderForm extends React.Component {
         onPress: this.onDecrease.bind(this),
       };
 
-      orderForm = (
-        <View style={styles.quantity}>
-          <View style={styles.decrease}>
-            <Icon {...decreaseProps} />
-          </View>
-          <View style={styles.buttonWrapper}>
-            <View style={styles.button}>
-              <Text style={styles.buttonNotification}>+{this.state.quantity}</Text>
-              <Icon name='shopping-basket' size={20} color='#fff' style={styles.buttonIcon} onPress={this.addToCart.bind(this)} />
+      if (this.props.disabled) {
+        orderForm = (
+          <View style={styles.quantity}>
+            <View style={styles.buttonWrapper}>
+              <View style={styles.button}>
+                <Icon name='warning' size={20} color='#fff' style={styles.buttonIcon} />
+              </View>
+              <Text style={styles.buttonText}>Select pick up date</Text>
             </View>
-            <Text style={styles.buttonText}>Add to cart</Text>
           </View>
-          <View style={styles.increase}>
-            <Icon {...increaseProps} />
-          </View>
-        </View>
-      );
+        );
+      }
 
-      summary = (
-        <View style={styles.priceView}>
-          <Text style={[styles.priceHeader, styles.alignRight]}>Total</Text>
-          <Text style={styles.alignRight}>{totalPrice} {producer.currency}</Text>
+      if (!this.props.disabled && this.state.quantity >= 0) {
+        let buyText = null;
+        if (this.state.quantity > 0) {
+          buyText = <Text numberOfLines={1} style={styles.buttonBuyText}>Buy</Text>;
+        }
+
+        orderForm = (
+          <View style={styles.quantity}>
+            <View style={styles.decrease}>
+              <Icon {...decreaseProps} />
+            </View>
+            <View style={styles.buttonWrapper}>
+              <TouchableOpacity style={styles.button} onPress={this.addToCart.bind(this)}>
+                <Text numberOfLines={1} style={styles.buttonText}>{this.state.quantity}/{available_quantity}</Text>
+                {buyText}
+              </TouchableOpacity>
+            </View>
+            <View style={styles.increase}>
+              <Icon {...increaseProps} />
+            </View>
+          </View>
+        );
+      }
+
+      summaryPriceItem = (
+        <View style={styles.priceItem}>
+          <Text numberOfLines={1} style={styles.price}>{totalPrice} {producer.currency}</Text>
+          <Icon style={[styles.priceIcon, {marginLeft: 5}]} name='shopping-basket' size={16} color='#bc3b1f' />
         </View>
       );
     }
 
+    let productPriceItem = (
+      <View style={styles.priceItem}>
+        <Icon style={[styles.priceIcon, {marginRight: 5}]} name='tag' size={16} color='#bc3b1f' />
+        {productPrice}
+      </View>
+    );
+
     return (
       <View style={styles.view}>
-        <View style={styles.orderFormRow}>
-          <View style={styles.priceView}>
-            <Text style={styles.priceHeader}>Price</Text>
-            <Text>{productPrice} {producer.currency}{productUnitString}</Text>
+        <View style={styles.priceView}>
+          {variantName}
+          <View style={styles.priceRow}>
+            {productPriceItem}
+            {summaryPriceItem}
           </View>
+        </View>
+        <View style={styles.orderFormRow}>
           {orderForm}
-          {summary}
         </View>
       </View>
     );
@@ -117,31 +158,47 @@ export default class OrderForm extends React.Component {
 
 const styles = {
   view: {
-
+    backgroundColor: '#fff',
+    borderBottomWidth: 1,
+    borderColor: '#f4f4f0',
+    paddingBottom: 15,
   },
   signin: {
-    backgroundColor: '#f4f4f0',
     fontFamily: 'montserrat-regular',
     padding: 15,
     textAlign: 'right',
     flex: 1,
   },
   orderFormRow: {
-    backgroundColor: '#f4f4f0',
     flexDirection: 'row',
   },
   quantity: {
+    backgroundColor: '#fff',
+    borderColor: '#e4e4e0',
     justifyContent: 'center',
     flex: 2,
     flexDirection: 'row',
   },
   priceView: {
-    flex: 1,
-    justifyContent: 'center',
     paddingHorizontal: 15,
+    paddingVertical: 5,
   },
-  priceHeader: {
+  variantName: {
     fontFamily: 'montserrat-semibold',
+  },
+  priceRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  priceItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  priceIcon: {
+
+  },
+  price: {
+    fontFamily: 'montserrat-regular',
   },
   alignRight: {
     textAlign: 'right',
@@ -161,38 +218,27 @@ const styles = {
     marginBottom: 5,
   },
   button: {
-    paddingTop: 8,
-    paddingRight: 8,
-    paddingLeft: 8,
-  },
-  buttonIcon: {
+    justifyContent: 'center',
     backgroundColor: '#bc3b1f',
-    borderRadius: 30,
-    height: 40,
-    lineHeight: 30,
-    textAlign: 'center',
-    width: 40,
+    borderRadius: 100,
+    padding: 15,
+    width: 75,
+    height: 75,
   },
-  buttonNotification: {
-    backgroundColor: '#fff',
-    borderRadius: 30,
-    color: '#bf360c',
-    elevation: 2,
-    fontFamily: 'montserrat-semibold',
-    fontSize: 12,
-    height: 20,
-    width: 20,
-    textAlign: 'center',
-    lineHeight: 17,
-    position: 'absolute',
-    top: 0,
-    right: 0,
+  buttonDisabled: {
+    backgroundColor: '#ccc',
   },
   buttonText: {
-    fontFamily: 'montserrat-regular',
-    marginTop: 3,
+    color: '#fff',
+    fontFamily: 'montserrat-semibold',
+    fontSize: 12,
+    textAlign: 'center',
   },
-  icon: {
-    color: '#757575'
-  }
+  buttonBuyText: {
+    color: '#fff',
+    fontFamily: 'montserrat-semibold',
+    fontSize: 12,
+    marginTop: 5,
+    textAlign: 'center',
+  },
 };

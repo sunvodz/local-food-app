@@ -93,29 +93,29 @@ export function removedCartItem(updatedCart) {
  */
 export function updateCartItem(id, quantity) {
   return async function(dispatch, getState) {
-    dispatch(updatingCartItem(id));
+    try {
+      dispatch(updatingCartItem(id));
 
-    let response = await api.call({
-      url: '/api/v1/users/cart',
-      method: 'put',
-      data: {
-        cartDateItemLinkId: id,
-        quantity: quantity
+      let response = await api.call({
+        url: '/api/v1/users/cart',
+        method: 'put',
+        data: {
+          cartDateItemLinkId: id,
+          quantity: quantity
+        }
+      });
+
+      if (_.isArray(response.data)) {
+        dispatch(updatedCartItems(response.data));
+      } else {
+        dispatch(updatedCartItem(response.data));
       }
-    });
-
-    if (response.status !== 200) {
+    } catch (error) {
       dispatch({
         type: actionTypes.SHOW_ERROR,
         title: 'Fel kvantitet',
         message: 'för stor',
       });
-    }
-
-    if (_.isArray(response.data)) {
-      dispatch(updatedCartItems(response.data));
-    } else {
-      dispatch(updatedCartItem(response.data));
     }
   }
 }

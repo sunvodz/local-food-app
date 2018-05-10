@@ -13,9 +13,11 @@ const RouteConfigs = {
     }
   },
   Settings: {
-    screen: Settings,
+    screen: (navigation) => {
+      return <Settings userStackNavigation={navigation.screenProps.userStackNavigation} />;
+    },
     navigationOptions: {
-      tabBarLabel: 'Settings',
+      tabBarLabel: 'Account',
       headerStyle: globalStyles.stackNavigator.headerStyle,
       headerTitleStyle: globalStyles.stackNavigator.headerTitleStyle,
     }
@@ -23,6 +25,7 @@ const RouteConfigs = {
 };
 
 const TabNavigatorConfig = {
+  ...TabNavigator.Presets.AndroidTopTabs,
   animationEnabled: true,
   lazy: true,
   swipeEnabled: true,

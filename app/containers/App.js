@@ -1,29 +1,41 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, StatusBar } from 'react-native';
+import { Notifications } from 'expo';
 
 import MainTabNavigation from 'app/navigations/MainTabNavigation';
 import { Alert } from 'app/containers';
 
-import { sharedActions } from 'app/shared';
+import { sharedActions, sharedActionTypes } from 'app/shared';
 import * as mapActions from 'app/screens/Map/actions';
 import * as userNodesActions from 'app/screens/User/screens/Nodes/actions';
 
 class App extends Component {
-  // Initial load
   componentDidMount() {
+    this.notificationSubscription = Notifications.addListener(this.handleNotification.bind(this));
+
     this.props.dispatch(sharedActions.loadUser());
     this.props.dispatch(mapActions.fetchNodes());
-    this.props.dispatch(mapActions.fetchCurrentLocation());
     this.props.dispatch(userNodesActions.fetchUserNodes());
-
   }
+
+  handleNotification = (notification) => {
+    // Om det är "hämta notifikation" så visa på ett mer permanent sätt
+    const { dispatch } = this.props;
+
+    dispatch({
+      type: sharedActionTypes.SHOW_INFO,
+      title: notification.data.title,
+      message: notification.data.message,
+    });
+  };
 
   render() {
     // Spash
-    if (this.props.auth.loading || this.props.map.loading) {
+    if (this.props.map.loading) {
       return (
         <View style={styles.splash}>
+          <StatusBar barStyle="light-content" />
           <Image style={styles.logo} source={require('../../assets/images/logo-white.png')} />
           <Text style={styles.splashHeader}>Local Food Nodes</Text>
         </View>
@@ -32,8 +44,9 @@ class App extends Component {
 
     return (
       <View style={{flex: 1, backgroundColor: '#f4f4f0'}}>
-        <Alert />
+        <StatusBar barStyle="light-content" />
         <MainTabNavigation />
+        <Alert />
       </View>
     );
   }

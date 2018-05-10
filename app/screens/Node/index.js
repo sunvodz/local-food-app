@@ -28,9 +28,7 @@ class Node extends React.Component {
 
     this.props.dispatch(actions.fetchNode(node.id));
     this.props.dispatch(actions.fetchNodeDates(node.id));
-    this.props.dispatch(actions.fetchProducts({
-      node: node.id
-    }));
+    this.props.dispatch(actions.addNodeToUser(node.id));
   }
 
   componentWillUnmount() {
@@ -38,10 +36,15 @@ class Node extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    const node = this.props.navigation.state.params;
     const prevFilters = _.get(prevProps, 'node.filters');
+    const filters = this.props.node.filters;
 
-    if (!_.isEqual(this.props.node.filters, prevFilters) && !this.props.node.loadingProducts) {
-      this.props.dispatch(actions.fetchProducts(this.props.node.filters));
+    if (filters.date && filters.date !== prevFilters.date) {
+      this.props.dispatch(actions.fetchProducts({
+        date: filters.date,
+        node: node.id,
+      }));
     }
   }
 
@@ -69,18 +72,17 @@ class Node extends React.Component {
   }
 
   navigateToSignIn() {
-    const { navigate } = this.props.navigation;
-
-    navigate('Profile');
+    this.props.navigation.navigate('Profile');
   }
 
   renderProduct(product, rowId) {
+    let disabled = this.getSelectedDate() ? false : true;
     let image = null; // Fallback here
     if (product.image_relationship && product.image_relationship.length > 0) {
       image = product.image_relationship[0].urls.medium;
     }
 
-    return <ProductCard key={product.id} product={product} image={image} auth={this.props.auth} addToCart={this.addToCart.bind(this)} naviagateToSignIn={this.navigateToSignIn.bind(this)}/>;
+    return <ProductCard key={product.id} disabled={disabled} product={product} image={image} auth={this.props.auth} addToCart={this.addToCart.bind(this)} navigateToSignIn={this.navigateToSignIn.bind(this)} />;
   }
 
   render() {

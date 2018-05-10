@@ -41,7 +41,7 @@ export function fetchProducts(filters) {
     try {
       dispatch(requestProducts());
 
-      let url = '/api/v1/products/';
+      let url = '/api/v1/products';
 
       if (filters) {
         url = url + '?' + _.map(filters, (value, type) => {
@@ -55,9 +55,15 @@ export function fetchProducts(filters) {
 
       let products = response.data;
 
+      // Shuffle
+      for (let i = products.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [products[i], products[j]] = [products[j], products[i]];
+      }
+
       dispatch(receiveProducts(products));
     } catch (error) {
-      console.error('ABC123 error!', error);
+      console.error('Error fetching product', error);
     }
   }
 }
@@ -78,6 +84,40 @@ export function receiveProducts(products) {
   }
 }
 
+export function fetchProductQuantity() {
+  return async function (dispatch, getState) {
+    try {
+      dispatch(requestProductQuantity());
+
+      let url = `/api/v1/products/${productId}/quantity`;
+
+      let response = await api.call({
+        url: url,
+        data: data // variantId, nodeId, date
+      });
+
+      let quantity = response.data;
+
+      dispatch(receiveProductQuantity(quantity));
+    } catch (error) {
+      console.error('Error fetching product quantity', error);
+    }
+  }
+}
+
+export function requestProductQuantity() {
+  return {
+    type: actionTypes.REQUEST_PRODUCT_QUANTITY,
+  }
+}
+
+export function receiveProductQuantity(products) {
+  return {
+    type: actionTypes.RECEIVE_PRODUCT_QUANTITY,
+    quantity: quantity,
+  }
+}
+
 export function fetchNodeDates(nodeId) {
   return async function (dispatch, getState) {
     try {
@@ -90,6 +130,10 @@ export function fetchNodeDates(nodeId) {
       let dates = response.data;
 
       dispatch(receiveNodeDates(dates));
+
+      if (dates.length > 0) {
+        dispatch(setDateFilter(dates[0]));
+      }
     } catch (error) {
       console.error(error);
     }
@@ -162,5 +206,16 @@ export function addToCart() {
   return {
     type: actionTypes.ADD_TO_CART,
     loading: true,
+  }
+}
+
+export function addNodeToUser(nodeId) {
+  return async function (dispatch, getState) {
+    try {
+      let response = await api.call({
+        method: 'post',
+        url: `/api/v1/users/nodes/${nodeId}`
+      });
+    } catch (error) {}
   }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, ImageBackground, Dimensions } from 'react-native';
+import { View, Text, TouchableHighlight, Image, ImageBackground, Dimensions } from 'react-native';
 import striptags from 'striptags';
 import HTMLView from 'react-native-htmlview';
 import Swiper from 'react-native-swiper';
@@ -18,6 +18,7 @@ export default class ProductCard extends React.Component {
 
     this.state = {
       variant: variant,
+      readMore: false,
     };
   }
 
@@ -47,9 +48,22 @@ export default class ProductCard extends React.Component {
     this.props.navigateToSignIn();
   }
 
+  toggleReadMore() {
+    this.setState({readMore: !this.state.readMore});
+  }
+
   render() {
     const { product } = this.props;
     const producer = product.producer_relationship;
+
+    let productInfo = product.infoRaw;
+    let readMore = null;
+    if (productInfo.length > 100 && !this.state.readMore) {
+      productInfo = productInfo.substr(0, 140) + '...';
+      readMore = <Text style={styles.readMore} onPress={this.toggleReadMore.bind(this)}>Read more</Text>;
+    } else if (productInfo.length > 100 && this.state.readMore) {
+      readMore = <Text style={styles.readMore} onPress={this.toggleReadMore.bind(this)}>Read less</Text>;
+    }
 
     let imageProps = {
       source: require('../../../../assets/images/product-placeholder.jpg'), // Product fallback image
@@ -68,52 +82,58 @@ export default class ProductCard extends React.Component {
 
     let variantHeader = null;
     if (product.product_variants_relationship.length > 0) {
-      variantHeader = <Text> - {this.state.variant.name} ({this.state.variant.package_amount} {product.package_unit})</Text>;
+      variantHeader = <Text>{this.state.variant.name} ({this.state.variant.package_amount} {product.package_unit})</Text>;
 
       let variants = product.product_variants_relationship.map(variant => {
         return (
           <View style={{flex: 1}} key={variant.id}>
             <ImageBackground {...imageProps} style={styles.swiperSlide}>
-              <Icon name='clone' style={{position: 'absolute', top: 15, right: 15, color: '#fff', fontSize: 20}} />
+              <Icon name='clone' style={{position: 'absolute', bottom: 20, right: 20, color: '#fff', fontSize: 20}} />
             </ImageBackground>
           </View>
         );
       });
 
       swipe = (
-        <Swiper style={styles.swiper} height={Dimensions.get('window').width / 1.5} loop={false} dotColor={'#999'} activeDotColor='#fff' onIndexChanged={this.onSelectVariant.bind(this)}>
+        <Swiper height={Dimensions.get('window').width / 1.5} loop={false} dotColor={'#e4e4e0'} activeDotColor='#fff' onIndexChanged={this.onSelectVariant.bind(this)}>
           {variants}
         </Swiper>
       );
     }
 
     return (
-      <View>
-        <Text numberOfLines={1} style={styles.product}>{product.name} {variantHeader}</Text>
-        <Text numberOfLines={1} style={styles.producer}>{product.producer_relationship.name}</Text>
+      <View style={styles.product}>
+        <View>
+          <Text numberOfLines={1} style={styles.productTitle}>{product.name}</Text>
+          <Text numberOfLines={1} style={styles.producerTitle}>{product.producer_relationship.name}</Text>
+        </View>
         {swipe}
-        <OrderForm auth={this.props.auth} product={product} variant={this.state.variant} addToCart={this.addToCart.bind(this)} navigateToSignIn={this.navigateToSignIn.bind(this)}/>
-        <Text style={styles.info}>{product.infoRaw}</Text>
+        <OrderForm disabled={this.props.disabled} auth={this.props.auth} product={product} variant={this.state.variant} addToCart={this.addToCart.bind(this)} navigateToSignIn={this.navigateToSignIn.bind(this)}/>
+        <Text style={styles.info}>{productInfo}</Text>
+        {readMore}
       </View>
     );
   }
 }
 
 const styles = {
-  swiper: {
-    flex: 1,
-  },
   swiperSlide: {
     flex: 1,
   },
   product: {
+    paddingBottom: 15,
+    borderBottomWidth: 15,
+    borderColor: '#f4f4f0',
+  },
+  productTitle: {
     color: '#333',
     fontFamily: 'montserrat-semibold',
+    fontSize: 16,
     paddingHorizontal: 15,
     paddingTop: 15,
     paddingBottom: 0,
   },
-  producer: {
+  producerTitle: {
     color: '#666',
     fontFamily: 'montserrat-regular',
     paddingHorizontal: 15,
@@ -129,5 +149,11 @@ const styles = {
   info: {
     fontFamily: 'montserrat-regular',
     padding: 15,
+  },
+  readMore: {
+    fontFamily: 'montserrat-regular',
+    color: '#999',
+    marginLeft: 15,
+    marginBottom: 15,
   }
 };

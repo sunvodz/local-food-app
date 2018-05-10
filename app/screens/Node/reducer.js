@@ -4,11 +4,12 @@ function nodeReducer(state, action) {
   switch (action.type) {
     case actionTypes.REQUEST_NODE:
     case actionTypes.RECEIVE_NODE:
+      let filters = state.filters || {};
+      filters.node = action.node ? action.node.id : null;
+
       return Object.assign({}, state, {
         node: action.node,
-        filters: {
-          node: action.node ? action.node.id : null,
-        },
+        filters: filters,
         loadingNodes: action.loadingNodes,
       });
       break;
@@ -56,7 +57,9 @@ function nodeReducer(state, action) {
       break;
 
     default:
-      return Object.assign({}, state, {});
+      return Object.assign({}, state, {
+        loadingProducts: true, // For initial load screen
+      });
       break;
   }
 }

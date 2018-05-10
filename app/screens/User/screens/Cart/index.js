@@ -1,21 +1,27 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View } from 'react-native';
+import { View, ListView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
 import _ from 'lodash';
 
 import AuthScreen from 'app/screens/Auth';
 
-import { ContentWrapper, Loader, Card, Text, QuantityInput, Button, Empty } from 'app/components';
+import { ContentWrapper, Loader, Card, Text, QuantityInput, Button, Empty, List, ListItem, ListSection } from 'app/components';
 import CartItem from './components/CartItem';
 import * as actions from './actions';
 import { updateCartItem } from './actions';
 
+const DataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
 class Cart extends React.Component {
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   return !_.isEqual(nextProps.cart, this.props.cart) || !_.isEqual(nextProps.auth, this.props.auth);
-  // }
+  constructor(props) {
+    super(props);
+    this.state = {
+      dataSource: null,
+      refreshing: false,
+    }
+  }
 
   componentDidMount() {
     this.fetchCart();
@@ -31,23 +37,6 @@ class Cart extends React.Component {
     }
   }
 
-  sortCartDateItemLinksByDate(cartDateItemLinks) {
-    let cartDateItemLinksByDate = {};
-
-    _.each(cartDateItemLinks, cartDateItemLink => {
-      let cartDate = cartDateItemLink.cart_date_relationship[0];
-      let date = moment(cartDate.date.date).format('YYYYMMDD');
-
-      if (!cartDateItemLinksByDate.date) {
-        cartDateItemLinksByDate[date] = [];
-      }
-
-      cartDateItemLinksByDate[date].push(cartDateItemLink);
-    });
-
-    return cartDateItemLinksByDate;
-  }
-
   removeCartItem(id) {
     this.props.dispatch(actions.removeCartItem(id));
   }
@@ -58,6 +47,67 @@ class Cart extends React.Component {
 
   createOrder() {
     this.props.dispatch(actions.createOrder());
+  }
+
+  groupCartDateItemLinksByDate(cartDateItemLinks) {
+
+    let groupedCartDateItemLinks = [];
+    for (let i = 0; i < cartDateItemLinks.length; i++) {
+      let cartDateItemLink = cartDateItemLinks[i];
+      let cartDate = cartDateItemLink.cart_date_relationship[0];
+      let key = moment(cartDate.date.date).format('YYYYMMDD');
+
+      // Check if key exists
+      let index = _.findIndex(groupedCartDateItemLinks, function(o) {
+        return o.key == key;
+      });
+
+      if (index === -1) {
+        groupedCartDateItemLinks.push({
+          key: key,
+          items: [],
+        });
+
+        // Set index
+        index = groupedCartDateItemLinks.length - 1;
+      }
+
+      groupedCartDateItemLinks[index].items.push(cartDateItemLink);
+    }
+
+    return groupedCartDateItemLinks;
+  }
+
+  renderListSection(cartDateItemLinks, sectionId, rowId) {
+    let date = moment(cartDateItemLinks.key).format('DD MMMM YYYY');
+    let numberOfListItems = cartDateItemLinks.items.length - 1;
+
+    //???
+    const { loading, updatingCartItems, refreshing, cart } = this.props.cart;
+
+    let listItems = _.map(cartDateItemLinks.items, (cartDateItemLink, index) => {
+      // let orderItem = order.order_item_relationship[0];
+      let dateItem = cartDateItemLink.cart_date_relationship[0];
+      let cartItem = cartDateItemLink.cart_item_relationship[0];
+      let isLastListItem = index === numberOfListItems;
+
+      let loading = updatingCartItems.indexOf(cartDateItemLink.id) !== -1;
+      let cartItemProps = {
+        key: cartDateItemLink.id,
+        data: cartDateItemLink,
+        loading: loading,
+        onRemove: this.removeCartItem.bind(this),
+        onUpdate: this.updateCartItem.bind(this)
+      }
+
+      return <CartItem {...cartItemProps}/>;
+    });
+
+    return (
+      <ListSection label={'Pickup ' + date}>
+        {listItems}
+      </ListSection>
+    );
   }
 
   render() {
@@ -75,38 +125,43 @@ class Cart extends React.Component {
       return <Empty icon="shopping-basket" header="Your cart is empty" text="Visit a node to find available products" />;
     }
 
-    let cartDateItemLinksByDate = this.sortCartDateItemLinksByDate(cart);
+    let totalCost = _.chain(cart)
+    .groupBy(cartDateItemLink => {
+      let item = cartDateItemLink.cart_item_relationship[0];
+      return item.producer.currency;
+    })
+    .mapValues((cartDateItemLinks, currency) => {
+      return _.sumBy(cartDateItemLinks, (cartDateItemLink) => {
+        let item = cartDateItemLink.cart_item_relationship[0];
+        let price = item.product.price;
 
-    // Render cart dates
-    let cartDates = _.map(cartDateItemLinksByDate, (cartDateItemLinks, date) => {
-
-      // Render cart items
-      let cartItems = cartDateItemLinks.map(cartDateItemLink => {
-        let loading = updatingCartItems.indexOf(cartDateItemLink.id) !== -1;
-
-        let cartItemProps = {
-          key: cartDateItemLink.id,
-          data: cartDateItemLink,
-          loading: loading,
-          onRemove: this.removeCartItem.bind(this),
-          onUpdate: this.updateCartItem.bind(this)
+        if (item.variant) {
+          price = item.variant.price;
         }
 
-        return <CartItem {...cartItemProps}/>;
+        return price * cartDateItemLink.quantity;
       });
+    })
+    .map((total, currency) => {
+      return <Text style={styles.totalCost} key={currency}>{total} {currency}</Text>;
+    })
+    .value();
 
-      return (
-        <Card key={date} header={moment(date, 'YYYYMMDD').format('YYYY-MM-DD')} headerPosition="outside">
-          {cartItems}
-        </Card>
-      );
-    });
+    let cartDateItemLinksByDate = this.groupCartDateItemLinksByDate(cart);
+
+    let listProps = {
+      dataSource: DataSource.cloneWithRows(cartDateItemLinksByDate),
+      renderRow: this.renderListSection.bind(this),
+      onRefresh: this.fetchCart.bind(this),
+      refreshing: refreshing,
+    }
 
     return (
-      <ContentWrapper onRefresh={this.fetchCart.bind(this)} refreshing={refreshing}>
-        {cartDates}
-        <Button loading={this.props.cart.creating} title="Skicka beställning" onPress={this.createOrder.bind(this)} />
-      </ContentWrapper>
+      <View style={{flex: 1, backgroundColor: '#f4f4f0'}}>
+        <List {...listProps} />
+        {totalCost}
+        <Button style={buttonStyle} loading={this.props.cart.creating} title="Skicka beställning" subTitle='Test' onPress={this.createOrder.bind(this)} />
+      </View>
     );
   }
 }
@@ -122,3 +177,17 @@ function mapStateToProps(state) {
 
 
 export default connect(mapStateToProps)(Cart);
+
+const styles = {
+  totalCost: {
+    alignSelf: 'center',
+    fontFamily: 'montserrat-semibold',
+  }
+};
+
+const buttonStyle = {
+  button: {
+    marginTop: 15,
+    marginBottom: 15
+  }
+};

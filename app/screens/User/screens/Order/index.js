@@ -55,27 +55,25 @@ class Order extends Component {
 
     return (
       <ContentWrapper>
-        <Card header={order.ref} headerPosition="outside">
-          <Text style={styles.label}>{orderItem.product.name}</Text>
-          <Text>Quantity: {order.quantity} {orderItem.product.package_unit}</Text>
-          <Text>Price: {orderItem.product.price * order.quantity} {orderItem.producer.currency}</Text>
-        </Card>
-
-        <Card>
-          <Text style={styles.label}>{orderItem.producer.name}</Text>
-          <Text>Address: {orderItem.producer.address}, {orderItem.producer.zip}, {orderItem.producer.city}</Text>
-          <Text>Payment: {orderItem.producer.payment_info}</Text>
-        </Card>
-
-        <Card>
+        <Card header='Node' headerPosition='outside'>
           <Text style={styles.label}>{orderItem.node.name}</Text>
           <Text>Address: {orderItem.node.address}, {orderItem.node.zip}, {orderItem.node.city}</Text>
           <Text>Delivery: {orderItem.node.delivery_weekday} {moment(orderDate.date.date).format('YYYY-MM-DD')} {orderItem.node.delivery_time}</Text>
         </Card>
 
-        <Card>
-          <Button disabled={!isDeletable} loading={this.props.order.deleting} title="Delete order" onPress={this.deleteOrder.bind(this, order.id)} />
+        <Card header='Product' headerPosition="outside">
+          <Text style={styles.label}>{orderItem.product.name}</Text>
+          <Text>Quantity: {order.quantity} {orderItem.product.package_unit}</Text>
+          <Text>Price: {orderItem.product.price * order.quantity} {orderItem.producer.currency}</Text>
         </Card>
+
+        <Card header='Producer' headerPosition='outside'>
+          <Text style={styles.label}>{orderItem.producer.name}</Text>
+          <Text>Address: {orderItem.producer.address}, {orderItem.producer.zip}, {orderItem.producer.city}</Text>
+          <Text>Payment: {orderItem.producer.payment_info}</Text>
+        </Card>
+
+        <Button disabled={!isDeletable} loading={this.props.order.deleting} title="Delete order" onPress={this.deleteOrder.bind(this, order.id)} />
       </ContentWrapper>
     );
   }

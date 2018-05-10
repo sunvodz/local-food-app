@@ -10,12 +10,8 @@ export default class List extends React.Component {
     let props = this.props;
     let refreshing = this.props.refreshing || false;
 
-    props.refreshControl = <RefreshControl onRefresh={this.onRefresh.bind(this)} refreshing={refreshing} />;
-
     return (
-      <View style={{flex: 1, backgroundColor: '#f4f4f0'}}>
-        <ListView {...props} />
-      </View>
+      <ListView {...props} refreshControl={<RefreshControl onRefresh={this.onRefresh.bind(this)} refreshing={refreshing} />} style={{backgroundColor: '#f4f4f0'}} />
     );
   }
 }

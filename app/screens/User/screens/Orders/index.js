@@ -7,7 +7,6 @@ import _ from 'lodash';
 import { Loader, List, ListSection, ListItem, Text, Empty } from 'app/components';
 import * as actions from './actions';
 
-const br = '\n';
 const DataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
 class Orders extends Component {
@@ -38,17 +37,17 @@ class Orders extends Component {
   }
 
   renderListSection(orders, sectionId, rowId) {
-    let date = moment(orders[0].date.date.date).format('YYYY-MM-DD');
-    let numberOfListItems = orders.length - 1;
+    let date = moment(orders.key).format('DD MMMM YYYY');
+    let numberOfListItems = orders.items.length - 1;
 
-    let listItems = _.map(orders, (order, index) => {
+    let listItems = _.map(orders.items, (order, index) => {
       let orderItem = order.order_item_relationship[0];
       let isLastListItem = index === numberOfListItems;
 
       return (
         <ListItem key={order.id} onPress={this.navigateOrder.bind(this, order)} last={isLastListItem}>
           <View>
-            <Text>{orderItem.product.name.toUpperCase()} {br}</Text>
+            <Text>{orderItem.product.name.toUpperCase()}</Text>
             <Text style={{color: '#b4b4b0'}}>{orderItem.node.name}</Text>
           </View>
         </ListItem>
@@ -56,7 +55,7 @@ class Orders extends Component {
     });
 
     return (
-      <ListSection label={date}>
+      <ListSection label={'Pickup ' + date}>
         {listItems}
       </ListSection>
     );
@@ -70,7 +69,7 @@ class Orders extends Component {
     }
 
     if (_.isEmpty(orders)) {
-      return <Empty icon="list" header="No orders" text="You have not places any orders. Visit a node to find available products." />;
+      return <Empty onRefresh={this.onRefresh.bind(this)} refreshing={refreshing} icon="list" header="No orders" text="You have not places any orders. Visit a node to find available products." />;
     }
 
     let listProps = {

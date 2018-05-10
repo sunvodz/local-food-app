@@ -1,4 +1,5 @@
 import Badge from './Badge';
+import BadgeDate from './BadgeDate';
 import BadgeWrapper from './BadgeWrapper';
 import Button from './Button';
 import Card from './Card';
@@ -18,6 +19,7 @@ import QuantityInput from './QuantityInput';
 
 export {
   Badge,
+  BadgeDate,
   BadgeWrapper,
   Button,
   Card,

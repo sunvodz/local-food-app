@@ -27,7 +27,7 @@ class Map extends React.Component {
 
     if (this.props.auth && this.props.auth.user) {
       if (this.state.showMap) { // Show map
-        left = <Icon name='home' size={24} color='#fff' onPress={this.toggleMap.bind(this)}/>;
+        left = <Icon style={styles.leftIcon} name='list' size={24} color='#fff' onPress={this.toggleMap.bind(this)}/>;
         return (
           <View style={{flex: 1}}>
             <SmallHeader title='Find nodes' right left={left} navigation={this.props.navigation} />
@@ -35,7 +35,7 @@ class Map extends React.Component {
           </View>
         );
       } else { // Show user nodes
-        left = <Icon name='globe' size={24} color='#fff' onPress={this.toggleMap.bind(this)}/>;
+        left = <Icon style={styles.leftIcon} name='globe' size={24} color='#fff' onPress={this.toggleMap.bind(this)}/>;
         return (
           <View style={{flex: 1}}>
             <SmallHeader title='Your nodes' right left={left} navigation={this.props.navigation} />
@@ -74,6 +74,10 @@ const styles = {
   calloutHeader: {
     fontWeight: 'bold',
   },
+  leftIcon: {
+    paddingVertical: 20,
+    paddingRight: 20,
+  }
 };
 
 export default connect(mapStateToProps)(Map);

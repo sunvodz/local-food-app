@@ -1,29 +1,21 @@
 import React from 'react';
 import { View, Text, TextInput } from 'react-native';
+import styleMerger from 'app/shared/utils/styleMerger';
 
 export default class TextInputComponent extends React.Component {
-  mergeStyles() {
-    let mergeStyles = {};
-
-    Object.keys(styles).map(key => {
-      mergeStyles[key] = styles[key];
-
-      if (this.props.style && this.props.style[key]) {
-        mergeStyles[key] = Object.assign({}, styles[key], this.props.style[key]);
-      }
-    });
-
-    return mergeStyles;
-  }
-
   render() {
-    let mergedStyles = this.mergeStyles();
-    let label = this.props.label || '';
+    let mergedStyles = styleMerger.merge(styles, this.props.style);
+
+    let label = null;
     let hint = this.props.hint || '';
+
+    if (this.props.label) {
+      label = <Text style={mergedStyles.label}>{this.props.label}</Text>;
+    }
 
     return (
       <View style={mergedStyles.wrapper}>
-        <Text style={mergedStyles.label}>{label}</Text>
+        {label}
         <TextInput {...this.props} style={mergedStyles.textInput} underlineColorAndroid='transparent' placeholderTextColor={mergedStyles.placeholderColor} />
         <Text style={mergedStyles.hint} >{hint}</Text>
       </View>

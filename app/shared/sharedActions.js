@@ -1,11 +1,13 @@
 import { AsyncStorage } from 'react-native';
-import { API_USERNAME, API_PASSWORD } from 'react-native-dotenv';
+import { Permissions, Notifications } from 'expo';
 import config from '../../config';
 import api from './api';
 import * as sharedActionTypes from './sharedActionTypes';
 
 import { STRIPE_PUBLISHABLE_KEY } from 'react-native-dotenv';
 var stripe = require('stripe-client')(STRIPE_PUBLISHABLE_KEY);
+
+const PUSH_ENDPOINT = '/api/v1/users/push-token';
 
 export function toggleAuthForm() {
   return {
@@ -86,9 +88,10 @@ export function loginUser(data) {
       user.password = data.password;
       await AsyncStorage.setItem('@store:user', JSON.stringify(user));
 
+      registerForPushNotificationsAsync(data.email);
+
       return dispatch(loginComplete(user));
     } catch (exception) {
-      console.log(exception);
       dispatch({
         type: sharedActionTypes.SHOW_ERROR,
         title: 'Login',
@@ -229,8 +232,8 @@ export function processPayment(data) {
 
       dispatch(paymentComplete());
       // Todo: dispatch reload user to get new user data (or returned from succesful payment?)
-    } catch (exception) {
-      dispatch(paymentFailed(exception));
+    } catch (error) {
+      dispatch(paymentFailed(error));
     }
   }
 }
@@ -256,4 +259,36 @@ export function paymentComplete() {
     title: 'Membership payment',
     message: 'Thank you for your payment, you are now a Local Food Nodes member.',
   };
+}
+
+/**
+ * Set notification permission
+ * @param {*} userEmail
+ */
+async function registerForPushNotificationsAsync(userEmail) {
+  const { status: existingStatus } = await Permissions.getAsync(
+    Permissions.NOTIFICATIONS
+  );
+
+  let finalStatus = existingStatus;
+
+  if (existingStatus !== 'granted') {
+    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+    finalStatus = status;
+  }
+
+  if (finalStatus !== 'granted') {
+    return;
+  }
+
+  let token = await Notifications.getExpoPushTokenAsync();
+
+  return await api.call({
+    url: PUSH_ENDPOINT,
+    method: 'post',
+    data: {
+      token: token,
+      email: userEmail,
+    }
+  });
 }
