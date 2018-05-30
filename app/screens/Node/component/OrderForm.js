@@ -103,7 +103,7 @@ export default class OrderForm extends React.Component {
       if (!this.props.disabled && this.state.quantity >= 0) {
         let buyText = null;
         if (this.state.quantity > 0) {
-          buyText = <Text numberOfLines={1} style={styles.buttonBuyText}>Buy</Text>;
+          buyText = <Text numberOfLines={2} style={styles.buttonBuyText}><Icon name='hand-pointer-o'/> Buy</Text>;
         }
 
         orderForm = (

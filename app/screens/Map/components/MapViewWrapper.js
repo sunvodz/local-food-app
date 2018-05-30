@@ -26,8 +26,8 @@ export default class MapViewWrapper extends React.Component {
 
 
     this.mapProps = {
-      ref: ref => {
-        mapView = ref
+      ref: c => {
+        this.mapView = c
       },
       customMapStyle: mapStyle,
       moveOnMarkerPress: false,
@@ -55,7 +55,7 @@ export default class MapViewWrapper extends React.Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(actions.fetchCurrentLocation());
+    // this.props.dispatch(actions.fetchCurrentLocation());
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -71,7 +71,8 @@ export default class MapViewWrapper extends React.Component {
     }
   }
 
-  animate(coordinate){
+  animate(coordinate) {
+    console.log(this);
     let region = {
          latitude: coordinate.latitude,
          longitude: coordinate.longitude,

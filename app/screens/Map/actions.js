@@ -1,16 +1,21 @@
 import { API_URL } from 'react-native-dotenv';
-import { api } from 'app/shared';
+import { api, sharedActions } from 'app/shared';
 import * as actionTypes from './actionTypes';
 
 export function fetchCurrentLocation() {
-  return function(dispatch, getState) {
-    dispatch(requestCurrentLocation());
-
-    let location = navigator.geolocation.getCurrentPosition(function(location) {
+  return async function(dispatch, getState) {
+    try {
+      dispatch(requestCurrentLocation());
+      let location = await sharedActions.getLocationAsync();
+      console.log('location', location);
       dispatch(receiveCurrentLocation(location));
-    }, function (error) {
-        console.error(error);
-    });
+    } catch (error) {
+      console.log('ERROR IN GET LCOATION', error);
+      // dispatch(receiveCurrentLocation({
+      //   lat: 0,
+      //   lng: 0,
+      // }));
+    }
   }
 }
 

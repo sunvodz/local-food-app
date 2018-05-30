@@ -1,5 +1,5 @@
 import { AsyncStorage } from 'react-native';
-import { Permissions, Notifications } from 'expo';
+import { Permissions, Notifications, Location } from 'expo';
 import config from '../../config';
 import api from './api';
 import * as sharedActionTypes from './sharedActionTypes';
@@ -291,4 +291,14 @@ async function registerForPushNotificationsAsync(userEmail) {
       email: userEmail,
     }
   });
+}
+
+export async function getLocationAsync() {
+  const { status } = await Permissions.askAsync(Permissions.LOCATION);
+
+  if (status === 'granted') {
+    return Location.getCurrentPositionAsync({enableHighAccuracy: true});
+  } else {
+    throw new Error('Location permission not granted');
+  }
 }

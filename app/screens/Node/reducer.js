@@ -11,6 +11,7 @@ function nodeReducer(state, action) {
         node: action.node,
         filters: filters,
         loadingNodes: action.loadingNodes,
+        loadingProducts: true,
       });
       break;
 
@@ -57,9 +58,7 @@ function nodeReducer(state, action) {
       break;
 
     default:
-      return Object.assign({}, state, {
-        loadingProducts: true, // For initial load screen
-      });
+      return Object.assign({}, state);
       break;
   }
 }

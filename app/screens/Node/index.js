@@ -51,9 +51,7 @@ class Node extends React.Component {
   onSelectDate(date) {
     let selectedDate = this.getSelectedDate();
 
-    if (date === selectedDate) {
-      this.props.dispatch(actions.setDateFilter());
-    } else {
+    if (date !== selectedDate) {
       this.props.dispatch(actions.setDateFilter(date));
     }
   }
@@ -88,7 +86,7 @@ class Node extends React.Component {
   render() {
     const { products, loadingProducts, dates, node } = this.props.node;
 
-    if (!this.props.node.loadingProducts && (!products || products.length === 0)) {
+    if (!loadingProducts && (!products || products.length === 0)) {
       return (
         <View style={styles.view}>
           <Empty icon="exclamation" header="No products" text="No available products at the moment" />

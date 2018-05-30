@@ -17,7 +17,7 @@ class Nodes extends React.Component {
 
   componentDidMount() {
     if (this.props.auth.user) {
-      this.props.dispatch(actions.fetchUserNodes())
+      this.props.dispatch(actions.fetchUserNodes());
     }
   }
 

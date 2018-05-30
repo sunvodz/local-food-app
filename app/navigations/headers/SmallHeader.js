@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, StatusBar } from 'react-native';
+import { View, Text, StatusBar, Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import CartIcon from '../icons/CartIcon';
@@ -65,11 +65,13 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps)(SmallHeader);
 
+console.log('headhahd', StatusBar.currentHeight);
+
 const styles = {
   view: {
     backgroundColor: '#bf360c',
     flexDirection: 'row',
-    paddingTop: StatusBar.currentHeight,
+    paddingTop: Platform.OS === 'ios' ? 20 : StatusBar.currentHeight,
     height: 88,
   },
   left: {
