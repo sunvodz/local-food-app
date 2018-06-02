@@ -7,11 +7,13 @@ import Node from 'app/screens/Node';
 import Cart from 'app/screens/User/screens/Cart';
 import Nodes from 'app/screens/User/screens/Nodes';
 
-import SmallHeader from './headers/SmallHeader';
+import { trans } from 'app/shared';
 
 const routeConfig = {
   Map: {
-    screen: Map,
+    screen: props => {
+      return <Map navigation={props.navigation} lang={props.screenProps.lang} />
+    },
     navigationOptions: ({ navigation }) => {
       return {
         header: null,
@@ -19,20 +21,22 @@ const routeConfig = {
     }
   },
   Node: {
-    screen: Node,
+    screen: props => {
+      return <Node navigation={props.navigation} lang={props.screenProps.lang} />;
+    },
     navigationOptions: ({ navigation }) => {
-      const node = navigation.state.params;
-
       return {
-        header: <SmallHeader title={node.name} left right navigation={navigation} />,
+        header: null,
       };
     }
   },
   Cart: {
-    screen: Cart,
+    screen: props => {
+      return <Cart navigation={props.navigation} lang={props.screenProps.lang} />;
+    },
     navigationOptions: ({ navigation }) => {
       return {
-        header: <SmallHeader title='Cart' left navigation={navigation} />
+        header: null,
       };
     }
   },

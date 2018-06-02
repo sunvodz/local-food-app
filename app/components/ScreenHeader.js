@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { View, Text, StatusBar, Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import CartIcon from '../icons/CartIcon';
+import { CartIcon } from 'app/containers';
 
-class SmallHeader extends React.Component {
+class ScreenHeader extends React.Component {
   goBack() {
     const { goBack } = this.props.navigation;
     goBack();
@@ -63,9 +63,7 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(SmallHeader);
-
-console.log('headhahd', StatusBar.currentHeight);
+export default connect(mapStateToProps)(ScreenHeader);
 
 const styles = {
   view: {

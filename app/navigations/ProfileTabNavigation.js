@@ -6,20 +6,27 @@ import globalStyles from 'app/styles';
 import Orders from 'app/screens/User/screens/Orders';
 import Settings from 'app/screens/User/screens/Settings';
 
+import { trans } from 'app/shared';
+
 const RouteConfigs = {
   Orders: {
-    screen: (navigation) => {
-      return <Orders userStackNavigation={navigation.screenProps.userStackNavigation} />;
+    screen: (props) => {
+      return <Orders userStackNavigation={props.screenProps.userStackNavigation} lang={props.screenProps.lang} />;
+    },
+    navigationOptions: (props) => {
+      return {
+        tabBarLabel: trans('orders', props.screenProps.lang),
+      };
     }
   },
   Settings: {
-    screen: (navigation) => {
-      return <Settings userStackNavigation={navigation.screenProps.userStackNavigation} />;
+    screen: (props) => {
+      return <Settings userStackNavigation={props.screenProps.userStackNavigation} lang={props.screenProps.lang} />;
     },
-    navigationOptions: {
-      tabBarLabel: 'Account',
-      headerStyle: globalStyles.stackNavigator.headerStyle,
-      headerTitleStyle: globalStyles.stackNavigator.headerTitleStyle,
+    navigationOptions: (props) => {
+      return {
+        tabBarLabel: trans('settings', props.screenProps.lang),
+      };
     }
   },
 };

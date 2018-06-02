@@ -3,10 +3,9 @@ import { connect } from 'react-redux';
 import { Text, View } from 'react-native';
 import _ from 'lodash';
 
-import SmallHeader from 'app/navigations/headers/SmallHeader';
 import AuthScreen from 'app/screens/Auth';
-
-import { ContentWrapper, Empty } from 'app/components';
+import { ContentWrapper, Empty, ScreenHeader } from 'app/components';
+import { trans } from 'app/shared';
 
 class Notifications extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
@@ -16,7 +15,7 @@ class Notifications extends React.Component {
   render() {
     const { notifications } = this.props.notifications;
 
-    let content = <Empty icon="bell" header="You're up to date" text="There are no new notifications at the moment" />;
+    let content = <Empty icon="bell" header={trans('no_notification', this.props.lang)} text={trans('no_notification_text', this.props.lang)} />;
     if (!_.isEmpty(notifications)) {
       content = (
         <ContentWrapper>
@@ -27,7 +26,7 @@ class Notifications extends React.Component {
 
     return (
       <View style={{flex: 1}}>
-        <SmallHeader title='Notifications' right navigation={this.props.navigation} />
+        <ScreenHeader title={trans('notifications', this.props.lang)} right navigation={this.props.navigation} />
         {content}
       </View>
     );

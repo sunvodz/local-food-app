@@ -7,6 +7,7 @@ import AuthScreen from 'app/screens/Auth';
 import { ContentWrapper, Loader, Empty, NodeCard } from 'app/components';
 
 import * as actions from './actions';
+import { trans } from 'app/shared';
 
 const DataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
@@ -20,24 +21,6 @@ class Nodes extends React.Component {
       this.props.dispatch(actions.fetchUserNodes());
     }
   }
-
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (this.props.auth.user) {
-  //     if (prevProps.nodes.nodes !== this.props.nodes.nodes && !nodes.loading) {
-  //       this.props.dispatch(actions.fetchUserNodes());
-  //     }
-  //   }
-  // }
-
-  // fetchUserNodes() {
-  //   const { auth, nodes } = this.props;
-
-  //   if (auth && auth.user) {
-  //     if (!nodes.nodes && !nodes.loading) {
-  //       this.props.dispatch(actions.fetchUserNodes());
-  //     }
-  //   }
-  // }
 
   navigateToNode(node) {
     this.props.navigation.navigate('Node', node);
@@ -59,13 +42,13 @@ class Nodes extends React.Component {
     }
 
     if (_.isEmpty(nodes)) {
-      return <Empty icon="map-marker" header="Nothing here" text="You don't follow any nodes. Visit a node and add it to your list." />;
+      return <Empty icon="map-marker" header={trans('no_user_nodes', this.props.lang)} text={trans('no_user_nodes_text', this.props.lang)} />;
     }
 
     let nodeCards = _.map(nodes, node => {
       return (
         <View key={node.id} style={{marginBottom: 15}}>
-          <NodeCard node={node} navigateToNode={this.navigateToNode.bind(this)} removeNode={this.removeNode.bind(this)} />
+          <NodeCard node={node} navigateToNode={this.navigateToNode.bind(this)} removeNode={this.removeNode.bind(this)} lang={this.props.lang} />
         </View>
         );
     });

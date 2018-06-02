@@ -1,22 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Text, View, Button, Modal } from 'react-native';
+import { Text, View, Modal } from 'react-native';
 import MapView from 'react-native-map-clustering';
 import { Marker } from 'react-native-maps';
 import _ from 'lodash';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import { Loader, Empty } from 'app/components';
+import { Loader, Empty, Button } from 'app/components';
 import MapCallout from './MapCallout';
 import * as actions from './../actions';
-
 import mapStyle from '../mapStyle';
+import { trans } from 'app/shared';
 
 export default class MapViewWrapper extends React.Component {
   constructor(props) {
     super(props);
 
-    let location = {lat: 56.0, lng: 13.3};
+    let location = { lat: 56.0, lng: 13.3 }; // Fallback
     if (props.map.location) {
       location = {
         lat: props.map.location.coords.latitude,
@@ -24,11 +24,7 @@ export default class MapViewWrapper extends React.Component {
       }
     }
 
-
     this.mapProps = {
-      ref: c => {
-        this.mapView = c
-      },
       customMapStyle: mapStyle,
       moveOnMarkerPress: false,
       initialRegion: {
@@ -37,12 +33,8 @@ export default class MapViewWrapper extends React.Component {
         latitude: location.lat,
         longitude: location.lng,
       },
-      // onRegionChangeComplete: this.onRegionChangeComplete.bind(this),
       style: {
         flex: 1
-      },
-      onClusterPress: coordinate => {
-        this.animate(coordinate);
       },
       clusterColor: '#982b0a',
       clusterTextColor: '#fff',
@@ -54,43 +46,9 @@ export default class MapViewWrapper extends React.Component {
     };
   }
 
-  componentDidMount() {
-    // this.props.dispatch(actions.fetchCurrentLocation());
+  refreshNodes() {
+    this.props.dispatch(actions.refreshNodes());
   }
-
-  componentDidUpdate(prevProps, prevState) {
-    const prevLocation = _.get(prevProps, 'map.location');
-
-    if (this.props.map.location && this.props.map.location !== prevLocation) {
-      this.animate({
-        latitude: this.props.map.location.coords.latitude,
-        longitude: this.props.map.location.coords.longitude,
-        latitudeDelta: 0.5,
-        longitudeDelta: 0.5,
-      });
-    }
-  }
-
-  animate(coordinate) {
-    console.log(this);
-    let region = {
-         latitude: coordinate.latitude,
-         longitude: coordinate.longitude,
-         latitudeDelta: (mapView.state.region.latitudeDelta / 3),
-         longitudeDelta: (mapView.state.region.longitudeDelta / 3),
-     };
-
-     mapView._root.animateToRegion(region, 200)
-  }
-
-  // onRegionChangeComplete(region) {
-  //   this.updateRegion(region);
-  // }
-
-  // updateRegion(region) {
-  //   this.mapProps.region = region;
-  //   // this.forceUpdate();
-  // }
 
   navigateToNode(node) {
     this.closeMapCallout();
@@ -120,12 +78,17 @@ export default class MapViewWrapper extends React.Component {
     }
 
     if (!map.nodes && !map.loading) {
-      return <Empty icon="map-marker" header="Couldn't find any nodes" text="This is probably because we're having trouble connecting to the server" />;
+      let actionButton = <Button icon='refresh' title='Försök igen' onPress={this.refreshNodes.bind(this)} loading={map.refresh} />
+      return <Empty icon="map-marker" header={trans('no_nodes', this.props.lang)} text={trans('no_nodes_text', this.props.lang)} action={actionButton} />;
     }
 
     let markers = null;
     if (map.nodes)  {
       markers = _.map(map.nodes, function(node) {
+        if (!node.location) {
+          return;
+        }
+
         let coordinate = {
           latitude: parseFloat(node.location.lat),
           longitude: parseFloat(node.location.lng)
@@ -152,15 +115,17 @@ export default class MapViewWrapper extends React.Component {
         node: this.state.selectedNode,
         onClose: this.closeMapCallout.bind(this),
         navigateToNode: this.navigateToNode.bind(this),
+        lang: this.props.lang,
       };
 
       mapCallout = <MapCallout {...calloutProps} />;
     }
 
+
     return (
       <View style={{flex: 1}}>
         {mapCallout}
-        <MapView {...this.mapProps}>
+        <MapView {...this.mapProps} ref={component => this.mapViewRef = component}>
           {markers}
         </MapView>
       </View>

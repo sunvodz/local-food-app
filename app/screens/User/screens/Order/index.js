@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import { Text, View } from 'react-native';
 import moment from 'moment';
 
-import { ContentWrapper, Card, Loader, Button } from 'app/components';
+import { ContentWrapper, Card, Loader, Button, ScreenHeader } from 'app/components';
 import * as actions from './actions';
 import * as orderActions from '../Orders/actions';
+import { trans } from 'app/shared';
 
 class Order extends Component {
   componentDidUpdate() {
@@ -53,28 +54,34 @@ class Order extends Component {
       return null;
     }
 
+    let title = trans('order', this.props.lang) + ' ' + order.ref;
+    let pickup = trans('pickup_on', this.props.lang) + moment(orderDate.date.date).format('YYYY-MM-DD') + ' ' + orderItem.node.delivery_time;
+
     return (
-      <ContentWrapper>
-        <Card header='Node' headerPosition='outside'>
-          <Text style={styles.label}>{orderItem.node.name}</Text>
-          <Text>Address: {orderItem.node.address}, {orderItem.node.zip}, {orderItem.node.city}</Text>
-          <Text>Delivery: {orderItem.node.delivery_weekday} {moment(orderDate.date.date).format('YYYY-MM-DD')} {orderItem.node.delivery_time}</Text>
-        </Card>
+      <View style={{flex: 1}}>
+        <ScreenHeader title={title} sub={pickup} left navigation={this.props.navigation} />
+        <ContentWrapper>
+          <Card header='Node' headerPosition='outside'>
+            <Text style={styles.label}>{orderItem.node.name}</Text>
+            <Text style={styles.text}>Address: {orderItem.node.address}, {orderItem.node.zip}, {orderItem.node.city}</Text>
+            <Text style={styles.text}>Delivery: {orderItem.node.delivery_weekday} {moment(orderDate.date.date).format('YYYY-MM-DD')} {orderItem.node.delivery_time}</Text>
+          </Card>
 
-        <Card header='Product' headerPosition="outside">
-          <Text style={styles.label}>{orderItem.product.name}</Text>
-          <Text>Quantity: {order.quantity} {orderItem.product.package_unit}</Text>
-          <Text>Price: {orderItem.product.price * order.quantity} {orderItem.producer.currency}</Text>
-        </Card>
+          <Card header='Product' headerPosition="outside">
+            <Text style={styles.label}>{orderItem.product.name}</Text>
+            <Text style={styles.text}>Quantity: {order.quantity} {orderItem.product.package_unit}</Text>
+            <Text style={styles.text}>Price: {orderItem.product.price * order.quantity} {orderItem.producer.currency}</Text>
+          </Card>
 
-        <Card header='Producer' headerPosition='outside'>
-          <Text style={styles.label}>{orderItem.producer.name}</Text>
-          <Text>Address: {orderItem.producer.address}, {orderItem.producer.zip}, {orderItem.producer.city}</Text>
-          <Text>Payment: {orderItem.producer.payment_info}</Text>
-        </Card>
+          <Card header='Producer' headerPosition='outside'>
+            <Text style={styles.label}>{orderItem.producer.name}</Text>
+            <Text style={styles.text}>Address: {orderItem.producer.address}, {orderItem.producer.zip}, {orderItem.producer.city}</Text>
+            <Text style={styles.text}>Payment: {orderItem.producer.payment_info}</Text>
+          </Card>
 
-        <Button disabled={!isDeletable} loading={this.props.order.deleting} title="Delete order" onPress={this.deleteOrder.bind(this, order.id)} />
-      </ContentWrapper>
+          <Button disabled={!isDeletable} loading={this.props.order.deleting} title="Delete order" onPress={this.deleteOrder.bind(this, order.id)} />
+        </ContentWrapper>
+      </View>
     );
   }
 }
@@ -82,6 +89,9 @@ class Order extends Component {
 const styles = {
   label: {
     fontFamily: 'montserrat-semibold',
+  },
+  text: {
+    fontFamily: 'montserrat-regular',
   }
 }
 

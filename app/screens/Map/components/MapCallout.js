@@ -19,12 +19,12 @@ export default class MapCallout extends React.Component {
       isVisible: true,
       onBackButtonPress: this.props.onClose,
       onBackdropPress: this.props.onClose,
-      backdropOpacity: 0,
+      backdropOpacity: 0.5,
     };
 
     return (
       <Modal {...modalProps}>
-        <NodeCard node={node} navigateToNode={this.navigateToNode.bind(this)} />
+        <NodeCard node={node} navigateToNode={this.navigateToNode.bind(this)} lang={this.props.lang} />
       </Modal>
     );
   }

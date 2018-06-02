@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Picker } from 'react-native';
-import ModalDropdown from 'react-native-modal-dropdown'
+import { View, Text, Picker, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import moment from 'moment';
+import _ from 'lodash';
 
-import { ContentWrapper, Card, Button } from 'app/components';
-import { sharedActions } from 'app/shared';
+import { ContentWrapper, Card, Button, Link } from 'app/components';
+import { sharedActions, trans } from 'app/shared';
 import * as actions from './actions';
 
 class Settings extends Component {
@@ -17,13 +19,13 @@ class Settings extends Component {
   }
 
   navigateToMembershipPayment(donation) {
-    const { navigate } = this.props.userStackNavigation.navigation;
+    const { navigate } = this.props.userStackNavigation;
 
     navigate('Membership');
   }
 
   navigateToDeleteAccount() {
-    const { navigate } = this.props.userStackNavigation.navigation;
+    const { navigate } = this.props.userStackNavigation;
 
     navigate('DeleteAccount', {
       deleteAccount: this.performDeleteAccount,
@@ -32,11 +34,10 @@ class Settings extends Component {
 
   performDeleteAccount() {
     // Dispatch delete action here
-    console.log('Delete account');
   }
 
-  changeLanguage() {
-    console.log('Change langauge');
+  changeLanguage(lang) {
+    this.props.dispatch(actions.setLanguage(lang));
   }
 
   adjustFrame(style) {
@@ -48,37 +49,44 @@ class Settings extends Component {
   render() {
     const { auth } = this.props;
 
-    let membershipStatus = (
-      <View>
-        <Text>You are not a member</Text>
-        <Button onPress={this.navigateToMembershipPayment.bind(this, false)} title="Pay" accessibilityLabel="Pay" />
-      </View>
-    );
+    let membershipStatus = <Text>You are not a member</Text>;
+    let membershipStatusAction = <Button onPress={this.navigateToMembershipPayment.bind(this, false)} title="Pay" accessibilityLabel="Pay" />;
 
     if (auth.user.active) {
-      membershipStatus = (
-        <View>
-          <Text>You are a member</Text>
-          <Button onPress={this.navigateToMembershipPayment.bind(this, true)} title="Donate" accessibilityLabel="Pay" />
-        </View>
-      );
+      let payments = auth.user.membership_payments_relationship;
+      let latestPayment = payments[payments.length - 1];
+      let membershipUntil = moment(latestPayment).add(1, 'y');
+
+      membershipStatus = <Text>{trans('member_until', this.props.lang)} {membershipUntil.format('YYYY-MM-DD')}</Text>;
+      membershipStatusAction = <Link onPress={this.navigateToMembershipPayment.bind(this, true)} title={trans('renew_membership', this.props.lang)} accessibilityLabel="Pay" />;
     }
+
+    let availableLanguages = {
+      sv: 'Svenska',
+      en: 'English',
+    };
+
+    let languageItems = _.map(availableLanguages, (name, lang) => {
+      let selected = auth.user.language === lang ? <Icon name='check' /> : null;
+
+      return (
+        <TouchableOpacity style={styles.languageItem} key={lang} onPress={this.changeLanguage.bind(this, lang)}>
+          <Text style={styles.text}>{name}</Text>
+          {selected}
+        </TouchableOpacity>
+      );
+    });
 
     return (
       <ContentWrapper>
-        <Card header='Membership' headerPosition='outside'>
+        <Card header={trans('membership', this.props.lang)} headerPosition='outside' footer={membershipStatusAction} style={{card: {marginBottom: 0}}}>
           {membershipStatus}
         </Card>
-        <Card header='Notifications' headerPosition='outside'>
-          <Text>Notification settings here</Text>
+        <Card header={trans('select_language', this.props.lang)} headerPosition='outside'>
+          {languageItems}
         </Card>
-        <Card header='Language' headerPosition='outside'>
-          <ModalDropdown options={['option 1', 'option 2']} style={styles.modalDropdownStyle} dropdownStyle={styles.modalDropdownDropdownStyle} dropdownTextStyle={styles.modalDropdownDropdownTextStyle} dropdownTextHighlightStyle={styles.dropdownTextHighlightStyle} adjustFrame={this.adjustFrame.bind(this)} onSelect={this.changeLanguage.bind(this)}>
-            <Text style={styles.modalDropdownTextStyle}>Select language</Text>
-          </ModalDropdown>
-        </Card>
-        <Button onPress={this.onLogout.bind(this)} title="Logout" accessibilityLabel="Logout" />
-        <Text style={styles.deleteAccountLink} onPress={this.navigateToDeleteAccount.bind(this)}>Delete account</Text>
+        <Button onPress={this.onLogout.bind(this)} title={trans('logout', this.props.lang)} accessibilityLabel="Logout" />
+        {/*<Text style={styles.deleteAccountLink} onPress={this.navigateToDeleteAccount.bind(this)}>Delete account</Text>*/}
       </ContentWrapper>
     );
   }
@@ -123,5 +131,17 @@ const styles = {
   },
   dropdownTextHighlightStyle: {
     backgroundColor: 'blue',
+  },
+  languageItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 5,
+  },
+  languageItemSelected: {
+    color: '#bf360c'
+  },
+  text: {
+    fontFamily: 'montserrat-regular',
   }
 };

@@ -5,6 +5,7 @@ import _ from 'lodash';
 
 import { BadgeDate, BadgeWrapper } from 'app/components';
 import * as actions from '../actions';
+import { trans } from 'app/shared';
 
 class DatePicker extends Component {
   onSelectDate(date) {
@@ -14,8 +15,8 @@ class DatePicker extends Component {
   render() {
     if (this.props.dates && this.props.dates.length === 0) {
       return (
-        <BadgeWrapper style={badgeWrapperStyle} label='Pick up dates'>
-          <Text style={{marginLeft: 15, color: '#999'}}>No available dates</Text>
+        <BadgeWrapper style={badgeWrapperStyle} label={trans('pickup_dates', this.props.lang)}>
+          <Text style={{marginLeft: 15, color: '#999'}}>{trans('no_available_pickup_dates', this.props.lang)}</Text>
         </BadgeWrapper>
       );
     }
@@ -24,11 +25,11 @@ class DatePicker extends Component {
 
     let badgeItems = _.map(this.props.dates, (date) => {
       let isSelected = date === selectedDate;
-      return <BadgeDate key={date} labelTop={moment(date).format('D')} labelBottom={moment(date).format('MMM')} selected={isSelected} onPress={this.onSelectDate.bind(this, date)} />;
+      return <BadgeDate key={date} labelTop={moment(date).format('D')} labelBottom={trans(moment(date).format('MMM'), this.props.lang)} selected={isSelected} onPress={this.onSelectDate.bind(this, date)} />;
     })
 
     return (
-      <BadgeWrapper style={badgeWrapperStyle} label='Pick up dates'>
+      <BadgeWrapper style={badgeWrapperStyle} label={trans('pickup_dates', this.props.lang)}>
         {badgeItems}
       </BadgeWrapper>
     );

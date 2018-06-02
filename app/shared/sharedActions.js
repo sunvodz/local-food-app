@@ -9,6 +9,8 @@ var stripe = require('stripe-client')(STRIPE_PUBLISHABLE_KEY);
 
 const PUSH_ENDPOINT = '/api/v1/users/push-token';
 
+let globalUser;
+
 export function toggleAuthForm() {
   return {
     type: sharedActionTypes.TOGGLE_AUTH_FORM,
@@ -111,6 +113,7 @@ export function loginInProgress() {
 }
 
 export function loginComplete(user) {
+  globalUser = user;
   return {
     type: sharedActionTypes.LOGIN_COMPLETE,
     loading: false,
@@ -297,7 +300,8 @@ export async function getLocationAsync() {
   const { status } = await Permissions.askAsync(Permissions.LOCATION);
 
   if (status === 'granted') {
-    return Location.getCurrentPositionAsync({enableHighAccuracy: true});
+    let location =  await Location.getCurrentPositionAsync({enableHighAccuracy: true});
+    return location;
   } else {
     throw new Error('Location permission not granted');
   }

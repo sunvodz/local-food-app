@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 import { ScrollView, Text, View } from 'react-native';
 import _ from 'lodash';
 
-import { Loader, NumberInput, Button, Empty } from 'app/components';
+import { Loader, NumberInput, Button, Empty, ScreenHeader } from 'app/components';
 import DatePicker from './component/DatePicker';
 import ProductCard from './component/ProductCard';
 import * as actions from './actions';
+import { trans } from 'app/shared';
 
 class Node extends React.Component {
   constructor(props) {
@@ -89,7 +90,7 @@ class Node extends React.Component {
     if (!loadingProducts && (!products || products.length === 0)) {
       return (
         <View style={styles.view}>
-          <Empty icon="exclamation" header="No products" text="No available products at the moment" />
+          <Empty icon="exclamation" header={trans('no_products', this.props.lang)} text={trans('no_products_text', this.props.lang)} />
         </View>
       );
     }
@@ -114,7 +115,8 @@ class Node extends React.Component {
 
     return (
       <View style={styles.view}>
-        <DatePicker dates={dates} onSelectDate={this.onSelectDate.bind(this)} selectedDate={this.getSelectedDate()}/>
+        <ScreenHeader title={this.props.navigation.state.params.name} left right navigation={this.props.navigation} />
+        <DatePicker dates={dates} onSelectDate={this.onSelectDate.bind(this)} selectedDate={this.getSelectedDate()} lang={this.props.lang} />
         {content}
       </View>
     );

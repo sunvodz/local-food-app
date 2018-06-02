@@ -7,10 +7,11 @@ import _ from 'lodash';
 
 import AuthScreen from 'app/screens/Auth';
 
-import { ContentWrapper, Loader, Card, Text, QuantityInput, Button, Empty, List, ListItem, ListSection } from 'app/components';
+import { ContentWrapper, Loader, Card, Text, QuantityInput, Button, Empty, List, ListItem, ListSection, ScreenHeader } from 'app/components';
 import CartItem from './components/CartItem';
 import * as actions from './actions';
 import { updateCartItem } from './actions';
+import { trans } from 'app/shared';
 
 const DataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
@@ -82,11 +83,9 @@ class Cart extends React.Component {
     let date = moment(cartDateItemLinks.key).format('DD MMMM YYYY');
     let numberOfListItems = cartDateItemLinks.items.length - 1;
 
-    //???
     const { loading, updatingCartItems, refreshing, cart } = this.props.cart;
 
     let listItems = _.map(cartDateItemLinks.items, (cartDateItemLink, index) => {
-      // let orderItem = order.order_item_relationship[0];
       let dateItem = cartDateItemLink.cart_date_relationship[0];
       let cartItem = cartDateItemLink.cart_item_relationship[0];
       let isLastListItem = index === numberOfListItems;
@@ -104,7 +103,7 @@ class Cart extends React.Component {
     });
 
     return (
-      <ListSection label={'Pickup ' + date}>
+      <ListSection label={trans('pickup', this.props.lang) + ' ' + date}>
         {listItems}
       </ListSection>
     );
@@ -122,7 +121,7 @@ class Cart extends React.Component {
     }
 
     if (!refreshing && _.isEmpty(cart)) {
-      return <Empty icon="shopping-basket" header="Your cart is empty" text="Visit a node to find available products" />;
+      return <Empty icon="shopping-basket" header={trans('cart_empty', this.props.lang)} text={trans('cart_empty_text', this.props.lang)} />;
     }
 
     let totalCost = _.chain(cart)
@@ -158,9 +157,10 @@ class Cart extends React.Component {
 
     return (
       <View style={{flex: 1, backgroundColor: '#f4f4f0'}}>
+        <ScreenHeader title={trans('cart', this.props.lang)} left navigation={this.props.navigation} />
         <List {...listProps} />
         {totalCost}
-        <Button style={buttonStyle} loading={this.props.cart.creating} title="Skicka beställning" subTitle='Test' onPress={this.createOrder.bind(this)} />
+        <Button style={buttonStyle} loading={this.props.cart.creating} title={trans('send_order', this.props.lang)} onPress={this.createOrder.bind(this)} />
       </View>
     );
   }

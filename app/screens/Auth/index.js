@@ -3,8 +3,8 @@ import { Text, View, Image, Dimensions } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import _ from 'lodash';
 
-import { sharedActions } from 'app/shared';
-import { TextInput, Card, Button, Loader } from 'app/components';
+import { sharedActions, trans } from 'app/shared';
+import { TextInput, Card, Button, Loader, ScreenHeader } from 'app/components';
 
 export default class AuthScreen extends Component {
   constructor(props) {
@@ -79,10 +79,13 @@ export default class AuthScreen extends Component {
     }
 
     return (
-      <KeyboardAwareScrollView {...scrollViewProps}>
-        <Image style={styles.logo} source={require('../../../assets/images/logo-white.png')} />
-        {card}
-      </KeyboardAwareScrollView>
+      <View style={{flex: 1}}>
+        <ScreenHeader title={trans('login', this.props.lang)} right navigation={this.props.navigation} />
+        <KeyboardAwareScrollView {...scrollViewProps}>
+          <Image style={styles.logo} source={require('../../../assets/images/logo-white.png')} />
+          {card}
+        </KeyboardAwareScrollView>
+      </View>
     );
   }
 }

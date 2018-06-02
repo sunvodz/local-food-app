@@ -23,6 +23,7 @@ class Empty extends Component {
           </View>
           <Text style={styles.header}>{this.props.header}</Text>
           <Text style={styles.text}>{this.props.text}</Text>
+          {this.props.action}
         </View>
       </ScrollView>
     );

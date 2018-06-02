@@ -4,8 +4,8 @@ import { Text, View, Image } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import _ from 'lodash';
 
-import { sharedActions } from 'app/shared';
-import { NumberInput, Card, Button } from 'app/components';
+import { sharedActions, trans } from 'app/shared';
+import { NumberInput, Card, Button, ScreenHeader } from 'app/components';
 
 class Membership extends Component {
   constructor(props) {
@@ -41,17 +41,18 @@ class Membership extends Component {
 
     return (
       <KeyboardAwareScrollView {...scrollViewProps}>
+        <ScreenHeader title={trans('membership', this.props.lang)} left navigation={this.props.navigation} />
         <Image style={styles.logo} source={require('../../../../../assets/images/logo-white.png')} />
         <View style={styles.wrapper}>
-          <Text style={styles.infoText}>Before you can place an order you need to become a member. Pay what you want.</Text>
-          <NumberInput style={textInputStyle} label="Amount" placeholder="Valfri summa" onChangeText={this.onChange.bind(this, 'amount')} />
-          <NumberInput style={textInputStyle} label="Card number" placeholder="4242 4242 4242 4242" onChangeText={this.onChange.bind(this, 'cardNumber')} />
+          <Text style={styles.infoText}>{trans('membership_info', this.props.lang)}</Text>
+          <NumberInput style={textInputStyle} label={trans('amount', this.props.lang)} placeholder={trans('amount_placeholder', this.props.lang)} onChangeText={this.onChange.bind(this, 'amount')} />
+          <NumberInput style={textInputStyle} label={trans('card_number', this.props.lang)} placeholder={trans('card_number_placeholder', this.props.lang)} onChangeText={this.onChange.bind(this, 'cardNumber')} />
           <View style={styles.group}>
-              <NumberInput style={textInputGroupItemStyle} label="Expire year" placeholder="2020" onChangeText={this.onChange.bind(this, 'expYear')} />
-              <NumberInput style={textInputGroupItemStyle} label="Expire month" placeholder="01" onChangeText={this.onChange.bind(this, 'expMonth')} />
+              <NumberInput style={textInputGroupItemStyle} label={trans('year', this.props.lang)} placeholder={trans('year_placeholder', this.props.lang)} onChangeText={this.onChange.bind(this, 'expYear')} />
+              <NumberInput style={textInputGroupItemStyle} label={trans('month', this.props.lang)} placeholder={trans('month_placeholder', this.props.lang)} onChangeText={this.onChange.bind(this, 'expMonth')} />
               <NumberInput style={textInputLastGroupItemStyle} label="CVC" placeholder="123" onChangeText={this.onChange.bind(this, 'cvc')} />
           </View>
-          <Button style={buttonStyle} onPress={this.onPayment.bind(this)} title="Become a member" accessibilityLabel="Become a member" loading={this.props.membership.paymentInProgress} />
+          <Button style={buttonStyle} onPress={this.onPayment.bind(this)} title={trans('become_a_member', this.props.lang)} accessibilityLabel={trans('become_a_member', this.props.lang)} loading={this.props.membership.paymentInProgress} />
         </View>
       </KeyboardAwareScrollView>
     );

@@ -15,6 +15,7 @@ class App extends Component {
     this.notificationSubscription = Notifications.addListener(this.handleNotification.bind(this));
 
     this.props.dispatch(sharedActions.loadUser());
+    this.props.dispatch(mapActions.fetchCurrentLocation());
     this.props.dispatch(mapActions.fetchNodes());
     this.props.dispatch(userNodesActions.fetchUserNodes());
   }
@@ -31,6 +32,8 @@ class App extends Component {
   };
 
   render() {
+    let currentLang = this.props.auth.user ? this.props.auth.user.language : 'en';
+
     // Spash
     if (this.props.map.loading) {
       return (
@@ -45,7 +48,7 @@ class App extends Component {
     return (
       <View style={{flex: 1, backgroundColor: '#f4f4f0'}}>
         <StatusBar barStyle="light-content" />
-        <MainTabNavigation />
+        <MainTabNavigation screenProps={{lang: currentLang}} />
         <Alert />
       </View>
     );

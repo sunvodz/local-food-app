@@ -4,10 +4,11 @@ import { Text, View, Button, Modal } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import _ from 'lodash';
 
-import SmallHeader from 'app/navigations/headers/SmallHeader';
+import { ScreenHeader } from 'app/components';
 import MapViewWrapper from './components/MapViewWrapper';
 import NodesScreen from 'app/screens/User/screens/Nodes';
 import * as actions from './actions';
+import { trans } from 'app/shared';
 
 class Map extends React.Component {
   constructor(props) {
@@ -30,24 +31,24 @@ class Map extends React.Component {
         left = <Icon style={styles.leftIcon} name='list' size={24} color='#fff' onPress={this.toggleMap.bind(this)}/>;
         return (
           <View style={{flex: 1}}>
-            <SmallHeader title='Find nodes' right left={left} navigation={this.props.navigation} />
-            <MapViewWrapper {...this.props} />
+            <ScreenHeader title={trans('find_nodes', this.props.lang)} right left={left} navigation={this.props.navigation} />
+            <MapViewWrapper {...this.props} lang={this.props.lang} />
           </View>
         );
       } else { // Show user nodes
         left = <Icon style={styles.leftIcon} name='globe' size={24} color='#fff' onPress={this.toggleMap.bind(this)}/>;
         return (
           <View style={{flex: 1}}>
-            <SmallHeader title='Your nodes' right left={left} navigation={this.props.navigation} />
-            <NodesScreen navigation={this.props.navigation}/>
+            <ScreenHeader title={trans('your_nodes', this.props.lang)} right left={left} navigation={this.props.navigation} />
+            <NodesScreen lang={this.props.lang} navigation={this.props.navigation}/>
           </View>
         );
       }
     } else { // Show map when user is not logged in
       return (
         <View style={{flex: 1}}>
-          <SmallHeader title='Find nodes' navigation={this.props.navigation} />
-          <MapViewWrapper {...this.props} />
+          <ScreenHeader title={trans('find_nodes', this.props.lang)} navigation={this.props.navigation} />
+          <MapViewWrapper {...this.props} lang={this.props.lang} />
         </View>
       );
     }

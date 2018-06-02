@@ -7,14 +7,19 @@ export function fetchCurrentLocation() {
     try {
       dispatch(requestCurrentLocation());
       let location = await sharedActions.getLocationAsync();
-      console.log('location', location);
       dispatch(receiveCurrentLocation(location));
     } catch (error) {
-      console.log('ERROR IN GET LCOATION', error);
-      // dispatch(receiveCurrentLocation({
-      //   lat: 0,
-      //   lng: 0,
-      // }));
+      dispatch(receiveDefaultLocation({
+        coords: {
+          accuracy: 5,
+          altitude: 0,
+          altitudeAccuracy: -1,
+          heading: -1,
+          latitude: 56,
+          longitude: 13.3,
+          speed: -1,
+        }
+      }));
     }
   }
 }
@@ -35,6 +40,14 @@ export function receiveCurrentLocation(location) {
   }
 }
 
+export function receiveDefaultLocation(location) {
+  return {
+    type: actionTypes.RECEIVE_DEFAULT_LOCATION,
+    location: location,
+    loading: false,
+  }
+}
+
 export function fetchNodes() {
   return async function (dispatch, getState) {
     try {
@@ -47,8 +60,12 @@ export function fetchNodes() {
       let nodes = response.data;
 
       dispatch(receiveNodes(nodes));
-    } catch (error) {
-      // Maybe add alert here too?
+    } catch (exception) {
+      dispatch({
+        type: actionTypes.SHOW_ERROR,
+        title: 'Could not load nodes',
+        message: exception.error
+      });
       dispatch(receiveNodes(null)); // No nodes will show server error warning
     }
   }
@@ -58,6 +75,7 @@ export function requestNodes() {
   return {
     type: actionTypes.REQUEST_NODES,
     loading: true,
+    refresh: false,
     nodes: null,
   }
 }
@@ -66,6 +84,39 @@ export function receiveNodes(nodes) {
   return {
     type: actionTypes.RECEIVE_NODES,
     loading: false,
+    refresh: false,
     nodes: nodes,
+  }
+}
+
+export function refreshNodes() {
+  return async function (dispatch, getState) {
+    try {
+      dispatch(refreshingNodes());
+
+      let response = await api.call({
+        url: '/api/v1/nodes',
+      });
+
+      let nodes = response.data;
+
+      dispatch(receiveNodes(nodes));
+    } catch (exception) {
+      dispatch({
+        type: actionTypes.SHOW_ERROR,
+        title: 'Could not refresh nodes',
+        message: exception.error
+      });
+      dispatch(receiveNodes(null)); // No nodes will show server error warning
+    }
+  }
+}
+
+export function refreshingNodes() {
+  return {
+    type: actionTypes.REFRESH_NODES,
+    loading: false,
+    refresh: true,
+    nodes: null,
   }
 }

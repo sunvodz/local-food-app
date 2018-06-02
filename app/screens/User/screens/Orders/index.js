@@ -6,6 +6,7 @@ import _ from 'lodash';
 
 import { Loader, List, ListSection, ListItem, Text, Empty } from 'app/components';
 import * as actions from './actions';
+import { trans } from 'app/shared';
 
 const DataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
@@ -31,13 +32,14 @@ class Orders extends Component {
   }
 
   navigateOrder(orderData) {
-    const { navigate } = this.props.userStackNavigation.navigation;
+    const { navigate } = this.props.userStackNavigation;
 
     navigate('Order', orderData);
   }
 
   renderListSection(orders, sectionId, rowId) {
-    let date = moment(orders.key).format('DD MMMM YYYY');
+    let dateObj = moment(orders.key);
+    let date = dateObj.format('DD') + ' ' + trans(dateObj.format('MMMM'), this.props.lang) + ' ' + dateObj.format('YYYY');
     let numberOfListItems = orders.items.length - 1;
 
     let listItems = _.map(orders.items, (order, index) => {
@@ -55,7 +57,7 @@ class Orders extends Component {
     });
 
     return (
-      <ListSection label={'Pickup ' + date}>
+      <ListSection label={trans('pickup', this.props.lang) + ' ' + date}>
         {listItems}
       </ListSection>
     );

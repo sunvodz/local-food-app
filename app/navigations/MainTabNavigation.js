@@ -1,31 +1,42 @@
 import React, { Component } from 'react';
 import { TabNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { NodesIcon, NotificationsIcon, UserIcon } from './icons';
+import { NotificationsIcon } from 'app/containers';
 
 import MapStackNavigation from './MapStackNavigation';
-import NodesStackNavigation from './NodesStackNavigation';
 import Notifications from 'app/screens/User/screens/Notifications';
 import UserStackNavigation from './UserStackNavigation';
 
 const RouteConfigs = {
   UserStackNavigation: {
-    screen: UserStackNavigation, // Use UserNavigation to get the stack navigation header
-    navigationOptions: ({ navigation }) => ({
-      tabBarLabel: ({ tintColor }) => (<UserIcon size={24} color={tintColor} />)
-    })
+    screen: props => {
+      return <UserStackNavigation screenProps={props.screenProps} />; // Use UserNavigation to get the stack navigation header
+    },
+    navigationOptions: ({ navigation }) => {
+      return {
+        tabBarLabel: ({ tintColor }) => (<Icon name="user" size={24} color={tintColor} />)
+      };
+    }
   },
   MapStackNavigation: {
-    screen: MapStackNavigation,
-    navigationOptions: ({ navigation }) => ({
-      tabBarLabel: ({ tintColor }) => (<Icon name='map-marker' size={24} color={tintColor} />)
-    })
+    screen: props => {
+      return <MapStackNavigation screenProps={props.screenProps} />;
+    },
+    navigationOptions: ({ navigation }) => {
+      return {
+        tabBarLabel: ({ tintColor }) => (<Icon name='map-marker' size={24} color={tintColor} />)
+      };
+    }
   },
   Notifications: {
-    screen: Notifications,
-    navigationOptions: ({ navigation }) => ({
-      tabBarLabel: ({ tintColor }) => (<NotificationsIcon size={24} color={tintColor} />)
-    })
+    screen: props => {
+      return <Notifications screenProps={props.screenProps} lang={props.screenProps.lang} />;
+    },
+    navigationOptions: ({ navigation }) => {
+      return {
+        tabBarLabel: ({ tintColor }) => (<NotificationsIcon size={24} color={tintColor} />)
+      };
+    }
   },
 };
 

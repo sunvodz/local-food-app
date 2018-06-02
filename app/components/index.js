@@ -13,6 +13,7 @@ import Loader from './Loader';
 import NodeCard from './NodeCard';
 import NumberInput from './NumberInput';
 import Picker from './Picker';
+import ScreenHeader from './ScreenHeader';
 import Text from './Text';
 import TextInput from './TextInput';
 import QuantityInput from './QuantityInput';
@@ -33,6 +34,7 @@ export {
   NodeCard,
   NumberInput,
   Picker,
+  ScreenHeader,
   Text,
   TextInput,
   QuantityInput,

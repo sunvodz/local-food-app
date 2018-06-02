@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import _ from 'lodash';
 
 import { Link, Text } from 'app/components';
+import { trans } from 'app/shared';
 
 export default class NodeCard extends React.Component {
   navigateToNode() {
@@ -18,17 +19,17 @@ export default class NodeCard extends React.Component {
   render() {
     const { node } = this.props;
 
-    let remove = this.props.removeNode ? <Link title="Remove" onPress={this.removeNode.bind(this)}/> : null;
+    let remove = this.props.removeNode ? <Link title={trans('remove', this.props.lang)} onPress={this.removeNode.bind(this)}/> : null;
 
     return (
       <View style={styles.modal}>
         <View style={styles.modalContent}>
           <Text style={styles.node.title}>{node.name}</Text>
           <Text style={styles.node.address}>{node.address}, {node.zip}, {node.city}</Text>
-          <Text style={styles.node.info}>Welcome to visit our node {node.name}</Text>
+          <Text style={styles.node.info}>{trans('welcome_node', this.props.lang)} {node.name}</Text>
         </View>
         <View style={styles.modalFooter}>
-          <Link title="Go to node" onPress={this.navigateToNode.bind(this)}/>
+          <Link title={trans('go_to_node', this.props.lang)} onPress={this.navigateToNode.bind(this)}/>
           {remove}
         </View>
       </View>

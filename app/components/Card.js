@@ -1,23 +1,10 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image, Dimensions } from 'react-native';
+import styleMerger from 'app/shared/utils/styleMerger';
 
 export default class Card extends React.Component {
-  mergeStyles() {
-    let mergeStyles = {};
-
-    Object.keys(styles).map(key => {
-      mergeStyles[key] = styles[key];
-
-      if (this.props.style && this.props.style[key]) {
-        mergeStyles[key] = Object.assign({}, styles[key], this.props.style[key]);
-      }
-    });
-
-    return mergeStyles;
-  }
-
   render() {
-    let mergedStyles = this.mergeStyles();
+    let mergedStyles = styleMerger.merge(styles, this.props.style);
 
     let headerInside = null;
     let headerOutside = null;
@@ -55,6 +42,15 @@ export default class Card extends React.Component {
       image = <Image source={{uri: this.props.image}} style={{width: imageWidth, height: imageHeight}} />;
     }
 
+    let footer = null;
+    if (this.props.footer) {
+      footer = (
+        <View style={mergedStyles.footer}>
+          {this.props.footer}
+        </View>
+      );
+    }
+
     return (
       <TouchableOpacity {...touchableOpacityProps}>
         {headerOutside}
@@ -65,6 +61,7 @@ export default class Card extends React.Component {
             {this.props.children}
           </View>
         </View>
+        {footer}
       </TouchableOpacity>
     );
   }
@@ -74,7 +71,9 @@ const styles = {
   card: {
     backgroundColor: '#fff',
     elevation: 0,
-    margin: 5,
+    marginTop: 5,
+    marginLeft: 5,
+    marginRight: 5,
     marginBottom: 15,
   },
   content: {
@@ -95,4 +94,16 @@ const styles = {
     marginLeft: 5,
     marginRight: 5,
   },
+  footer: {
+    backgroundColor: '#fff',
+    borderTopColor: '#f0f0f0',
+    borderTopWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 15,
+    marginTop: 0,
+    marginLeft: 5,
+    marginRight: 5,
+    marginBottom: 15,
+  }
 };
