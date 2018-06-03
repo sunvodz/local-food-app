@@ -40,7 +40,7 @@ class Map extends React.Component {
         return (
           <View style={{flex: 1}}>
             <ScreenHeader title={trans('your_nodes', this.props.lang)} right left={left} navigation={this.props.navigation} />
-            <NodesScreen lang={this.props.lang} navigation={this.props.navigation}/>
+            <NodesScreen toggleMap={this.toggleMap.bind(this)} lang={this.props.lang} navigation={this.props.navigation}/>
           </View>
         );
       }

@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Text, View, Button, ListView } from 'react-native';
+import { Text, View, ListView } from 'react-native';
 import _ from 'lodash';
 
 import AuthScreen from 'app/screens/Auth';
-import { ContentWrapper, Loader, Empty, NodeCard } from 'app/components';
+import { ContentWrapper, Loader, Empty, NodeCard, Button } from 'app/components';
 
 import * as actions from './actions';
 import { trans } from 'app/shared';
@@ -42,7 +42,8 @@ class Nodes extends React.Component {
     }
 
     if (_.isEmpty(nodes)) {
-      return <Empty icon="map-marker" header={trans('no_user_nodes', this.props.lang)} text={trans('no_user_nodes_text', this.props.lang)} />;
+      let actionButton = <Button icon='globe' title={trans('find_nodes', this.props.lang)} onPress={this.props.toggleMap} />
+      return <Empty icon="map-marker" action={actionButton} header={trans('no_user_nodes', this.props.lang)} text={trans('no_user_nodes_text', this.props.lang)} />;
     }
 
     let nodeCards = _.map(nodes, node => {
@@ -54,7 +55,7 @@ class Nodes extends React.Component {
     });
 
     return (
-      <ContentWrapper style={{backgroundColor: 'red'}}>
+      <ContentWrapper>
         {nodeCards}
       </ContentWrapper>
     );

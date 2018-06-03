@@ -58,8 +58,8 @@ export default class AuthScreen extends Component {
     let card = (
       <View style={styles.wrapper}>
         <Text style={styles.infoText}>Login to your account to shop local food directly from your local producers</Text>
-        <TextInput style={textInputStyle} defaultValue={this.state.email} editable={!this.props.auth.loading} placeholder='Your email' onChangeText={this.onChange.bind(this, 'email')} autoCapitalize='none' />
-        <TextInput style={textInputStyle} defaultValue={this.state.password} editable={!this.props.auth.loading} placeholder='Your password' onChangeText={this.onChange.bind(this, 'password')} secureTextEntry />
+        <TextInput key='email' style={textInputStyle} defaultValue={this.state.email} editable={!this.props.auth.loading} placeholder='Your email' onChangeText={this.onChange.bind(this, 'email')} autoCapitalize='none' />
+        <TextInput key='password' style={textInputStyle} defaultValue={this.state.password} editable={!this.props.auth.loading} placeholder='Your password' onChangeText={this.onChange.bind(this, 'password')} secureTextEntry />
         <Button style={buttonStyle} icon='sign-in' onPress={this.onLogin.bind(this)} title="Login" accessibilityLabel="Login" loading={this.props.auth.loading} />
         <Text onPress={this.toggleForms.bind(this)} style={styles.toggleLink}>or sign up</Text>
       </View>
@@ -70,11 +70,11 @@ export default class AuthScreen extends Component {
       card = (
         <View style={styles.wrapper}>
           <Text style={styles.infoText}>Find local food nodes near you and order directly from your local producers</Text>
-          <TextInput style={textInputStyle} defaultValue={this.state.name} editable={!this.props.auth.loading} placeholder="Your name" onChangeText={this.onChange.bind(this, 'name')} />
-          <TextInput style={textInputStyle} defaultValue={this.state.email} editable={!this.props.auth.loading} placeholder="Your email" onChangeText={this.onChange.bind(this, 'email')} autoCapitalize='none' />
-          <TextInput style={textInputStyle} defaultValue={this.state.phone} editable={!this.props.auth.loading} placeholder="Your phone number" onChangeText={this.onChange.bind(this, 'phone')} />
-          <TextInput style={textInputStyle} defaultValue={this.state.password} editable={!this.props.auth.loading} placeholder="Choose a password" hint="Minimum 8 characters" onChangeText={this.onChange.bind(this, 'password')} secureTextEntry />
-          <Button style={buttonStyle} icon='plus' onPress={this.onSignup.bind(this)} title="Sign up" accessibilityLabel="Sign up" loading={this.props.auth.loading} />
+          <TextInput key='name' style={textInputStyle} defaultValue={this.state.name} editable={!this.props.auth.loading} placeholder="Your name" onChangeText={this.onChange.bind(this, 'name')} />
+          <TextInput key='email' style={textInputStyle} defaultValue={this.state.email} editable={!this.props.auth.loading} placeholder="Your email" onChangeText={this.onChange.bind(this, 'email')} autoCapitalize='none' />
+          <TextInput key='phone' style={textInputStyle} defaultValue={this.state.phone} editable={!this.props.auth.loading} placeholder="Your phone number" onChangeText={this.onChange.bind(this, 'phone')} />
+          <TextInput key='password' style={textInputStyle} defaultValue={this.state.password} editable={!this.props.auth.loading} placeholder="Choose a password" hint="Minimum 8 characters" onChangeText={this.onChange.bind(this, 'password')} secureTextEntry />
+          <Button style={buttonStyle} icon='user' onPress={this.onSignup.bind(this)} title="Sign up" accessibilityLabel="Sign up" loading={this.props.auth.loading} />
           <Text onPress={this.toggleForms.bind(this)} style={styles.toggleLink}>or login to your account</Text>
         </View>
       );

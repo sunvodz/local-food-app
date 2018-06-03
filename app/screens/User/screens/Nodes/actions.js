@@ -1,11 +1,6 @@
 import * as actionTypes from './actionTypes'
 import { api } from 'app/shared';
 
-/**
- * Async action - fetch orders.
- *
- * @return {function}
- */
 export function fetchUserNodes() {
   return async function(dispatch, getState) {
     dispatch(requestUserNodes());
