@@ -71,7 +71,7 @@ class Orders extends Component {
     }
 
     if (_.isEmpty(orders)) {
-      return <Empty onRefresh={this.onRefresh.bind(this)} refreshing={refreshing} icon="list" header="No orders" text="You have not places any orders. Visit a node to find available products." />;
+      return <Empty onRefresh={this.onRefresh.bind(this)} refreshing={refreshing} icon="list" header={trans('no_orders', this.props.lang)} text={trans('no_orders_text', this.props.lang)} />;
     }
 
     let listProps = {

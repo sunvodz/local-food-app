@@ -4,8 +4,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { NotificationsIcon } from 'app/containers';
 
 import MapStackNavigation from './MapStackNavigation';
-import Notifications from 'app/screens/User/screens/Notifications';
 import UserStackNavigation from './UserStackNavigation';
+import NotificationsStackNavigator from './NotificationsStackNavigator';
 
 const RouteConfigs = {
   UserStackNavigation: {
@@ -30,7 +30,7 @@ const RouteConfigs = {
   },
   Notifications: {
     screen: props => {
-      return <Notifications screenProps={props.screenProps} lang={props.screenProps.lang} />;
+      return <NotificationsStackNavigator screenProps={props.screenProps} />;
     },
     navigationOptions: ({ navigation }) => {
       return {

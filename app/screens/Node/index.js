@@ -112,11 +112,28 @@ class Node extends React.Component {
       );
     }
 
+    let userNotice = null;
+    let userNoticeMessage = null;
+    if (this.props.auth.user && !this.props.auth.user.active) {
+      // If logged in but not a member - orders not possible
+      userNoticeMessage = <Text style={styles.userNoticeMessage}>You need an active membership to order products</Text>;
+    } else if (!this.props.auth.user) {
+      // If not logged in
+      userNoticeMessage = <Text style={styles.userNoticeMessage}>Please login to order products</Text>;
+    }
+
+    userNotice = (
+      <View style={styles.userNotice}>
+        {userNoticeMessage}
+      </View>
+    );
+
     return (
       <View style={styles.view}>
         <ScreenHeader title={this.props.navigation.state.params.name} left right navigation={this.props.navigation} />
         <DatePicker dates={dates} onSelectDate={this.onSelectDate.bind(this)} selectedDate={this.getSelectedDate()} lang={this.props.lang} />
         {content}
+        {userNotice}
       </View>
     );
   }
@@ -143,4 +160,15 @@ const styles = {
     flexWrap: 'wrap',
     paddingVertical: 15,
   },
+  userNotice: {
+    flex: 1,
+    backgroundColor: '#bc3b1f',
+    position: 'absolute',
+    bottom: 0,
+    padding: 15,
+  },
+  userNoticeMessage: {
+    color: '#fff',
+    fontFamily: 'montserrat-regular',
+  }
 };

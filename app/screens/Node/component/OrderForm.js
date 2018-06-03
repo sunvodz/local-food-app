@@ -41,16 +41,6 @@ export default class OrderForm extends React.Component {
     const { auth, product, variant } = this.props;
     const producer = product.producer_relationship;
 
-    let orderForm = (
-      <View style={styles.quantity}>
-        <View style={styles.buttonWrapper}>
-          <View style={styles.disabledButton}>
-            <Text numberOfLines={2} style={styles.buttonBuyText}>Please login</Text>
-          </View>
-        </View>
-      </View>
-    );
-
     let productUnitString = null;
     if (product.package_unit && product.package_unit !== 'product') {
       productUnitString = `/${product.package_unit}`;
@@ -69,9 +59,10 @@ export default class OrderForm extends React.Component {
     }
 
     let summaryPriceItem = null;
+    let orderForm = null;
 
-    // Need to become member first
     if (this.props.auth.user && this.props.auth.user.active) {
+      // If logged in and a member - orders are possible
       let increaseProps = {
         name: 'plus-circle',
         style: styles.icon,
@@ -224,4 +215,15 @@ const styles = {
     marginTop: 5,
     textAlign: 'center',
   },
+  noBuyWarningWrapper: {
+    borderBottomWidth: 4,
+    borderBottomColor: '#ddd',
+    flex: 1,
+    justifyContent: 'center',
+    marginHorizontal: 15,
+  },
+  noBuyWarning: {
+    color: '#333',
+    fontFamily: 'montserrat-regular',
+  }
 };

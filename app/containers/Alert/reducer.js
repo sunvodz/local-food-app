@@ -6,6 +6,7 @@ function alertReducer(state, action) {
     case 'LOGIN_FAILED':
     case 'CREATE_ACCOUNT_FAILED':
     case 'UPDATING_CART_FAILED':
+    case 'PAYMENT_FAILED':
       return Object.assign({}, state, {
         level: 'error',
         title: action.title,

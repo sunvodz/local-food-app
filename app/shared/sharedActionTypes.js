@@ -2,6 +2,7 @@ export const SHOW_INFO = 'SHOW_INFO';
 export const SHOW_ERROR = 'SHOW_ERROR';
 export const SERVER_ERROR = 'SERVER_ERROR';
 export const TOGGLE_AUTH_FORM = 'TOGGLE_AUTH_FORM';
+
 // Create account actions
 export const CREATE_ACCOUNT_IN_PROGRESS = 'CREATE_ACCOUNT_IN_PROGRESS';
 export const CREATE_ACCOUNT_COMPLETE = 'CREATE_ACCOUNT_COMPLETE';
@@ -23,3 +24,4 @@ export const LOAD_USER_FAILED = 'LOAD_USER_FAILED';
 // Payment actions
 export const PAYMENT_IN_PROGRESS = 'PAYMENT_IN_PROGRESS';
 export const PAYMENT_COMPLETE = 'PAYMENT_COMPLETE';
+export const PAYMENT_FAILED = 'PAYMENT_FAILED';

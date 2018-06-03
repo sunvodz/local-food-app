@@ -1,5 +1,6 @@
 import { AsyncStorage } from 'react-native';
 import { Permissions, Notifications, Location } from 'expo';
+import _ from 'lodash';
 import config from '../../config';
 import api from './api';
 import * as sharedActionTypes from './sharedActionTypes';
@@ -240,11 +241,13 @@ export function paymentInProgress(user) {
   }
 }
 
-export function paymentFailed(exception) {
+export function paymentFailed(error) {
+  // Available error codes: invalid_number, invalid_cvc, invalid_amount
+
   return {
-    type: sharedActionTypes.SHOW_ERROR,
-    title: 'Membership payment',
-    message: exception.error,
+    type: sharedActionTypes.PAYMENT_FAILED,
+    title: 'Membership',
+    message: error,
   }
 }
 

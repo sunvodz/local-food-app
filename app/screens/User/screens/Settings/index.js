@@ -49,8 +49,8 @@ class Settings extends Component {
   render() {
     const { auth } = this.props;
 
-    let membershipStatus = <Text>You are not a member</Text>;
-    let membershipStatusAction = <Button onPress={this.navigateToMembershipPayment.bind(this, false)} title="Pay" accessibilityLabel="Pay" />;
+    let membershipStatus = <Text>{trans('not_a_member', this.props.lang)}</Text>;
+    let membershipStatusAction = <Link onPress={this.navigateToMembershipPayment.bind(this, false)} title={trans('become_a_member', this.props.lang)} accessibilityLabel="Become a member" />;
 
     if (auth.user.active) {
       let payments = auth.user.membership_payments_relationship;
@@ -58,7 +58,7 @@ class Settings extends Component {
       let membershipUntil = moment(latestPayment).add(1, 'y');
 
       membershipStatus = <Text>{trans('member_until', this.props.lang)} {membershipUntil.format('YYYY-MM-DD')}</Text>;
-      membershipStatusAction = <Link onPress={this.navigateToMembershipPayment.bind(this, true)} title={trans('renew_membership', this.props.lang)} accessibilityLabel="Pay" />;
+      membershipStatusAction = <Link onPress={this.navigateToMembershipPayment.bind(this, true)} title={trans('renew_membership', this.props.lang)} accessibilityLabel="Renew membership" />;
     }
 
     let availableLanguages = {
