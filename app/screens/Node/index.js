@@ -71,17 +71,16 @@ class Node extends React.Component {
   }
 
   navigateToSignIn() {
-    this.props.navigation.navigate('Profile');
+    this.props.navigation.navigate('UserStackNavigation');
   }
 
   renderProduct(product, rowId) {
-    let disabled = this.getSelectedDate() ? false : true;
     let image = null; // Fallback here
     if (product.image_relationship && product.image_relationship.length > 0) {
       image = product.image_relationship[0].urls.medium;
     }
 
-    return <ProductCard key={product.id} disabled={disabled} product={product} image={image} auth={this.props.auth} addToCart={this.addToCart.bind(this)} navigateToSignIn={this.navigateToSignIn.bind(this)} />;
+    return <ProductCard key={product.id} product={product} image={image} auth={this.props.auth} addToCart={this.addToCart.bind(this)} navigateToSignIn={this.navigateToSignIn.bind(this)} />;
   }
 
   render() {

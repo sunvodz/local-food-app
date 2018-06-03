@@ -28,6 +28,16 @@ const RouteConfigs = {
       };
     }
   },
+  Notifications: {
+    screen: props => {
+      return <Notifications screenProps={props.screenProps} lang={props.screenProps.lang} />;
+    },
+    navigationOptions: ({ navigation }) => {
+      return {
+        tabBarLabel: ({ tintColor }) => (<NotificationsIcon size={24} color={tintColor} />)
+      };
+    }
+  },
 };
 
 const TabNavigatorConfig = {

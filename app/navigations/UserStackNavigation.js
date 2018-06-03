@@ -19,7 +19,9 @@ const routeConfig = {
     }
   },
   Order: {
-    screen: Order,
+    screen: (props) => {
+      return <Order navigation={props.navigation} lang={props.screenProps.lang} />;
+    },
     navigationOptions: ({navigation}) => {
       return {
         header: null,
@@ -37,8 +39,10 @@ const routeConfig = {
     }
   },
   DeleteAccount: {
-    screen: DeleteAccount,
-    navigationOptions: ({navigation}) => {
+    screen: (props) => {
+      return <DeleteAccount navigation={props.navigation} lang={props.screenProps.lang} />;
+      },
+      navigationOptions: ({navigation}) => {
       return {
         header: null,
       }

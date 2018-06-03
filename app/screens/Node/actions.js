@@ -127,7 +127,7 @@ export function fetchNodeDates(nodeId) {
         url: `/api/v1/nodes/${nodeId}/dates`
       });
 
-      let dates = response.data;
+      let dates = Object.values(response.data).sort();
 
       dispatch(receiveNodeDates(dates));
 
@@ -192,11 +192,11 @@ export function addProductToCart(data) {
         refreshing: false,
       });
 
-    } catch (exception) {
+    } catch (error) {
       dispatch({
         type: actionTypes.SHOW_ERROR,
         title: 'Add to cart',
-        message: exception.error
+        message: error.error
       });
     }
   }

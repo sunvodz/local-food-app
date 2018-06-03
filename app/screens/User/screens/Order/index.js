@@ -61,22 +61,32 @@ class Order extends Component {
       <View style={{flex: 1}}>
         <ScreenHeader title={title} sub={pickup} left navigation={this.props.navigation} />
         <ContentWrapper>
-          <Card header='Node' headerPosition='outside'>
-            <Text style={styles.label}>{orderItem.node.name}</Text>
-            <Text style={styles.text}>Address: {orderItem.node.address}, {orderItem.node.zip}, {orderItem.node.city}</Text>
-            <Text style={styles.text}>Delivery: {orderItem.node.delivery_weekday} {moment(orderDate.date.date).format('YYYY-MM-DD')} {orderItem.node.delivery_time}</Text>
+          <Card header={trans('node', this.props.lang)} headerPosition='outside'>
+            <View style={styles.section}>
+              <Text style={styles.label}>{orderItem.node.name}</Text>
+              <Text style={styles.text}>{orderItem.node.address}</Text>
+              <Text style={styles.text}>{orderItem.node.zip}, {orderItem.node.city}</Text>
+            </View>
+
+            <Text style={styles.label}>{trans('pickup', this.props.lang)}</Text>
+            <Text style={styles.text}>{orderItem.node.delivery_weekday} {moment(orderDate.date.date).format('YYYY-MM-DD')} {orderItem.node.delivery_time}</Text>
           </Card>
 
-          <Card header='Product' headerPosition="outside">
+          <Card header={trans('product', this.props.lang)} headerPosition="outside">
             <Text style={styles.label}>{orderItem.product.name}</Text>
-            <Text style={styles.text}>Quantity: {order.quantity} {orderItem.product.package_unit}</Text>
-            <Text style={styles.text}>Price: {orderItem.product.price * order.quantity} {orderItem.producer.currency}</Text>
+            <Text style={styles.text}>{trans('quantity', this.props.lang)}: {order.quantity} {orderItem.product.package_unit}</Text>
+            <Text style={styles.text}>{trans('price', this.props.lang)}: {orderItem.product.price * order.quantity} {orderItem.producer.currency}</Text>
           </Card>
 
-          <Card header='Producer' headerPosition='outside'>
-            <Text style={styles.label}>{orderItem.producer.name}</Text>
-            <Text style={styles.text}>Address: {orderItem.producer.address}, {orderItem.producer.zip}, {orderItem.producer.city}</Text>
-            <Text style={styles.text}>Payment: {orderItem.producer.payment_info}</Text>
+          <Card header={trans('producer', this.props.lang)} headerPosition='outside'>
+            <View style={styles.section}>
+              <Text style={styles.label}>{orderItem.producer.name}</Text>
+              <Text style={styles.text}>{orderItem.producer.address}</Text>
+              <Text style={styles.text}>{orderItem.producer.zip}, {orderItem.producer.city}</Text>
+            </View>
+
+            <Text style={styles.label}>{trans('payment', this.props.lang)}</Text>
+            <Text style={styles.text}>{orderItem.producer.payment_info}</Text>
           </Card>
 
           <Button disabled={!isDeletable} loading={this.props.order.deleting} title="Delete order" onPress={this.deleteOrder.bind(this, order.id)} />
@@ -92,6 +102,9 @@ const styles = {
   },
   text: {
     fontFamily: 'montserrat-regular',
+  },
+  section: {
+    marginBottom: 10,
   }
 }
 

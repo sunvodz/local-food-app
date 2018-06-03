@@ -4,6 +4,7 @@ import { View, Text, Image, StatusBar } from 'react-native';
 import { Notifications } from 'expo';
 
 import MainTabNavigation from 'app/navigations/MainTabNavigation';
+import MainTabAuthNavigation from 'app/navigations/MainTabAuthNavigation';
 import { Alert } from 'app/containers';
 
 import { sharedActions, sharedActionTypes } from 'app/shared';
@@ -45,10 +46,15 @@ class App extends Component {
       );
     }
 
+    let tabbar = <MainTabNavigation screenProps={{auth: this.props.auth, lang: currentLang}} />;
+    if (this.props.auth.user) {
+      tabbar = <MainTabAuthNavigation screenProps={{auth: this.props.auth, lang: currentLang}} />;
+    }
+
     return (
       <View style={{flex: 1, backgroundColor: '#f4f4f0'}}>
         <StatusBar barStyle="light-content" />
-        <MainTabNavigation screenProps={{lang: currentLang}} />
+        {tabbar}
         <Alert />
       </View>
     );

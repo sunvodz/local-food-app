@@ -31,7 +31,9 @@ class Membership extends Component {
 
   render() {
     let scrollViewProps = {
-      contentContainerStyle: styles.scrollView,
+      contentContainerStyle: {
+        paddingBottom: 100,
+      },
       keyboardShouldPersistTaps: 'always',
       enableOnAndroid: true,
       style: {
@@ -40,21 +42,23 @@ class Membership extends Component {
     };
 
     return (
-      <KeyboardAwareScrollView {...scrollViewProps}>
+      <View>
         <ScreenHeader title={trans('membership', this.props.lang)} left navigation={this.props.navigation} />
-        <Image style={styles.logo} source={require('../../../../../assets/images/logo-white.png')} />
-        <View style={styles.wrapper}>
-          <Text style={styles.infoText}>{trans('membership_info', this.props.lang)}</Text>
-          <NumberInput style={textInputStyle} label={trans('amount', this.props.lang)} placeholder={trans('amount_placeholder', this.props.lang)} onChangeText={this.onChange.bind(this, 'amount')} />
-          <NumberInput style={textInputStyle} label={trans('card_number', this.props.lang)} placeholder={trans('card_number_placeholder', this.props.lang)} onChangeText={this.onChange.bind(this, 'cardNumber')} />
-          <View style={styles.group}>
-              <NumberInput style={textInputGroupItemStyle} label={trans('year', this.props.lang)} placeholder={trans('year_placeholder', this.props.lang)} onChangeText={this.onChange.bind(this, 'expYear')} />
-              <NumberInput style={textInputGroupItemStyle} label={trans('month', this.props.lang)} placeholder={trans('month_placeholder', this.props.lang)} onChangeText={this.onChange.bind(this, 'expMonth')} />
-              <NumberInput style={textInputLastGroupItemStyle} label="CVC" placeholder="123" onChangeText={this.onChange.bind(this, 'cvc')} />
+        <KeyboardAwareScrollView {...scrollViewProps}>
+          <Image style={styles.logo} source={require('../../../../../assets/images/logo-white.png')} />
+          <View style={styles.wrapper}>
+            <Text style={styles.infoText}>{trans('membership_info', this.props.lang)}</Text>
+            <NumberInput style={textInputStyle} label={trans('amount', this.props.lang)} placeholder={trans('amount_placeholder', this.props.lang)} onChangeText={this.onChange.bind(this, 'amount')} />
+            <NumberInput style={textInputStyle} label={trans('card_number', this.props.lang)} placeholder={trans('card_number_placeholder', this.props.lang)} onChangeText={this.onChange.bind(this, 'cardNumber')} />
+            <View style={styles.group}>
+                <NumberInput style={textInputGroupItemStyle} label={trans('year', this.props.lang)} placeholder={trans('year_placeholder', this.props.lang)} onChangeText={this.onChange.bind(this, 'expYear')} />
+                <NumberInput style={textInputGroupItemStyle} label={trans('month', this.props.lang)} placeholder={trans('month_placeholder', this.props.lang)} onChangeText={this.onChange.bind(this, 'expMonth')} />
+                <NumberInput style={textInputLastGroupItemStyle} label="CVC" placeholder="123" onChangeText={this.onChange.bind(this, 'cvc')} />
+            </View>
+            <Button style={buttonStyle} onPress={this.onPayment.bind(this)} icon='user' title={trans('become_a_member', this.props.lang)} accessibilityLabel={trans('become_a_member', this.props.lang)} loading={this.props.membership.paymentInProgress} />
           </View>
-          <Button style={buttonStyle} onPress={this.onPayment.bind(this)} title={trans('become_a_member', this.props.lang)} accessibilityLabel={trans('become_a_member', this.props.lang)} loading={this.props.membership.paymentInProgress} />
-        </View>
-      </KeyboardAwareScrollView>
+        </KeyboardAwareScrollView>
+      </View>
     );
   }
 }
@@ -151,4 +155,7 @@ const buttonStyle = {
     color: '#333',
     fontFamily: 'montserrat-semibold',
   },
+  icon: {
+    color: '#333',
+  }
 };

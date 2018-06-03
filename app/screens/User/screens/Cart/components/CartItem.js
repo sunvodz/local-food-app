@@ -5,7 +5,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
 import _ from 'lodash';
 
-import { Card, Text, Picker } from 'app/components';
+import { Card, Text, Link } from 'app/components';
+import { trans } from 'app/shared';
 
 export default class CartItem extends React.Component {
   removeCartItem() {
@@ -83,48 +84,45 @@ export default class CartItem extends React.Component {
       </View>
     );
 
-    let trash = (
-      <View style={styles.trash}>
-        <Icon style={styles.trashIcon} name='trash' size={24} onPress={this.removeCartItem.bind(this)} />
-      </View>
-    );
+    let trash = <Link title={trans('delete', this.props.lang)} onPress={this.removeCartItem.bind(this)} />;
 
     return (
-      <View style={styles.wrapper} key={data.ref}>
-        <View>
+      <View style={styles.listItem}>
+        <Card key={data.ref} footer={trash} style={styles.card}>
           <Text numberOfLines={1} style={styles.productName}>{cartItem.product.name.toUpperCase()}</Text>
           {variantName}
           <View style={styles.producerNodeWrapper}>
             <Text style={styles.producer}>{cartItem.producer.name} - {cartItem.node.name}</Text>
           </View>
 
-          <View style={styles.priceWrapper}>
-            <Icon name='tag' size={16} style={styles.priceIcon} />
-            <Text>{productPrice}</Text>
-          </View>
+          <View style={styles.priceRow}>
+            <View style={styles.priceWrapper}>
+              <Icon name='tag' size={16} style={styles.priceIcon} />
+              <Text>{productPrice}</Text>
+            </View>
 
-          <View numberOfLines={1} style={styles.priceWrapper}>
-            <Icon name='shopping-basket' size={16} style={styles.priceIcon} />
-            <Text>{totalPrice}</Text>
+            <View numberOfLines={1} style={styles.priceWrapper}>
+              <Icon name='shopping-basket' size={16} style={styles.priceIcon} />
+              <Text>{totalPrice}</Text>
+            </View>
           </View>
-
-        </View>
-        <View style={[styles.row, styles.quantityRow]}>
-          {quantity}
-          {trash}
-        </View>
+          <View style={[styles.row, styles.quantityRow]}>
+            {quantity}
+          </View>
+        </Card>
       </View>
     );
   }
 }
 
 const styles = {
-  wrapper: {
-    backgroundColor: '#fff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#f4f4f0',
-    marginHorizontal: 15,
-    padding: 15,
+  listItem: {
+    paddingHorizontal: 10,
+  },
+  card: {
+    card: {
+      marginBottom: 0
+    }
   },
   productName: {
     fontFamily: 'montserrat-regular',
@@ -150,18 +148,12 @@ const styles = {
   quantityRow: {
     marginTop: 15,
   },
-  trash: {
-    flex: 1,
-    position: 'absolute',
-    right: 0,
-    bottom: 0,
-  },
-  trashIcon: {
-    color: '#333',
-    alignSelf: 'center',
-  },
   quantity: {
     flex: 10,
+  },
+  priceRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   priceWrapper: {
     flexDirection: 'row',
@@ -179,10 +171,6 @@ const quantityStyle = {
     justifyContent: 'center',
     flex: 2,
     flexDirection: 'row',
-  },
-  priceView: {
-    paddingHorizontal: 15,
-    paddingVertical: 5,
   },
   variantName: {
     fontFamily: 'montserrat-semibold',
@@ -228,8 +216,8 @@ const quantityStyle = {
     fontFamily: 'montserrat-semibold',
     fontSize: 16,
     textAlign: 'center',
-    lineHeight: 20,
-    width: 20,
-    height: 20,
+    lineHeight: 25,
+    width: 25,
+    height: 25,
   },
 };

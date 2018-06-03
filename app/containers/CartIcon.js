@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import * as actions from 'app/screens/User/screens/Cart/actions';
@@ -21,10 +21,10 @@ class CartIcon extends Component {
     }
 
     return (
-      <View style={styles.wrapper}>
-        <Icon name="shopping-basket" size={this.props.size} color={this.props.color} onPress={this.props.onPress}/>
+      <TouchableOpacity style={styles.wrapper} activeOpacity={1} onPress={this.props.onPress}>
+        <Icon name="shopping-basket" size={this.props.size} color={this.props.color}/>
         {notification}
-      </View>
+      </TouchableOpacity>
     );
   }
 }
@@ -42,8 +42,8 @@ export default connect(mapStateToProps)(CartIcon);
 
 const styles = {
   wrapper: {
-    paddingTop: 20,
-    paddingRight: 20,
+    paddingTop: 10,
+    paddingRight: 10,
     paddingBottom: 10,
     paddingLeft: 10,
   },
@@ -54,8 +54,8 @@ const styles = {
     height: 20,
     width: 20,
     position: 'absolute',
-    top: 10,
-    right: 10,
+    top: 0,
+    right: 0,
     overflow: 'hidden',
   },
   notificationText: {

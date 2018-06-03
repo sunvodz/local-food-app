@@ -99,7 +99,7 @@ class Cart extends React.Component {
         onUpdate: this.updateCartItem.bind(this)
       }
 
-      return <CartItem {...cartItemProps}/>;
+      return <CartItem {...cartItemProps} lang={this.props.lang} />;
     });
 
     return (
@@ -117,11 +117,21 @@ class Cart extends React.Component {
     }
 
     if (loading) {
-      return <Loader />;
+      return (
+        <View style={{flex: 1, backgroundColor: '#f4f4f0'}}>
+          <ScreenHeader title={trans('cart', this.props.lang)} left navigation={this.props.navigation} />
+          <Loader />
+        </View>
+      );
     }
 
     if (!refreshing && _.isEmpty(cart)) {
-      return <Empty icon="shopping-basket" header={trans('cart_empty', this.props.lang)} text={trans('cart_empty_text', this.props.lang)} />;
+      return (
+        <View style={{flex: 1, backgroundColor: '#f4f4f0'}}>
+          <ScreenHeader title={trans('cart', this.props.lang)} left navigation={this.props.navigation} />
+          <Empty icon="shopping-basket" header={trans('cart_empty', this.props.lang)} text={trans('cart_empty_text', this.props.lang)} />
+        </View>
+      );
     }
 
     let totalCost = _.chain(cart)
@@ -157,9 +167,8 @@ class Cart extends React.Component {
 
     return (
       <View style={{flex: 1, backgroundColor: '#f4f4f0'}}>
-        <ScreenHeader title={trans('cart', this.props.lang)} left navigation={this.props.navigation} />
+        <ScreenHeader title={trans('cart', this.props.lang)} sub={totalCost} left navigation={this.props.navigation} />
         <List {...listProps} />
-        {totalCost}
         <Button style={buttonStyle} loading={this.props.cart.creating} title={trans('send_order', this.props.lang)} onPress={this.createOrder.bind(this)} />
       </View>
     );

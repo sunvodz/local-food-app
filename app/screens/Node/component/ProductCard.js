@@ -108,7 +108,7 @@ export default class ProductCard extends React.Component {
           <Text numberOfLines={1} style={styles.producerTitle}>{product.producer_relationship.name}</Text>
         </View>
         {swipe}
-        <OrderForm disabled={this.props.disabled} auth={this.props.auth} product={product} variant={this.state.variant} addToCart={this.addToCart.bind(this)} navigateToSignIn={this.navigateToSignIn.bind(this)}/>
+        <OrderForm auth={this.props.auth} product={product} variant={this.state.variant} addToCart={this.addToCart.bind(this)} navigateToSignIn={this.navigateToSignIn.bind(this)}/>
         <Text style={styles.info}>{productInfo}</Text>
         {readMore}
       </View>

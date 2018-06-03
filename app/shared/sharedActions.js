@@ -9,8 +9,6 @@ var stripe = require('stripe-client')(STRIPE_PUBLISHABLE_KEY);
 
 const PUSH_ENDPOINT = '/api/v1/users/push-token';
 
-let globalUser;
-
 export function toggleAuthForm() {
   return {
     type: sharedActionTypes.TOGGLE_AUTH_FORM,
@@ -37,13 +35,7 @@ export function createAccount(data) {
       });
 
       return dispatch(createAccountComplete());
-    } catch (exception) {
-      dispatch({
-        type: sharedActionTypes.SHOW_ERROR,
-        title: 'Create account',
-        message: exception.error,
-      });
-
+    } catch (error) {
       return dispatch(createAccountFailed());
     }
   }
@@ -67,6 +59,10 @@ export function createAccountFailed() {
   return {
     type: sharedActionTypes.CREATE_ACCOUNT_FAILED,
     loading: false,
+    user: null,
+
+    title: 'Create account',
+    message: 'Could not create account',
   }
 }
 
@@ -93,13 +89,7 @@ export function loginUser(data) {
       registerForPushNotificationsAsync(data.email);
 
       return dispatch(loginComplete(user));
-    } catch (exception) {
-      dispatch({
-        type: sharedActionTypes.SHOW_ERROR,
-        title: 'Login',
-        message: exception.error,
-      });
-
+    } catch (error) {
       return dispatch(loginFailed());
     }
   }
@@ -113,7 +103,6 @@ export function loginInProgress() {
 }
 
 export function loginComplete(user) {
-  globalUser = user;
   return {
     type: sharedActionTypes.LOGIN_COMPLETE,
     loading: false,
@@ -129,7 +118,7 @@ export function logout() {
     try {
       await AsyncStorage.removeItem('@store:user');
       dispatch(logoutComplete());
-    } catch (exception) {
+    } catch (error) {
       dispatch(logoutFailed());
     }
   }
@@ -147,7 +136,10 @@ export function loginFailed() {
   return {
     type: sharedActionTypes.LOGIN_FAILED,
     loading: false,
-    user: null
+    user: null,
+
+    title: 'Login',
+    message: 'Authentication failed',
   }
 }
 
@@ -177,7 +169,7 @@ export function loadUser() {
       } else {
         throw 'err in loadUser';
       }
-    } catch (exception) {
+    } catch (error) {
       dispatch(loadUserFailed());
       return dispatch(logout());
     }

@@ -16,11 +16,13 @@ export default class ButtonComponent extends React.Component {
     }
 
     if (this.props.loading) {
-      icon = <ActivityIndicator color='#bbb' size='small' />;
+      icon = (
+        <View style={mergedStyles.loaderWrapper}>
+          <ActivityIndicator color={mergedStyles.loader.color} size='small' />
+        </View>
+      );
       onPress = null;
-    }
-
-    if (this.props.disabled) {
+    } else if (this.props.disabled) {
       icon = <Icon style={mergedStyles.icon} name='ban' />;
       onPress = null;
     } else if (this.props.icon) {
@@ -43,14 +45,16 @@ const styles = {
     borderRadius: 3,
     elevation: 1,
     flexDirection: 'row',
-    paddingHorizontal: 30,
+    paddingLeft: 20,
+    paddingRight: 30,
     paddingVertical: 12,
   },
   icon: {
     alignSelf: 'center',
     color: '#fff',
-    fontSize: 16,
-    paddingHorizontal: 5,
+    fontSize: 20,
+    paddingLeft: 5,
+    paddingRight: 5,
   },
   title: {
     color: '#fff',
@@ -60,6 +64,13 @@ const styles = {
   },
   disabled: {
     backgroundColor: 'rgba(188, 59, 31, 0.6)',
+  },
+  loaderWrapper: {
+    paddingRight: 5,
+    paddingLeft: 13,
+  },
+  loader: {
+    color: '#fff',
   },
   loading: {
     paddingLeft: 10,

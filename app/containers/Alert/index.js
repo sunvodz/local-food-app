@@ -1,31 +1,24 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, StatusBar } from 'react-native';
 import DropdownAlert from 'react-native-dropdownalert';
+import _ from 'lodash';
 
 import * as actionTypes from './actionTypes';
 
-class Alert extends React.Component {
-  constructor(props) {
-    super(props);
-    this.showAlert = this.showAlert.bind(this);
-    this.resetAlert = this.resetAlert.bind(this);
-  }
-
+class Alert extends Component {
   componentDidUpdate() {
     if (this.props.alert.level && this.props.alert.message) {
       this.showAlert(this.props.alert);
     }
   }
 
-  showAlert() {
-    let { alert } = this.props;
-
+  showAlert(alert) {
     if (!alert.title) {
       alert.title = alert.level;
     }
 
-    if (Array.isArray(alert.message)) {
+    if (_.isArray(alert.message)) {
       alert.message = alert.message.join(' ');
     }
 
@@ -47,7 +40,7 @@ class Alert extends React.Component {
 
   render() {
     return (
-      <DropdownAlert errorColor='#bc3b1f' ref={ref => this.dropdown = ref} onClose={data => this.onClose(data)} translucent={true} />
+      <DropdownAlert errorColor='#bc3b1f' ref={component => this.dropdown = component} onClose={data => this.onClose(data)} translucent={true} />
     );
   }
 }

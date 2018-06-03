@@ -44,10 +44,9 @@ export default class OrderForm extends React.Component {
     let orderForm = (
       <View style={styles.quantity}>
         <View style={styles.buttonWrapper}>
-          <View style={styles.button}>
-            <Icon name='user' size={20} color='#fff' style={styles.buttonIcon} onPress={this.navigateToSignIn.bind(this)} />
+          <View style={styles.disabledButton}>
+            <Text numberOfLines={2} style={styles.buttonBuyText}>Please login</Text>
           </View>
-          <Text style={styles.buttonText}>Login to shop</Text>
         </View>
       </View>
     );
@@ -87,20 +86,7 @@ export default class OrderForm extends React.Component {
         onPress: this.onDecrease.bind(this),
       };
 
-      if (this.props.disabled) {
-        orderForm = (
-          <View style={styles.quantity}>
-            <View style={styles.buttonWrapper}>
-              <View style={styles.button}>
-                <Icon name='warning' size={20} color='#fff' style={styles.buttonIcon} />
-              </View>
-              <Text style={styles.buttonText}>Select pick up date</Text>
-            </View>
-          </View>
-        );
-      }
-
-      if (!this.props.disabled && this.state.quantity >= 0) {
+      if (this.state.quantity >= 0) {
         let buyText = null;
         if (this.state.quantity > 0) {
           buyText = <Text numberOfLines={2} style={styles.buttonBuyText}><Icon name='hand-pointer-o'/> Buy</Text>;
@@ -224,9 +210,6 @@ const styles = {
     padding: 15,
     width: 75,
     height: 75,
-  },
-  buttonDisabled: {
-    backgroundColor: '#ccc',
   },
   buttonText: {
     color: '#fff',

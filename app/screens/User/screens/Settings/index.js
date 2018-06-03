@@ -85,7 +85,7 @@ class Settings extends Component {
         <Card header={trans('select_language', this.props.lang)} headerPosition='outside'>
           {languageItems}
         </Card>
-        <Button onPress={this.onLogout.bind(this)} title={trans('logout', this.props.lang)} accessibilityLabel="Logout" />
+        <Button onPress={this.onLogout.bind(this)} icon='sign-out' title={trans('logout', this.props.lang)} accessibilityLabel="Logout" />
         {/*<Text style={styles.deleteAccountLink} onPress={this.navigateToDeleteAccount.bind(this)}>Delete account</Text>*/}
       </ContentWrapper>
     );

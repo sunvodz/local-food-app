@@ -111,11 +111,7 @@ export function updateCartItem(id, quantity) {
         dispatch(updatedCartItem(response.data));
       }
     } catch (error) {
-      dispatch({
-        type: actionTypes.SHOW_ERROR,
-        title: 'Fel kvantitet',
-        message: 'för stor',
-      });
+      dispatch(updatingCartFailed());
     }
   }
 }
@@ -138,6 +134,14 @@ export function updatedCartItems(cartItems) {
   return {
     type: actionTypes.UPDATED_CART_ITEMS,
     cartItems: cartItems
+  }
+}
+
+export function updatingCartFailed() {
+  return {
+    type: actionTypes.UPDATING_CART_FAILED,
+    title: 'Cart',
+    message: 'error updating cart',
   }
 }
 
