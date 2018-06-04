@@ -46,7 +46,7 @@ export function fetchOrders() {
 
       return dispatch(receiveOrders(orderedOrders.reverse()));
     } catch (error) {
-      console.log(error);
+
     }
   }
 }

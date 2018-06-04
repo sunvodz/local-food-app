@@ -179,25 +179,16 @@ export function addProductToCart(data) {
         data: data
       });
 
-      dispatch({
-        type: actionTypes.SHOW_SUCCESS,
-        title: 'Add to cart',
-        message: 'Product was added to your cart'
-      });
+      dispatch(addToCartSuccess());
 
-      dispatch({
+      return dispatch({
         type: actionTypes.RECEIVE_CART,
         cart: response.data,
         loading: false,
         refreshing: false,
       });
-
     } catch (error) {
-      dispatch({
-        type: actionTypes.SHOW_ERROR,
-        title: 'Add to cart',
-        message: error.error
-      });
+      return dispatch(addToCartFailed(error));
     }
   }
 }
@@ -206,6 +197,22 @@ export function addToCart() {
   return {
     type: actionTypes.ADD_TO_CART,
     loading: true,
+  }
+}
+
+export function addToCartFailed(error) {
+  return {
+    type: actionTypes.ADD_TO_CART_FAILED,
+    title: 'Add to cart',
+    message: error.error
+  }
+}
+
+export function addToCartSuccess() {
+  return {
+    type: actionTypes.ADD_TO_CART_SUCCESS,
+    title: 'Add to cart',
+    message: 'Product was added to your cart'
   }
 }
 

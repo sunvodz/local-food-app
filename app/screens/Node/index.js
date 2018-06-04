@@ -122,11 +122,13 @@ class Node extends React.Component {
       userNoticeMessage = <Text style={styles.userNoticeMessage}>Please login to order products</Text>;
     }
 
-    userNotice = (
-      <View style={styles.userNotice}>
-        {userNoticeMessage}
-      </View>
-    );
+    if (userNoticeMessage) {
+      userNotice = (
+        <View style={styles.userNotice}>
+          {userNoticeMessage}
+        </View>
+      );
+    }
 
     return (
       <View style={styles.view}>

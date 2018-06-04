@@ -226,7 +226,7 @@ export function processPayment(data) {
         throw response.data;
       }
 
-      dispatch(paymentComplete());
+      dispatch(paymentSuccess());
       // Todo: dispatch reload user to get new user data (or returned from succesful payment?)
     } catch (error) {
       dispatch(paymentFailed(error));
@@ -243,7 +243,6 @@ export function paymentInProgress(user) {
 
 export function paymentFailed(error) {
   // Available error codes: invalid_number, invalid_cvc, invalid_amount
-
   return {
     type: sharedActionTypes.PAYMENT_FAILED,
     title: 'Membership',
@@ -251,10 +250,10 @@ export function paymentFailed(error) {
   }
 }
 
-export function paymentComplete() {
+export function paymentSuccess() {
   return {
-    type: sharedActionTypes.SHOW_SUCCESS,
-    title: 'Membership payment',
+    type: sharedActionTypes.PAYMENT_SUCCESS,
+    title: 'Membership',
     message: 'Thank you for your payment, you are now a Local Food Nodes member.',
   };
 }

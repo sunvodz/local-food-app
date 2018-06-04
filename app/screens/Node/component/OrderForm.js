@@ -23,8 +23,12 @@ export default class OrderForm extends React.Component {
   }
 
   onIncrease() {
+    let availableQuantity = this.props.product.available_quantity;
     let newQuantity = parseInt(this.state.quantity) + 1;
-    this.setState({quantity: newQuantity});
+
+    if (newQuantity <= availableQuantity) {
+      this.setState({quantity: newQuantity});
+    }
   }
 
   addToCart() {

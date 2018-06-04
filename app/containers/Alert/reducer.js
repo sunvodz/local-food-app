@@ -7,6 +7,7 @@ function alertReducer(state, action) {
     case 'CREATE_ACCOUNT_FAILED':
     case 'UPDATING_CART_FAILED':
     case 'PAYMENT_FAILED':
+    case 'ADD_TO_CART_FAILED':
       return Object.assign({}, state, {
         level: 'error',
         title: action.title,
@@ -15,50 +16,14 @@ function alertReducer(state, action) {
       break;
 
     // Success
-    // case 'LOGIN_FAILED':
-    // case 'CREATE_ACCOUNT_FAILED':
-    //   return Object.assign({}, state, {
-    //     level: 'error',
-    //     title: action.title,
-    //     message: action.message
-    //   });
-    //   break;
-
-
-
-
-
-    // case actionTypes.SHOW_ERROR:
-    //   return Object.assign({}, state, {
-    //     level: 'error',
-    //     title: action.title,
-    //     message: action.message
-    //   });
-    //   break;
-
-    // case actionTypes.SHOW_INFO:
-    //   return Object.assign({}, state, {
-    //     level: 'info',
-    //     title: action.title,
-    //     message: action.message
-    //   });
-    //   break;
-
-    // case actionTypes.SHOW_WARNING:
-    //   return Object.assign({}, state, {
-    //     level: 'warning',
-    //     title: action.title,
-    //     message: action.message
-    //   });
-    //   break;
-
-    // case actionTypes.SHOW_SUCCESS:
-    //   return Object.assign({}, state, {
-    //     level: 'success',
-    //     title: action.title,
-    //     message: action.message
-    //   });
-    //   break;
+    case 'PAYMENT_SUCCESS':
+    case 'ADD_TO_CART_SUCCESS':
+      return Object.assign({}, state, {
+        level: 'success',
+        title: action.title,
+        message: action.message
+      });
+      break;
 
     case actionTypes.RESET_ALERT:
       return Object.assign({}, state, {
