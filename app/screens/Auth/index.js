@@ -75,7 +75,7 @@ export default class AuthScreen extends Component {
           <TextInput key='phone' style={textInputStyle} defaultValue={this.state.phone} editable={!this.props.auth.loading} placeholder="Your phone number" onChangeText={this.onChange.bind(this, 'phone')} />
           <TextInput key='password' style={textInputStyle} defaultValue={this.state.password} editable={!this.props.auth.loading} placeholder="Choose a password" hint="Minimum 8 characters" onChangeText={this.onChange.bind(this, 'password')} secureTextEntry />
           <Button style={buttonStyle} icon='user' onPress={this.onSignup.bind(this)} title="Sign up" accessibilityLabel="Sign up" loading={this.props.auth.loading} />
-          <Text onPress={this.toggleForms.bind(this)} style={styles.toggleLink}>or login to your account</Text>
+          <Text onPress={this.toggleForms.bind(this)} style={styles.toggleLink}>or login</Text>
         </View>
       );
     }
@@ -137,7 +137,7 @@ const textInputStyle = {
 
 const buttonStyle = {
   button: {
-    backgroundColor: '#fff',
+    backgroundColor: '#ff9300',
   },
   title: {
     color: '#333',

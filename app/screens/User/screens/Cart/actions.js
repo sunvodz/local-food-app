@@ -111,7 +111,7 @@ export function updateCartItem(id, quantity) {
         dispatch(updatedCartItem(response.data));
       }
     } catch (error) {
-      dispatch(updatingCartFailed());
+      dispatch(updatingCartFailed(error));
     }
   }
 }
@@ -137,11 +137,11 @@ export function updatedCartItems(cartItems) {
   }
 }
 
-export function updatingCartFailed() {
+export function updatingCartFailed(error) {
   return {
     type: actionTypes.UPDATING_CART_FAILED,
-    title: 'Cart',
-    message: 'error updating cart',
+    title: 'cart',
+    message: 'error_updating_cart',
   }
 }
 
@@ -160,23 +160,12 @@ export function createOrder() {
         url: '/api/v1/users/order'
       });
 
-      if (response.status !== 200) {
-        dispatch({
-          type: actionTypes.SHOW_SUCCESS,
-          title: 'Send order',
-          message: 'Your order was created',
-        });
-      }
+      // Todo: reload orders table
 
-      // Todo: reload order table
-
-      return dispatch(createOrderComplete());
+      dispatch(createOrderSuccess());
+      dispatch(fetchCart(true));
     } catch (error) {
-      dispatch({
-        type: actionTypes.SHOW_ERROR,
-        title: 'Send order',
-        message: error.message,
-      });
+      return dispatch(createOrderFailed(error));
     }
   }
 }
@@ -188,10 +177,20 @@ export function createOrderInProgress() {
   }
 }
 
-export function createOrderComplete() {
+export function createOrderSuccess() {
   return {
-    type: actionTypes.CREATE_ORDER_COMPLETE,
+    type: actionTypes.CREATE_ORDER_SUCCESS,
     creating: false,
     cart: null,
+    title: 'order',
+    message: 'order_created',
+  }
+}
+
+export function createOrderFailed(error) {
+  return {
+    type: actionTypes.CREATE_ORDER_FAILED,
+    title: 'order',
+    message: error.message
   }
 }

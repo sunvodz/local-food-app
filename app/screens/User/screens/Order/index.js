@@ -55,7 +55,7 @@ class Order extends Component {
     }
 
     let title = trans('order', this.props.lang) + ' ' + order.ref;
-    let pickup = trans('pickup_on', this.props.lang) + moment(orderDate.date.date).format('YYYY-MM-DD') + ' ' + orderItem.node.delivery_time;
+    let pickup = trans('pickup_on', this.props.lang) + ' ' +  moment(orderDate.date.date).format('YYYY-MM-DD') + ' ' + orderItem.node.delivery_time;
 
     return (
       <View style={{flex: 1}}>

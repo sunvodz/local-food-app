@@ -37,11 +37,12 @@ export default class ProductCard extends React.Component {
     return info;
   }
 
-  addToCart(data) {
+  onQuantityChange(data) {
     data.product_id = this.props.product.id;
+    data.product_name = this.props.product.name;
     data.variant_id = this.state.variant ? this.state.variant.id : null;
 
-    this.props.addToCart(data);
+    this.props.onQuantityChange(data);
   }
 
   navigateToSignIn() {
@@ -108,7 +109,7 @@ export default class ProductCard extends React.Component {
           <Text numberOfLines={1} style={styles.producerTitle}>{product.producer_relationship.name}</Text>
         </View>
         {swipe}
-        <OrderForm auth={this.props.auth} product={product} variant={this.state.variant} addToCart={this.addToCart.bind(this)} navigateToSignIn={this.navigateToSignIn.bind(this)}/>
+        <OrderForm auth={this.props.auth} product={product} variant={this.state.variant} onQuantityChange={this.onQuantityChange.bind(this)} navigateToSignIn={this.navigateToSignIn.bind(this)}/>
         <Text style={styles.info}>{productInfo}</Text>
         {readMore}
       </View>

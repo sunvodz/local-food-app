@@ -7,30 +7,27 @@ export default class ButtonComponent extends React.Component {
   render() {
     let mergedStyles = styleMerger.merge(styles, this.props.style);
 
-    let icon = null;
     let title = null;
+    let icon = null;
     let onPress = this.props.onPress;
 
     if (this.props.title) {
       title = <Text style={mergedStyles.title}>{this.props.title.toUpperCase()}</Text>;
     }
 
+    if (this.props.icon) {
+      icon = <Icon style={mergedStyles.icon} name={this.props.icon} />;
+    }
+
     if (this.props.loading) {
-      icon = (
-        <View style={mergedStyles.loaderWrapper}>
-          <ActivityIndicator color={mergedStyles.loader.color} size='small' />
-        </View>
-      );
       onPress = null;
     } else if (this.props.disabled) {
       icon = <Icon style={mergedStyles.icon} name='ban' />;
       onPress = null;
-    } else if (this.props.icon) {
-      icon = <Icon style={mergedStyles.icon} name={this.props.icon} />;
     }
 
     return (
-      <TouchableOpacity onPress={onPress} style={[mergedStyles.button, this.props.disabled && styles.disabled, this.props.loading && styles.loading]} activeOpacity={0.9}>
+      <TouchableOpacity onPress={onPress} style={[mergedStyles.button, (this.props.disabled || this.props.loading) && styles.disabled]}>
         {icon}
         {title}
       </TouchableOpacity>
@@ -42,37 +39,27 @@ const styles = {
   button: {
     alignSelf: 'center',
     backgroundColor: '#bc3b1f',
-    borderRadius: 3,
+    borderRadius: 100,
     elevation: 1,
     flexDirection: 'row',
-    paddingLeft: 20,
-    paddingRight: 30,
-    paddingVertical: 12,
+    justifyContent: 'center',
+    paddingLeft: 16,
+    paddingRight: 16,
+    paddingVertical: 8,
   },
   icon: {
     alignSelf: 'center',
     color: '#fff',
-    fontSize: 20,
-    paddingLeft: 5,
+    fontSize: 12,
     paddingRight: 5,
   },
   title: {
     color: '#fff',
     alignSelf: 'center',
-    fontFamily: 'montserrat-medium',
+    fontFamily: 'montserrat-semibold',
     marginBottom: 1,
   },
   disabled: {
-    backgroundColor: 'rgba(188, 59, 31, 0.6)',
+    opacity: 0.6,
   },
-  loaderWrapper: {
-    paddingRight: 5,
-    paddingLeft: 13,
-  },
-  loader: {
-    color: '#fff',
-  },
-  loading: {
-    paddingLeft: 10,
-  }
 };

@@ -149,11 +149,10 @@ const textInputLastGroupItemStyle = {
 
 const buttonStyle = {
   button: {
-    backgroundColor: '#fff',
+    backgroundColor: '#ff9300',
   },
   title: {
     color: '#333',
-    fontFamily: 'montserrat-semibold',
   },
   icon: {
     color: '#333',

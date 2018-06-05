@@ -80,7 +80,8 @@ class Cart extends React.Component {
   }
 
   renderListSection(cartDateItemLinks, sectionId, rowId) {
-    let date = moment(cartDateItemLinks.key).format('DD MMMM YYYY');
+    let m = moment(cartDateItemLinks.key);
+    let date = m.format('DD') + ' ' + trans(m.format('MMMM'), this.props.lang) + ' ' + m.format('YYYY');
     let numberOfListItems = cartDateItemLinks.items.length - 1;
 
     const { loading, updatingCartItems, refreshing, cart } = this.props.cart;

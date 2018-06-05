@@ -19,22 +19,22 @@ export default class OrderForm extends React.Component {
 
     if (newQuantity >= 0) {
       this.setState({quantity: newQuantity});
+      this.props.onQuantityChange({quantity: newQuantity});
     }
   }
 
   onIncrease() {
     let availableQuantity = this.props.product.available_quantity;
+    if (this.props.variant) {
+      availableQuantity = this.props.variant.available_quantity;
+    }
+
     let newQuantity = parseInt(this.state.quantity) + 1;
 
     if (newQuantity <= availableQuantity) {
       this.setState({quantity: newQuantity});
+      this.props.onQuantityChange({quantity: newQuantity});
     }
-  }
-
-  addToCart() {
-    this.props.addToCart({
-      quantity: this.state.quantity,
-    });
   }
 
   navigateToSignIn() {
@@ -63,44 +63,24 @@ export default class OrderForm extends React.Component {
     }
 
     let summaryPriceItem = null;
-    let orderForm = null;
+    let quantityForm = null;
 
     if (this.props.auth.user && this.props.auth.user.active) {
       // If logged in and a member - orders are possible
-      let increaseProps = {
-        name: 'plus-circle',
-        style: styles.icon,
-        size: 24,
-        onPress: this.onIncrease.bind(this),
-      };
-
-      let decreaseProps = {
-        name: 'minus-circle',
-        style: styles.icon,
-        size: 24,
-        onPress: this.onDecrease.bind(this),
-      };
-
       if (this.state.quantity >= 0) {
-        let buyText = null;
-        if (this.state.quantity > 0) {
-          buyText = <Text numberOfLines={2} style={styles.buttonBuyText}><Icon name='hand-pointer-o'/> Buy</Text>;
-        }
-
-        orderForm = (
+        quantityForm = (
           <View style={styles.quantity}>
-            <View style={styles.decrease}>
-              <Icon {...decreaseProps} />
-            </View>
+            <TouchableOpacity style={styles.decrease} onPress={this.onDecrease.bind(this)}>
+              <Icon name='minus-circle' style={styles.icon}  />
+            </TouchableOpacity>
             <View style={styles.buttonWrapper}>
-              <TouchableOpacity style={styles.button} onPress={this.addToCart.bind(this)}>
+              <View style={styles.button}>
                 <Text numberOfLines={1} style={styles.buttonText}>{this.state.quantity}/{available_quantity}</Text>
-                {buyText}
-              </TouchableOpacity>
+              </View>
             </View>
-            <View style={styles.increase}>
-              <Icon {...increaseProps} />
-            </View>
+            <TouchableOpacity style={styles.increase} onPress={this.onIncrease.bind(this)}>
+              <Icon name='plus-circle' style={styles.icon} />
+            </TouchableOpacity>
           </View>
         );
       }
@@ -130,7 +110,7 @@ export default class OrderForm extends React.Component {
           </View>
         </View>
         <View style={styles.orderFormRow}>
-          {orderForm}
+          {quantityForm}
         </View>
       </View>
     );
@@ -192,6 +172,10 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
   },
+  icon: {
+    fontSize: 30,
+    color: '#333',
+  },
   buttonWrapper: {
     alignItems: 'center',
     marginHorizontal: 20,
@@ -202,9 +186,9 @@ const styles = {
     justifyContent: 'center',
     backgroundColor: '#bc3b1f',
     borderRadius: 100,
-    padding: 15,
-    width: 75,
-    height: 75,
+    padding: 10,
+    width: 60,
+    height: 60,
   },
   buttonText: {
     color: '#fff',
@@ -212,22 +196,4 @@ const styles = {
     fontSize: 12,
     textAlign: 'center',
   },
-  buttonBuyText: {
-    color: '#fff',
-    fontFamily: 'montserrat-semibold',
-    fontSize: 12,
-    marginTop: 5,
-    textAlign: 'center',
-  },
-  noBuyWarningWrapper: {
-    borderBottomWidth: 4,
-    borderBottomColor: '#ddd',
-    flex: 1,
-    justifyContent: 'center',
-    marginHorizontal: 15,
-  },
-  noBuyWarning: {
-    color: '#333',
-    fontFamily: 'montserrat-regular',
-  }
 };

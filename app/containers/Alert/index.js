@@ -5,6 +5,7 @@ import DropdownAlert from 'react-native-dropdownalert';
 import _ from 'lodash';
 
 import * as actionTypes from './actionTypes';
+import { trans } from 'app/shared';
 
 class Alert extends Component {
   componentDidUpdate() {
@@ -19,10 +20,14 @@ class Alert extends Component {
     }
 
     if (_.isArray(alert.message)) {
-      alert.message = alert.message.join(' ');
+      alert.message = _.map(alert.message, m => {
+        return trans(m, this.props.lang);
+      }).join(' ');
+    } else {
+      alert.message = trans(alert.message, this.props.lang)
     }
 
-    this.dropdown.alertWithType(alert.level, alert.title, alert.message);
+    this.dropdown.alertWithType(alert.level, trans(alert.title, this.props.lang), alert.message);
     this.resetAlert();
   }
 

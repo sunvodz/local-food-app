@@ -203,7 +203,7 @@ export function addToCart() {
 export function addToCartFailed(error) {
   return {
     type: actionTypes.ADD_TO_CART_FAILED,
-    title: 'Add to cart',
+    title: 'cart',
     message: error.error
   }
 }
@@ -211,8 +211,8 @@ export function addToCartFailed(error) {
 export function addToCartSuccess() {
   return {
     type: actionTypes.ADD_TO_CART_SUCCESS,
-    title: 'Add to cart',
-    message: 'Product was added to your cart'
+    title: 'cart',
+    message: 'product_added_to_cart'
   }
 }
 

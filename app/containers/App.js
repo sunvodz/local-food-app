@@ -55,7 +55,7 @@ class App extends Component {
       <View style={{flex: 1, backgroundColor: '#f4f4f0'}}>
         <StatusBar barStyle="light-content" />
         {tabbar}
-        <Alert />
+        <Alert lang={currentLang} />
       </View>
     );
   }

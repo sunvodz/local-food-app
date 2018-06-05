@@ -18,7 +18,7 @@ export default class ListItem extends React.Component {
     let isLastItem = this.props.last || false;
 
     return (
-      <TouchableOpacity onPress={this.props.onPress} style={[styles.listItem, isLastItem && styles.lastListItem]} activeOpacity={1}>
+      <TouchableOpacity onPress={this.props.onPress} style={[styles.listItem, isLastItem && styles.lastListItem]}>
         {columns}
         {navigationArrow}
       </TouchableOpacity>

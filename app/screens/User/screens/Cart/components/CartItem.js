@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
 import _ from 'lodash';
@@ -37,20 +37,6 @@ export default class CartItem extends React.Component {
     const variant = cartItem.variant;
     const producer = cartItem.producer;
 
-    let increaseProps = {
-      name: 'plus-circle',
-      style: styles.icon,
-      size: 24,
-      onPress: this.onIncrease.bind(this),
-    };
-
-    let decreaseProps = {
-      name: 'minus-circle',
-      style: styles.icon,
-      size: 24,
-      onPress: this.onDecrease.bind(this),
-    };
-
     let productUnitString = '';
     if (product.package_unit && product.package_unit !== 'product') {
       productUnitString = `/${product.package_unit}`;
@@ -69,18 +55,18 @@ export default class CartItem extends React.Component {
     let quantity = (
       <View style={styles.quantity}>
         <View style={quantityStyle.quantity}>
-            <View style={quantityStyle.decrease}>
-              <Icon {...decreaseProps} />
-            </View>
-            <View style={quantityStyle.buttonWrapper}>
-              <View style={quantityStyle.button}>
-                <Text style={quantityStyle.buttonText}>{data.quantity}</Text>
-              </View>
-            </View>
-            <View style={quantityStyle.increase}>
-              <Icon {...increaseProps} />
+          <TouchableOpacity style={quantityStyle.decrease} onPress={this.onDecrease.bind(this)}>
+            <Icon name='minus-circle' style={quantityStyle.icon} />
+          </TouchableOpacity>
+          <View style={quantityStyle.buttonWrapper}>
+            <View style={quantityStyle.button}>
+              <Text style={quantityStyle.buttonText}>{data.quantity}</Text>
             </View>
           </View>
+          <TouchableOpacity style={quantityStyle.increase} onPress={this.onIncrease.bind(this)}>
+            <Icon  name='plus-circle' style={quantityStyle.icon} />
+          </TouchableOpacity>
+        </View>
       </View>
     );
 
@@ -197,6 +183,10 @@ const quantityStyle = {
     alignItems: 'center',
     justifyContent: 'center',
   },
+  icon: {
+    color: '#333',
+    fontSize: 30,
+  },
   buttonWrapper: {
     alignItems: 'center',
     marginHorizontal: 20,
@@ -204,20 +194,17 @@ const quantityStyle = {
     marginBottom: 5,
   },
   button: {
+    justifyContent: 'center',
     backgroundColor: '#bc3b1f',
     borderRadius: 100,
-    padding: 15,
-  },
-  buttonDisabled: {
-    backgroundColor: '#ccc',
+    padding: 10,
+    width: 60,
+    height: 60,
   },
   buttonText: {
     color: '#fff',
     fontFamily: 'montserrat-semibold',
-    fontSize: 16,
+    fontSize: 12,
     textAlign: 'center',
-    lineHeight: 25,
-    width: 25,
-    height: 25,
   },
 };
