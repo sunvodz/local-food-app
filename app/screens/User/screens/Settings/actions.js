@@ -6,7 +6,7 @@ import { sharedActions } from 'app/shared';
 
 export function fetchLanguages() {
   return async function(dispatch, getState) {
-    dispatch(requestLangages());
+    dispatch(requestLanguages());
 
     let response = await api.call({
       url: '/api/v1/settings/languages'
