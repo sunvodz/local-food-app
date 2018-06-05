@@ -9,13 +9,6 @@ function membershipReducer(state, action) {
       });
       break;
 
-    case sharedActionTypes.SHOW_ERROR:
-    case sharedActionTypes.SHOW_SUCCESS:
-      return Object.assign({}, state, {
-        paymentInProgress: false,
-      });
-      break;
-
     default:
       return Object.assign({}, state, {
           paymentInProgress: false,

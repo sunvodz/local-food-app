@@ -61,11 +61,6 @@ export function fetchNodes() {
 
       dispatch(receiveNodes(nodes));
     } catch (error) {
-      dispatch({
-        type: actionTypes.SHOW_ERROR,
-        title: 'Map',
-        message: 'There was a problem loading the map'
-      });
       dispatch(receiveNodes(null)); // No nodes will show server error warning
     }
   }
@@ -102,11 +97,6 @@ export function refreshNodes() {
 
       dispatch(receiveNodes(nodes));
     } catch (error) {
-      dispatch({
-        type: actionTypes.SHOW_ERROR,
-        title: 'Could not refresh nodes',
-        message: error.error
-      });
       dispatch(receiveNodes(null)); // No nodes will show server error warning
     }
   }

@@ -244,7 +244,7 @@ export function paymentFailed(error) {
   // Available error codes: invalid_number, invalid_cvc, invalid_amount
   return {
     type: sharedActionTypes.PAYMENT_FAILED,
-    title: 'Membership',
+    title: 'membership',
     message: error,
   }
 }
@@ -252,8 +252,8 @@ export function paymentFailed(error) {
 export function paymentSuccess() {
   return {
     type: sharedActionTypes.PAYMENT_SUCCESS,
-    title: 'Membership',
-    message: 'Thank you for your payment, you are now a Local Food Nodes member.',
+    title: 'membership',
+    message: 'payment_success',
   };
 }
 

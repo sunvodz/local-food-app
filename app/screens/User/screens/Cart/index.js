@@ -170,7 +170,7 @@ class Cart extends React.Component {
       <View style={{flex: 1, backgroundColor: '#f4f4f0'}}>
         <ScreenHeader title={trans('cart', this.props.lang)} sub={totalCost} left navigation={this.props.navigation} />
         <List {...listProps} />
-        <Button style={buttonStyle} loading={this.props.cart.creating} title={trans('send_order', this.props.lang)} onPress={this.createOrder.bind(this)} />
+        <Button style={buttonStyle} loading={this.props.cart.creating} icon='shopping-basket' title={trans('send_order', this.props.lang)} onPress={this.createOrder.bind(this)} />
       </View>
     );
   }

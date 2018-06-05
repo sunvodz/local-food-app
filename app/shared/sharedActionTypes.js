@@ -1,5 +1,3 @@
-export const SHOW_INFO = 'SHOW_INFO';
-export const SHOW_ERROR = 'SHOW_ERROR';
 export const SERVER_ERROR = 'SERVER_ERROR';
 export const TOGGLE_AUTH_FORM = 'TOGGLE_AUTH_FORM';
 

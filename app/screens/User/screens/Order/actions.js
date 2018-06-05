@@ -26,9 +26,7 @@ export function deleteOrder(orderDateItemLinkId) {
       });
 
       return dispatch(deleteOrderComplete(groupedOrders));
-    } catch(error) {
-      console.log('error in delete', error);
-    }
+    } catch(error) {}
   }
 }
 
