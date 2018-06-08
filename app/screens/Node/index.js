@@ -90,7 +90,7 @@ class Node extends React.Component {
       image = product.image_relationship[0].urls.medium;
     }
 
-    return <ProductCard key={product.id} product={product} image={image} auth={this.props.auth} onQuantityChange={this.onQuantityChange.bind(this)} navigateToSignIn={this.navigateToSignIn.bind(this)} />;
+    return <ProductCard key={product.id} product={product} image={image} auth={this.props.auth} onQuantityChange={this.onQuantityChange.bind(this)} navigateToSignIn={this.navigateToSignIn.bind(this)} lang={this.props.lang} />;
   }
 
   render() {
@@ -126,10 +126,10 @@ class Node extends React.Component {
     let userNoticeMessage = null;
     if (this.props.auth.user && !this.props.auth.user.active) {
       // If logged in but not a member - orders not possible
-      userNoticeMessage = <Text style={styles.userNoticeMessage}>You need an active membership to order products</Text>;
+      userNoticeMessage = <Text style={styles.userNoticeMessage}>{trans('user_not_member', this.props.lang)}</Text>;
     } else if (!this.props.auth.user) {
       // If not logged in
-      userNoticeMessage = <Text style={styles.userNoticeMessage}>Please login to order products</Text>;
+      userNoticeMessage = <Text style={styles.userNoticeMessage}>{trans('user_not_loggedin', this.props.lang)}</Text>;
     }
 
     if (userNoticeMessage) {
@@ -144,10 +144,10 @@ class Node extends React.Component {
     if (this.state.addToCart) {
       addToCartNotice = (
         <View style={styles.addToCartWrapper}>
-          <Text numberOfLines={3} style={styles.addToCartText}>Do you want to add {this.state.addToCart.quantity} {this.state.addToCart.product_name} to cart?</Text>
+          <Text numberOfLines={3} style={styles.addToCartText}>{trans('cart_notice_part_1', this.props.lang)} {this.state.addToCart.quantity} {this.state.addToCart.product_name} {trans('cart_notice_part_2', this.props.lang)}</Text>
           <View style={styles.addToCartActionWrapper}>
-            <Button style={styles.addToCartButton} icon='shopping-basket' title='Add' onPress={this.addToCart.bind(this)} />
-            <Text style={styles.addToCartReset} onPress={this.resetCart.bind(this)}>Reset</Text>
+            <Button style={styles.addToCartButton} icon='shopping-basket' title={trans('add', this.props.lang)} onPress={this.addToCart.bind(this)} />
+            <Text style={styles.addToCartReset} onPress={this.resetCart.bind(this)}>{trans('reset', this.props.lang)}</Text>
           </View>
         </View>
       );

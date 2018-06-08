@@ -170,8 +170,8 @@ export function loadUser() {
         throw 'err in loadUser';
       }
     } catch (error) {
-      dispatch(loadUserFailed());
-      return dispatch(logout());
+      return dispatch(loadUserFailed());
+      // return dispatch(logout());
     }
   }
 }
@@ -187,7 +187,7 @@ export function loadUserFailed() {
   return {
     type: sharedActionTypes.LOAD_USER_FAILED,
     loading: false,
-    user: null
+    // user: null
   }
 }
 

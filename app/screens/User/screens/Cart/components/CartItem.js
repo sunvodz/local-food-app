@@ -42,14 +42,30 @@ export default class CartItem extends React.Component {
       productUnitString = `/${product.package_unit}`;
     }
 
+    let currency = producer.currency;
+    if (!currency || currency === 'null') {
+      currency = '';
+    }
+
+    productWeight = null;
+    if (!variant && product.package_unit !== 'product') {
+      productWeight = `ca ${product.package_amount} ${product.package_unit}`;
+    }
+
+    let productName = <Text numberOfLines={1} style={styles.productName}>{cartItem.product.name.toUpperCase()} {productWeight}</Text>;
     let variantName = null;
-    let productPrice = `${product.price} ${producer.currency}${productUnitString}`;
-    let totalPrice = `${data.quantity * product.price} ${producer.currency}`;
+    let productPrice = `${product.price} ${currency}${productUnitString}`;
+    let totalPrice = `${data.quantity * product.price * product.package_amount} ${currency}`;
 
     if (variant) {
-      variantName = <Text style={styles.productName} numberOfLines={1}>{variant.name}</Text>;
-      productPrice = `${variant.price} ${producer.currency}${productUnitString}`;
-      totalPrice = `${data.quantity * variant.price} ${producer.currency}`;
+      let variantWeight = null;
+      if (variant.package_unit !== 'product') {
+        variantWeight = `ca ${variant.package_amount} ${product.package_unit}`;
+      }
+
+      variantName = <Text style={styles.productName} numberOfLines={1}>{variant.name} {variantWeight}</Text>;
+      productPrice = `${variant.price} ${currency}${productUnitString}`;
+      totalPrice = `${data.quantity * variant.price * variant.package_amount} ${currency}`;
     }
 
     let quantity = (
@@ -75,7 +91,7 @@ export default class CartItem extends React.Component {
     return (
       <View style={styles.listItem}>
         <Card key={data.ref} footer={trash} style={styles.card}>
-          <Text numberOfLines={1} style={styles.productName}>{cartItem.product.name.toUpperCase()}</Text>
+          {productName}
           {variantName}
           <View style={styles.producerNodeWrapper}>
             <Text style={styles.producer}>{cartItem.producer.name} - {cartItem.node.name}</Text>

@@ -50,16 +50,25 @@ export default class OrderForm extends React.Component {
       productUnitString = `/${product.package_unit}`;
     }
 
+    let productWeight = null;
+    if (product.package_unit && product.package_unit !== 'product') {
+      productWeight = <Text numberOfLines={1} style={styles.price}>{`ca ${product.package_amount} ${product.package_unit}`}</Text>;
+    }
+
     let variantName = <Text numberOfLines={1} style={styles.variantName}>{product.name}</Text>;
     let totalPrice = this.state.quantity * product.price;
-    let productPrice = <Text numberOfLines={1} style={styles.price}>{product.price} {producer.currency}{productUnitString}</Text>;
-    let available_quantity = product.available_quantity;
+    let productPrice = <Text numberOfLines={1} style={styles.price}>{product.price} {producer.currency}{productUnitString} {productWeight}</Text>;
+    let availableQuantity = product.available_quantity;
 
     if (variant) {
+      if (variant.package_unit && variant.package_unit !== 'product') {
+        productWeight = <Text numberOfLines={1} style={styles.price}>{`ca ${variant.package_amount} ${product.package_unit}`}</Text>;
+      }
+
       variantName = <Text numberOfLines={1} style={styles.variantName}>{variant.name}</Text>;
       totalPrice = this.state.quantity * variant.price;
       productPrice = <Text numberOfLines={1} style={styles.price}>{variant.price} {producer.currency}{productUnitString}</Text>;
-      available_quantity = variant.available_quantity;
+      availableQuantity = variant.available_quantity;
     }
 
     let summaryPriceItem = null;
@@ -75,7 +84,7 @@ export default class OrderForm extends React.Component {
             </TouchableOpacity>
             <View style={styles.buttonWrapper}>
               <View style={styles.button}>
-                <Text numberOfLines={1} style={styles.buttonText}>{this.state.quantity}/{available_quantity}</Text>
+                <Text numberOfLines={1} style={styles.buttonText}>{this.state.quantity}/{availableQuantity}</Text>
               </View>
             </View>
             <TouchableOpacity style={styles.increase} onPress={this.onIncrease.bind(this)}>
@@ -100,12 +109,25 @@ export default class OrderForm extends React.Component {
       </View>
     );
 
+    let productWeightItem = null;
+    if (productWeight) {
+      productWeightItem = (
+        <View style={styles.priceItem}>
+          <Icon style={[styles.priceIcon, {marginRight: 5}]} name='balance-scale' size={16} color='#bc3b1f' />
+          {productWeight}
+        </View>
+      );
+    }
+
     return (
       <View style={styles.view}>
         <View style={styles.priceView}>
           {variantName}
           <View style={styles.priceRow}>
-            {productPriceItem}
+            <View>
+              {productPriceItem}
+              {productWeightItem}
+            </View>
             {summaryPriceItem}
           </View>
         </View>
@@ -119,9 +141,7 @@ export default class OrderForm extends React.Component {
 
 const styles = {
   view: {
-    backgroundColor: '#fff',
-    borderBottomWidth: 1,
-    borderColor: '#f4f4f0',
+    backgroundColor: '#f9eeeb',
     paddingBottom: 15,
   },
   signin: {
@@ -134,7 +154,6 @@ const styles = {
     flexDirection: 'row',
   },
   quantity: {
-    backgroundColor: '#fff',
     borderColor: '#e4e4e0',
     justifyContent: 'center',
     flex: 2,
@@ -146,6 +165,7 @@ const styles = {
   },
   variantName: {
     fontFamily: 'montserrat-semibold',
+    marginBottom: 5,
   },
   priceRow: {
     flexDirection: 'row',
@@ -153,10 +173,10 @@ const styles = {
   },
   priceItem: {
     flexDirection: 'row',
-    alignItems: 'center',
+    marginBottom: 5,
   },
   priceIcon: {
-
+    width: 20,
   },
   price: {
     fontFamily: 'montserrat-regular',

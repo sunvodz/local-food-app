@@ -51,7 +51,6 @@ class Cart extends React.Component {
   }
 
   groupCartDateItemLinksByDate(cartDateItemLinks) {
-
     let groupedCartDateItemLinks = [];
     for (let i = 0; i < cartDateItemLinks.length; i++) {
       let cartDateItemLink = cartDateItemLinks[i];
@@ -153,6 +152,10 @@ class Cart extends React.Component {
       });
     })
     .map((total, currency) => {
+      if (!currency || currency === 'null') {
+        currency = '';
+      }
+
       return <Text style={styles.totalCost} key={currency}>{total} {currency}</Text>;
     })
     .value();
@@ -162,7 +165,7 @@ class Cart extends React.Component {
     let listProps = {
       dataSource: DataSource.cloneWithRows(cartDateItemLinksByDate),
       renderRow: this.renderListSection.bind(this),
-      onRefresh: this.fetchCart.bind(this),
+      onRefresh: this.fetchCart.bind(this, true),
       refreshing: refreshing,
     }
 
@@ -191,7 +194,7 @@ export default connect(mapStateToProps)(Cart);
 const styles = {
   totalCost: {
     alignSelf: 'center',
-    fontFamily: 'montserrat-semibold',
+    paddingHorizontal: 15,
   }
 };
 

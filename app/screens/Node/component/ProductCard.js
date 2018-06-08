@@ -5,6 +5,7 @@ import HTMLView from 'react-native-htmlview';
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import { trans } from 'app/shared';
 import OrderForm from './OrderForm';
 
 export default class ProductCard extends React.Component {
@@ -39,7 +40,7 @@ export default class ProductCard extends React.Component {
 
   onQuantityChange(data) {
     data.product_id = this.props.product.id;
-    data.product_name = this.props.product.name;
+    data.product_name = this.state.variant ? this.state.variant.name : this.props.product.name;
     data.variant_id = this.state.variant ? this.state.variant.id : null;
 
     this.props.onQuantityChange(data);
@@ -61,9 +62,9 @@ export default class ProductCard extends React.Component {
     let readMore = null;
     if (productInfo.length > 100 && !this.state.readMore) {
       productInfo = productInfo.substr(0, 140) + '...';
-      readMore = <Text style={styles.readMore} onPress={this.toggleReadMore.bind(this)}>Read more</Text>;
+      readMore = <Text style={styles.readMore} onPress={this.toggleReadMore.bind(this)}>{trans('read_more', this.props.lang)}</Text>;
     } else if (productInfo.length > 100 && this.state.readMore) {
-      readMore = <Text style={styles.readMore} onPress={this.toggleReadMore.bind(this)}>Read less</Text>;
+      readMore = <Text style={styles.readMore} onPress={this.toggleReadMore.bind(this)}>{trans('read_lead', this.props.lang)}</Text>;
     }
 
     let imageProps = {
@@ -75,21 +76,29 @@ export default class ProductCard extends React.Component {
       imageProps.source = {uri: this.props.image};
     }
 
+    let csaIcon = null;
+    if (product.productionType === 'csa') {
+      csaIcon = (
+        <View style={styles.csaIcon}>
+          <Text style={styles.csaIconText}>CSA</Text>
+        </View>
+      );
+    }
+
     let swipe = (
       <View style={{flex: 1}}>
         <Image {...imageProps} />
+        {csaIcon}
       </View>
     );
 
-    let variantHeader = null;
     if (product.product_variants_relationship.length > 0) {
-      variantHeader = <Text>{this.state.variant.name} ({this.state.variant.package_amount} {product.package_unit})</Text>;
-
       let variants = product.product_variants_relationship.map(variant => {
         return (
           <View style={{flex: 1}} key={variant.id}>
             <ImageBackground {...imageProps} style={styles.swiperSlide}>
-              <Icon name='clone' style={{position: 'absolute', bottom: 20, right: 20, color: '#fff', fontSize: 20}} />
+              {csaIcon}
+              <Icon name='clone' style={styles.variantIcon} />
             </ImageBackground>
           </View>
         );
@@ -156,5 +165,28 @@ const styles = {
     color: '#999',
     marginLeft: 15,
     marginBottom: 15,
+  },
+  variantIcon: {
+    bottom: 20,
+    color: '#fff',
+    fontSize: 20,
+    position: 'absolute',
+    right: 20,
+  },
+  csaIcon: {
+    backgroundColor: '#8bc34a',
+    borderRadius: 20,
+    left: 10,
+    overflow: 'hidden',
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingVertical: 5,
+    position: 'absolute',
+    top: 10,
+  },
+  csaIconText: {
+    color: '#fff',
+    fontSize: 12,
+    fontFamily: 'montserrat-semibold',
   }
 };
