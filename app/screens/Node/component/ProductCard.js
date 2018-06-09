@@ -1,7 +1,6 @@
 import React from 'react';
-import { View, Text, TouchableHighlight, Image, ImageBackground, Dimensions } from 'react-native';
+import { View, Text, Image, ImageBackground, Dimensions } from 'react-native';
 import striptags from 'striptags';
-import HTMLView from 'react-native-htmlview';
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -118,7 +117,7 @@ export default class ProductCard extends React.Component {
           <Text numberOfLines={1} style={styles.producerTitle}>{product.producer_relationship.name}</Text>
         </View>
         {swipe}
-        <OrderForm auth={this.props.auth} product={product} variant={this.state.variant} onQuantityChange={this.onQuantityChange.bind(this)} navigateToSignIn={this.navigateToSignIn.bind(this)}/>
+        <OrderForm auth={this.props.auth} product={product} variant={this.state.variant} onQuantityChange={this.onQuantityChange.bind(this)} navigateToSignIn={this.navigateToSignIn.bind(this)} lang={this.props.lang} />
         <Text style={styles.info}>{productInfo}</Text>
         {readMore}
       </View>

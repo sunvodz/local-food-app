@@ -97,4 +97,35 @@ module.exports = {
   'October': 'October',
   'November': 'November',
   'December': 'December',
+
+  // Units
+  'unit_bag': 'bag',
+  'unit_bags': 'bags',
+  'unit_bottle': 'bottle',
+  'unit_bottles': 'bottles',
+  'unit_jar': 'jar',
+  'unit_jars': 'jars',
+  'unit_pieces': 'pcs',
+
+  // SI units
+  'unit_kg': 'kg',
+  'unit_hg': 'hg',
+  'unit_g': 'g',
+  'unit_l': 'l',
+  'unit_dl': 'dl',
+  'unit_cl': 'cl',
+  'unit_ml': 'ml',
+
+  // Customary units
+  'unit_lb': 'lb',
+  'unit_oz': 'oz',
+  'unit_gr': 'gr',
+  'unit_floz': 'fl oz',
+  'unit_pint': 'pt',
+  'unit_gallon': 'gal',
+  'unit_pound': 'pound',
+
+  // Product price units
+  'unit_product': 'pcs',
+  'unit_package': 'pcs',
 };

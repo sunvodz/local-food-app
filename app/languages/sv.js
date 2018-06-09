@@ -97,4 +97,35 @@ module.exports = {
   'October': 'oktober',
   'November': 'november',
   'December': 'december',
+
+  // Units
+  'unit_bag': 'påse',
+  'unit_bags': 'påsar',
+  'unit_bottle': 'flaska',
+  'unit_bottles': 'flaskor',
+  'unit_jar': 'burk',
+  'unit_jars': 'brukar',
+  'unit_pieces': 'st',
+
+  // SI units
+  'unit_kg': 'kg',
+  'unit_hg': 'hg',
+  'unit_g': 'g',
+  'unit_l': 'l',
+  'unit_dl': 'dl',
+  'unit_cl': 'cl',
+  'unit_ml': 'ml',
+
+  // Customary units
+  'unit_lb': 'lb',
+  'unit_oz': 'oz',
+  'unit_gr': 'gr',
+  'unit_floz': 'fl oz',
+  'unit_pint': 'pt',
+  'unit_gallon': 'gal',
+  'unit_pound': 'pound',
+
+  // Product price units
+  'unit_product': 'st',
+  'unit_package': 'st',
 };

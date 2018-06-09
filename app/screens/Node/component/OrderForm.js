@@ -1,9 +1,8 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import _ from 'lodash';
 
-import { Button, Link, QuantityInput } from 'app/components';
+import { trans } from 'app/shared';
 
 export default class OrderForm extends React.Component {
   constructor(props) {
@@ -45,10 +44,7 @@ export default class OrderForm extends React.Component {
     const { auth, product, variant } = this.props;
     const producer = product.producer_relationship;
 
-    let productUnitString = null;
-    if (product.package_unit && product.package_unit !== 'product') {
-      productUnitString = `/${product.package_unit}`;
-    }
+    let priceUnit = trans('unit_' + product.price_unit, this.props.lang);
 
     let productWeight = null;
     if (product.package_unit && product.package_unit !== 'product') {
@@ -57,7 +53,7 @@ export default class OrderForm extends React.Component {
 
     let variantName = <Text numberOfLines={1} style={styles.variantName}>{product.name}</Text>;
     let totalPrice = this.state.quantity * product.price;
-    let productPrice = <Text numberOfLines={1} style={styles.price}>{product.price} {producer.currency}{productUnitString} {productWeight}</Text>;
+    let productPrice = <Text numberOfLines={1} style={styles.price}>{product.price} {producer.currency}/{priceUnit}</Text>;
     let availableQuantity = product.available_quantity;
 
     if (variant) {
@@ -67,7 +63,7 @@ export default class OrderForm extends React.Component {
 
       variantName = <Text numberOfLines={1} style={styles.variantName}>{variant.name}</Text>;
       totalPrice = this.state.quantity * variant.price;
-      productPrice = <Text numberOfLines={1} style={styles.price}>{variant.price} {producer.currency}{productUnitString}</Text>;
+      productPrice = <Text numberOfLines={1} style={styles.price}>{variant.price} {producer.currency}/{priceUnit}</Text>;
       availableQuantity = variant.available_quantity;
     }
 
