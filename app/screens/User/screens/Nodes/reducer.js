@@ -5,6 +5,7 @@ function nodesReducer(state, action) {
   switch (action.type) {
     case actionTypes.REQUEST_USER_NODES:
     case actionTypes.RECEIVE_USER_NODES:
+    case actionTypes.RECEIVE_USER_NODES_FAILED:
       return Object.assign({}, state, {
         nodes: action.nodes,
         loading: action.loading,

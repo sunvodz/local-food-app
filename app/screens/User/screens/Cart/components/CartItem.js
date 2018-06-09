@@ -1,12 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import moment from 'moment';
-import _ from 'lodash';
 
 import { Card, Text, Link } from 'app/components';
-import { trans } from 'app/shared';
+import { trans, priceHelper, unitHelper } from 'app/shared';
 
 export default class CartItem extends React.Component {
   removeCartItem() {
@@ -37,39 +34,32 @@ export default class CartItem extends React.Component {
     const variant = cartItem.variant;
     const producer = cartItem.producer;
 
-    let productUnitString = '';
-    if (product.package_unit && product.package_unit !== 'product') {
-      productUnitString = `/${product.package_unit}`;
-    }
-
     let currency = producer.currency;
     if (!currency || currency === 'null') {
       currency = '';
     }
 
-    let productWeight = null;
-    if (product.package_unit && product.package_unit !== 'product') {
-      productWeight = `ca ${product.package_amount} ${product.package_unit}`;
-    }
+    let packageUnit = unitHelper.getPackageUnit(product, variant, this.props.lang);
 
-    let productName = <Text numberOfLines={1} style={styles.productName}>{cartItem.product.name.toUpperCase()}</Text>;
+    let productName = <Text numberOfLines={2} style={styles.productName}>{cartItem.product.name}</Text>;
     let variantName = null;
-    let priceUnit = trans('unit_' + product.price_unit, this.props.lang);
-    let productPrice = `${product.price} ${currency}/${priceUnit}`;
-    let totalPrice = `${data.quantity * product.price * product.package_amount} ${currency}`;
+    let productPrice = priceHelper.getPriceFormatted(product, null, currency);
+    let totalPrice = priceHelper.getCalculatedPriceFormatted(product, null, data.quantity, currency, true);
 
     if (variant) {
-      if (variant.package_unit !== 'product') {
-        productWeight = `ca ${variant.package_amount} ${product.package_unit}`;
-      }
+      packageUnit = unitHelper.getPackageUnit(product, variant, this.props.lang);
 
       variantName = <Text style={styles.productName} numberOfLines={1}>{variant.name}</Text>;
-      productPrice = `${variant.price} ${currency}${productUnitString}`;
-      totalPrice = `${data.quantity * variant.price * variant.package_amount} ${currency}`;
+      productPrice = priceHelper.getPriceFormatted(product, variant, currency);
+      totalPrice = priceHelper.getCalculatedPriceFormatted(product, variant, data.quantity, currency, true);
+    }
+
+    if (packageUnit) {
+      packageUnit = <Text numberOfLines={1} style={styles.packageUnitText}>{packageUnit}</Text>;
     }
 
     let quantity = (
-      <View style={styles.quantity}>
+      <View style={quantityStyle.quantity}>
         <View style={quantityStyle.quantity}>
           <TouchableOpacity style={quantityStyle.decrease} onPress={this.onDecrease.bind(this)}>
             <Icon name='minus-circle' style={quantityStyle.icon} />
@@ -80,42 +70,39 @@ export default class CartItem extends React.Component {
             </View>
           </View>
           <TouchableOpacity style={quantityStyle.increase} onPress={this.onIncrease.bind(this)}>
-            <Icon  name='plus-circle' style={quantityStyle.icon} />
+            <Icon name='plus-circle' style={quantityStyle.icon} />
           </TouchableOpacity>
         </View>
       </View>
     );
 
-    let trash = <Link title={trans('delete', this.props.lang)} onPress={this.removeCartItem.bind(this)} />;
+    let trash = (
+      <View style={styles.footer}>
+        <View style={styles.priceWrapper}>
+          <Text style={styles.priceText}>{totalPrice}</Text>
+        </View>
+        <Link title={trans('delete', this.props.lang)} onPress={this.removeCartItem.bind(this)} />
+      </View>
+    );
 
     return (
       <View style={styles.listItem}>
         <Card key={data.ref} footer={trash} style={styles.card}>
           {productName}
           {variantName}
+          {packageUnit}
+
+          <View style={styles.row}>
+            <View style={[styles.priceWrapper, {marginVertical: 10}]}>
+              <Text style={styles.priceText}>{productPrice}</Text>
+            </View>
+          </View>
+
           <View style={styles.producerNodeWrapper}>
             <Text style={styles.producer}>{cartItem.producer.name} - {cartItem.node.name}</Text>
           </View>
 
-          <View style={styles.priceRow}>
-            <View>
-              <View style={styles.priceItem}>
-                <Icon name='tag' size={16} style={[styles.priceIcon, {marginRight: 5}]} />
-                <Text>{productPrice}</Text>
-              </View>
-              <View style={styles.priceItem}>
-                <Icon name='balance-scale' size={16} style={[styles.priceIcon, {marginRight: 5}]} />
-                <Text>{productWeight}</Text>
-              </View>
-            </View>
-
-            <View style={styles.priceItem}>
-              <Text>{totalPrice}</Text>
-              <Icon name='shopping-basket' size={16} style={[styles.priceIcon, {marginLeft: 5}]} />
-            </View>
-          </View>
-
-          <View style={[styles.row, styles.quantityRow]}>
+          <View style={styles.row}>
             {quantity}
           </View>
         </Card>
@@ -134,12 +121,11 @@ const styles = {
     }
   },
   productName: {
-    fontFamily: 'montserrat-regular',
+    fontFamily: 'montserrat-semibold',
   },
   producerNodeWrapper: {
     flex: 1,
     flexDirection: 'row',
-    marginBottom: 15,
   },
   producer: {
     color: '#b4b4b0',
@@ -154,23 +140,21 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  quantityRow: {
-    marginTop: 15,
-  },
-  quantity: {
-    flex: 10,
-  },
-  priceRow: {
+  footer: {
+    alignItems: 'center',
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  priceItem: {
-    flexDirection: 'row',
-    marginBottom: 5,
+  priceWrapper: {
+    backgroundColor: '#bc3b1f',
+    borderRadius: 15,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
   },
-  priceIcon: {
-    color: '#bc3b1f',
-    width: 24,
+  priceText: {
+    color: '#fff',
+    fontFamily: 'montserrat-semibold',
   }
 }
 
@@ -179,22 +163,11 @@ const quantityStyle = {
     backgroundColor: '#fff',
     borderColor: '#e4e4e0',
     justifyContent: 'center',
-    flex: 2,
+    flex: 1,
     flexDirection: 'row',
   },
   variantName: {
     fontFamily: 'montserrat-semibold',
-  },
-  priceRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  priceItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  price: {
-    fontFamily: 'montserrat-regular',
   },
   alignRight: {
     textAlign: 'right',

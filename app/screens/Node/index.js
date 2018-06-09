@@ -7,7 +7,7 @@ import { Loader, NumberInput, Button, Empty, ScreenHeader } from 'app/components
 import DatePicker from './component/DatePicker';
 import ProductCard from './component/ProductCard';
 import * as actions from './actions';
-import { trans } from 'app/shared';
+import { trans, priceHelper } from 'app/shared';
 
 class Node extends React.Component {
   constructor(props) {
@@ -94,7 +94,15 @@ class Node extends React.Component {
   }
 
   render() {
-    const { products, loadingProducts, dates, node } = this.props.node;
+    const { products, loadingProducts, dates } = this.props.node;
+
+    if (!loadingProducts && !dates) {
+      return (
+        <View style={styles.view}>
+          <Empty icon="exclamation" header={trans('no_delivery_dates', this.props.lang)} text={trans('no_delivery_dates_text', this.props.lang)} />
+        </View>
+      );
+    }
 
     if (!loadingProducts && (!products || products.length === 0)) {
       return (
@@ -142,9 +150,15 @@ class Node extends React.Component {
 
     let addToCartNotice = null;
     if (this.state.addToCart) {
+      let addToCart = this.state.addToCart;
+      let totalPrice = priceHelper.getCalculatedPriceFormatted(addToCart.product, addToCart.variant, addToCart.quantity, addToCart.producer.currency, true);
+
       addToCartNotice = (
         <View style={styles.addToCartWrapper}>
-          <Text numberOfLines={3} style={styles.addToCartText}>{trans('cart_notice_part_1', this.props.lang)} {this.state.addToCart.quantity} {this.state.addToCart.product_name} {trans('cart_notice_part_2', this.props.lang)}</Text>
+          <View style={styles.addToCartInfoWrapper}>
+            <Text numberOfLines={1} style={styles.addToCartText}>{addToCart.quantity} x {addToCart.product.name}</Text>
+            <Text numberOfLines={1} style={styles.priceText}>{totalPrice}</Text>
+          </View>
           <View style={styles.addToCartActionWrapper}>
             <Button style={styles.addToCartButton} icon='shopping-basket' title={trans('add', this.props.lang)} onPress={this.addToCart.bind(this)} />
             <Text style={styles.addToCartReset} onPress={this.resetCart.bind(this)}>{trans('reset', this.props.lang)}</Text>
@@ -209,14 +223,22 @@ const styles = {
     flexDirection: 'row',
     padding: 15,
     position: 'absolute',
+    width: '100%',
+  },
+  addToCartInfoWrapper: {
+    flex: 1,
   },
   addToCartText: {
-    flex: 1,
     color: '#fff',
     fontFamily: 'montserrat-regular',
   },
+  priceText: {
+    color: '#fff',
+    fontFamily: 'montserrat-semibold',
+  },
   addToCartActionWrapper: {
     alignItems: 'center',
+    flex: 1,
     marginLeft: 15,
   },
   addToCartButton: {

@@ -1,10 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { TabNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { NotificationsIcon } from 'app/containers';
 
 import MapStackNavigation from './MapStackNavigation';
-import Notifications from 'app/screens/User/screens/Notifications';
 import UserStackNavigation from './UserStackNavigation';
 
 const RouteConfigs = {
@@ -14,7 +12,7 @@ const RouteConfigs = {
     },
     navigationOptions: ({ navigation }) => {
       return {
-        tabBarLabel: ({ tintColor }) => (<Icon name="user" size={24} color={tintColor} />)
+        tabBarLabel: ({ tintColor }) => (<Icon name='user' size={24} color={tintColor} />)
       };
     }
   },

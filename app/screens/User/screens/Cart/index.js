@@ -1,17 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, ListView } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
 import _ from 'lodash';
 
 import AuthScreen from 'app/screens/Auth';
 
-import { ContentWrapper, Loader, Card, Text, QuantityInput, Button, Empty, List, ListItem, ListSection, ScreenHeader } from 'app/components';
+import { Loader, Text, Button, Empty, List, ListSection, ScreenHeader } from 'app/components';
 import CartItem from './components/CartItem';
 import * as actions from './actions';
-import { updateCartItem } from './actions';
-import { trans } from 'app/shared';
+import { trans, priceHelper } from 'app/shared';
 
 const DataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
@@ -142,13 +140,9 @@ class Cart extends React.Component {
     .mapValues((cartDateItemLinks, currency) => {
       return _.sumBy(cartDateItemLinks, (cartDateItemLink) => {
         let item = cartDateItemLink.cart_item_relationship[0];
-        let price = item.product.price;
+        let price = priceHelper.getCalculatedPrice(item.product, item.variant, cartDateItemLink.quantity);
 
-        if (item.variant) {
-          price = item.variant.price;
-        }
-
-        return price * cartDateItemLink.quantity;
+        return price;
       });
     })
     .map((total, currency) => {
@@ -156,7 +150,7 @@ class Cart extends React.Component {
         currency = '';
       }
 
-      return <Text style={styles.totalCost} key={currency}>{total} {currency}</Text>;
+      return <Text style={styles.orderText} key={currency}>{total} {currency}</Text>;
     })
     .value();
 
@@ -171,9 +165,12 @@ class Cart extends React.Component {
 
     return (
       <View style={{flex: 1, backgroundColor: '#f4f4f0'}}>
-        <ScreenHeader title={trans('cart', this.props.lang)} sub={totalCost} left navigation={this.props.navigation} />
+        <ScreenHeader title={trans('cart', this.props.lang)} left navigation={this.props.navigation} />
         <List {...listProps} />
-        <Button style={buttonStyle} loading={this.props.cart.creating} icon='shopping-basket' title={trans('send_order', this.props.lang)} onPress={this.createOrder.bind(this)} />
+        <View style={styles.orderWrapper}>
+          <View style={styles.orderTotals}>{totalCost}</View>
+          <Button style={styles.orderButton} loading={this.props.cart.creating} icon='shopping-basket' title={trans('send_order', this.props.lang)} onPress={this.createOrder.bind(this)} />
+        </View>
       </View>
     );
   }
@@ -195,12 +192,33 @@ const styles = {
   totalCost: {
     alignSelf: 'center',
     paddingHorizontal: 15,
-  }
-};
-
-const buttonStyle = {
-  button: {
-    marginTop: 15,
-    marginBottom: 15
-  }
+  },
+  orderWrapper: {
+    backgroundColor: '#bc3b1f',
+    bottom: 0,
+    flexDirection: 'row',
+    padding: 15,
+    position: 'absolute',
+    width: '100%',
+  },
+  orderTotals: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  orderText: {
+    color: '#fff',
+    fontFamily: 'montserrat-semibold',
+  },
+  orderButton: {
+    flex: 1,
+    button: {
+      backgroundColor: '#ff9300',
+    },
+    title: {
+      color: '#333',
+    },
+    icon: {
+      color: '#333',
+    }
+  },
 };

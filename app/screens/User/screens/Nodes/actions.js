@@ -3,15 +3,19 @@ import { api } from 'app/shared';
 
 export function fetchUserNodes() {
   return async function(dispatch, getState) {
-    dispatch(requestUserNodes());
+    try {
+      dispatch(requestUserNodes());
 
-    let response = await api.call({
-      url: '/api/v1/users/nodes'
-    });
+      let response = await api.call({
+        url: '/api/v1/users/nodes'
+      });
 
-    let nodes = response.data;
+      let nodes = response.data;
 
-    return dispatch(receiveUserNodes(nodes));
+      return dispatch(receiveUserNodes(nodes));
+    } catch(error) {
+      return dispatch(receiveUserNodesFailed(error));
+    }
   }
 }
 
@@ -28,6 +32,16 @@ export function receiveUserNodes(nodes) {
     type: actionTypes.RECEIVE_USER_NODES,
     nodes: nodes,
     loading: false,
+  }
+}
+
+export function receiveUserNodesFailed(error) {
+  return {
+    type: actionTypes.RECEIVE_USER_NODES_FAILED,
+    nodes: null,
+    loading: false,
+    title: 'nodes',
+    message: 'failed_loading_nodes',
   }
 }
 

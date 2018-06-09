@@ -6,9 +6,13 @@ import AuthScreen from 'app/screens/Auth';
 import ProfileTabNavigation from 'app/navigations/ProfileTabNavigation';
 
 import { trans } from 'app/shared';
-import { Empty, ScreenHeader } from 'app/components';
+import { ScreenHeader } from 'app/components';
 
 class Profile extends Component {
+  componentWillMount() {
+    // Todo: try to auth user in memory after connection failure
+  }
+
   render() {
     if (!this.props.auth.user || this.props.auth.loading) {
       return (

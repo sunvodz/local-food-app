@@ -4,7 +4,7 @@ import striptags from 'striptags';
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import { trans } from 'app/shared';
+import { trans, priceHelper } from 'app/shared';
 import OrderForm from './OrderForm';
 
 export default class ProductCard extends React.Component {
@@ -39,8 +39,11 @@ export default class ProductCard extends React.Component {
 
   onQuantityChange(data) {
     data.product_id = this.props.product.id;
-    data.product_name = this.state.variant ? this.state.variant.name : this.props.product.name;
     data.variant_id = this.state.variant ? this.state.variant.id : null;
+
+    data.product = this.props.product;
+    data.variant = this.state.variant ? this.state.variant : null;
+    data.producer = this.props.product.producer_relationship;
 
     this.props.onQuantityChange(data);
   }
@@ -55,7 +58,6 @@ export default class ProductCard extends React.Component {
 
   render() {
     const { product } = this.props;
-    const producer = product.producer_relationship;
 
     let productInfo = product.infoRaw;
     let readMore = null;
@@ -63,7 +65,7 @@ export default class ProductCard extends React.Component {
       productInfo = productInfo.substr(0, 140) + '...';
       readMore = <Text style={styles.readMore} onPress={this.toggleReadMore.bind(this)}>{trans('read_more', this.props.lang)}</Text>;
     } else if (productInfo.length > 100 && this.state.readMore) {
-      readMore = <Text style={styles.readMore} onPress={this.toggleReadMore.bind(this)}>{trans('read_lead', this.props.lang)}</Text>;
+      readMore = <Text style={styles.readMore} onPress={this.toggleReadMore.bind(this)}>{trans('read_less', this.props.lang)}</Text>;
     }
 
     let imageProps = {
@@ -113,7 +115,7 @@ export default class ProductCard extends React.Component {
     return (
       <View style={styles.product}>
         <View>
-          <Text numberOfLines={1} style={styles.productTitle}>{product.name}</Text>
+          <Text numberOfLines={2} style={styles.productTitle}>{product.name}</Text>
           <Text numberOfLines={1} style={styles.producerTitle}>{product.producer_relationship.name}</Text>
         </View>
         {swipe}
@@ -187,5 +189,21 @@ const styles = {
     color: '#fff',
     fontSize: 12,
     fontFamily: 'montserrat-semibold',
-  }
+  },
+  // priceIcon: {
+  //   backgroundColor: '#fff',
+  //   borderRadius: 20,
+  //   left: 10,
+  //   overflow: 'hidden',
+  //   paddingLeft: 10,
+  //   paddingRight: 10,
+  //   paddingVertical: 5,
+  //   position: 'absolute',
+  //   bottom: 10,
+  // },
+  // priceIconText: {
+  //   color: '#bc3b1f',
+  //   fontSize: 14,
+  //   fontFamily: 'montserrat-semibold',
+  // }
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import { trans } from 'app/shared';
+import { trans, priceHelper, unitHelper } from 'app/shared';
 
 export default class OrderForm extends React.Component {
   constructor(props) {
@@ -40,39 +40,51 @@ export default class OrderForm extends React.Component {
     this.props.navigateToSignIn();
   }
 
+  // getPackageUnit(product, variant) {
+  //   let packageUnit = null;
+  //   let packageAmount = product.package_amount;
+
+  //   if (variant) {
+  //     packageAmount = variant.package_amount;
+  //   }
+
+  //   if (unitHelper.isWeightUnit(product.package_unit)) {
+  //     packageUnit = <Text numberOfLines={1} style={styles.packageUnitText}>{`ca ${packageAmount} ${trans('unit_' + product.package_unit, this.props.lang)}`}</Text>;
+  //   } else if (packageAmount > 1) {
+  //     packageUnit = <Text numberOfLines={1} style={styles.packageUnitText}>{`${packageAmount} ${trans('unit_' + product.package_unit, this.props.lang)}`}</Text>;
+  //   }
+
+  //   return packageUnit;
+  // }
+
   render() {
-    const { auth, product, variant } = this.props;
+    const { product, variant } = this.props;
     const producer = product.producer_relationship;
 
-    let priceUnit = trans('unit_' + product.price_unit, this.props.lang);
+    let packageUnit = unitHelper.getPackageUnit(product, null, this.props.lang);
 
-    let productWeight = null;
-    if (product.package_unit && product.package_unit !== 'product') {
-      productWeight = <Text numberOfLines={1} style={styles.price}>{`ca ${product.package_amount} ${product.package_unit}`}</Text>;
-    }
-
-    let variantName = <Text numberOfLines={1} style={styles.variantName}>{product.name}</Text>;
-    let totalPrice = this.state.quantity * product.price;
-    let productPrice = <Text numberOfLines={1} style={styles.price}>{product.price} {producer.currency}/{priceUnit}</Text>;
+    let productName = product.name;
+    let productPrice = priceHelper.getPriceFormatted(product, variant, producer.currency);
     let availableQuantity = product.available_quantity;
 
     if (variant) {
-      if (variant.package_unit && variant.package_unit !== 'product') {
-        productWeight = <Text numberOfLines={1} style={styles.price}>{`ca ${variant.package_amount} ${product.package_unit}`}</Text>;
-      }
+      packageUnit = unitHelper.getPackageUnit(product, variant, this.props.lang);
 
-      variantName = <Text numberOfLines={1} style={styles.variantName}>{variant.name}</Text>;
-      totalPrice = this.state.quantity * variant.price;
-      productPrice = <Text numberOfLines={1} style={styles.price}>{variant.price} {producer.currency}/{priceUnit}</Text>;
+      productName = variant.name;
+      productPrice = priceHelper.getPriceFormatted(product, variant, producer.currency);
+      totalPrice = priceHelper.getCalculatedPriceFormatted(product, variant, this.state.quantity, producer.currency);
       availableQuantity = variant.available_quantity;
     }
 
-    let summaryPriceItem = null;
+    if (packageUnit) {
+      packageUnit = <Text numberOfLines={1} style={styles.packageUnitText}>{packageUnit}</Text>;
+    }
+
     let quantityForm = null;
 
     if (this.props.auth.user && this.props.auth.user.active) {
       // If logged in and a member - orders are possible
-      if (this.state.quantity >= 0) {
+      if (parseInt(availableQuantity) > 0) {
         quantityForm = (
           <View style={styles.quantity}>
             <TouchableOpacity style={styles.decrease} onPress={this.onDecrease.bind(this)}>
@@ -88,43 +100,26 @@ export default class OrderForm extends React.Component {
             </TouchableOpacity>
           </View>
         );
+      } else {
+        quantityForm = <Text style={styles.soldout}>{trans('sold_out', this.props.lang)}</Text>;
       }
-
-      summaryPriceItem = (
-        <View style={styles.priceItem}>
-          <Text numberOfLines={1} style={styles.price}>{totalPrice} {producer.currency}</Text>
-          <Icon style={[styles.priceIcon, {marginLeft: 5}]} name='shopping-basket' size={16} color='#bc3b1f' />
-        </View>
-      );
     }
 
     let productPriceItem = (
       <View style={styles.priceItem}>
-        <Icon style={[styles.priceIcon, {marginRight: 5}]} name='tag' size={16} color='#bc3b1f' />
-        {productPrice}
+        <Text numberOfLines={1} style={styles.priceText}>{productPrice}</Text>
       </View>
     );
-
-    let productWeightItem = null;
-    if (productWeight) {
-      productWeightItem = (
-        <View style={styles.priceItem}>
-          <Icon style={[styles.priceIcon, {marginRight: 5}]} name='balance-scale' size={16} color='#bc3b1f' />
-          {productWeight}
-        </View>
-      );
-    }
 
     return (
       <View style={styles.view}>
         <View style={styles.priceView}>
-          {variantName}
+          <View>
+            <Text numberOfLines={1} style={styles.productName}>{productName}</Text>
+            {packageUnit}
+          </View>
           <View style={styles.priceRow}>
-            <View>
-              {productPriceItem}
-              {productWeightItem}
-            </View>
-            {summaryPriceItem}
+            {productPriceItem}
           </View>
         </View>
         <View style={styles.orderFormRow}>
@@ -137,7 +132,7 @@ export default class OrderForm extends React.Component {
 
 const styles = {
   view: {
-    backgroundColor: '#f9eeeb',
+    backgroundColor: '#fff2de',
     paddingBottom: 15,
   },
   signin: {
@@ -159,23 +154,38 @@ const styles = {
     paddingHorizontal: 15,
     paddingVertical: 5,
   },
-  variantName: {
+  productName: {
     fontFamily: 'montserrat-semibold',
+    marginBottom: 5,
+  },
+  packageUnitText: {
+    fontFamily: 'montserrat-regular',
+    marginTop: -5,
     marginBottom: 5,
   },
   priceRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  priceItem: {
+  infoItem: {
     flexDirection: 'row',
     marginBottom: 5,
   },
-  priceIcon: {
+  infoIcon: {
     width: 20,
   },
-  price: {
+  infoText: {
     fontFamily: 'montserrat-regular',
+  },
+  priceItem: {
+    backgroundColor: '#bc3b1f',
+    borderRadius: 15,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  priceText: {
+    color: '#fff',
+    fontFamily: 'montserrat-semibold',
   },
   alignRight: {
     textAlign: 'right',
@@ -212,4 +222,10 @@ const styles = {
     fontSize: 12,
     textAlign: 'center',
   },
+  soldout: {
+    color: '#bc3b1f',
+    flex: 1,
+    fontFamily: 'montserrat-semibold',
+    textAlign: 'center',
+  }
 };

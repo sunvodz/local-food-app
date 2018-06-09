@@ -84,6 +84,17 @@ export function receiveNodes(nodes) {
   }
 }
 
+export function receiveNodesFailed() {
+  return {
+    type: actionTypes.RECEIVE_NODES_FAILED,
+    loading: false,
+    refresh: false,
+    nodes: null,
+    title: 'nodes',
+    message: 'failed_loading_nodes',
+  }
+}
+
 export function refreshNodes() {
   return async function (dispatch, getState) {
     try {
@@ -97,7 +108,7 @@ export function refreshNodes() {
 
       dispatch(receiveNodes(nodes));
     } catch (error) {
-      dispatch(receiveNodes(null)); // No nodes will show server error warning
+      dispatch(receiveNodesFailed(null)); // No nodes will show server error warning
     }
   }
 }

@@ -167,7 +167,7 @@ export function loadUser() {
 
         return dispatch(loginComplete(user));
       } else {
-        throw 'err in loadUser';
+        throw 'Error in sharedActions.loadUser';
       }
     } catch (error) {
       return dispatch(loadUserFailed());

@@ -14,6 +14,7 @@ function mapReducer(state, action) {
     case actionTypes.REQUEST_NODES:
     case actionTypes.REFRESH_NODES:
     case actionTypes.RECEIVE_NODES:
+    case actionTypes.RECEIVE_NODES_FAILED:
       return Object.assign({}, state, {
         nodes: action.nodes,
         loading: action.loading,

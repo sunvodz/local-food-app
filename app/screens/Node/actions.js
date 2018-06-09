@@ -15,7 +15,7 @@ export function fetchNode(nodeId) {
 
       dispatch(receiveNode(node));
     } catch (error) {
-      console.error(error);
+      dispatch(receiveNodeFailed(error));
     }
   }
 }
@@ -32,6 +32,14 @@ export function receiveNode(node) {
   return {
     type: actionTypes.RECEIVE_NODE,
     node: node,
+    loadingNode: false,
+  }
+}
+
+export function receiveNodeFailed(error) {
+  return {
+    type: actionTypes.RECEIVE_NODE_FAILED,
+    node: null,
     loadingNode: false,
   }
 }

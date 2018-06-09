@@ -78,7 +78,7 @@ export default class MapViewWrapper extends React.Component {
     }
 
     if (!map.nodes && !map.loading) {
-      let actionButton = <Button icon='refresh' title='Försök igen' onPress={this.refreshNodes.bind(this)} loading={map.refresh} />
+      let actionButton = <Button icon='refresh' title={trans('try_again', this.props.lang)} onPress={this.refreshNodes.bind(this)} loading={map.refresh} />
       return <Empty icon="map-marker" header={trans('no_nodes', this.props.lang)} text={trans('no_nodes_text', this.props.lang)} action={actionButton} />;
     }
 

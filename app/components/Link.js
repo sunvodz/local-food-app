@@ -1,10 +1,12 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { TouchableOpacity, Text } from 'react-native';
 
 export default class Link extends React.Component {
   render() {
     return (
-      <Text style={styles.link} onPress={this.props.onPress}>{this.props.title.toUpperCase()}</Text>
+      <TouchableOpacity onPress={this.props.onPress}>
+        <Text style={styles.link}>{this.props.title.toUpperCase()}</Text>
+      </TouchableOpacity>
     );
   }
 }

@@ -1,6 +1,5 @@
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
-import moment from 'moment';
 
 import Profile from 'app/screens/User/screens/Profile';
 import Order from 'app/screens/User/screens/Order';

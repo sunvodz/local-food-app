@@ -7,7 +7,7 @@ class LocalFoodNodesSDK {
   constructor() {
     this.token = null;
     this.client = axios.create({
-      timeout: 10000,
+      timeout: 5000,
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
