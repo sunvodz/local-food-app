@@ -47,23 +47,23 @@ export default class CartItem extends React.Component {
       currency = '';
     }
 
-    productWeight = null;
-    if (!variant && product.package_unit !== 'product') {
+    let productWeight = null;
+    if (product.package_unit && product.package_unit !== 'product') {
       productWeight = `ca ${product.package_amount} ${product.package_unit}`;
     }
 
-    let productName = <Text numberOfLines={1} style={styles.productName}>{cartItem.product.name.toUpperCase()} {productWeight}</Text>;
+    let productName = <Text numberOfLines={1} style={styles.productName}>{cartItem.product.name.toUpperCase()}</Text>;
     let variantName = null;
-    let productPrice = `${product.price} ${currency}${productUnitString}`;
+    let priceUnit = trans('unit_' + product.price_unit, this.props.lang);
+    let productPrice = `${product.price} ${currency}/${priceUnit}`;
     let totalPrice = `${data.quantity * product.price * product.package_amount} ${currency}`;
 
     if (variant) {
-      let variantWeight = null;
       if (variant.package_unit !== 'product') {
-        variantWeight = `ca ${variant.package_amount} ${product.package_unit}`;
+        productWeight = `ca ${variant.package_amount} ${product.package_unit}`;
       }
 
-      variantName = <Text style={styles.productName} numberOfLines={1}>{variant.name} {variantWeight}</Text>;
+      variantName = <Text style={styles.productName} numberOfLines={1}>{variant.name}</Text>;
       productPrice = `${variant.price} ${currency}${productUnitString}`;
       totalPrice = `${data.quantity * variant.price * variant.package_amount} ${currency}`;
     }
@@ -98,16 +98,23 @@ export default class CartItem extends React.Component {
           </View>
 
           <View style={styles.priceRow}>
-            <View style={styles.priceWrapper}>
-              <Icon name='tag' size={16} style={styles.priceIcon} />
-              <Text>{productPrice}</Text>
+            <View>
+              <View style={styles.priceItem}>
+                <Icon name='tag' size={16} style={[styles.priceIcon, {marginRight: 5}]} />
+                <Text>{productPrice}</Text>
+              </View>
+              <View style={styles.priceItem}>
+                <Icon name='balance-scale' size={16} style={[styles.priceIcon, {marginRight: 5}]} />
+                <Text>{productWeight}</Text>
+              </View>
             </View>
 
-            <View numberOfLines={1} style={styles.priceWrapper}>
-              <Icon name='shopping-basket' size={16} style={styles.priceIcon} />
+            <View style={styles.priceItem}>
               <Text>{totalPrice}</Text>
+              <Icon name='shopping-basket' size={16} style={[styles.priceIcon, {marginLeft: 5}]} />
             </View>
           </View>
+
           <View style={[styles.row, styles.quantityRow]}>
             {quantity}
           </View>
@@ -157,8 +164,9 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  priceWrapper: {
+  priceItem: {
     flexDirection: 'row',
+    marginBottom: 5,
   },
   priceIcon: {
     color: '#bc3b1f',
