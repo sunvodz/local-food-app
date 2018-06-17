@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, ListView, RefreshControl } from 'react-native';
+import { ListView, RefreshControl } from 'react-native';
+import styleMerger from 'app/shared/utils/styleMerger';
 
 export default class List extends React.Component {
   onRefresh() {
@@ -7,11 +8,17 @@ export default class List extends React.Component {
   }
 
   render() {
-    let props = this.props;
     let refreshing = this.props.refreshing || false;
+    let mergedStyles = styleMerger.merge(styles, this.props.style);
 
     return (
-      <ListView {...props} refreshControl={<RefreshControl onRefresh={this.onRefresh.bind(this)} refreshing={refreshing} />} style={{backgroundColor: '#f4f4f0'}} />
+      <ListView {...this.props} refreshControl={<RefreshControl onRefresh={this.onRefresh.bind(this)} refreshing={refreshing} />} style={mergedStyles.list}/>
     );
   }
 }
+
+let styles = {
+  list: {
+    backgroundColor: '#f4f4f0',
+  }
+};

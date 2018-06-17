@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Picker, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
 import _ from 'lodash';
@@ -12,6 +12,7 @@ import * as actions from './actions';
 class Settings extends Component {
   componentDidMount() {
     this.props.dispatch(actions.fetchLanguages());
+    this.props.dispatch(actions.getPushToken());
   }
 
   onLogout() {
@@ -85,6 +86,7 @@ class Settings extends Component {
         <Card header={trans('select_language', this.props.lang)} headerPosition='outside'>
           {languageItems}
         </Card>
+        <Text>Token: {this.props.settings.pushToken}</Text>
         <Button onPress={this.onLogout.bind(this)} icon='sign-out' title={trans('logout', this.props.lang)} accessibilityLabel="Logout" />
         {/*<Text style={styles.deleteAccountLink} onPress={this.navigateToDeleteAccount.bind(this)}>Delete account</Text>*/}
       </ContentWrapper>

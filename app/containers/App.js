@@ -12,9 +12,12 @@ import * as mapActions from 'app/screens/Map/actions';
 import * as userNodesActions from 'app/screens/User/screens/Nodes/actions';
 
 class App extends Component {
-  componentDidMount() {
+  constructor(props) {
+    super(props);
     this.notificationSubscription = Notifications.addListener(this.handleNotification.bind(this));
+  }
 
+  componentDidMount() {
     this.props.dispatch(sharedActions.loadUser());
     this.props.dispatch(mapActions.fetchCurrentLocation());
     this.props.dispatch(mapActions.fetchNodes());
@@ -26,7 +29,7 @@ class App extends Component {
     const { dispatch } = this.props;
 
     dispatch({
-      type: sharedActionTypes.SHOW_INFO,
+      type: sharedActionTypes.NOTIFICATION_RECEIVED,
       title: notification.data.title,
       message: notification.data.message,
     });

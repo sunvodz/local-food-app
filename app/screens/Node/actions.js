@@ -71,7 +71,7 @@ export function fetchProducts(filters) {
 
       dispatch(receiveProducts(products));
     } catch (error) {
-      console.error('Error fetching product', error);
+      dispatch(receiveProductsFailed(error));
     }
   }
 }
@@ -92,30 +92,13 @@ export function receiveProducts(products) {
   }
 }
 
-export function fetchProductQuantity() {
-  return async function (dispatch, getState) {
-    try {
-      dispatch(requestProductQuantity());
-
-      let url = `/api/v1/products/${productId}/quantity`;
-
-      let response = await api.call({
-        url: url,
-        data: data // variantId, nodeId, date
-      });
-
-      let quantity = response.data;
-
-      dispatch(receiveProductQuantity(quantity));
-    } catch (error) {
-      console.error('Error fetching product quantity', error);
-    }
-  }
-}
-
-export function requestProductQuantity() {
+export function receiveProductsFailed(error) {
   return {
-    type: actionTypes.REQUEST_PRODUCT_QUANTITY,
+    type: actionTypes.RECEIVE_PRODUCTS_FAILED,
+    products: null,
+    loadingProducts: false,
+    title: 'products',
+    message: 'failed_loading_products'
   }
 }
 
@@ -143,7 +126,7 @@ export function fetchNodeDates(nodeId) {
         dispatch(setDateFilter(dates[0]));
       }
     } catch (error) {
-      console.error(error);
+      dispatch(receiveNodeDatesFailed(error));
     }
   }
 }
@@ -160,6 +143,16 @@ export function receiveNodeDates(dates) {
     type: actionTypes.RECEIVE_NODE_DATES,
     dates: dates,
     loadingDates: false,
+  }
+}
+
+export function receiveNodeDatesFailed(error) {
+  return {
+    type: actionTypes.RECEIVE_NODE_DATES_FAILED,
+    dates: [],
+    loadingDates: false,
+    title: 'node_dates',
+    message: 'failed_loading_node_dates',
   }
 }
 

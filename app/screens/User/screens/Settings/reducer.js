@@ -11,6 +11,12 @@ function settingsReducer(state, action) {
       });
       break;
 
+    case actionTypes.GET_PUSH_TOKEN:
+      return Object.assign({}, state, {
+        pushToken: action.pushToken,
+      });
+      break;
+
     default:
       return Object.assign({}, state, {});
       break;

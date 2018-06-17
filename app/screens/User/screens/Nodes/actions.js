@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes'
 import { api } from 'app/shared';
+import _ from 'lodash';
 
 export function fetchUserNodes() {
   return async function(dispatch, getState) {
@@ -10,7 +11,9 @@ export function fetchUserNodes() {
         url: '/api/v1/users/nodes'
       });
 
-      let nodes = response.data;
+      let nodes = _.sortBy(response.data, node => {
+        return node.name;
+      });
 
       return dispatch(receiveUserNodes(nodes));
     } catch(error) {

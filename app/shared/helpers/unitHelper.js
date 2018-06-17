@@ -46,6 +46,10 @@ const unitHelper = {
    * @param {*} lang
    */
   getPackageUnit(product, variant, lang) {
+    if (!product.package_unit) {
+      return null;
+    }
+
     let packageUnit = null;
     let packageAmount = product.package_amount;
 

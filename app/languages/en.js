@@ -14,8 +14,10 @@ module.exports = {
   'cart_notice_part_2': 'to cart?',
   'create_account': 'Create account',
   'delete': 'Delete',
-  'error_updating_cart': 'Could not update cart item',
+  'error_updating_cart': 'Could not update cart item.',
   'failed_loading_nodes': 'There was a problem loading nodes. Please check your connection.',
+  'failed_loading_notifications': 'Could not load notifications.',
+  'failed_loading_products': 'Could not load products.',
   'find_nodes': 'Find nodes',
   'go_to_node': 'Go to node',
   'invalid_number': 'Invalid card number',
@@ -31,7 +33,7 @@ module.exports = {
   'month_placeholder': '02',
   'no_available_pickup_dates': 'No available pickup dates',
   'no_delivery_dates': 'No delivery dates',
-  'no_delivery_dates_text': 'There are no delivery dates available for this node.',
+  'no_delivery_dates_text': 'There are no available delivery dates available for this node.',
   'no_nodes': 'Couldn\'t find any nodes',
   'no_nodes_text': 'This is probably because we\'re having trouble connecting to the server',
   'no_notification': 'You\'re up to date',
@@ -57,6 +59,7 @@ module.exports = {
   'price': 'Price',
   'product': 'Product',
   'product_added_to_cart': 'Product is added to cart',
+  'products': 'Products',
   'products_for_sale': 'products for sale',
   'producer': 'Producer',
   'quantity': 'Quantity',
@@ -134,4 +137,19 @@ module.exports = {
   // Product price units
   'unit_product': 'pcs',
   'unit_package': 'pcs',
+
+  // Notifications
+  // Upcoming delivery notifications
+  'notification_upcoming_delivery_title':'Upcoming delivery',
+  'notification_upcoming_delivery_message': '{node_name} has a delivery on the {date}',
+  // Order?
+  'notification_new_order_title': 'New order',
+  'notification_new_order_message': ':user_name have placed an order',
+  'notification_new_order_message_self': 'You placed an order on',
+  // Pickup reminder day notifications
+  'notification_reminder_pickup_day_title':'Pickup tomorrow',
+  'notification_reminder_pickup_day_message': 'You have products to pickup from {node_name} tomorrow as {time}',
+  // Pickup reminder hour notifications
+  'notification_reminder_pickup_hour_title':'Pickup today',
+  'notification_reminder_pickup_hour_message': 'You have products to pickup from {node_name} at {time}',
 };

@@ -14,8 +14,10 @@ module.exports = {
   'cart_notice_part_2': 'i kundkorgen?',
   'create_account': 'Skapa konto',
   'delete': 'Ta bort',
-  'error_updating_cart': 'Kunde inte uppdatera produkten',
+  'error_updating_cart': 'Kunde inte uppdatera produkten.',
   'failed_loading_nodes': 'Det uppstod problem med att ladda noder. Kontrollera din anslutning.',
+  'failed_loading_notifications': 'Kunde inte ladda notifikationer.',
+  'failed_loading_products': 'Kunde inte ladda produkter.',
   'find_nodes': 'Hitta noder',
   'go_to_node': 'Besök noden',
   'invalid_number': 'Ogiltigt kortnummer',
@@ -31,7 +33,7 @@ module.exports = {
   'month_placeholder': '02',
   'no_available_pickup_dates': 'Inga tillgängliga utlämningsdatum',
   'no_delivery_dates': 'Inga utlämningsdatum',
-  'no_delivery_dates_text': 'Det finns inga utlämningsdatum för den här noden.',
+  'no_delivery_dates_text': 'Det finns inga tillgängliga utlämningsdatum för den här noden.',
   'no_nodes': 'Hittade inga noder',
   'no_nodes_text': 'Det beror mest troligt på anslutningsproblem mot servern',
   'no_notification': 'Du är uppdaterad',
@@ -57,6 +59,7 @@ module.exports = {
   'price': 'Pris',
   'product': 'Produkt',
   'product_added_to_cart': 'Produkten är lagd i kundkorgen',
+  'products': 'Produkter',
   'products_for_sale': 'produkter till salu',
   'producer': 'Producent',
   'quantity': 'Antal',
@@ -134,4 +137,17 @@ module.exports = {
   // Product price units
   'unit_product': 'st',
   'unit_package': 'st',
+
+  // Notifications
+  'notification_upcoming_delivery_title': 'Kommande utläming',
+  'notification_upcoming_delivery_message': 'Den {date} är det utlämning på {node_name}',
+  'notification_new_order_title': 'Ny beställning',
+  'notification_new_order_message': ':user_name har gjort en beställning',
+  'notification_new_order_message_self': 'Du gjorde en beställning',
+  // Pickup reminder day notifications
+  'notification_reminder_pickup_day_title':'Utlämning i morgon',
+  'notification_reminder_pickup_day_message': 'Du har produkter att hämta på {node_name} i morgon klockan {time}',
+  // Pickup reminder hour notifications
+  'notification_reminder_pickup_hour_title':'Utlämning idag',
+  'notification_reminder_pickup_hour_message': 'Du har produkter att hämta idag på {node_name} klockan {time}',
 };

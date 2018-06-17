@@ -1,11 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { View, Dimensions, Image } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import Modal from 'react-native-modal';
-import _ from 'lodash';
 
-import { Link, Text, NodeCard } from 'app/components';
+import { NodeCard } from 'app/components';
 
 export default class MapCallout extends React.Component {
   navigateToNode(node) {
@@ -19,7 +15,7 @@ export default class MapCallout extends React.Component {
       isVisible: true,
       onBackButtonPress: this.props.onClose,
       onBackdropPress: this.props.onClose,
-      backdropOpacity: 0.5,
+      backdropOpacity: 0.3,
     };
 
     return (

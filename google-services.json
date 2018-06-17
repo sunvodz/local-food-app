@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "934851741531",
+    "firebase_url": "https://local-food-app.firebaseio.com",
+    "project_id": "local-food-app",
+    "storage_bucket": "local-food-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:934851741531:android:bdb1c016d28b66d9",
+        "android_client_info": {
+          "package_name": "org.localfoodnodes.localfoodapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "934851741531-9pnn2hbh4f8sonkujbsk1tuh4hr3bj6t.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "934851741531-9pnn2hbh4f8sonkujbsk1tuh4hr3bj6t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtix4X-if8KmzLJJ8gD5youQuCOjnP0qA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

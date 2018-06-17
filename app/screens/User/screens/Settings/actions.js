@@ -1,4 +1,6 @@
 import { AsyncStorage } from 'react-native';
+import { Notifications } from 'expo';
+
 import * as actionTypes from './actionTypes'
 import { api } from 'app/shared';
 import { sharedActions } from 'app/shared';
@@ -47,3 +49,21 @@ export function setLanguage(lang) {
     return dispatch(sharedActions.loginComplete(user));
   }
 }
+
+export function getPushToken() {
+  return async function(dispatch, getState) {
+    let pushToken = await Notifications.getExpoPushTokenAsync();
+
+    dispatch({
+      type: actionTypes.GET_PUSH_TOKEN,
+      pushToken: pushToken,
+    })
+  }
+}
+
+// export function setPushToken(pushToken) {
+//   return {
+//     type: actionTypes.SET_PUSH_TOKEN,
+//     languages: languages,
+//   }
+// }

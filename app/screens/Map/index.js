@@ -1,13 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Text, View, Button, Modal } from 'react-native';
+import { View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import _ from 'lodash';
 
 import { ScreenHeader } from 'app/components';
 import MapViewWrapper from './components/MapViewWrapper';
 import NodesScreen from 'app/screens/User/screens/Nodes';
-import * as actions from './actions';
 import { trans } from 'app/shared';
 
 class Map extends React.Component {

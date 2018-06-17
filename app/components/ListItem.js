@@ -1,12 +1,15 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import styleMerger from 'app/shared/utils/styleMerger';
 
 export default class ListItem extends React.Component {
   render() {
+    let mergedStyles = styleMerger.merge(styles, this.props.style);
+
     let columns = React.Children.map(this.props.children, (column, index) => {
       return React.cloneElement(column, {
-        style: styles.column
+        style: mergedStyles.column
       });
     });
 
@@ -18,7 +21,7 @@ export default class ListItem extends React.Component {
     let isLastItem = this.props.last || false;
 
     return (
-      <TouchableOpacity onPress={this.props.onPress} style={[styles.listItem, isLastItem && styles.lastListItem]}>
+      <TouchableOpacity onPress={this.props.onPress} style={[mergedStyles.listItem, isLastItem && mergedStyles.lastListItem]}>
         {columns}
         {navigationArrow}
       </TouchableOpacity>
@@ -26,7 +29,7 @@ export default class ListItem extends React.Component {
   }
 }
 
-const styles = {
+let styles = {
   listItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',

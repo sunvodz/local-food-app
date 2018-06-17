@@ -11,6 +11,9 @@ function alertReducer(state, action) {
     case 'CREATE_ORDER_FAILED':
     case 'RECEIVE_NODES_FAILED':
     case 'RECEIVE_USER_NODES_FAILED':
+    case 'RECEIVE_PRODUCTS_FAILED':
+    case 'RECEIVE_NODE_DATES_FAILED':
+    case 'RECEIVE_NOTIFICATIONS_FAILED':
       return Object.assign({}, state, {
         level: 'error',
         title: action.title,
@@ -24,6 +27,14 @@ function alertReducer(state, action) {
     case 'CREATE_ORDER_SUCCESS':
       return Object.assign({}, state, {
         level: 'success',
+        title: action.title,
+        message: action.message
+      });
+      break;
+
+    case 'NOTIFICATION_RECEIVED':
+      return Object.assign({}, state, {
+        level: 'info',
         title: action.title,
         message: action.message
       });

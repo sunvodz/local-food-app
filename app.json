@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "Local Food Nodes",
+    "name": "Local Food App",
     "orientation": "portrait",
     "privacy": "unlisted",
-    "sdkVersion": "23.0.0",
-    "slug": "local-food-nodes"
+    "sdkVersion": "26.0.0",
+    "slug": "local-food-app"
   },
   "hooks": {
     "postPublish": [
@@ -12,10 +12,13 @@
         "file": "sentry-expo/upload-sourcemaps",
         "config": {
           "organization": "Local Food Nodes",
-          "project": "Bazaar",
+          "project": "Local Food App",
           "authToken": "f8515b9a073d11e8a43f4201c0a8d03b"
         }
       }
     ]
+  },
+  "android": {
+    "googleServicesFile": "./google-services.json"
   }
 }

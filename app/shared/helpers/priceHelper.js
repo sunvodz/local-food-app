@@ -45,13 +45,16 @@ const priceHelper = {
    */
   getPriceFormatted(product, variant, currency, ignoreUnit = false) {
     let price = this.getPrice(product, variant);
-    let priceCurrency = `${price} ${currency}`;
 
-    if (unitHelper.isWeightUnit(product.price_unit) && !ignoreUnit) {
-      priceCurrency += ` / ${product.price_unit}`;
+    if (currency) {
+      price += ` ${currency}`;
     }
 
-    return priceCurrency;
+    if (unitHelper.isWeightUnit(product.price_unit) && !ignoreUnit) {
+      price += ` / ${product.price_unit}`;
+    }
+
+    return price;
   },
 
   /**
