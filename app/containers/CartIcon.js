@@ -52,7 +52,6 @@ const styles = {
     borderWidth: 2,
     borderColor: '#bc3b1f',
     borderRadius: 30,
-    elevation: 4,
     height: 24,
     overflow: 'hidden',
     position: 'absolute',

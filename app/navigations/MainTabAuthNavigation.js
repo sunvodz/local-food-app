@@ -14,7 +14,7 @@ const RouteConfigs = {
     },
     navigationOptions: ({ navigation }) => {
       return {
-        tabBarLabel: ({ tintColor }) => (<Icon name="user" size={24} color={tintColor} />)
+        tabBarLabel: ({ tintColor }) => (<Icon name="user" size={24} />)
       };
     }
   },
@@ -24,7 +24,7 @@ const RouteConfigs = {
     },
     navigationOptions: ({ navigation }) => {
       return {
-        tabBarLabel: ({ tintColor }) => (<Icon name='map-marker' size={24} color={tintColor} />)
+        tabBarLabel: ({ tintColor }) => (<Icon name='map-marker' size={24} />)
       };
     }
   },
@@ -34,7 +34,7 @@ const RouteConfigs = {
     },
     navigationOptions: ({ navigation }) => {
       return {
-        tabBarLabel: ({ tintColor }) => (<NotificationsIcon size={24} color={tintColor} />)
+        tabBarLabel: ({ tintColor }) => (<NotificationsIcon size={24} />)
       };
     }
   },

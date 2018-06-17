@@ -27,7 +27,7 @@ class Notifications extends React.Component {
     });
 
     let listItemStyle = styles.listItem;
-    listItemStyle.listItem.borderColor = !notification.viewed_at ? '#f5cdc2' : '#ddd';
+    listItemStyle.listItem.borderColor = !notification.viewed_at ? '#bf360c' : '#ddd';
 
     return (
       <ListItem key={notification.id} style={listItemStyle}>

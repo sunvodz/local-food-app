@@ -13,6 +13,7 @@ export function fetchNotifications() {
       let notifications = response.data;
 
       dispatch(receiveNotifications(notifications));
+      dispatch(resetNotifications());
     } catch (error) {
       dispatch(receiveNotificationsFailed(error));
     }
@@ -22,7 +23,7 @@ export function fetchNotifications() {
 export function requestNotifications() {
   return {
     type: actionTypes.REQUEST_NOTIFICATIONS,
-    notifications: null,
+    notifications: [],
     loading: true,
   }
 }
@@ -38,9 +39,19 @@ export function receiveNotifications(notifications) {
 export function receiveNotificationsFailed(error) {
   return {
     type: actionTypes.RECEIVE_NOTIFICATIONS_FAILED,
-    notifications: null,
+    notifications: [],
     loading: false,
     title: 'notifications',
     message: 'failed_loading_notifications',
+  }
+}
+
+export function resetNotifications() {
+  return async function (dispatch, getState) {
+    try {
+      await api.call({
+        url: '/api/v1/users/notifications/reset'
+      });
+    } catch (error) { }
   }
 }
