@@ -1,11 +1,10 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { View, Dimensions, Image } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import _ from 'lodash';
+import { View, Text } from 'react-native';
 
-import { Link, Text } from 'app/components';
+import { Link } from 'app/components';
 import { trans } from 'app/shared';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import globalStyle from 'app/styles';
 
 export default class NodeCard extends React.Component {
   navigateToNode() {
@@ -24,9 +23,23 @@ export default class NodeCard extends React.Component {
     return (
       <View style={styles.modal}>
         <View style={styles.modalContent}>
-          <Text style={styles.node.title}>{node.name}</Text>
-          <Text style={styles.node.address}>{node.address}, {node.zip}, {node.city}</Text>
-          <Text style={styles.node.info}>{trans('welcome_node', this.props.lang)} {node.name}</Text>
+          <Text style={styles.title}>{node.name}</Text>
+          <View style={styles.row}>
+            <Icon style={styles.icon} name='map-marker' />
+            <Text style={styles.text}>{node.city}</Text>
+          </View>
+          <View style={styles.row}>
+            <Icon style={styles.icon} name='home' />
+            <Text style={styles.text}>{node.address} {node.zip}</Text>
+          </View>
+          <View style={styles.row}>
+            <Icon style={styles.icon} name='clock-o' />
+            <Text style={styles.text}>{trans(node.delivery_weekday, this.props.lang)} {node.delivery_time}</Text>
+          </View>
+          <View style={styles.row}>
+            <Icon style={styles.icon} name='envelope' />
+            <Text style={styles.text}>{node.email}</Text>
+          </View>
         </View>
         <View style={styles.modalFooter}>
           <Link title={trans('go_to_node', this.props.lang)} onPress={this.navigateToNode.bind(this)}/>
@@ -37,30 +50,36 @@ export default class NodeCard extends React.Component {
   }
 }
 
-const styles = {
+let styles = {
   modal: {
     elevation: 0,
-    margin: 5,
+    marginVertical: 5,
     backgroundColor: '#fff',
   },
   modalContent: {
-    padding: 15
+    margin: 15,
   },
-  node: {
-    title: {
-      fontFamily: 'montserrat-medium',
-      fontSize: 20,
-    },
-    address: {
-      marginVertical: 5,
-    },
-    info: {
-      marginVertical: 15,
-    },
+  row: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginTop: 5,
+  },
+  icon: {
+    color: '#333',
+    fontSize: 16,
+    marginRight: 5,
+    width: 16,
+  },
+  title: {
+    fontFamily: 'montserrat-semibold',
+    fontSize: 20,
+  },
+  text: {
+    fontFamily: 'montserrat-regular',
   },
   modalFooter: {
-    borderTopColor: '#f0f0f0',
-    borderTopWidth: 1,
+    borderTopColor: globalStyle.backgroundColor,
+    borderTopWidth: 2,
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 15,

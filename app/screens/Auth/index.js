@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Text, View, Image, Dimensions } from 'react-native';
+import { Text, View, Image } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import _ from 'lodash';
 
 import { sharedActions, trans } from 'app/shared';
-import { TextInput, Card, Button, Loader, ScreenHeader } from 'app/components';
+import { TextInput, Button, Loader, ScreenHeader } from 'app/components';
+import globalStyle from 'app/styles';
 
 export default class AuthScreen extends Component {
   constructor(props) {
@@ -50,7 +51,7 @@ export default class AuthScreen extends Component {
       keyboardShouldPersistTaps: 'always',
       enableOnAndroid: true,
       style: {
-        backgroundColor: '#bf360c',
+        backgroundColor: globalStyle.primaryColor,
       }
     };
 
@@ -92,7 +93,7 @@ export default class AuthScreen extends Component {
   }
 }
 
-const styles = {
+let styles = {
   logo: {
     height: 60,
     width: 70,

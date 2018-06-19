@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import globalStyle from 'app/styles';
 
 import { trans, priceHelper, unitHelper } from 'app/shared';
 
@@ -39,23 +40,6 @@ export default class OrderForm extends React.Component {
   navigateToSignIn() {
     this.props.navigateToSignIn();
   }
-
-  // getPackageUnit(product, variant) {
-  //   let packageUnit = null;
-  //   let packageAmount = product.package_amount;
-
-  //   if (variant) {
-  //     packageAmount = variant.package_amount;
-  //   }
-
-  //   if (unitHelper.isWeightUnit(product.package_unit)) {
-  //     packageUnit = <Text numberOfLines={1} style={styles.packageUnitText}>{`ca ${packageAmount} ${trans('unit_' + product.package_unit, this.props.lang)}`}</Text>;
-  //   } else if (packageAmount > 1) {
-  //     packageUnit = <Text numberOfLines={1} style={styles.packageUnitText}>{`${packageAmount} ${trans('unit_' + product.package_unit, this.props.lang)}`}</Text>;
-  //   }
-
-  //   return packageUnit;
-  // }
 
   render() {
     const { product, variant } = this.props;
@@ -130,9 +114,9 @@ export default class OrderForm extends React.Component {
   }
 }
 
-const styles = {
+let styles = {
   view: {
-    backgroundColor: '#fff2e0',
+    backgroundColor: '#fff',
     paddingBottom: 15,
   },
   signin: {
@@ -178,7 +162,7 @@ const styles = {
     fontFamily: 'montserrat-regular',
   },
   priceItem: {
-    backgroundColor: '#bf360c',
+    backgroundColor: globalStyle.primaryColor,
     borderRadius: 15,
     paddingHorizontal: 10,
     paddingVertical: 5,
@@ -210,7 +194,7 @@ const styles = {
   },
   button: {
     justifyContent: 'center',
-    backgroundColor: '#bf360c',
+    backgroundColor: globalStyle.primaryColor,
     borderRadius: 100,
     padding: 10,
     width: 60,
@@ -223,7 +207,7 @@ const styles = {
     textAlign: 'center',
   },
   soldout: {
-    color: '#bf360c',
+    color: globalStyle.primaryColor,
     flex: 1,
     fontFamily: 'montserrat-semibold',
     textAlign: 'center',

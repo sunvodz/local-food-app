@@ -23,7 +23,7 @@ export default class TextInputComponent extends React.Component {
   }
 }
 
-const styles = {
+let styles = {
   wrapper: {
     flex: 1,
     marginBottom: 5,

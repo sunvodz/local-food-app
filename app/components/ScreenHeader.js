@@ -4,6 +4,7 @@ import { View, Text, StatusBar, Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { CartIcon } from 'app/containers';
+import globalStyle from 'app/styles';
 
 class ScreenHeader extends React.Component {
   goBack() {
@@ -65,9 +66,9 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps)(ScreenHeader);
 
-const styles = {
+let styles = {
   view: {
-    backgroundColor: '#bf360c',
+    backgroundColor: globalStyle.primaryColor,
     flexDirection: 'row',
     paddingTop: Platform.OS === 'ios' ? 20 : StatusBar.currentHeight,
     height: 88,

@@ -1,24 +1,10 @@
 import React from 'react';
 import { ScrollView, View, Text } from 'react-native';
-import Swiper from 'react-native-swiper'
+import styleMerger from 'app/shared/utils/styleMerger';
 
 export default class BadgeWrapper extends React.PureComponent {
-  mergeStyles() {
-    let mergeStyles = {};
-
-    Object.keys(styles).map(key => {
-      mergeStyles[key] = styles[key];
-
-      if (this.props.style && this.props.style[key]) {
-        mergeStyles[key] = Object.assign({}, styles[key], this.props.style[key]);
-      }
-    });
-
-    return mergeStyles;
-  }
-
   render() {
-    let mergedStyles = this.mergeStyles();
+    let mergedStyles = styleMerger.merge(styles, this.props.style);
 
     let children = React.Children.map(this.props.children, (child) => {
       return React.cloneElement(child);
@@ -37,7 +23,7 @@ export default class BadgeWrapper extends React.PureComponent {
   }
 }
 
-const styles = {
+let styles = {
   badgeWrapper: {
   },
   scrollView: {

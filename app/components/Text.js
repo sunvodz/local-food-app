@@ -1,17 +1,10 @@
 import React from 'react';
 import { Text } from 'react-native';
+import styleMerger from 'app/shared/utils/styleMerger';
 
 export default class TextComponent extends React.Component {
-  mergeStyles() {
-    let mergeStyles = {};
-
-    mergeStyles['text'] = Object.assign({}, styles['text'], this.props.style);
-
-    return mergeStyles;
-  }
-
   render() {
-    let mergedStyles = this.mergeStyles();
+    let mergedStyles = styleMerger.merge(styles, this.props.style);
 
     return (
       <Text {...this.props} style={mergedStyles.text}>{this.props.children}</Text>
@@ -19,8 +12,9 @@ export default class TextComponent extends React.Component {
   }
 }
 
-const styles = {
+let styles = {
   text: {
+    color: '#333',
     fontFamily: 'montserrat-regular'
   }
 };

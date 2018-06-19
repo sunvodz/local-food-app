@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { TabNavigator } from 'react-navigation';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import globalStyles from 'app/styles';
 
 import Orders from 'app/screens/User/screens/Orders';
@@ -44,7 +43,7 @@ const TabNavigatorConfig = {
     activeBackgroundColor: '#fff',
     inactiveBackgroundColor: '#fff',
     indicatorStyle: {
-      backgroundColor: '#bf360c',
+      backgroundColor: globalStyles.primaryColor,
     },
     labelStyle: {
       fontSize: 12,

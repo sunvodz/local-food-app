@@ -1,5 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, Text } from 'react-native';
+import globalStyle from 'app/styles';
 
 export default class BadgeDate extends React.Component {
   render() {
@@ -12,12 +13,10 @@ export default class BadgeDate extends React.Component {
   }
 }
 
-const styles = {
+let styles = {
   badge: {
     alignItems: 'center',
     backgroundColor: '#fff',
-    borderWidth: 1,
-    borderColor: '#e4e4e0',
     borderRadius: 100,
     height: 60,
     justifyContent: 'center',
@@ -27,14 +26,14 @@ const styles = {
     width: 60,
   },
   activeBadge: {
-    backgroundColor: '#bf360c',
-    borderColor: '#bf360c',
+    backgroundColor: globalStyle.primaryColor,
+    borderColor: globalStyle.primaryColor,
   },
   labelTop: {
     fontFamily: 'montserrat-semibold',
   },
   labelBottom: {
-    color: '#999',
+    color: '#666',
     fontFamily: 'montserrat-regular',
     fontSize: 11,
   },

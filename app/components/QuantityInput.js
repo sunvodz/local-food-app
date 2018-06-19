@@ -50,7 +50,7 @@ export default class QuantityInput extends React.Component {
   }
 }
 
-const styles = {
+let styles = {
   view: {
     flex: 1,
     flexDirection: 'row',

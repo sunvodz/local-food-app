@@ -10,6 +10,7 @@ import { Alert } from 'app/containers';
 import { sharedActions, sharedActionTypes } from 'app/shared';
 import * as mapActions from 'app/screens/Map/actions';
 import * as userNodesActions from 'app/screens/User/screens/Nodes/actions';
+import globalStyle from 'app/styles';
 
 class App extends Component {
   constructor(props) {
@@ -44,8 +45,7 @@ class App extends Component {
         <View style={styles.splash}>
           <StatusBar barStyle="light-content" />
           <Image style={styles.logo} source={require('../../assets/images/logo-white.png')} />
-          <Text style={styles.splashHeader}>Local Food App</Text>
-          <Text style={styles.splashSubheader}>Loading...</Text>
+          <Text style={styles.splashHeader}>LOCAL FOOD APP</Text>
         </View>
       );
     }
@@ -56,7 +56,7 @@ class App extends Component {
     }
 
     return (
-      <View style={{flex: 1, backgroundColor: '#fff2e0'}}>
+      <View style={{flex: 1, backgroundColor: globalStyle.backgroundColor}}>
         <StatusBar barStyle="light-content" />
         {tabbar}
         <Alert lang={currentLang} />
@@ -76,10 +76,10 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps)(App);
 
-const styles = {
+let styles = {
   splash: {
     alignItems: 'center',
-    backgroundColor: '#bf360c',
+    backgroundColor: globalStyle.primaryColor,
     flex: 1,
     justifyContent: 'center',
   },
@@ -92,12 +92,7 @@ const styles = {
   },
   splashHeader: {
     color: '#fff',
-    fontFamily: 'montserrat-semibold',
+    fontFamily: 'montserrat-bold',
     fontSize: 24,
-  },
-  splashSubheader: {
-    color: '#fff',
-    fontFamily: 'montserrat-regular',
-    fontSize: 14,
   },
 };

@@ -14,12 +14,11 @@ export default class ListSection extends React.Component {
   }
 }
 
-const styles = {
+let styles = {
   label: {
+    color: '#000',
     fontFamily: 'montserrat-semibold',
-    color: '#333',
     marginTop: 15,
-    marginLeft: 15,
-    marginBottom: 2,
+    marginBottom: 5,
   },
 };

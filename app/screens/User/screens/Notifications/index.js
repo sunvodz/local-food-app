@@ -1,16 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, ListView } from 'react-native';
+import { View, ListView, Text } from 'react-native';
 import _ from 'lodash';
-import moment from 'moment';
+import moment from 'moment/min/moment-with-locales';
 
-import { Empty, ScreenHeader, Loader, List, ListItem, Text } from 'app/components';
+import { Empty, ScreenHeader, Loader, List, ListItem } from 'app/components';
 import { trans } from 'app/shared';
 import * as actions from './actions';
 
 const DataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
 class Notifications extends React.Component {
+  constructor(props) {
+    super(props);
+    moment.locale(props.lang);
+  }
+
   componentDidMount() {
     this.props.dispatch(actions.fetchNotifications());
 
@@ -31,7 +36,7 @@ class Notifications extends React.Component {
     });
 
     let overriddenStyle = styles;
-    if (notification.viewed_at) {
+    if (!notification.viewed_at) {
       overriddenStyle.listItem.listItem.backgroundColor = '#ff9800';
       overriddenStyle.title.color = '#fff';
       overriddenStyle.message.color = '#fff';
@@ -43,7 +48,7 @@ class Notifications extends React.Component {
         <View>
           <Text style={overriddenStyle.title}>{trans(notification.title, this.props.lang)}</Text>
           <Text style={overriddenStyle.message}>{notificationMessage}</Text>
-          <Text style={overriddenStyle.date}>{moment(notification.created_at).format('YYYY-MM-DD')}</Text>
+          <Text style={overriddenStyle.date}>{moment(notification.created_at).fromNow()}</Text>
         </View>
       </ListItem>
     );
@@ -86,13 +91,14 @@ class Notifications extends React.Component {
   }
 }
 
-const styles = {
+let styles = {
   title: {
     color: '#333',
     fontFamily: 'montserrat-semibold',
   },
   message: {
     color: '#333',
+    fontFamily: 'montserrat-regular',
   },
   date: {
     alignSelf: 'flex-end',

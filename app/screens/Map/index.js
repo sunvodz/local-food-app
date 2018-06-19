@@ -69,7 +69,7 @@ Map.defaultProps = {
   }
 };
 
-const styles = {
+let styles = {
   calloutHeader: {
     fontWeight: 'bold',
   },

@@ -2,6 +2,7 @@ import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styleMerger from 'app/shared/utils/styleMerger';
+import globalStyle from 'app/styles';
 
 export default class ListItem extends React.Component {
   render() {
@@ -34,10 +35,9 @@ let styles = {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingVertical: 15,
-    marginHorizontal: 15,
     backgroundColor: '#fff',
     borderBottomWidth: 1,
-    borderColor: '#fff2e0',
+    borderColor: globalStyle.backgroundColor,
   },
   lastListItem: {
     borderBottomWidth: 0,

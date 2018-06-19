@@ -8,6 +8,7 @@ import _ from 'lodash';
 import { ContentWrapper, Card, Button, Link } from 'app/components';
 import { sharedActions, trans } from 'app/shared';
 import * as actions from './actions';
+import globalStyle from 'app/styles';
 
 class Settings extends Component {
   componentDidMount() {
@@ -105,7 +106,7 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps)(Settings);
 
-const styles = {
+let styles = {
   deleteAccountLink: {
     alignSelf: 'center',
     marginTop: 5
@@ -141,7 +142,7 @@ const styles = {
     padding: 5,
   },
   languageItemSelected: {
-    color: '#bf360c'
+    color: globalStyle.primaryColor
   },
   text: {
     fontFamily: 'montserrat-regular',

@@ -14,6 +14,7 @@ module.exports = {
   'cart_notice_part_2': 'i kundkorgen?',
   'create_account': 'Skapa konto',
   'delete': 'Ta bort',
+  'delete_order': 'Ta bort beställning',
   'error_updating_cart': 'Kunde inte uppdatera produkten.',
   'failed_loading_nodes': 'Det uppstod problem med att ladda noder. Kontrollera din anslutning.',
   'failed_loading_notifications': 'Kunde inte ladda notifikationer.',
@@ -50,6 +51,8 @@ module.exports = {
   'not_a_member': 'Du är ännu inte medlem',
   'order': 'Beställning',
   'order_created': 'Din beställning är skickad',
+  'order_deleted': 'Beställning borttagen',
+  'order_deleted_text': 'Din beställning har blivit borttagen.',
   'orders': 'Beställningar',
   'payment': 'Betalning',
   'payment_success': 'Tack för din betalning, du är nu medlem av Local Food Nodes.',
@@ -57,12 +60,14 @@ module.exports = {
   'pickup_dates': 'Utlämningsdatum',
   'pickup_on': 'Hämtas',
   'price': 'Pris',
+  'price_to_pay': 'Att betala',
   'product': 'Produkt',
   'product_added_to_cart': 'Produkten är lagd i kundkorgen',
   'products': 'Produkter',
   'products_for_sale': 'produkter till salu',
   'producer': 'Producent',
   'quantity': 'Antal',
+  'quantity_changed': 'Produkten är lagt i kundkorgen', // Todo: handle different messages from backend
   'read_more': 'Läs mer',
   'read_less': 'Läs mindre',
   'remove': 'Ta bort',
@@ -107,6 +112,14 @@ module.exports = {
   'November': 'november',
   'December': 'december',
 
+  'monday': 'Måndag',
+  'tuesday': 'Tisdag',
+  'wednesday': 'Onsdag',
+  'thursday': 'Torsdag',
+  'friday': 'Fredag',
+  'saturday': 'Lördag',
+  'sunday': 'Söndag',
+
   // Units
   'unit_bag': 'påse',
   'unit_bags': 'påsar',
@@ -139,7 +152,7 @@ module.exports = {
   'unit_package': 'st',
 
   // Notifications
-  'notification_upcoming_delivery_title': 'Kommande utläming',
+  'notification_upcoming_delivery_title': 'Kommande utlämning',
   'notification_upcoming_delivery_message': 'Den {date} är det utlämning på {node_name}',
   'notification_new_order_title': 'Ny beställning',
   'notification_new_order_message': ':user_name har gjort en beställning',

@@ -40,7 +40,7 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps)(CartIcon);
 
-const styles = {
+let styles = {
   wrapper: {
     paddingTop: 10,
     paddingRight: 10,

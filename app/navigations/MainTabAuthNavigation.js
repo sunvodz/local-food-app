@@ -7,6 +7,8 @@ import MapStackNavigation from './MapStackNavigation';
 import UserStackNavigation from './UserStackNavigation';
 import NotificationsStackNavigator from './NotificationsStackNavigator';
 
+import globalStyle from 'app/styles';
+
 const RouteConfigs = {
   UserStackNavigation: {
     screen: props => {
@@ -49,9 +51,9 @@ const TabNavigatorConfig = {
   tabBarOptions: {
     showIcon: false,
     showLabel: true,
-    activeTintColor: '#bf360c',
+    activeTintColor: globalStyle.primaryColor,
     inactiveTintColor: '#999',
-    activeBackgroundColor: '#bf360c',
+    activeBackgroundColor: globalStyle.primaryColor,
     inactiveBackgroundColor: '#fff',
     indicatorStyle: {
       backgroundColor: '#fff',

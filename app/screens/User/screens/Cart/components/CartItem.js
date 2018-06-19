@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import { Card, Text, Link } from 'app/components';
+import { Card, Link } from 'app/components';
 import { trans, priceHelper, unitHelper } from 'app/shared';
+import globalStyle from 'app/styles';
 
 export default class CartItem extends React.Component {
   removeCartItem() {
@@ -29,6 +30,7 @@ export default class CartItem extends React.Component {
 
   render() {
     const { data } = this.props;
+
     const cartItem = data.cart_item_relationship[0];
     const product = cartItem.product;
     const variant = cartItem.variant;
@@ -79,14 +81,14 @@ export default class CartItem extends React.Component {
     let trash = (
       <View style={styles.footer}>
         <View style={styles.priceWrapper}>
-          <Text style={styles.priceText}>{totalPrice}</Text>
+          <Text style={styles.priceText}>{trans('price_to_pay', this.props.lang)}: {totalPrice}</Text>
         </View>
         <Link title={trans('delete', this.props.lang)} onPress={this.removeCartItem.bind(this)} />
       </View>
     );
 
     return (
-      <View style={styles.listItem}>
+      <View>
         <Card key={data.ref} footer={trash} style={styles.card}>
           {productName}
           {variantName}
@@ -111,10 +113,7 @@ export default class CartItem extends React.Component {
   }
 }
 
-const styles = {
-  listItem: {
-    paddingHorizontal: 10,
-  },
+let styles = {
   card: {
     card: {
       marginBottom: 0
@@ -147,7 +146,7 @@ const styles = {
     justifyContent: 'space-between',
   },
   priceWrapper: {
-    backgroundColor: '#bf360c',
+    backgroundColor: globalStyle.primaryColor,
     borderRadius: 15,
     paddingHorizontal: 10,
     paddingVertical: 5,
@@ -192,7 +191,7 @@ const quantityStyle = {
   },
   button: {
     justifyContent: 'center',
-    backgroundColor: '#bf360c',
+    backgroundColor: globalStyle.primaryColor,
     borderRadius: 100,
     padding: 10,
     width: 60,

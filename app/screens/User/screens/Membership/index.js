@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Text, View, Image } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import _ from 'lodash';
 
 import { sharedActions, trans } from 'app/shared';
-import { NumberInput, Card, Button, ScreenHeader } from 'app/components';
+import { NumberInput, Button, ScreenHeader } from 'app/components';
+import globalStyle from 'app/styles';
 
 class Membership extends Component {
   constructor(props) {
@@ -37,7 +37,7 @@ class Membership extends Component {
       keyboardShouldPersistTaps: 'always',
       enableOnAndroid: true,
       style: {
-        backgroundColor: '#bf360c',
+        backgroundColor: globalStyle.primaryColor,
       }
     };
 
@@ -73,7 +73,7 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps)(Membership);
 
-const styles = {
+let styles = {
   logo: {
     height: 60,
     width: 70,

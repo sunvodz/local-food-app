@@ -10,6 +10,7 @@ import MapCallout from './MapCallout';
 import * as actions from './../actions';
 import { trans } from 'app/shared';
 import mapStyle from '../mapStyle';
+import globalStyle from 'app/styles';
 
 export default class MapViewWrapper extends React.Component {
   constructor(props) {
@@ -69,7 +70,7 @@ export default class MapViewWrapper extends React.Component {
   renderMarker(node) {
     return (
       <Marker key={node.id} coordinate={node.location} onPress={this.op.bind(this, node)}>
-        <Icon name="map-marker" size={32} color="#bf360c" />
+        <Icon name="map-marker" size={32} color={globalStyle.primaryColor} />
       </Marker>
     );
   }
@@ -121,10 +122,10 @@ export default class MapViewWrapper extends React.Component {
   }
 }
 
-const styles = {
+let styles = {
   clusterIcon: {
     alignItems: 'center',
-    backgroundColor: '#bf360c',
+    backgroundColor: globalStyle.primaryColor,
     borderRadius: 50,
     height: 32,
     justifyContent: 'center',

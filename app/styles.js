@@ -15,5 +15,7 @@ export default {
       color: '#fff',
     },
     headerTintColor: '#fff',
-  }
+  },
+  backgroundColor: '#efeadf',
+  primaryColor: '#bf360c',
 };

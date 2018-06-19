@@ -1,25 +1,12 @@
 import React from 'react';
 import { View, Text, Picker } from 'react-native';
+import styleMerger from 'app/shared/utils/styleMerger';
 
 export default class PickerComponent extends React.Component {
   static Item = Picker.Item;
 
-  mergeStyles() {
-    let mergeStyles = {};
-
-    Object.keys(styles).map(key => {
-      mergeStyles[key] = styles[key];
-
-      if (this.props.style && this.props.style[key]) {
-        mergeStyles[key] = Object.assign({}, styles[key], this.props.style[key]);
-      }
-    });
-
-    return mergeStyles;
-  }
-
   render() {
-    let mergedStyles = this.mergeStyles();
+    let mergedStyles = styleMerger.merge(styles, this.props.style);
 
     let label = null;
     if (this.props.label) {
@@ -39,7 +26,7 @@ export default class PickerComponent extends React.Component {
   }
 }
 
-const styles = {
+let styles = {
   label: {
     fontFamily: 'montserrat-semibold',
     marginBottom: 5,
@@ -49,6 +36,5 @@ const styles = {
     borderColor: '#c4c4c0',
     borderRadius: 2,
   },
-  picker: {
-  }
+  picker: {}
 };

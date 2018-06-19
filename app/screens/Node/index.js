@@ -8,6 +8,7 @@ import DatePicker from './component/DatePicker';
 import ProductCard from './component/ProductCard';
 import * as actions from './actions';
 import { trans, priceHelper } from 'app/shared';
+import globalStyle from 'app/styles';
 
 class Node extends React.Component {
   constructor(props) {
@@ -174,7 +175,6 @@ class Node extends React.Component {
       subTitle= products.length + ' ' + trans('products_for_sale', this.props.lang);
     }
 
-
     return (
       <View style={styles.view}>
         <ScreenHeader title={this.props.navigation.state.params.name} sub={subTitle} left right navigation={this.props.navigation} />
@@ -198,7 +198,7 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps)(Node);
 
-const styles = {
+let styles = {
   view: {
     backgroundColor: '#fff',
     flex: 1,
@@ -209,7 +209,7 @@ const styles = {
     paddingVertical: 15,
   },
   userNotice: {
-    backgroundColor: '#bf360c',
+    backgroundColor: globalStyle.primaryColor,
     bottom: 0,
     padding: 15,
     position: 'absolute',
@@ -220,7 +220,7 @@ const styles = {
     fontFamily: 'montserrat-regular',
   },
   addToCartWrapper: {
-    backgroundColor: '#bf360c',
+    backgroundColor: globalStyle.primaryColor,
     bottom: 0,
     flexDirection: 'row',
     padding: 15,

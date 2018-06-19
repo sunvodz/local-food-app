@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { ScrollView, RefreshControl, View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import globalStyle from 'app/styles';
 
 class Empty extends Component {
   onRefresh() {
@@ -30,10 +31,10 @@ class Empty extends Component {
   }
 }
 
-const styles = {
+let styles = {
   view: {
     alignItems: 'center',
-    backgroundColor: '#fff2e0',
+    backgroundColor: globalStyle.backgroundColor,
     flex: 1,
     justifyContent: 'center',
   },
@@ -47,18 +48,18 @@ const styles = {
     width: 100,
   },
   icon: {
-    color: '#fff2e0',
+    color: globalStyle.backgroundColor,
     fontSize: 48,
   },
   header: {
     color: '#333',
     fontFamily: 'montserrat-semibold',
-    fontSize: 20,
+    fontSize: 16,
     textAlign: 'center',
   },
   text: {
     color: '#333',
-    fontSize: 16,
+    fontSize: 14,
     fontFamily: 'montserrat-regular',
     margin: 15,
     textAlign: 'center',

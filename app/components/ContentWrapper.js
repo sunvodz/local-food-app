@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, ScrollView, RefreshControl } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { View, RefreshControl } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import globalStyle from 'app/styles';
 
 class ContentWrapper extends Component {
   onRefresh() {
@@ -31,9 +32,9 @@ class ContentWrapper extends Component {
   }
 }
 
-const styles = {
+let styles = {
   view: {
-    backgroundColor: '#fff2e0',
+    backgroundColor: globalStyle.backgroundColor,
     flex: 1,
   },
   scrollView: {

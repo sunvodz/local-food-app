@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, TouchableOpacity, Text, ActivityIndicator } from 'react-native';
+import { TouchableOpacity, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styleMerger from 'app/shared/utils/styleMerger';
+import globalStyle from 'app/styles';
 
 export default class ButtonComponent extends React.Component {
   render() {
@@ -35,10 +36,10 @@ export default class ButtonComponent extends React.Component {
   }
 }
 
-const styles = {
+let styles = {
   button: {
     alignSelf: 'center',
-    backgroundColor: '#bf360c',
+    backgroundColor: globalStyle.primaryColor,
     borderRadius: 100,
     elevation: 0,
     flexDirection: 'row',

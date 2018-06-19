@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, ListView } from 'react-native';
+import { View, ListView, Text } from 'react-native';
 import moment from 'moment';
 import _ from 'lodash';
 
-import { Loader, List, ListSection, ListItem, Text, Empty } from 'app/components';
+import { Loader, List, ListSection, ListItem, Empty } from 'app/components';
 import * as actions from './actions';
 import { trans } from 'app/shared';
 
@@ -19,10 +19,6 @@ class Orders extends Component {
     }
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return !_.isEqual(nextProps.orders, this.props.orders);
-  }
-
   componentDidMount() {
     this.props.dispatch(actions.fetchOrders());
   }
@@ -31,10 +27,10 @@ class Orders extends Component {
     this.props.dispatch(actions.fetchOrders());
   }
 
-  navigateOrder(orderData) {
+  navigateOrder(orderDateItemLinkId) {
     const { navigate } = this.props.userStackNavigation;
 
-    navigate('Order', orderData);
+    navigate('Order', orderDateItemLinkId);
   }
 
   renderListSection(orders, sectionId, rowId) {
@@ -47,10 +43,10 @@ class Orders extends Component {
       let isLastListItem = index === numberOfListItems;
 
       return (
-        <ListItem key={order.id} onPress={this.navigateOrder.bind(this, order)} last={isLastListItem}>
+        <ListItem key={order.id} onPress={this.navigateOrder.bind(this, order.id)} last={isLastListItem}>
           <View>
-            <Text style={{fontFamily: 'montserrat-semibold'}}>{orderItem.product.name}</Text>
-            <Text>{orderItem.node.name}</Text>
+            <Text style={styles.listItemTitle}>{orderItem.product.name}</Text>
+            <Text style={styles.listItemText}>{orderItem.node.name}</Text>
           </View>
         </ListItem>
       );
@@ -92,5 +88,14 @@ function mapStateToProps(state) {
     orders,
   }
 }
+
+let styles = {
+  listItemTitle: {
+    fontFamily: 'montserrat-semibold',
+  },
+  listItemText: {
+    fontFamily: 'montserrat-regular',
+  }
+};
 
 export default connect(mapStateToProps)(Orders);

@@ -1,5 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, Text } from 'react-native';
+import globalStyle from 'app/styles';
 
 export default class Link extends React.Component {
   render() {
@@ -11,9 +12,9 @@ export default class Link extends React.Component {
   }
 }
 
-const styles = {
+let styles = {
   link: {
-    color: '#bf360c',
+    color: globalStyle.primaryColor,
     fontSize: 14,
     fontFamily: 'montserrat-semibold'
   }

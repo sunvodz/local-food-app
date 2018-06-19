@@ -5,6 +5,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import MapStackNavigation from './MapStackNavigation';
 import UserStackNavigation from './UserStackNavigation';
 
+import globalStyle from 'app/styles';
+
 const RouteConfigs = {
   UserStackNavigation: {
     screen: props => {
@@ -37,7 +39,7 @@ const TabNavigatorConfig = {
   tabBarOptions: {
     showIcon: false,
     showLabel: true,
-    activeTintColor: '#bf360c',
+    activeTintColor: globalStyle.primaryColor,
     inactiveTintColor: '#999',
     activeBackgroundColor: '#fafafa',
     inactiveBackgroundColor: '#fafafa',

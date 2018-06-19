@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Text, View, ListView } from 'react-native';
+import { View } from 'react-native';
 import _ from 'lodash';
 
 import AuthScreen from 'app/screens/Auth';
@@ -8,8 +8,6 @@ import { ContentWrapper, Loader, Empty, NodeCard, Button } from 'app/components'
 
 import * as actions from './actions';
 import { trans } from 'app/shared';
-
-const DataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
 class Nodes extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
@@ -31,7 +29,7 @@ class Nodes extends React.Component {
   }
 
   render() {
-    const { loading, refreshing, nodes } = this.props.nodes;
+    const { loading, nodes } = this.props.nodes;
 
     if (!this.props.auth.user || this.props.auth.loading) {
       return <AuthScreen {...this.props} fullscreen={true} />;

@@ -1,28 +1,28 @@
 import React from 'react';
 import { Text } from 'react-native';
+import globalStyle from 'app/styles';
+import styleMerger from 'app/shared/utils/styleMerger';
 
 export default class Badge extends React.Component {
   render() {
+    let mergedStyles = styleMerger.merge(styles, this.props.style);
+
     return (
-      <Text onPress={this.props.onPress} style={[styles.badge, this.props.selected && styles.activeBadge]}>{this.props.label}</Text>
+      <Text style={mergedStyles.badge}>{this.props.label}</Text>
     );
   }
 }
 
-const styles = {
+let styles = {
   badge: {
-    backgroundColor: '#fff',
-    borderWidth: 1,
-    borderColor: '#e4e4e0',
-    color: '#333',
+    backgroundColor: globalStyle.primaryColor,
     borderRadius: 15,
+    color: '#fff',
+    alignSelf: 'flex-start',
+    fontFamily: 'montserrat-semibold',
     margin: 5,
+    overflow: 'hidden',
     paddingVertical: 6,
     paddingHorizontal: 15,
   },
-  activeBadge: {
-    backgroundColor: '#efcec4',
-    borderColor: 'transparent',
-    color: '#c4441f',
-  }
 };

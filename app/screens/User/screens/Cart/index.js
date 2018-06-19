@@ -1,15 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, ListView } from 'react-native';
+import { View, ListView, Text } from 'react-native';
 import moment from 'moment';
 import _ from 'lodash';
 
 import AuthScreen from 'app/screens/Auth';
 
-import { Loader, Text, Button, Empty, List, ListSection, ScreenHeader } from 'app/components';
+import { ContentWrapper, Loader, Button, Empty, List, ListSection, ScreenHeader } from 'app/components';
 import CartItem from './components/CartItem';
 import * as actions from './actions';
 import { trans, priceHelper } from 'app/shared';
+import globalStyle from 'app/styles';
 
 const DataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
@@ -79,14 +80,14 @@ class Cart extends React.Component {
   renderListSection(cartDateItemLinks, sectionId, rowId) {
     let m = moment(cartDateItemLinks.key);
     let date = m.format('DD') + ' ' + trans(m.format('MMMM'), this.props.lang) + ' ' + m.format('YYYY');
-    let numberOfListItems = cartDateItemLinks.items.length - 1;
+    // let numberOfListItems = cartDateItemLinks.items.length - 1;
 
-    const { loading, updatingCartItems, refreshing, cart } = this.props.cart;
+    const { updatingCartItems } = this.props.cart;
 
     let listItems = _.map(cartDateItemLinks.items, (cartDateItemLink, index) => {
-      let dateItem = cartDateItemLink.cart_date_relationship[0];
-      let cartItem = cartDateItemLink.cart_item_relationship[0];
-      let isLastListItem = index === numberOfListItems;
+      // let dateItem = cartDateItemLink.cart_date_relationship[0];
+      // let cartItem = cartDateItemLink.cart_item_relationship[0];
+      // let isLastListItem = index === numberOfListItems;
 
       let loading = updatingCartItems.indexOf(cartDateItemLink.id) !== -1;
       let cartItemProps = {
@@ -108,7 +109,7 @@ class Cart extends React.Component {
   }
 
   render() {
-    const { loading, updatingCartItems, refreshing, cart } = this.props.cart;
+    const { loading, refreshing, cart } = this.props.cart;
 
     if (!this.props.auth.user || this.props.auth.loading) {
       return <AuthScreen {...this.props} fullscreen={true} />;
@@ -116,7 +117,7 @@ class Cart extends React.Component {
 
     if (loading) {
       return (
-        <View style={{flex: 1, backgroundColor: '#fff2e0'}}>
+        <View style={{flex: 1, backgroundColor: globalStyle.backgroundColor}}>
           <ScreenHeader title={trans('cart', this.props.lang)} left navigation={this.props.navigation} />
           <Loader />
         </View>
@@ -125,7 +126,7 @@ class Cart extends React.Component {
 
     if (!refreshing && _.isEmpty(cart)) {
       return (
-        <View style={{flex: 1, backgroundColor: '#fff2e0'}}>
+        <View style={{flex: 1, backgroundColor: globalStyle.backgroundColor}}>
           <ScreenHeader title={trans('cart', this.props.lang)} left navigation={this.props.navigation} />
           <Empty icon="shopping-basket" header={trans('cart_empty', this.props.lang)} text={trans('cart_empty_text', this.props.lang)} />
         </View>
@@ -164,7 +165,7 @@ class Cart extends React.Component {
     }
 
     return (
-      <View style={{flex: 1, backgroundColor: '#fff2e0'}}>
+      <View style={{flex: 1}}>
         <ScreenHeader title={trans('cart', this.props.lang)} left navigation={this.props.navigation} />
         <List {...listProps} />
         <View style={styles.orderWrapper}>
@@ -188,17 +189,15 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps)(Cart);
 
-const styles = {
+let styles = {
   totalCost: {
     alignSelf: 'center',
-    paddingHorizontal: 15,
   },
   orderWrapper: {
-    backgroundColor: '#bf360c',
-    bottom: 0,
+    backgroundColor: globalStyle.primaryColor,
     flexDirection: 'row',
     padding: 15,
-    position: 'absolute',
+
     width: '100%',
   },
   orderTotals: {

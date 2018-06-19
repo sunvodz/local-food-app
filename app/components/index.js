@@ -35,7 +35,7 @@ export {
   NumberInput,
   Picker,
   ScreenHeader,
-  Text,
+  // Text,
   TextInput,
   QuantityInput,
 }

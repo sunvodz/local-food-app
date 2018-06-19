@@ -44,10 +44,3 @@ export function deleteOrderComplete() {
     deleted: true,
   }
 }
-
-export function resetDelete(groupedOrders) {
-  return {
-    type: actionTypes.RESET_DELETE,
-    deleted: false,
-  }
-}

@@ -54,7 +54,7 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps)(NotificationsIcon);
 
-const styles = {
+let styles = {
   wrapper: {
     paddingTop: 10,
     paddingRight: 10,

@@ -4,8 +4,9 @@ import striptags from 'striptags';
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import { trans, priceHelper } from 'app/shared';
+import { trans } from 'app/shared';
 import OrderForm from './OrderForm';
+import globalStyle from 'app/styles';
 
 export default class ProductCard extends React.Component {
   constructor(props) {
@@ -94,12 +95,13 @@ export default class ProductCard extends React.Component {
     );
 
     if (product.product_variants_relationship.length > 0) {
+      let variantIcon = product.product_variants_relationship.length > 1 ? <Icon name='clone' style={styles.variantIcon} /> : null;
       let variants = product.product_variants_relationship.map(variant => {
         return (
           <View style={{flex: 1}} key={variant.id}>
             <ImageBackground {...imageProps} style={styles.swiperSlide}>
               {csaIcon}
-              <Icon name='clone' style={styles.variantIcon} />
+              {variantIcon}
             </ImageBackground>
           </View>
         );
@@ -127,14 +129,14 @@ export default class ProductCard extends React.Component {
   }
 }
 
-const styles = {
+let styles = {
   swiperSlide: {
     flex: 1,
   },
   product: {
     paddingBottom: 15,
     borderBottomWidth: 15,
-    borderColor: '#fff2e0',
+    borderColor: globalStyle.backgroundColor,
   },
   productTitle: {
     color: '#333',

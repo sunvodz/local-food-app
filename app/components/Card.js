@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image, Dimensions } from 'react-native';
 import styleMerger from 'app/shared/utils/styleMerger';
+import globalStyle from 'app/styles';
 
 export default class Card extends React.Component {
   render() {
@@ -54,7 +55,7 @@ export default class Card extends React.Component {
     return (
       <TouchableOpacity {...touchableOpacityProps}>
         {headerOutside}
-        <View style={mergedStyles.card}>
+        <View style={[mergedStyles.card, this.props.footer && {marginBottom: 0}]}>
           {image}
           {headerInside}
           <View style={mergedStyles.content}>
@@ -67,13 +68,11 @@ export default class Card extends React.Component {
   }
 }
 
-const styles = {
+let styles = {
   card: {
     backgroundColor: '#fff',
     elevation: 0,
     marginTop: 5,
-    marginLeft: 5,
-    marginRight: 5,
     marginBottom: 15,
   },
   content: {
@@ -96,14 +95,12 @@ const styles = {
   },
   footer: {
     backgroundColor: '#fff',
-    borderTopColor: '#f0f0f0',
-    borderTopWidth: 1,
+    borderTopColor: globalStyle.backgroundColor,
+    borderTopWidth: 2,
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 15,
     marginTop: 0,
-    marginLeft: 5,
-    marginRight: 5,
     marginBottom: 15,
   }
 };
