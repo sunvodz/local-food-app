@@ -48,8 +48,8 @@ class Membership extends Component {
           <Image style={styles.logo} source={require('../../../../../assets/images/logo-white.png')} />
           <View style={styles.wrapper}>
             <Text style={styles.infoText}>{trans('membership_info', this.props.lang)}</Text>
-            <NumberInput style={textInputStyle} label={trans('amount', this.props.lang)} placeholder={trans('amount_placeholder', this.props.lang)} onChangeText={this.onChange.bind(this, 'amount')} />
-            <NumberInput style={textInputStyle} label={trans('card_number', this.props.lang)} placeholder={trans('card_number_placeholder', this.props.lang)} onChangeText={this.onChange.bind(this, 'cardNumber')} />
+            <NumberInput label={trans('amount', this.props.lang)} placeholder={trans('amount_placeholder', this.props.lang)} onChangeText={this.onChange.bind(this, 'amount')} />
+            <NumberInput label={trans('card_number', this.props.lang)} placeholder={trans('card_number_placeholder', this.props.lang)} onChangeText={this.onChange.bind(this, 'cardNumber')} />
             <View style={styles.group}>
                 <NumberInput style={textInputGroupItemStyle} label={trans('year', this.props.lang)} placeholder={trans('year_placeholder', this.props.lang)} onChangeText={this.onChange.bind(this, 'expYear')} />
                 <NumberInput style={textInputGroupItemStyle} label={trans('month', this.props.lang)} placeholder={trans('month_placeholder', this.props.lang)} onChangeText={this.onChange.bind(this, 'expMonth')} />
@@ -107,17 +107,6 @@ let styles = {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-  },
-};
-
-const textInputStyle = {
-  label: {
-    color: '#fff',
-    fontFamily: 'montserrat-semibold',
-  },
-  textInput: {
-    backgroundColor: '#fff',
-    borderWidth: 0,
   },
 };
 

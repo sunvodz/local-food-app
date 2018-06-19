@@ -59,10 +59,10 @@ export default class AuthScreen extends Component {
     let card = (
       <View style={styles.wrapper}>
         <Text style={styles.infoText}>Login to your account to shop local food directly from your local producers</Text>
-        <TextInput key='email' style={textInputStyle} defaultValue={this.state.email} editable={!this.props.auth.loading} placeholder='Your email' onChangeText={this.onChange.bind(this, 'email')} autoCapitalize='none' />
-        <TextInput key='password' style={textInputStyle} defaultValue={this.state.password} editable={!this.props.auth.loading} placeholder='Your password' onChangeText={this.onChange.bind(this, 'password')} secureTextEntry />
+        <TextInput key='email' label={trans('email', this.props.lang)} defaultValue={this.state.email} editable={!this.props.auth.loading} placeholder='Your email' onChangeText={this.onChange.bind(this, 'email')} autoCapitalize='none' />
+        <TextInput key='password' label={trans('password', this.props.lang)} defaultValue={this.state.password} editable={!this.props.auth.loading} placeholder='Your password' onChangeText={this.onChange.bind(this, 'password')} secureTextEntry />
         <Button style={buttonStyle} icon='sign-in' onPress={this.onLogin.bind(this)} title="Login" accessibilityLabel="Login" loading={this.props.auth.loading} />
-        <Text onPress={this.toggleForms.bind(this)} style={styles.toggleLink}>or sign up</Text>
+        <Text onPress={this.toggleForms.bind(this)} style={styles.toggleLink}>Create account</Text>
       </View>
     );
 
@@ -71,12 +71,12 @@ export default class AuthScreen extends Component {
       card = (
         <View style={styles.wrapper}>
           <Text style={styles.infoText}>Find local food nodes near you and order directly from your local producers</Text>
-          <TextInput key='name' style={textInputStyle} defaultValue={this.state.name} editable={!this.props.auth.loading} placeholder="Your name" onChangeText={this.onChange.bind(this, 'name')} />
-          <TextInput key='email' style={textInputStyle} defaultValue={this.state.email} editable={!this.props.auth.loading} placeholder="Your email" onChangeText={this.onChange.bind(this, 'email')} autoCapitalize='none' />
-          <TextInput key='phone' style={textInputStyle} defaultValue={this.state.phone} editable={!this.props.auth.loading} placeholder="Your phone number" onChangeText={this.onChange.bind(this, 'phone')} />
-          <TextInput key='password' style={textInputStyle} defaultValue={this.state.password} editable={!this.props.auth.loading} placeholder="Choose a password" hint="Minimum 8 characters" onChangeText={this.onChange.bind(this, 'password')} secureTextEntry />
+          <TextInput key='name' label={trans('name', this.props.lang)} defaultValue={this.state.name} editable={!this.props.auth.loading} placeholder="Your name" onChangeText={this.onChange.bind(this, 'name')} />
+          <TextInput key='email' label={trans('email', this.props.lang)} defaultValue={this.state.email} editable={!this.props.auth.loading} placeholder="Your email" onChangeText={this.onChange.bind(this, 'email')} autoCapitalize='none' />
+          <TextInput key='phone' label={trans('phone', this.props.lang)} defaultValue={this.state.phone} editable={!this.props.auth.loading} placeholder="Your phone number" onChangeText={this.onChange.bind(this, 'phone')} />
+          <TextInput key='password' label={trans('password', this.props.lang)} defaultValue={this.state.password} editable={!this.props.auth.loading} placeholder="Choose a password" hint="Minimum 8 characters" onChangeText={this.onChange.bind(this, 'password')} secureTextEntry />
           <Button style={buttonStyle} icon='user' onPress={this.onSignup.bind(this)} title="Sign up" accessibilityLabel="Sign up" loading={this.props.auth.loading} />
-          <Text onPress={this.toggleForms.bind(this)} style={styles.toggleLink}>or login</Text>
+          <Text onPress={this.toggleForms.bind(this)} style={styles.toggleLink}>Login</Text>
         </View>
       );
     }
@@ -121,21 +121,10 @@ let styles = {
     alignSelf: 'center',
     color: '#fff',
     fontFamily: 'montserrat-regular',
-    paddingTop: 5,
+    paddingTop: 10,
     paddingBottom: 0,
     textDecorationLine: 'underline',
   }
-};
-
-const textInputStyle = {
-  label: {
-    color: '#fff',
-    fontFamily: 'montserrat-semibold',
-  },
-  textInput: {
-    backgroundColor: '#fff',
-    borderWidth: 0,
-  },
 };
 
 const buttonStyle = {

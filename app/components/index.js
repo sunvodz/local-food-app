@@ -14,9 +14,7 @@ import NodeCard from './NodeCard';
 import NumberInput from './NumberInput';
 import Picker from './Picker';
 import ScreenHeader from './ScreenHeader';
-import Text from './Text';
 import TextInput from './TextInput';
-import QuantityInput from './QuantityInput';
 
 export {
   Badge,
@@ -35,7 +33,5 @@ export {
   NumberInput,
   Picker,
   ScreenHeader,
-  // Text,
   TextInput,
-  QuantityInput,
 }

@@ -71,35 +71,40 @@ class Order extends Component {
 
     let totalPrice = priceHelper.getCalculatedPriceFormatted(orderItem.product, orderItem.variant, order.quantity, orderItem.producer.currency, true);
 
+    let paymentInfoSection = null;
+    if (orderItem.producer.payment_info) {
+      paymentInfoSection = (
+        <View style={styles.section}>
+          <Text style={styles.label}>{trans('payment', this.props.lang)}</Text>
+          <Text style={styles.text}>{orderItem.producer.payment_info}</Text>
+        </View>
+      );
+    }
+
     return (
       <View style={{flex: 1}}>
         <ScreenHeader title={title} sub={pickup} left navigation={this.props.navigation} />
         <ContentWrapper>
-          <Card header={trans('product', this.props.lang)} headerPosition="outside" footer={<Badge label={`${trans('price_to_pay', this.props.lang)}: ${totalPrice}`} />}>
-            <Text style={styles.label}>{orderItem.product.name}</Text>
-            <Text style={styles.text}>{trans('quantity', this.props.lang)}: {order.quantity} {orderItem.product.package_unit}</Text>
-          </Card>
-
-          <Card header={trans('node', this.props.lang)} headerPosition='outside'>
+          <Card header={orderItem.product.name} headerPosition="outside" footer={<Badge label={`${trans('price_to_pay', this.props.lang)}: ${totalPrice}`} />}>
             <View style={styles.section}>
-              <Text style={styles.label}>{orderItem.node.name}</Text>
-              <Text style={styles.text}>{orderItem.node.address}</Text>
-              <Text style={styles.text}>{orderItem.node.zip}, {orderItem.node.city}</Text>
+              <Text style={styles.text}>{trans('quantity', this.props.lang)}: {order.quantity} {orderItem.product.package_unit}</Text>
             </View>
 
-            <Text style={styles.label}>{trans('pickup', this.props.lang)}</Text>
-            <Text style={styles.text}>{trans(orderItem.node.delivery_weekday, this.props.lang)} {moment(orderDate.date.date).format('YYYY-MM-DD')} {orderItem.node.delivery_time}</Text>
-          </Card>
-
-          <Card header={trans('producer', this.props.lang)} headerPosition='outside'>
             <View style={styles.section}>
               <Text style={styles.label}>{orderItem.producer.name}</Text>
               <Text style={styles.text}>{orderItem.producer.address}</Text>
               <Text style={styles.text}>{orderItem.producer.zip}, {orderItem.producer.city}</Text>
             </View>
 
-            <Text style={styles.label}>{trans('payment', this.props.lang)}</Text>
-            <Text style={styles.text}>{orderItem.producer.payment_info}</Text>
+            {paymentInfoSection}
+
+          </Card>
+
+          <Card header={trans('pickup', this.props.lang)} headerPosition='outside'>
+            <Text style={styles.label}>{trans(orderItem.node.delivery_weekday, this.props.lang)} {moment(orderDate.date.date).format('YYYY-MM-DD')} {orderItem.node.delivery_time}</Text>
+            <Text style={styles.text}>{orderItem.node.name}</Text>
+            <Text style={styles.text}>{orderItem.node.address}</Text>
+            <Text style={styles.text}>{orderItem.node.zip}, {orderItem.node.city}</Text>
           </Card>
 
           <View style={{marginTop: 15}}>
@@ -119,7 +124,7 @@ let styles = {
     fontFamily: 'montserrat-regular',
   },
   section: {
-    marginBottom: 10,
+    marginBottom: 15,
   }
 }
 
