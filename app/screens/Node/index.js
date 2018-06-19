@@ -209,7 +209,7 @@ const styles = {
     paddingVertical: 15,
   },
   userNotice: {
-    backgroundColor: '#bc3b1f',
+    backgroundColor: '#bf360c',
     bottom: 0,
     padding: 15,
     position: 'absolute',
@@ -220,7 +220,7 @@ const styles = {
     fontFamily: 'montserrat-regular',
   },
   addToCartWrapper: {
-    backgroundColor: '#bc3b1f',
+    backgroundColor: '#bf360c',
     bottom: 0,
     flexDirection: 'row',
     padding: 15,
@@ -246,7 +246,7 @@ const styles = {
   addToCartButton: {
     flex: 1,
     button: {
-      backgroundColor: '#ff9300',
+      backgroundColor: '#ff9800',
     },
     title: {
       color: '#333',

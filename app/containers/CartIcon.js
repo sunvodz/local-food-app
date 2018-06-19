@@ -48,10 +48,10 @@ const styles = {
     paddingLeft: 10,
   },
   notificationWrapper: {
-    backgroundColor: '#ff9300',// '#8bc34a',
-    borderWidth: 2,
-    borderColor: '#bc3b1f',
+    backgroundColor: '#ff9800',
+    borderColor: '#fff',
     borderRadius: 30,
+    borderWidth: 2,
     height: 24,
     overflow: 'hidden',
     position: 'absolute',

@@ -62,8 +62,10 @@ const styles = {
     paddingLeft: 10,
   },
   notificationWrapper: {
-    backgroundColor: '#bc3b1f',
+    backgroundColor: '#ff9800',
+    borderColor: '#fff',
     borderRadius: 30,
+    borderWidth: 2,
     height: 24,
     overflow: 'hidden',
     position: 'absolute',
@@ -75,7 +77,7 @@ const styles = {
     color: '#fff',
     fontFamily: 'montserrat-semibold',
     fontSize: 12,
-    lineHeight: 24,
+    lineHeight: 20,
     textAlign: 'center',
   }
 };

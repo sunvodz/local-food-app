@@ -37,7 +37,7 @@ let styles = {
     marginHorizontal: 15,
     backgroundColor: '#fff',
     borderBottomWidth: 1,
-    borderColor: '#f4f4f0',
+    borderColor: '#fff2e0',
   },
   lastListItem: {
     borderBottomWidth: 0,
@@ -48,7 +48,7 @@ let styles = {
   },
   chevron: {
     marginRight: 5,
-    color: '#666',
+    color: '#333',
     alignSelf: 'center',
   }
 };

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Button, RefreshControl, ListView } from 'react-native';
+import { View, ListView } from 'react-native';
 import moment from 'moment';
 import _ from 'lodash';
 
@@ -49,8 +49,8 @@ class Orders extends Component {
       return (
         <ListItem key={order.id} onPress={this.navigateOrder.bind(this, order)} last={isLastListItem}>
           <View>
-            <Text>{orderItem.product.name.toUpperCase()}</Text>
-            <Text style={{color: '#b4b4b0'}}>{orderItem.node.name}</Text>
+            <Text style={{fontFamily: 'montserrat-semibold'}}>{orderItem.product.name}</Text>
+            <Text>{orderItem.node.name}</Text>
           </View>
         </ListItem>
       );

@@ -2,7 +2,7 @@ export default {
   stackNavigator: {
     headerStyle: {
       elevation: 0,
-      backgroundColor: '#bf360c',
+      backgroundColor: '#ba2000',
       borderWidth: 0
     },
     headerTitleStyle: {

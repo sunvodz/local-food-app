@@ -13,6 +13,10 @@ const DataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2
 class Notifications extends React.Component {
   componentDidMount() {
     this.props.dispatch(actions.fetchNotifications());
+
+    if (this.props.navigation.state.routeName = 'Notifications') {
+      this.props.dispatch(actions.resetNotifications());
+    }
   }
 
   onRefresh() {
@@ -26,15 +30,20 @@ class Notifications extends React.Component {
       notificationMessage = notificationMessage.replace(`{${variable}}`, value);
     });
 
-    let listItemStyle = styles.listItem;
-    listItemStyle.listItem.borderColor = !notification.viewed_at ? '#bf360c' : '#ddd';
+    let overriddenStyle = styles;
+    if (notification.viewed_at) {
+      overriddenStyle.listItem.listItem.backgroundColor = '#ff9800';
+      overriddenStyle.title.color = '#fff';
+      overriddenStyle.message.color = '#fff';
+      overriddenStyle.date.color = '#fff';
+    }
 
     return (
-      <ListItem key={notification.id} style={listItemStyle}>
+      <ListItem key={notification.id} style={overriddenStyle.listItem}>
         <View>
-          <Text style={styles.title}>{trans(notification.title, this.props.lang)}</Text>
-          <Text style={styles.message}>{notificationMessage}</Text>
-          <Text style={styles.date}>{moment(notification.created_at).format('YYYY-MM-DD')}</Text>
+          <Text style={overriddenStyle.title}>{trans(notification.title, this.props.lang)}</Text>
+          <Text style={overriddenStyle.message}>{notificationMessage}</Text>
+          <Text style={overriddenStyle.date}>{moment(notification.created_at).format('YYYY-MM-DD')}</Text>
         </View>
       </ListItem>
     );
@@ -79,16 +88,15 @@ class Notifications extends React.Component {
 
 const styles = {
   title: {
+    color: '#333',
     fontFamily: 'montserrat-semibold',
   },
   message: {
-
-  },
-  strong: {
-    fontFamily: 'montserrat-semibold',
+    color: '#333',
   },
   date: {
     alignSelf: 'flex-end',
+    color: '#333',
     fontFamily: 'montserrat-semibold',
     fontSize: 12,
     marginTop: 10,
@@ -96,14 +104,13 @@ const styles = {
   },
   list: {
     list: {
-      marginVertical: 15,
+      paddingTop: 15,
+      paddingBottom: 15,
     }
   },
   listItem: {
     listItem: {
-      borderBottomWidth: 0,
-      borderLeftWidth: 5,
-      borderColor: '#ddd',
+      backgroundColor: '#fff',
       display: 'flex',
       flexDirection: 'column',
       marginBottom: 15,

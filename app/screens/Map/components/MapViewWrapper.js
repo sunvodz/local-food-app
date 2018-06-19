@@ -1,15 +1,15 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import ClusteredMapView from 'react-native-maps-super-cluster';
-import { Marker } from 'react-native-maps';
+import { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import _ from 'lodash';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { Loader, Empty, Button } from 'app/components';
 import MapCallout from './MapCallout';
 import * as actions from './../actions';
-
 import { trans } from 'app/shared';
+import mapStyle from '../mapStyle';
 
 export default class MapViewWrapper extends React.Component {
   constructor(props) {
@@ -69,7 +69,7 @@ export default class MapViewWrapper extends React.Component {
   renderMarker(node) {
     return (
       <Marker key={node.id} coordinate={node.location} onPress={this.op.bind(this, node)}>
-        <Icon name="map-marker" size={32} color="#bc3b1f" />
+        <Icon name="map-marker" size={32} color="#bf360c" />
       </Marker>
     );
   }
@@ -113,6 +113,8 @@ export default class MapViewWrapper extends React.Component {
           ref={(component) => { this.map = component }}
           renderMarker={this.renderMarker.bind(this)}
           renderCluster={this.renderCluster.bind(this)}
+          provider={PROVIDER_GOOGLE}
+          customMapStyle={mapStyle}
           />
       </View>
     );
@@ -122,7 +124,7 @@ export default class MapViewWrapper extends React.Component {
 const styles = {
   clusterIcon: {
     alignItems: 'center',
-    backgroundColor: '#bc3b1f',
+    backgroundColor: '#bf360c',
     borderRadius: 50,
     height: 32,
     justifyContent: 'center',

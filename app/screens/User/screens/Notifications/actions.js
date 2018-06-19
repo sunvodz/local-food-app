@@ -13,7 +13,6 @@ export function fetchNotifications() {
       let notifications = response.data;
 
       dispatch(receiveNotifications(notifications));
-      dispatch(resetNotifications());
     } catch (error) {
       dispatch(receiveNotificationsFailed(error));
     }
@@ -49,9 +48,10 @@ export function receiveNotificationsFailed(error) {
 export function resetNotifications() {
   return async function (dispatch, getState) {
     try {
-      await api.call({
-        url: '/api/v1/users/notifications/reset'
-      });
-    } catch (error) { }
+      dispatch({type: actionTypes.RESET_NOTIFICATIONS});
+      await api.call({url: '/api/v1/users/notifications/reset'});
+    } catch (error) {
+      dispatch({type: actionTypes.RESET_NOTIFICATIONS_FAILED});
+    }
   }
 }

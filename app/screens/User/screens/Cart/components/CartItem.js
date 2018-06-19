@@ -147,7 +147,7 @@ const styles = {
     justifyContent: 'space-between',
   },
   priceWrapper: {
-    backgroundColor: '#bc3b1f',
+    backgroundColor: '#bf360c',
     borderRadius: 15,
     paddingHorizontal: 10,
     paddingVertical: 5,
@@ -192,7 +192,7 @@ const quantityStyle = {
   },
   button: {
     justifyContent: 'center',
-    backgroundColor: '#bc3b1f',
+    backgroundColor: '#bf360c',
     borderRadius: 100,
     padding: 10,
     width: 60,

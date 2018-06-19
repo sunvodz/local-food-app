@@ -86,7 +86,7 @@ class Settings extends Component {
         <Card header={trans('select_language', this.props.lang)} headerPosition='outside'>
           {languageItems}
         </Card>
-        <Text>Token: {this.props.settings.pushToken}</Text>
+        {/* <Text>Token: {this.props.settings.pushToken}</Text> */}
         <Button onPress={this.onLogout.bind(this)} icon='sign-out' title={trans('logout', this.props.lang)} accessibilityLabel="Logout" />
         {/*<Text style={styles.deleteAccountLink} onPress={this.navigateToDeleteAccount.bind(this)}>Delete account</Text>*/}
       </ContentWrapper>
@@ -117,7 +117,7 @@ const styles = {
   },
   modalDropdownDropdownStyle: {
     borderWidth: 0,
-    elevation: 2,
+    elevation: 0,
     margin: 0,
     shadowOffset:{
       width: 0,
@@ -141,7 +141,7 @@ const styles = {
     padding: 5,
   },
   languageItemSelected: {
-    color: '#bf360c'
+    color: '#ba2000'
   },
   text: {
     fontFamily: 'montserrat-regular',

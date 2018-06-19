@@ -14,7 +14,7 @@ const RouteConfigs = {
     },
     navigationOptions: ({ navigation }) => {
       return {
-        tabBarLabel: ({ tintColor }) => (<Icon name="user" size={24} />)
+        tabBarLabel: ({ tintColor }) => (<Icon name="user" size={24} color={tintColor} />)
       };
     }
   },
@@ -24,7 +24,7 @@ const RouteConfigs = {
     },
     navigationOptions: ({ navigation }) => {
       return {
-        tabBarLabel: ({ tintColor }) => (<Icon name='map-marker' size={24} />)
+        tabBarLabel: ({ tintColor }) => (<Icon name='map-marker' size={24} color={tintColor} />)
       };
     }
   },
@@ -34,7 +34,7 @@ const RouteConfigs = {
     },
     navigationOptions: ({ navigation }) => {
       return {
-        tabBarLabel: ({ tintColor }) => (<NotificationsIcon size={24} />)
+        tabBarLabel: ({ tintColor }) => (<NotificationsIcon size={24} color={tintColor} />)
       };
     }
   },
@@ -51,14 +51,14 @@ const TabNavigatorConfig = {
     showLabel: true,
     activeTintColor: '#bf360c',
     inactiveTintColor: '#999',
-    activeBackgroundColor: '#fafafa',
-    inactiveBackgroundColor: '#fafafa',
+    activeBackgroundColor: '#bf360c',
+    inactiveBackgroundColor: '#fff',
     indicatorStyle: {
-      backgroundColor: '#fafafa',
+      backgroundColor: '#fff',
     },
     style: {
       padding: 5,
-      backgroundColor: '#fafafa',
+      backgroundColor: '#fff',
     }
   },
   tabBarPosition: 'bottom',

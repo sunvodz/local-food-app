@@ -82,7 +82,6 @@ export function loginUser(data) {
       });
 
       let user = response.data;
-      user.password = data.password;
       await AsyncStorage.setItem('@store:user', JSON.stringify(user));
 
       registerForPushNotificationsAsync(data.email);

@@ -88,7 +88,7 @@ const styles = {
   },
   headerOutside: {
     fontFamily: 'montserrat-semibold',
-    color: '#333',
+    color: '#000',
     marginTop: 15,
     marginBottom: 2,
     marginLeft: 5,

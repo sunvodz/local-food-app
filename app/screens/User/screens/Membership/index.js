@@ -37,7 +37,7 @@ class Membership extends Component {
       keyboardShouldPersistTaps: 'always',
       enableOnAndroid: true,
       style: {
-        backgroundColor: '#bf360c',
+        backgroundColor: '#ba2000',
       }
     };
 
@@ -149,7 +149,7 @@ const textInputLastGroupItemStyle = {
 
 const buttonStyle = {
   button: {
-    backgroundColor: '#ff9300',
+    backgroundColor: '#ff9800',
   },
   title: {
     color: '#333',

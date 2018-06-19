@@ -132,7 +132,7 @@ export default class OrderForm extends React.Component {
 
 const styles = {
   view: {
-    backgroundColor: '#fff2de',
+    backgroundColor: '#fff2e0',
     paddingBottom: 15,
   },
   signin: {
@@ -178,7 +178,7 @@ const styles = {
     fontFamily: 'montserrat-regular',
   },
   priceItem: {
-    backgroundColor: '#bc3b1f',
+    backgroundColor: '#bf360c',
     borderRadius: 15,
     paddingHorizontal: 10,
     paddingVertical: 5,
@@ -210,7 +210,7 @@ const styles = {
   },
   button: {
     justifyContent: 'center',
-    backgroundColor: '#bc3b1f',
+    backgroundColor: '#bf360c',
     borderRadius: 100,
     padding: 10,
     width: 60,
@@ -223,7 +223,7 @@ const styles = {
     textAlign: 'center',
   },
   soldout: {
-    color: '#bc3b1f',
+    color: '#bf360c',
     flex: 1,
     fontFamily: 'montserrat-semibold',
     textAlign: 'center',

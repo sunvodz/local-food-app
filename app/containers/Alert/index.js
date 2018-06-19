@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, StatusBar } from 'react-native';
 import DropdownAlert from 'react-native-dropdownalert';
 import _ from 'lodash';
 
@@ -44,8 +43,38 @@ class Alert extends Component {
   }
 
   render() {
+    let titleStyle = {
+      fontSize: 16,
+      textAlign: 'left',
+      fontFamily: 'montserrat-semibold',
+      color: '#333',
+      backgroundColor: 'transparent'
+    };
+
+    let messageStyle = {
+      fontSize: 14,
+      textAlign: 'left',
+      fontFamily: 'montserrat-regular',
+      color: '#333',
+      backgroundColor: 'transparent'
+    };
+
+    let props = {
+      messageStyle: messageStyle,
+      titleStyle: titleStyle,
+      successmageSrc: null,
+      infoImageSrc: null,
+      warnImageSrc: null,
+      errorImageSrc: null,
+      successColor: '#fff',
+      infoColor: '#fff',
+      warnColor: '#fff',
+      errorColor: '#fff',
+      activeStatusBarStyle: 'dark-content',
+    }
+
     return (
-      <DropdownAlert errorColor='#bc3b1f' ref={component => this.dropdown = component} onClose={data => this.onClose(data)} translucent={true} />
+      <DropdownAlert {...props} ref={component => this.dropdown = component} onClose={data => this.onClose(data)} translucent={true} />
     );
   }
 }

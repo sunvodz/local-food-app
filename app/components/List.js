@@ -19,6 +19,6 @@ export default class List extends React.Component {
 
 let styles = {
   list: {
-    backgroundColor: '#f4f4f0',
+    backgroundColor: '#fff2e0',
   }
 };

@@ -39,7 +39,7 @@ const styles = {
   },
   iconWrapper: {
     alignItems: 'center',
-    backgroundColor: '#f4f4f0',
+    backgroundColor: '#fff2e0',
     borderRadius: 200,
     height: 100,
     justifyContent: 'center',

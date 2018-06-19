@@ -67,7 +67,7 @@ export default connect(mapStateToProps)(ScreenHeader);
 
 const styles = {
   view: {
-    backgroundColor: '#bf360c',
+    backgroundColor: '#ba2000',
     flexDirection: 'row',
     paddingTop: Platform.OS === 'ios' ? 20 : StatusBar.currentHeight,
     height: 88,

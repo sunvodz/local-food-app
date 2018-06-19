@@ -37,7 +37,7 @@ const styles = {
     borderWidth: 1,
     borderColor: '#c4c4c0',
     borderRadius: 2,
-    elevation: 1,
+    elevation: 0,
     padding: 7,
     textDecorationLine: 'none',
   },

@@ -39,7 +39,7 @@ export default class NodeCard extends React.Component {
 
 const styles = {
   modal: {
-    elevation: 2,
+    elevation: 0,
     margin: 5,
     backgroundColor: '#fff',
   },

@@ -44,7 +44,7 @@ class App extends Component {
         <View style={styles.splash}>
           <StatusBar barStyle="light-content" />
           <Image style={styles.logo} source={require('../../assets/images/logo-white.png')} />
-          <Text style={styles.splashHeader}>Local Food Nodes</Text>
+          <Text style={styles.splashHeader}>Local Food App</Text>
         </View>
       );
     }
@@ -55,7 +55,7 @@ class App extends Component {
     }
 
     return (
-      <View style={{flex: 1, backgroundColor: '#f4f4f0'}}>
+      <View style={{flex: 1, backgroundColor: '#fff2e0'}}>
         <StatusBar barStyle="light-content" />
         {tabbar}
         <Alert lang={currentLang} />
@@ -78,7 +78,7 @@ export default connect(mapStateToProps)(App);
 const styles = {
   splash: {
     alignItems: 'center',
-    backgroundColor: '#bf360c',
+    backgroundColor: '#ba2000',
     flex: 1,
     justifyContent: 'center',
   },
@@ -93,5 +93,5 @@ const styles = {
     color: '#fff',
     fontFamily: 'montserrat-semibold',
     fontSize: 24,
-  }
+  },
 };

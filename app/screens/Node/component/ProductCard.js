@@ -134,7 +134,7 @@ const styles = {
   product: {
     paddingBottom: 15,
     borderBottomWidth: 15,
-    borderColor: '#f4f4f0',
+    borderColor: '#fff2e0',
   },
   productTitle: {
     color: '#333',
@@ -190,20 +190,4 @@ const styles = {
     fontSize: 12,
     fontFamily: 'montserrat-semibold',
   },
-  // priceIcon: {
-  //   backgroundColor: '#fff',
-  //   borderRadius: 20,
-  //   left: 10,
-  //   overflow: 'hidden',
-  //   paddingLeft: 10,
-  //   paddingRight: 10,
-  //   paddingVertical: 5,
-  //   position: 'absolute',
-  //   bottom: 10,
-  // },
-  // priceIconText: {
-  //   color: '#bc3b1f',
-  //   fontSize: 14,
-  //   fontFamily: 'montserrat-semibold',
-  // }
 };

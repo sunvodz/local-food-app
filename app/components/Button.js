@@ -38,9 +38,9 @@ export default class ButtonComponent extends React.Component {
 const styles = {
   button: {
     alignSelf: 'center',
-    backgroundColor: '#bc3b1f',
+    backgroundColor: '#bf360c',
     borderRadius: 100,
-    elevation: 1,
+    elevation: 0,
     flexDirection: 'row',
     justifyContent: 'center',
     paddingLeft: 16,

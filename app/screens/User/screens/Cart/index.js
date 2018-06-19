@@ -116,7 +116,7 @@ class Cart extends React.Component {
 
     if (loading) {
       return (
-        <View style={{flex: 1, backgroundColor: '#f4f4f0'}}>
+        <View style={{flex: 1, backgroundColor: '#fff2e0'}}>
           <ScreenHeader title={trans('cart', this.props.lang)} left navigation={this.props.navigation} />
           <Loader />
         </View>
@@ -125,7 +125,7 @@ class Cart extends React.Component {
 
     if (!refreshing && _.isEmpty(cart)) {
       return (
-        <View style={{flex: 1, backgroundColor: '#f4f4f0'}}>
+        <View style={{flex: 1, backgroundColor: '#fff2e0'}}>
           <ScreenHeader title={trans('cart', this.props.lang)} left navigation={this.props.navigation} />
           <Empty icon="shopping-basket" header={trans('cart_empty', this.props.lang)} text={trans('cart_empty_text', this.props.lang)} />
         </View>
@@ -164,7 +164,7 @@ class Cart extends React.Component {
     }
 
     return (
-      <View style={{flex: 1, backgroundColor: '#f4f4f0'}}>
+      <View style={{flex: 1, backgroundColor: '#fff2e0'}}>
         <ScreenHeader title={trans('cart', this.props.lang)} left navigation={this.props.navigation} />
         <List {...listProps} />
         <View style={styles.orderWrapper}>
@@ -194,7 +194,7 @@ const styles = {
     paddingHorizontal: 15,
   },
   orderWrapper: {
-    backgroundColor: '#bc3b1f',
+    backgroundColor: '#bf360c',
     bottom: 0,
     flexDirection: 'row',
     padding: 15,
@@ -212,7 +212,7 @@ const styles = {
   orderButton: {
     flex: 1,
     button: {
-      backgroundColor: '#ff9300',
+      backgroundColor: '#ff9800',
     },
     title: {
       color: '#333',

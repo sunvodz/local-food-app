@@ -33,7 +33,7 @@ class ContentWrapper extends Component {
 
 const styles = {
   view: {
-    backgroundColor: '#f4f4f0',
+    backgroundColor: '#fff2e0',
     flex: 1,
   },
   scrollView: {

@@ -13,7 +13,7 @@ export default class Link extends React.Component {
 
 const styles = {
   link: {
-    color: '#c0370c',
+    color: '#bf360c',
     fontSize: 14,
     fontFamily: 'montserrat-semibold'
   }

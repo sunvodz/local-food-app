@@ -40,7 +40,7 @@ export default DatePicker;
 
 const badgeWrapperStyle = {
   badgeWrapper: {
-    backgroundColor: '#f4f4f0',
+    backgroundColor: '#fff2e0',
     borderBottomWidth: 1,
     borderColor: '#f0f0ea',
   },
