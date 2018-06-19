@@ -33,13 +33,13 @@ class Empty extends Component {
 const styles = {
   view: {
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#fff2e0',
     flex: 1,
     justifyContent: 'center',
   },
   iconWrapper: {
     alignItems: 'center',
-    backgroundColor: '#fff2e0',
+    backgroundColor: '#bc360c',
     borderRadius: 200,
     height: 100,
     justifyContent: 'center',
@@ -47,17 +47,17 @@ const styles = {
     width: 100,
   },
   icon: {
-    color: '#c4c4c0',
+    color: '#fff2e0',
     fontSize: 48,
   },
   header: {
-    color: '#a4a4a0',
+    color: '#333',
     fontFamily: 'montserrat-semibold',
-    fontSize: 24,
+    fontSize: 20,
     textAlign: 'center',
   },
   text: {
-    color: '#a4a4a0',
+    color: '#333',
     fontSize: 16,
     fontFamily: 'montserrat-regular',
     margin: 15,

@@ -44,7 +44,7 @@ const TabNavigatorConfig = {
     activeBackgroundColor: '#fff',
     inactiveBackgroundColor: '#fff',
     indicatorStyle: {
-      backgroundColor: '#ba2000',
+      backgroundColor: '#bf360c',
     },
     labelStyle: {
       fontSize: 12,

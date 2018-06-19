@@ -141,7 +141,7 @@ const styles = {
     padding: 5,
   },
   languageItemSelected: {
-    color: '#ba2000'
+    color: '#bf360c'
   },
   text: {
     fontFamily: 'montserrat-regular',

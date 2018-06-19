@@ -27,8 +27,8 @@ const styles = {
     width: 60,
   },
   activeBadge: {
-    backgroundColor: '#ba2000',
-    borderColor: '#ba2000',
+    backgroundColor: '#bf360c',
+    borderColor: '#bf360c',
   },
   labelTop: {
     fontFamily: 'montserrat-semibold',

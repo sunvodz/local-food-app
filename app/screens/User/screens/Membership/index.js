@@ -37,7 +37,7 @@ class Membership extends Component {
       keyboardShouldPersistTaps: 'always',
       enableOnAndroid: true,
       style: {
-        backgroundColor: '#ba2000',
+        backgroundColor: '#bf360c',
       }
     };
 

@@ -37,7 +37,7 @@ const TabNavigatorConfig = {
   tabBarOptions: {
     showIcon: false,
     showLabel: true,
-    activeTintColor: '#ba2000',
+    activeTintColor: '#bf360c',
     inactiveTintColor: '#999',
     activeBackgroundColor: '#fafafa',
     inactiveBackgroundColor: '#fafafa',

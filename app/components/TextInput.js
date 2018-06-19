@@ -26,7 +26,7 @@ export default class TextInputComponent extends React.Component {
 const styles = {
   wrapper: {
     flex: 1,
-    marginBottom: 15,
+    marginBottom: 5,
   },
   label: {
     marginBottom: 5,
@@ -38,10 +38,11 @@ const styles = {
     borderColor: '#c4c4c0',
     borderRadius: 2,
     elevation: 0,
+    fontFamily: 'montserrat-regular',
     padding: 7,
     textDecorationLine: 'none',
   },
-  placeholderColor: '#999',
+  placeholderColor: '#666',
   hint: {
     color: '#fff',
     fontFamily: 'montserrat-regular',

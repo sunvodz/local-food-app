@@ -50,7 +50,7 @@ export default class AuthScreen extends Component {
       keyboardShouldPersistTaps: 'always',
       enableOnAndroid: true,
       style: {
-        backgroundColor: '#ba2000',
+        backgroundColor: '#bf360c',
       }
     };
 
@@ -102,9 +102,11 @@ const styles = {
   },
   infoText: {
     color: '#fff',
+    flex: 1,
     fontFamily: 'montserrat-regular',
-    marginBottom: 15,
-    marginHorizontal: 30,
+    fontSize: 14,
+    lineHeight: 18,
+    marginBottom: 30,
     textAlign: 'center',
   },
   wrapper: {
@@ -138,6 +140,7 @@ const textInputStyle = {
 const buttonStyle = {
   button: {
     backgroundColor: '#ff9800',
+    marginTop: 15,
   },
   title: {
     color: '#333',

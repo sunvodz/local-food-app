@@ -44,7 +44,7 @@ class Alert extends Component {
 
   render() {
     let titleStyle = {
-      fontSize: 16,
+      fontSize: 14,
       textAlign: 'left',
       fontFamily: 'montserrat-semibold',
       color: '#333',
