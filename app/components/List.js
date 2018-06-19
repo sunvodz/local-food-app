@@ -1,5 +1,5 @@
 import React from 'react';
-import { ListView, RefreshControl } from 'react-native';
+import { View, ListView, RefreshControl } from 'react-native';
 import styleMerger from 'app/shared/utils/styleMerger';
 import globalStyle from 'app/styles';
 
@@ -13,7 +13,7 @@ export default class List extends React.Component {
     let mergedStyles = styleMerger.merge(styles, this.props.style);
 
     return (
-      <ListView {...this.props} removeClippedSubviews={false} refreshControl={<RefreshControl onRefresh={this.onRefresh.bind(this)} refreshing={refreshing} />} style={mergedStyles.list}/>
+      <ListView {...this.props} contentContainerStyle={{padding: 15}} removeClippedSubviews={false} refreshControl={<RefreshControl onRefresh={this.onRefresh.bind(this)} refreshing={refreshing} />} style={mergedStyles.list} />
     );
   }
 }
@@ -21,6 +21,5 @@ export default class List extends React.Component {
 let styles = {
   list: {
     backgroundColor: globalStyle.backgroundColor,
-    paddingHorizontal: 15,
   }
 };

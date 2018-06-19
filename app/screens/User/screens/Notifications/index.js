@@ -35,20 +35,14 @@ class Notifications extends React.Component {
       notificationMessage = notificationMessage.replace(`{${variable}}`, value);
     });
 
-    let overriddenStyle = styles;
-    if (!notification.viewed_at) {
-      overriddenStyle.listItem.listItem.backgroundColor = '#ff9800';
-      overriddenStyle.title.color = '#fff';
-      overriddenStyle.message.color = '#fff';
-      overriddenStyle.date.color = '#fff';
-    }
+    let itemStyle = !notification.viewed_at ? unread : read;
 
     return (
-      <ListItem key={notification.id} style={overriddenStyle.listItem}>
+      <ListItem key={notification.id} style={itemStyle.listItem}>
         <View>
-          <Text style={overriddenStyle.title}>{trans(notification.title, this.props.lang)}</Text>
-          <Text style={overriddenStyle.message}>{notificationMessage}</Text>
-          <Text style={overriddenStyle.date}>{moment(notification.created_at).fromNow()}</Text>
+          <Text style={itemStyle.title}>{trans(notification.title, this.props.lang)}</Text>
+          <Text style={itemStyle.message}>{notificationMessage}</Text>
+          <Text style={itemStyle.date}>{moment(notification.created_at).fromNow()}</Text>
         </View>
       </ListItem>
     );
@@ -92,6 +86,15 @@ class Notifications extends React.Component {
 }
 
 let styles = {
+  list: {
+    list: {
+      paddingTop: 15,
+      paddingBottom: 15,
+    }
+  },
+}
+
+let read = {
   title: {
     color: '#333',
     fontFamily: 'montserrat-semibold',
@@ -108,12 +111,6 @@ let styles = {
     marginTop: 10,
     marginBottom: 5,
   },
-  list: {
-    list: {
-      paddingTop: 15,
-      paddingBottom: 15,
-    }
-  },
   listItem: {
     listItem: {
       backgroundColor: '#fff',
@@ -122,8 +119,36 @@ let styles = {
       marginBottom: 15,
       paddingBottom: 0,
     },
-  }
+  },
 };
+
+let unread = {
+  title: {
+    color: '#fff',
+    fontFamily: 'montserrat-semibold',
+  },
+  message: {
+    color: '#fff',
+    fontFamily: 'montserrat-regular',
+  },
+  date: {
+    alignSelf: 'flex-end',
+    color: '#fff',
+    fontFamily: 'montserrat-semibold',
+    fontSize: 12,
+    marginTop: 10,
+    marginBottom: 5,
+  },
+  listItem: {
+    listItem: {
+      backgroundColor: '#ff9800',
+      display: 'flex',
+      flexDirection: 'column',
+      marginBottom: 15,
+      paddingBottom: 0,
+    },
+  },
+}
 
 function mapStateToProps(state) {
   const { auth, notifications } = state;
