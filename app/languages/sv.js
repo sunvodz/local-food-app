@@ -19,6 +19,7 @@ module.exports = {
   'error_updating_cart': 'Kunde inte uppdatera produkten.',
   'failed_loading_nodes': 'Det uppstod problem med att ladda noder. Kontrollera din anslutning.',
   'failed_loading_notifications': 'Kunde inte ladda notifikationer.',
+  'failed_loading_orders': 'Kunde inte ladda beställningar.',
   'failed_loading_products': 'Kunde inte ladda produkter.',
   'find_nodes': 'Hitta noder',
   'go_to_node': 'Besök noden',

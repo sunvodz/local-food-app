@@ -46,7 +46,7 @@ export function fetchOrders() {
 
       return dispatch(receiveOrders(orderedOrders.reverse()));
     } catch (error) {
-
+      dispatch(receiveOrdersFailed(error));
     }
   }
 }
@@ -63,5 +63,15 @@ export function receiveOrders(orders) {
     type: actionTypes.RECEIVE_ORDERS,
     orders: orders,
     loading: false,
+  }
+}
+
+export function receiveOrdersFailed() {
+  return {
+    type: actionTypes.RECEIVE_ORDERS_FAILED,
+    orders: null,
+    loading: false,
+    title: 'orders',
+    message: 'failed_loading_orders',
   }
 }

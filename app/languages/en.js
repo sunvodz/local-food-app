@@ -19,6 +19,7 @@ module.exports = {
   'error_updating_cart': 'Could not update cart item.',
   'failed_loading_nodes': 'There was a problem loading nodes. Please check your connection.',
   'failed_loading_notifications': 'Could not load notifications.',
+  'failed_loading_orders': 'Could not load orders.',
   'failed_loading_products': 'Could not load products.',
   'find_nodes': 'Find nodes',
   'go_to_node': 'Go to node',
