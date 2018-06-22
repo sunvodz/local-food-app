@@ -47,7 +47,7 @@ const TabNavigatorConfig = {
       backgroundColor: '#fafafa',
     },
     style: {
-      padding: 5,
+      padding: 15,
       backgroundColor: '#fafafa',
     }
   },

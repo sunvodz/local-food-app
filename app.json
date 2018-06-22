@@ -4,6 +4,7 @@
     "description": "Local Food Nodes connects local food producers to local food consumers as well as strengthening those relationships that already exist. We enable direct transactions, resilient communities and regain control over what we eat and how it is produced. A desire to make food local again.",
     "orientation": "portrait",
     "privacy": "public",
+    "version": "1.0.0",
     "sdkVersion": "26.0.0",
     "slug": "local-food-app",
     "icon": "./assets/images/logo-expo-1024.png",
@@ -11,6 +12,68 @@
     "splash": {
       "backgroundColor": "#bf360c",
       "image": "./assets/images/splash.png"
+    },
+    "ios": {
+      "bundleIdentifier": "org.localfoodnodes.localfoodapp",
+      "buildNumber": "1.0.0",
+      "icon": "./assets/images/logo-expo-1024.png",
+      "appStoreUrl": "https://itunes.apple.com/us/app/local-food-app/id1400957388",
+      "supportsTablet": true,
+      "isTabletOnly": false,
+      "config": {
+        "googleMapsApiKey": "AIzaSyA0eZz9e0OcjGq8RbjSFLaaGRAqjFtWfPw"
+      },
+      "infoPlist": {
+        "NSLocationAlwaysUsageDescription": "Local Food App uses your position to show nodes near you.",
+        "NSLocationWhenInUseUsageDescription": "Local Food App uses your position to show nodes near you."
+      },
+      "splash": {
+        "backgroundColor": "#bf360c",
+        "resizeMode": "contain",
+        "image": "./assets/images/splash.png",
+        "tabletImage": "./assets/images/splash.png"
+      }
+    },
+    "android": {
+      "package": "org.localfoodnodes.localfoodapp",
+      "versionCode": 1,
+      "icon": "./assets/images/logo-expo-1024.png",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/logo-expo-1024-transparent.png",
+        "backgroundColor": "#bf360c"
+      },
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_NOTIFICATION_POLICY",
+        "com.anddoes.launcher.permission.UPDATE_COUNT",
+        "com.android.launcher.permission.INSTALL_SHORTCUT",
+        "com.google.android.c2dm.permission.RECEIVE",
+        "com.google.android.gms.permission.ACTIVITY_RECOGNITION",
+        "com.google.android.providers.gsf.permission.READ_GSERVICES",
+        "com.htc.launcher.permission.READ_SETTINGS",
+        "com.htc.launcher.permission.UPDATE_SHORTCUT",
+        "com.majeur.launcher.permission.UPDATE_BADGE",
+        "com.sec.android.provider.badge.permission.READ",
+        "com.sec.android.provider.badge.permission.WRITE",
+        "com.sonyericsson.home.permission.BROADCAST_BADGE"
+      ],
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyA0eZz9e0OcjGq8RbjSFLaaGRAqjFtWfPw"
+        }
+      },
+      "splash": {
+        "backgroundColor": "#bf360c",
+        "resizeMode": "contain",
+        "ldpi": "./assets/images/splash.png",
+        "mdpi": "./assets/images/splash.png",
+        "hdpi": "./assets/images/splash.png",
+        "xhdpi": "./assets/images/splash.png",
+        "xxhdpi": "./assets/images/splash.png",
+        "xxxhdpi": "./assets/images/splash.png"
+      },
+      "googleServicesFile": "./google-services.json"
     }
   },
   "hooks": {
@@ -24,65 +87,5 @@
         }
       }
     ]
-  },
-  "ios": {
-    "bundleIdentifier": "org.localfoodnodes.localfoodapp",
-    "buildNumber": "1.0..0",
-    "icon": "./assets/images/logo-expo-1024.png",
-    "appStoreUrl": "https://itunes.apple.com/us/app/local-food-app/id1400957388",
-    "supportsTablet": true,
-    "isTabletOnly": false,
-    "useIcloudStorage": false,
-    "config": {
-      "googleMapsApiKey": "AIzaSyA0eZz9e0OcjGq8RbjSFLaaGRAqjFtWfPw",
-    },
-    "splash": {
-      "backgroundColor": "#bf360c",
-      "resizeMode": "contain",
-      "image": "./assets/images/splash.png",
-      "tabletImage": "./assets/images/splash.png"
-    }
-  },
-  "android": {
-    "package": "org.localfoodnodes.localfoodapp",
-    "versionCode": "1.0.0",
-    "icon": "./assets/images/logo-expo-1024.png",
-    "adaptiveIcon": {
-      "foregroundImage": "./assets/images/logo-expo-1024-transparent.png",
-      "backgroundColor": "#bf360c",
-      "backgroundImage": "#bf360c"
-    },
-    "permissions": [
-      "ACCESS_COARSE_LOCATION",
-      "ACCESS_FINE_LOCATION",
-      "ACCESS_NOTIFICATION_POLICY",
-      "com.anddoes.launcher.permission.UPDATE_COUNT",
-      "com.android.launcher.permission.INSTALL_SHORTCUT",
-      "com.google.android.c2dm.permission.RECEIVE",
-      "com.google.android.gms.permission.ACTIVITY_RECOGNITION",
-      "com.google.android.providers.gsf.permission.READ_GSERVICES",
-      "com.htc.launcher.permission.READ_SETTINGS",
-      "com.htc.launcher.permission.UPDATE_SHORTCUT",
-      "com.majeur.launcher.permission.UPDATE_BADGE",
-      "com.sec.android.provider.badge.permission.READ",
-      "com.sec.android.provider.badge.permission.WRITE",
-      "com.sonyericsson.home.permission.BROADCAST_BADGE"
-    ],
-    "config": {
-      "googleMaps": {
-        "apiKey": "AIzaSyA0eZz9e0OcjGq8RbjSFLaaGRAqjFtWfPw"
-      }
-    },
-    "splash": {
-      "backgroundColor": "#bf360c",
-      "resizeMode": "contain",
-      "ldpi": "./assets/images/splash.png",
-      "mdpi": "./assets/images/splash.png",
-      "hdpi": "./assets/images/splash.png",
-      "xhdpi": "./assets/images/splash.png",
-      "xxhdpi": "./assets/images/splash.png",
-      "xxxhdpi": "./assets/images/splash.png"
-    },
-    "googleServicesFile": "./google-services.json"
   }
 }
