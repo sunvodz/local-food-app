@@ -1,5 +1,6 @@
 import { api } from 'app/shared';
 import * as actionTypes from './actionTypes';
+import _ from 'lodash';
 
 export function fetchNotifications() {
   return async function (dispatch, getState) {
@@ -10,9 +11,11 @@ export function fetchNotifications() {
         url: '/api/v1/users/notifications'
       });
 
-      let notifications = response.data;
+      let notifications = _.sortBy(response.data, (notification) => {
+        return notification.created_at;
+      });
 
-      dispatch(receiveNotifications(notifications));
+      dispatch(receiveNotifications(notifications.reverse()));
     } catch (error) {
       dispatch(receiveNotificationsFailed(error));
     }

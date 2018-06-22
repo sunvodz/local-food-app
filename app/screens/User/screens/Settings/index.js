@@ -57,7 +57,7 @@ class Settings extends Component {
     if (auth.user.active) {
       let payments = auth.user.membership_payments_relationship;
       let latestPayment = payments[payments.length - 1];
-      let membershipUntil = moment(latestPayment).add(1, 'y');
+      let membershipUntil = moment(latestPayment.created_at).add(1, 'y');
 
       membershipStatus = <Text>{trans('member_until', this.props.lang)} {membershipUntil.format('YYYY-MM-DD')}</Text>;
       membershipStatusAction = <Link onPress={this.navigateToMembershipPayment.bind(this, true)} title={trans('renew_membership', this.props.lang)} accessibilityLabel="Renew membership" />;
