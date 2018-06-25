@@ -160,8 +160,6 @@ export function createOrder() {
         url: '/api/v1/users/order'
       });
 
-      // Todo: reload orders table
-
       dispatch(createOrderSuccess());
       dispatch(fetchCart(true));
     } catch (error) {
@@ -190,6 +188,7 @@ export function createOrderSuccess() {
 export function createOrderFailed(error) {
   return {
     type: actionTypes.CREATE_ORDER_FAILED,
+    creating: false,
     title: 'order',
     message: error.message
   }

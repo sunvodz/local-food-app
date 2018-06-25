@@ -54,6 +54,7 @@ function cartReducer(state, action) {
     case actionTypes.CREATE_ORDER_IN_PROGRESS:
       return Object.assign({}, state, {
         loading: action.loading,
+        creating: action.creating,
       });
       break;
 
@@ -61,6 +62,7 @@ function cartReducer(state, action) {
       return Object.assign({}, state, {
         cart: action.cart,
         loading: action.loading,
+        creating: action.creating,
       });
       break;
 

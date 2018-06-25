@@ -186,7 +186,6 @@ function mapStateToProps(state) {
   };
 }
 
-
 export default connect(mapStateToProps)(Cart);
 
 let styles = {
