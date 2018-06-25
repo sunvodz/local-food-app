@@ -10,12 +10,20 @@ import globalStyle from 'app/styles';
 class Membership extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       amount: null,
       cardNumber: null,
       expYear: null,
       expMonth: null,
       cvc: null,
+      paymentSuccess: false,
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.auth.user.membership_payments_relationship.length > prevProps.auth.user.membership_payments_relationship.length) {
+      this.setState({paymentSuccess: true});
     }
   }
 
@@ -29,7 +37,13 @@ class Membership extends Component {
     this.props.dispatch(sharedActions.processPayment(this.state));
   }
 
+  onResendEmail() {
+    this.props.dispatch(sharedActions.resendEmail());
+  }
+
   render() {
+    const { auth, membership, navigation, lang } = this.props;
+
     let scrollViewProps = {
       contentContainerStyle: {
         paddingBottom: 100,
@@ -41,21 +55,56 @@ class Membership extends Component {
       }
     };
 
+    let viewProps = {
+      style: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: globalStyle.primaryColor,
+        flex: 1,
+      }
+    }
+
+    if (!auth.user.active) {
+      return (
+        <View style={{flex: 1}}>
+          <ScreenHeader title={trans('membership', lang)} left navigation={this.props.navigation} />
+          <View {...viewProps}>
+            <Text style={styles.infoText}>{trans('resend_email_info_part_1', lang)}</Text>
+            <Text style={styles.infoText}>{trans('resend_email_info_part_2', lang)}</Text>
+            <Button style={buttonStyle} onPress={this.onResendEmail.bind(this)} icon='user' title={trans('resend_email', lang)} accessibilityLabel={trans('resend_email', lang)} loading={this.props.membership.paymentInProgress} />
+          </View>
+        </View>
+      );
+    }
+
+    if (this.state.paymentSuccess) {
+      return (
+        <View style={{flex: 1}}>
+          <ScreenHeader title={trans('membership', lang)} left navigation={this.props.navigation} />
+          <View {...viewProps}>
+            <Text style={styles.infoText}>{trans('payment_success', lang)}</Text>
+          </View>
+        </View>
+      );
+    }
+
     return (
       <View>
-        <ScreenHeader title={trans('membership', this.props.lang)} left navigation={this.props.navigation} />
+        <ScreenHeader title={trans('membership', lang)} left navigation={this.props.navigation} />
         <KeyboardAwareScrollView {...scrollViewProps}>
           <Image style={styles.logo} source={require('../../../../../assets/images/logo-white.png')} />
           <View style={styles.wrapper}>
-            <Text style={styles.infoText}>{trans('membership_info', this.props.lang)}</Text>
-            <NumberInput label={trans('amount', this.props.lang)} placeholder={trans('amount_placeholder', this.props.lang)} onChangeText={this.onChange.bind(this, 'amount')} />
-            <NumberInput label={trans('card_number', this.props.lang)} placeholder={trans('card_number_placeholder', this.props.lang)} onChangeText={this.onChange.bind(this, 'cardNumber')} />
+            <Text style={styles.infoText}>{trans('membership_info_part_1', lang)}</Text>
+            <Text style={styles.infoText}>{trans('membership_info_part_2', lang)}</Text>
+            <Text style={styles.infoText}>{trans('membership_info_part_3', lang)}</Text>
+            <NumberInput label={trans('amount', lang)} placeholder={trans('amount_placeholder', lang)} onChangeText={this.onChange.bind(this, 'amount')} />
+            <NumberInput label={trans('card_number', lang)} placeholder={trans('card_number_placeholder', lang)} onChangeText={this.onChange.bind(this, 'cardNumber')} />
             <View style={styles.group}>
-                <NumberInput style={textInputGroupItemStyle} label={trans('year', this.props.lang)} placeholder={trans('year_placeholder', this.props.lang)} onChangeText={this.onChange.bind(this, 'expYear')} />
-                <NumberInput style={textInputGroupItemStyle} label={trans('month', this.props.lang)} placeholder={trans('month_placeholder', this.props.lang)} onChangeText={this.onChange.bind(this, 'expMonth')} />
-                <NumberInput style={textInputLastGroupItemStyle} label="CVC" placeholder="123" onChangeText={this.onChange.bind(this, 'cvc')} />
+              <NumberInput style={textInputGroupItemStyle} label={trans('month', lang)} placeholder={trans('month_placeholder', lang)} onChangeText={this.onChange.bind(this, 'expMonth')} />
+              <NumberInput style={textInputGroupItemStyle} label={trans('year', lang)} placeholder={trans('year_placeholder', lang)} onChangeText={this.onChange.bind(this, 'expYear')} />
+              <NumberInput style={textInputLastGroupItemStyle} label="CVC" placeholder="123" onChangeText={this.onChange.bind(this, 'cvc')} />
             </View>
-            <Button style={buttonStyle} onPress={this.onPayment.bind(this)} icon='user' title={trans('become_a_member', this.props.lang)} accessibilityLabel={trans('become_a_member', this.props.lang)} loading={this.props.membership.paymentInProgress} />
+            <Button style={buttonStyle} onPress={this.onPayment.bind(this)} icon='user' title={trans('become_a_member', lang)} accessibilityLabel={trans('become_a_member', lang)} loading={this.props.membership.paymentInProgress} />
           </View>
         </KeyboardAwareScrollView>
       </View>
@@ -64,10 +113,11 @@ class Membership extends Component {
 }
 
 function mapStateToProps(state) {
-  const { membership } = state;
+  const { membership, auth } = state;
 
   return {
     membership,
+    auth,
   }
 }
 
@@ -85,7 +135,6 @@ let styles = {
     color: '#fff',
     fontFamily: 'montserrat-regular',
     marginBottom: 15,
-    marginHorizontal: 30,
     textAlign: 'center',
   },
   wrapper: {
@@ -139,6 +188,7 @@ const textInputLastGroupItemStyle = {
 const buttonStyle = {
   button: {
     backgroundColor: '#ff9800',
+    marginTop: 15,
   },
   title: {
     color: '#333',

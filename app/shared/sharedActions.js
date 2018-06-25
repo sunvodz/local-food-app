@@ -22,7 +22,7 @@ export function createAccount(data) {
     try {
       dispatch(createAccountInProgress());
 
-      let response = await api.call({
+      await api.call({
         url: '/api/v1/users',
         method: 'post',
         data: {
@@ -44,6 +44,7 @@ export function createAccountInProgress() {
   return {
     type: sharedActionTypes.CREATE_ACCOUNT_IN_PROGRESS,
     loading: true,
+    refreshing: false,
   }
 }
 
@@ -51,6 +52,7 @@ export function createAccountComplete(user) {
   return {
     type: sharedActionTypes.CREATE_ACCOUNT_COMPLETE,
     loading: false,
+    refreshing: false
   }
 }
 
@@ -58,8 +60,8 @@ export function createAccountFailed() {
   return {
     type: sharedActionTypes.CREATE_ACCOUNT_FAILED,
     loading: false,
+    refreshing: false,
     user: null,
-
     title: 'Create account',
     message: 'Could not create account',
   }
@@ -98,6 +100,7 @@ export function loginInProgress() {
   return {
     type: sharedActionTypes.LOGIN_IN_PROGRESS,
     loading: true,
+    refreshing: false,
   }
 }
 
@@ -105,6 +108,7 @@ export function loginComplete(user) {
   return {
     type: sharedActionTypes.LOGIN_COMPLETE,
     loading: false,
+    refreshing: false,
     user: user
   }
 }
@@ -135,8 +139,8 @@ export function loginFailed() {
   return {
     type: sharedActionTypes.LOGIN_FAILED,
     loading: false,
+    refreshing: false,
     user: null,
-
     title: 'Login',
     message: 'Authentication failed',
   }
@@ -145,17 +149,17 @@ export function loginFailed() {
 /**
  * Load user from storage
  */
-export function loadUser() {
+export function loadUser(refreshing) {
   return async function(dispatch, getState) {
     try {
-      dispatch(loadUserInProgress());
+      dispatch(loadUserInProgress(refreshing));
 
       // Check if user object is in storage
       let user = await AsyncStorage.getItem('@store:user');
       if (user) {
         user = JSON.parse(user);
 
-        // Authenticate against the API
+        // Authenticate against the API. Fetch user updates
         let response = await api.call({
           url: '/api/v1/users/self',
           options: {
@@ -164,29 +168,33 @@ export function loadUser() {
           }
         });
 
+        user = response.data;
+
         return dispatch(loginComplete(user));
       } else {
         throw 'Error in sharedActions.loadUser';
       }
     } catch (error) {
-      return dispatch(loadUserFailed());
-      // return dispatch(logout());
+      return dispatch(loadUserFailed(error));
     }
   }
 }
 
-export function loadUserInProgress() {
+export function loadUserInProgress(refreshing) {
   return {
     type: sharedActionTypes.LOAD_USER_IN_PROGRESS,
-    loading: true,
+    loading: !refreshing,
+    refreshing: refreshing,
   }
 }
 
-export function loadUserFailed() {
+export function loadUserFailed(error) {
   return {
     type: sharedActionTypes.LOAD_USER_FAILED,
     loading: false,
-    // user: null
+    refreshing: false,
+    title: 'User',
+    message: error.error
   }
 }
 
@@ -224,8 +232,12 @@ export function processPayment(data) {
         throw response.data;
       }
 
-      dispatch(paymentSuccess());
-      // Todo: dispatch reload user to get new user data (or returned from succesful payment?)
+      let storedUser = await AsyncStorage.getItem('@store:user');
+      storedUser = JSON.parse(storedUser);
+      let updatedUser = Object.assign({}, storedUser, response.data);
+      await AsyncStorage.setItem('@store:user', JSON.stringify(updatedUser));
+
+      dispatch(paymentSuccess(updatedUser));
     } catch (error) {
       dispatch(paymentFailed(error));
     }
@@ -248,9 +260,10 @@ export function paymentFailed(error) {
   }
 }
 
-export function paymentSuccess() {
+export function paymentSuccess(user) {
   return {
     type: sharedActionTypes.PAYMENT_SUCCESS,
+    user: user,
     title: 'membership',
     message: 'payment_success',
   };
@@ -297,4 +310,38 @@ export async function getLocationAsync() {
   } else {
     throw new Error('Location permission not granted');
   }
+}
+
+/**
+ * Resend email actions
+ */
+export function resendEmail() {
+  return async function(dispatch, getState) {
+    try {
+      let response = await api.call({
+        url: '/api/v1/users/resend-activation-link',
+        method: 'post',
+      });
+
+      dispatch(resendEmailSuccess());
+    } catch (error) {
+      dispatch(resendEmailFailed(error));
+    }
+  }
+}
+
+export function resendEmailFailed(error) {
+  return {
+    type: sharedActionTypes.RESEND_EMAIL_FAILED,
+    title: 'activate_account',
+    message: 'failed_resending_email',
+  }
+}
+
+export function resendEmailSuccess() {
+  return {
+    type: sharedActionTypes.RESEND_EMAIL_SUCCESS,
+    title: 'activate_account',
+    message: 'resending_email',
+  };
 }

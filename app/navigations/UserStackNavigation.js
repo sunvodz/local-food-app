@@ -6,6 +6,7 @@ import Order from 'app/screens/User/screens/Order';
 import Cart from 'app/screens/User/screens/Cart';
 import Membership from 'app/screens/User/screens/Membership';
 import DeleteAccount from 'app/screens/User/screens/DeleteAccount';
+import Help from 'app/screens/User/screens/Help';
 
 const routeConfig = {
   Profile: {
@@ -56,6 +57,16 @@ const routeConfig = {
       return {
         header: null,
       }
+    }
+  },
+  Help: {
+    screen: (props) => {
+      return <Help navigation={props.navigation} lang={props.screenProps.lang} />;
+    },
+    navigationOptions: (navigation) => {
+      return {
+        header: null,
+      };
     }
   },
 };

@@ -4,7 +4,6 @@ function authReducer(state, action) {
   switch (action.type) {
     case sharedActionTypes.CREATE_ACCOUNT_IN_PROGRESS:
     case sharedActionTypes.CREATE_ACCOUNT_FAILED:
-    case sharedActionTypes.LOAD_USER_IN_PROGRESS:
     case sharedActionTypes.LOAD_USER_FAILED:
     case sharedActionTypes.LOGIN_IN_PROGRESS:
     case sharedActionTypes.LOGIN_COMPLETE:
@@ -13,6 +12,20 @@ function authReducer(state, action) {
       return Object.assign({}, state, {
         user: action.user,
         loading: action.loading,
+        refreshing: action.refreshing,
+      });
+      break;
+
+    case sharedActionTypes.PAYMENT_SUCCESS:
+      return Object.assign({}, state, {
+        user: action.user,
+      });
+      break;
+
+    case sharedActionTypes.LOAD_USER_IN_PROGRESS:
+      return Object.assign({}, state, {
+        loading: action.loading,
+        refreshing: action.refreshing,
       });
       break;
 
@@ -20,6 +33,7 @@ function authReducer(state, action) {
       return Object.assign({}, state, {
         user: action.user,
         loading: action.loading,
+        refreshing: action.refreshing,
         createAccountForm: false,
       });
       break;

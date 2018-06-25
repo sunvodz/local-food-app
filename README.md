@@ -14,6 +14,7 @@ For local dev change oauth callback endpoint (if using ngrok)
 * Reset password functionality
 * Activate account
 * Delete account
+* Dynamic link account activation
 
 # Testing
 Until automated testing is in place, make sure that the app can...

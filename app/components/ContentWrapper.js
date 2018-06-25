@@ -38,6 +38,7 @@ let styles = {
     flex: 1,
   },
   scrollView: {
+    flex: 1,
     padding: 15,
   }
 };

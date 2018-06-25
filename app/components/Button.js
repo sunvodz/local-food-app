@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text } from 'react-native';
+import { TouchableOpacity, View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styleMerger from 'app/shared/utils/styleMerger';
 import globalStyle from 'app/styles';
@@ -27,12 +27,21 @@ export default class ButtonComponent extends React.Component {
       onPress = null;
     }
 
-    return (
-      <TouchableOpacity onPress={onPress} style={[mergedStyles.button, (this.props.disabled || this.props.loading) && styles.disabled]}>
-        {icon}
-        {title}
-      </TouchableOpacity>
-    );
+    if (onPress) {
+      return (
+        <TouchableOpacity onPress={onPress} style={[mergedStyles.button, (this.props.disabled || this.props.loading) && mergedStyles.disabled]}>
+          {icon}
+          {title}
+        </TouchableOpacity>
+      );
+    } else {
+      return (
+        <View style={[mergedStyles.button, (this.props.disabled || this.props.loading) && mergedStyles.disabled]}>
+          {icon}
+          {title}
+        </View>
+      );
+    }
   }
 }
 
@@ -61,6 +70,6 @@ let styles = {
     marginBottom: 1,
   },
   disabled: {
-    opacity: 0.6,
+    opacity: 0.2,
   },
 };

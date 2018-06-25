@@ -3,7 +3,7 @@ import { sharedActionTypes } from 'app/shared';
 function membershipReducer(state, action) {
   switch (action.type) {
     case sharedActionTypes.PAYMENT_IN_PROGRESS:
-    case sharedActionTypes.PAYMENT_COMPLETE:
+    case sharedActionTypes.PAYMENT_SUCCESS:
       return Object.assign({}, state, {
         paymentInProgress: action.paymentInProgress,
       });
