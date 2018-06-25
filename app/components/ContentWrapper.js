@@ -13,7 +13,7 @@ class ContentWrapper extends Component {
       contentContainerStyle: styles.scrollView,
       keyboardShouldPersistTaps: 'always',
       enableOnAndroid: true,
-      extraScrollHeight: 50,
+      viewIsInsideTabBar: true,
     };
 
     if (this.props.onRefresh) {
@@ -38,7 +38,6 @@ let styles = {
     flex: 1,
   },
   scrollView: {
-    flex: 1,
     padding: 15,
   }
 };

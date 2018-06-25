@@ -5,7 +5,7 @@ function ordersReducer(state, action) {
   switch (action.type) {
     case actionTypes.REQUEST_ORDERS:
     case actionTypes.RECEIVE_ORDERS:
-    case actionTypes.DELETE_ORDER_COMPLETE:
+    case actionTypes.DELETE_ORDER_SUCCESS:
       return Object.assign({}, state, {
         orders: action.orders,
         loading: action.loading,

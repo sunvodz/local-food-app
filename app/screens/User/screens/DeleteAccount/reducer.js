@@ -8,7 +8,7 @@ function orderReducer(state, action) {
       });
       break;
 
-    case actionTypes.DELETE_ORDER_COMPLETE:
+    case actionTypes.DELETE_ORDER_SUCCESS:
       return Object.assign({}, state, {
         deleting: action.deleting,
         deleted: true,

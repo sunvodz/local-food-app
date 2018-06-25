@@ -6,9 +6,9 @@ function authReducer(state, action) {
     case sharedActionTypes.CREATE_ACCOUNT_FAILED:
     case sharedActionTypes.LOAD_USER_FAILED:
     case sharedActionTypes.LOGIN_IN_PROGRESS:
-    case sharedActionTypes.LOGIN_COMPLETE:
+    case sharedActionTypes.LOGIN_SUCCESS:
     case sharedActionTypes.LOGIN_FAILED:
-    case sharedActionTypes.LOGOUT_COMPLETE:
+    case sharedActionTypes.LOGOUT_SUCCESS:
       return Object.assign({}, state, {
         user: action.user,
         loading: action.loading,
@@ -29,7 +29,7 @@ function authReducer(state, action) {
       });
       break;
 
-    case sharedActionTypes.CREATE_ACCOUNT_COMPLETE:
+    case sharedActionTypes.CREATE_ACCOUNT_SUCCESS:
       return Object.assign({}, state, {
         user: action.user,
         loading: action.loading,

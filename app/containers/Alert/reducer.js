@@ -27,6 +27,7 @@ function alertReducer(state, action) {
     case 'ADD_TO_CART_SUCCESS':
     case 'CREATE_ORDER_SUCCESS':
     case 'RESEND_EMAIL_SUCCESS':
+    case 'CREATE_ACCOUNT_SUCCESS':
       return Object.assign({}, state, {
         level: 'success',
         title: action.title,

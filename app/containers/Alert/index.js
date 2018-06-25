@@ -62,7 +62,7 @@ class Alert extends Component {
     let props = {
       messageStyle: messageStyle,
       titleStyle: titleStyle,
-      successmageSrc: null,
+      successImageSrc: null,
       infoImageSrc: null,
       warnImageSrc: null,
       errorImageSrc: null,

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
 import _ from 'lodash';
@@ -52,12 +52,6 @@ class Settings extends Component {
     this.props.dispatch(sharedActions.loadUser(true)); // Refreshing
   }
 
-  navigateToHelp() {
-    const { navigate } = this.props.userStackNavigation;
-
-    navigate('Help');
-  }
-
   render() {
     const { auth } = this.props;
 
@@ -104,9 +98,6 @@ class Settings extends Component {
         {/* <Text>Token: {this.props.settings.pushToken}</Text> */}
         <Button onPress={this.onLogout.bind(this)} icon='sign-out' title={trans('logout', this.props.lang)} accessibilityLabel="Logout" />
         {/*<Text style={styles.deleteAccountLink} onPress={this.navigateToDeleteAccount.bind(this)}>Delete account</Text>*/}
-        <View style={styles.helpWrapper}>
-          <Icon name='question-circle' size={24} style={styles.help} onPress={this.navigateToHelp.bind(this)} />
-        </View>
       </ContentWrapper>
     );
   }

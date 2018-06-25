@@ -106,7 +106,7 @@ export function deleteOrderInProgress() {
 
 export function deleteOrderComplete(orderedOrders) {
   return {
-    type: actionTypes.DELETE_ORDER_COMPLETE,
+    type: actionTypes.DELETE_ORDER_SUCCESS,
     deleting: false,
     deleted: true,
     orders: orderedOrders,

@@ -35,7 +35,7 @@ export function createAccount(data) {
 
       return dispatch(createAccountComplete());
     } catch (error) {
-      return dispatch(createAccountFailed());
+      return dispatch(createAccountFailed(error));
     }
   }
 }
@@ -50,20 +50,22 @@ export function createAccountInProgress() {
 
 export function createAccountComplete(user) {
   return {
-    type: sharedActionTypes.CREATE_ACCOUNT_COMPLETE,
+    type: sharedActionTypes.CREATE_ACCOUNT_SUCCESS,
     loading: false,
-    refreshing: false
+    refreshing: false,
+    title: 'your_account',
+    message: 'your_account_created'
   }
 }
 
-export function createAccountFailed() {
+export function createAccountFailed(error) {
   return {
     type: sharedActionTypes.CREATE_ACCOUNT_FAILED,
     loading: false,
     refreshing: false,
     user: null,
     title: 'Create account',
-    message: 'Could not create account',
+    message: ['failed_create_account', error.message],
   }
 }
 
@@ -91,7 +93,7 @@ export function loginUser(data) {
 
       return dispatch(loginComplete(user));
     } catch (error) {
-      return dispatch(loginFailed());
+      return dispatch(loginFailed(error));
     }
   }
 }
@@ -106,7 +108,7 @@ export function loginInProgress() {
 
 export function loginComplete(user) {
   return {
-    type: sharedActionTypes.LOGIN_COMPLETE,
+    type: sharedActionTypes.LOGIN_SUCCESS,
     loading: false,
     refreshing: false,
     user: user
@@ -129,7 +131,7 @@ export function logout() {
 
 export function logoutComplete() {
   return {
-    type: sharedActionTypes.LOGOUT_COMPLETE,
+    type: sharedActionTypes.LOGOUT_SUCCESS,
     loading: false,
     user: null
   }

@@ -57,7 +57,7 @@ function cartReducer(state, action) {
       });
       break;
 
-    case actionTypes.CREATE_ORDER_COMPLETE:
+    case actionTypes.CREATE_ORDER_SUCCESS:
       return Object.assign({}, state, {
         cart: action.cart,
         loading: action.loading,

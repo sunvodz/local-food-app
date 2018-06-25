@@ -1,7 +1,6 @@
 import { AsyncStorage } from 'react-native';
 import { API_URL, API_CLIENT_ID, API_CLIENT_SECRET, API_USERNAME, API_PASSWORD } from 'react-native-dotenv';
 import sdk from 'localfoodnodes-js-sdk';
-import * as sharedActions from './sharedActions';
 import _ from 'lodash';
 
 class Api {
@@ -14,7 +13,11 @@ class Api {
 
       return response;
     } catch (error) {
-      throw error.response.data;
+      if (error.response && error.response.data) {
+        throw error.response.data;
+      } else {
+        throw 'api_error';
+      }
     }
   }
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, Image } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import _ from 'lodash';
 
 import { sharedActions, trans } from 'app/shared';
@@ -55,38 +56,40 @@ export default class AuthScreen extends Component {
       }
     };
 
-    let title = trans('login', this.props.lang);
-    let card = (
-      <View style={styles.wrapper}>
-        <Text style={styles.infoText}>Login to your account to shop local food directly from your local producers</Text>
-        <TextInput key='email' label={trans('email', this.props.lang)} defaultValue={this.state.email} editable={!this.props.auth.loading} placeholder='Your email' onChangeText={this.onChange.bind(this, 'email')} autoCapitalize='none' />
-        <TextInput key='password' label={trans('password', this.props.lang)} defaultValue={this.state.password} editable={!this.props.auth.loading} placeholder='Your password' onChangeText={this.onChange.bind(this, 'password')} secureTextEntry />
-        <Button style={buttonStyle} icon='sign-in' onPress={this.onLogin.bind(this)} title="Login" accessibilityLabel="Login" loading={this.props.auth.loading} />
-        <Text onPress={this.toggleForms.bind(this)} style={styles.toggleLink}>Create account</Text>
-      </View>
-    );
+    let toggleIcon = <Icon name='user-plus' color='#fff' size={20} onPress={this.toggleForms.bind(this)} />;
 
     if (this.props.auth.createAccountForm) {
-      title = trans('create_account', this.props.lang);
-      card = (
-        <View style={styles.wrapper}>
-          <Text style={styles.infoText}>Find local food nodes near you and order directly from your local producers</Text>
-          <TextInput key='name' label={trans('name', this.props.lang)} defaultValue={this.state.name} editable={!this.props.auth.loading} placeholder="Your name" onChangeText={this.onChange.bind(this, 'name')} />
-          <TextInput key='email' label={trans('email', this.props.lang)} defaultValue={this.state.email} editable={!this.props.auth.loading} placeholder="Your email" onChangeText={this.onChange.bind(this, 'email')} autoCapitalize='none' />
-          <TextInput key='phone' label={trans('phone', this.props.lang)} defaultValue={this.state.phone} editable={!this.props.auth.loading} placeholder="Your phone number" onChangeText={this.onChange.bind(this, 'phone')} />
-          <TextInput key='password' label={trans('password', this.props.lang)} defaultValue={this.state.password} editable={!this.props.auth.loading} placeholder="Choose a password" hint="Minimum 8 characters" onChangeText={this.onChange.bind(this, 'password')} secureTextEntry />
-          <Button style={buttonStyle} icon='user' onPress={this.onSignup.bind(this)} title="Sign up" accessibilityLabel="Sign up" loading={this.props.auth.loading} />
-          <Text onPress={this.toggleForms.bind(this)} style={styles.toggleLink}>Login</Text>
+      toggleIcon = <Icon name='sign-in' color='#fff' size={20} onPress={this.toggleForms.bind(this)} />;
+
+      return (
+        <View style={{flex: 1}}>
+          <ScreenHeader title={trans('create_account', this.props.lang)} right={toggleIcon} navigation={this.props.navigation} />
+          <KeyboardAwareScrollView {...scrollViewProps}>
+            <Image style={styles.logo} source={require('../../../assets/images/logo-white.png')} />
+            <View style={styles.wrapper}>
+              <Text style={styles.infoText}>Find local food nodes near you and order directly from your local producers</Text>
+              <TextInput key='name' label={trans('name', this.props.lang)} defaultValue={this.state.name} editable={!this.props.auth.loading} placeholder="Your name" onChangeText={this.onChange.bind(this, 'name')} />
+              <TextInput key='email' label={trans('email', this.props.lang)} defaultValue={this.state.email} editable={!this.props.auth.loading} placeholder="Your email" onChangeText={this.onChange.bind(this, 'email')} autoCapitalize='none' />
+              <TextInput key='phone' label={trans('phone', this.props.lang)} defaultValue={this.state.phone} editable={!this.props.auth.loading} placeholder="Your phone number" onChangeText={this.onChange.bind(this, 'phone')} />
+              <TextInput key='password' label={trans('password', this.props.lang)} defaultValue={this.state.password} editable={!this.props.auth.loading} placeholder="Choose a password" hint="Minimum 8 characters" onChangeText={this.onChange.bind(this, 'password')} secureTextEntry />
+              <Button style={buttonStyle} icon='user' onPress={this.onSignup.bind(this)} title="Create account" accessibilityLabel="Create account" loading={this.props.auth.loading} />
+            </View>
+          </KeyboardAwareScrollView>
         </View>
       );
     }
 
     return (
       <View style={{flex: 1}}>
-        <ScreenHeader title={title} right navigation={this.props.navigation} />
+        <ScreenHeader title={trans('login', this.props.lang)} right={toggleIcon} navigation={this.props.navigation} />
         <KeyboardAwareScrollView {...scrollViewProps}>
           <Image style={styles.logo} source={require('../../../assets/images/logo-white.png')} />
-          {card}
+          <View style={styles.wrapper}>
+            <Text style={styles.infoText}>Login to your account to shop local food directly from your local producers</Text>
+            <TextInput key='email' label={trans('email', this.props.lang)} defaultValue={this.state.email} editable={!this.props.auth.loading} placeholder='Your email' onChangeText={this.onChange.bind(this, 'email')} autoCapitalize='none' />
+            <TextInput key='password' label={trans('password', this.props.lang)} defaultValue={this.state.password} editable={!this.props.auth.loading} placeholder='Your password' onChangeText={this.onChange.bind(this, 'password')} secureTextEntry />
+            <Button style={buttonStyle} icon='sign-in' onPress={this.onLogin.bind(this)} title="Login" accessibilityLabel="Login" loading={this.props.auth.loading} />
+          </View>
         </KeyboardAwareScrollView>
       </View>
     );
@@ -117,14 +120,6 @@ let styles = {
     color: '#fff',
     fontFamily: 'montserrat-semibold',
   },
-  toggleLink: {
-    alignSelf: 'center',
-    color: '#fff',
-    fontFamily: 'montserrat-regular',
-    paddingTop: 10,
-    paddingBottom: 0,
-    textDecorationLine: 'underline',
-  }
 };
 
 const buttonStyle = {
