@@ -8,7 +8,7 @@ module.exports = {
   'amount_placeholder': 'Any amount',
   'become_a_member': 'Become a member',
   'card_number': 'Card number',
-  'card_number_placeholder': '4242 4242 4242 4242',
+  'card_number_placeholder': '1234 5678 9012 3456',
   'cart': 'Cart',
   'cart_empty': 'Your cart is empty',
   'cart_empty_text': 'Visit a node to find available products',

@@ -19,7 +19,7 @@ export function deleteOrder(orderDateItemLinkId) {
         url: `/api/v1/users/order/${orderDateItemLinkId}`
       });
 
-      let orders = response.data;
+      let orders = await response.json();
 
       let groupedOrders = _.groupBy(orders, (order) => {
         return moment(order.date.date.date).format('YYYYMMDD');

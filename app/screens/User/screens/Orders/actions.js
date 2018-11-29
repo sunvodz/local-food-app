@@ -18,7 +18,7 @@ export function fetchOrders() {
         url: '/api/v1/users/orders'
       });
 
-      let orders = response.data;
+      let orders = await response.json();
 
       let orderedOrders = [];
       for (let i = 0; i < orders.length; i++) {

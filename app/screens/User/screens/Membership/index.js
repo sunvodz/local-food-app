@@ -71,7 +71,7 @@ class Membership extends Component {
           <View {...viewProps}>
             <Text style={styles.infoText}>{trans('resend_email_info_part_1', lang)}</Text>
             <Text style={styles.infoText}>{trans('resend_email_info_part_2', lang)}</Text>
-            <Button style={buttonStyle} onPress={this.onResendEmail.bind(this)} icon='user' title={trans('resend_email', lang)} accessibilityLabel={trans('resend_email', lang)} loading={this.props.membership.paymentInProgress} />
+            <Button onPress={this.onResendEmail.bind(this)} icon='user' title={trans('resend_email', lang)} accessibilityLabel={trans('resend_email', lang)} loading={this.props.membership.paymentInProgress} />
           </View>
         </View>
       );
@@ -104,7 +104,7 @@ class Membership extends Component {
               <NumberInput style={textInputGroupItemStyle} label={trans('year', lang)} placeholder={trans('year_placeholder', lang)} onChangeText={this.onChange.bind(this, 'expYear')} />
               <NumberInput style={textInputLastGroupItemStyle} label="CVC" placeholder="123" onChangeText={this.onChange.bind(this, 'cvc')} />
             </View>
-            <Button style={buttonStyle} onPress={this.onPayment.bind(this)} icon='user' title={trans('become_a_member', lang)} accessibilityLabel={trans('become_a_member', lang)} loading={this.props.membership.paymentInProgress} />
+            <Button onPress={this.onPayment.bind(this)} icon='user' title={trans('become_a_member', lang)} accessibilityLabel={trans('become_a_member', lang)} loading={this.props.membership.paymentInProgress} />
           </View>
         </KeyboardAwareScrollView>
       </View>
@@ -182,18 +182,5 @@ const textInputLastGroupItemStyle = {
     borderWidth: 0,
     flex: 1,
     marginRight: 0,
-  }
-};
-
-const buttonStyle = {
-  button: {
-    backgroundColor: '#ff9800',
-    marginTop: 15,
-  },
-  title: {
-    color: '#333',
-  },
-  icon: {
-    color: '#333',
   }
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { FontAwesome as Icon } from '@expo/vector-icons';
 
 import { Card, Link } from 'app/components';
 import { trans, priceHelper, unitHelper } from 'app/shared';

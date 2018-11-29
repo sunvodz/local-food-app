@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { Font, AppLoading } from 'expo'
 import Sentry from 'sentry-expo';
-import { SENTRY_PUBLIC_DSN, SENTRY_ENABLE_IN_DEV, PUSHER_LOG_TO_CONSOLE } from 'react-native-dotenv';
+import { SENTRY_PUBLIC_DSN, SENTRY_ENABLE_IN_DEV, PUSHER_LOG_TO_CONSOLE } from 'app/env.json';
 import Pusher from 'pusher-js/react-native';
 
 import rootReducer from './rootReducer';
@@ -27,7 +27,7 @@ export default class Root extends Component {
   }
 
   async componentDidMount() {
-    Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.PORTRAIT);
+    Expo.ScreenOrientation.allowAsync(Expo.ScreenOrientation.Orientation.PORTRAIT);
     await Font.loadAsync({
       'montserrat-regular': require('../../assets/fonts/Montserrat-Regular.ttf'),
       'montserrat-medium': require('../../assets/fonts/Montserrat-Medium.ttf'),

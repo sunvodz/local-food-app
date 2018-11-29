@@ -1,14 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 import { Text, View, Image } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { FontAwesome as Icon } from '@expo/vector-icons';
 import _ from 'lodash';
 
 import { sharedActions, trans } from 'app/shared';
 import { TextInput, Button, Loader, ScreenHeader } from 'app/components';
 import globalStyle from 'app/styles';
 
-export default class AuthScreen extends Component {
+class AuthScreen extends React.Component {
   constructor(props) {
     super(props);
 
@@ -56,14 +57,15 @@ export default class AuthScreen extends Component {
       }
     };
 
-    let toggleIcon = <Icon name='user-plus' color='#fff' size={20} onPress={this.toggleForms.bind(this)} />;
+    let navBackIcon = this.props.navigation.getParam('navBackIcon', false);
 
+    let toggleText = <Text style={styles.toggleText} onPress={this.toggleForms.bind(this)}>Create an account</Text>;
     if (this.props.auth.createAccountForm) {
-      toggleIcon = <Icon name='sign-in' color='#fff' size={20} onPress={this.toggleForms.bind(this)} />;
+      toggleText = <Text style={styles.toggleText} onPress={this.toggleForms.bind(this)}>Login to your account</Text>;
 
       return (
         <View style={{flex: 1}}>
-          <ScreenHeader title={trans('create_account', this.props.lang)} right={toggleIcon} navigation={this.props.navigation} />
+          <ScreenHeader title={trans('create_account', this.props.lang)} left={navBackIcon} navigation={this.props.navigation} />
           <KeyboardAwareScrollView {...scrollViewProps}>
             <Image style={styles.logo} source={require('../../../assets/images/logo-white.png')} />
             <View style={styles.wrapper}>
@@ -72,7 +74,8 @@ export default class AuthScreen extends Component {
               <TextInput key='email' label={trans('email', this.props.lang)} defaultValue={this.state.email} editable={!this.props.auth.loading} placeholder="Your email" onChangeText={this.onChange.bind(this, 'email')} autoCapitalize='none' />
               <TextInput key='phone' label={trans('phone', this.props.lang)} defaultValue={this.state.phone} editable={!this.props.auth.loading} placeholder="Your phone number" onChangeText={this.onChange.bind(this, 'phone')} />
               <TextInput key='password' label={trans('password', this.props.lang)} defaultValue={this.state.password} editable={!this.props.auth.loading} placeholder="Choose a password" hint="Minimum 8 characters" onChangeText={this.onChange.bind(this, 'password')} secureTextEntry />
-              <Button style={buttonStyle} icon='user' onPress={this.onSignup.bind(this)} title="Create account" accessibilityLabel="Create account" loading={this.props.auth.loading} />
+              <Button icon='user' style={styles.button} onPress={this.onSignup.bind(this)} title="Create account" accessibilityLabel="Create account" loading={this.props.auth.loading} />
+              {toggleText}
             </View>
           </KeyboardAwareScrollView>
         </View>
@@ -81,20 +84,31 @@ export default class AuthScreen extends Component {
 
     return (
       <View style={{flex: 1}}>
-        <ScreenHeader title={trans('login', this.props.lang)} right={toggleIcon} navigation={this.props.navigation} />
+        <ScreenHeader title={trans('login', this.props.lang)} left={navBackIcon} navigation={this.props.navigation} />
         <KeyboardAwareScrollView {...scrollViewProps}>
           <Image style={styles.logo} source={require('../../../assets/images/logo-white.png')} />
           <View style={styles.wrapper}>
-            <Text style={styles.infoText}>Login to your account to shop local food directly from your local producers</Text>
+            <Text style={styles.infoText}>Login to your account to order local food directly from your local producers</Text>
             <TextInput key='email' label={trans('email', this.props.lang)} defaultValue={this.state.email} editable={!this.props.auth.loading} placeholder='Your email' onChangeText={this.onChange.bind(this, 'email')} autoCapitalize='none' />
             <TextInput key='password' label={trans('password', this.props.lang)} defaultValue={this.state.password} editable={!this.props.auth.loading} placeholder='Your password' onChangeText={this.onChange.bind(this, 'password')} secureTextEntry />
-            <Button style={buttonStyle} icon='sign-in' onPress={this.onLogin.bind(this)} title="Login" accessibilityLabel="Login" loading={this.props.auth.loading} />
+            <Button icon='sign-in' style={styles.button} onPress={this.onLogin.bind(this)} title="Login" accessibilityLabel="Login" loading={this.props.auth.loading} />
+            {toggleText}
           </View>
         </KeyboardAwareScrollView>
       </View>
     );
   }
 }
+
+function mapStateToProps(state) {
+  const { auth } = state;
+
+  return {
+    auth
+  }
+}
+
+export default connect(mapStateToProps)(AuthScreen);
 
 let styles = {
   logo: {
@@ -108,10 +122,21 @@ let styles = {
     color: '#fff',
     flex: 1,
     fontFamily: 'montserrat-regular',
-    fontSize: 14,
     lineHeight: 18,
     marginBottom: 30,
     textAlign: 'center',
+  },
+  toggleText: {
+    color: '#fff',
+    flex: 1,
+    fontFamily: 'montserrat-regular',
+    lineHeight: 18,
+    textAlign: 'center',
+  },
+  button: {
+    button: {
+      marginVertical: 15,
+    }
   },
   wrapper: {
     padding: 15,
@@ -120,21 +145,4 @@ let styles = {
     color: '#fff',
     fontFamily: 'montserrat-semibold',
   },
-};
-
-const buttonStyle = {
-  button: {
-    backgroundColor: '#ff9800',
-    marginTop: 15,
-  },
-  title: {
-    color: '#333',
-    fontFamily: 'montserrat-semibold',
-  },
-  icon: {
-    color: '#333',
-  },
-  loader: {
-    color: '#333',
-  }
 };

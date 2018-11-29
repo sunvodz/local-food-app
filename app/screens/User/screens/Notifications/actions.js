@@ -11,7 +11,8 @@ export function fetchNotifications() {
         url: '/api/v1/users/notifications'
       });
 
-      let notifications = _.sortBy(response.data, (notification) => {
+      let data = await response.json();
+      let notifications = _.sortBy(data, (notification) => {
         return notification.created_at;
       });
 

@@ -32,7 +32,7 @@ class Nodes extends React.Component {
     const { loading, nodes } = this.props.nodes;
 
     if (!this.props.auth.user || this.props.auth.loading) {
-      return <AuthScreen {...this.props} fullscreen={true} />;
+      return <AuthScreen {...this.props} />;
    }
 
     if (loading) {

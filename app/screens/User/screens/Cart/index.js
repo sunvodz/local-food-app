@@ -112,7 +112,7 @@ class Cart extends React.Component {
     const { loading, refreshing, cart } = this.props.cart;
 
     if (!this.props.auth.user || this.props.auth.loading) {
-      return <AuthScreen {...this.props} fullscreen={true} />;
+      return <AuthScreen {...this.props} />;
     }
 
     if (loading) {
@@ -170,7 +170,7 @@ class Cart extends React.Component {
         <List {...listProps} />
         <View style={styles.orderWrapper}>
           <View style={styles.orderTotals}>{totalCost}</View>
-          <Button style={styles.orderButton} loading={this.props.cart.creating} icon='shopping-basket' title={trans('send_order', this.props.lang)} onPress={this.createOrder.bind(this)} />
+          <Button loading={this.props.cart.creating} icon='shopping-basket' title={trans('send_order', this.props.lang)} onPress={this.createOrder.bind(this)} />
         </View>
       </View>
     );

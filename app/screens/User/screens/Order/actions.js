@@ -18,7 +18,7 @@ export function fetchOrder(orderDateItemLinkId) {
         url: `/api/v1/users/order/${orderDateItemLinkId}`
       });
 
-      let order = response.data;
+      let order = await response.json();
 
       return dispatch(receiveOrder(order));
     } catch (error) {
@@ -66,7 +66,7 @@ export function deleteOrder(orderDateItemLinkId) {
         url: `/api/v1/users/order/${orderDateItemLinkId}`
       });
 
-      let orders = response.data;
+      let orders = await response.json();
 
       let orderedOrders = [];
       for (let i = 0; i < orders.length; i++) {

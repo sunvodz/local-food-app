@@ -37,14 +37,13 @@ let styles = {
     borderRadius: 2,
     elevation: 0,
     fontFamily: 'montserrat-regular',
-    padding: 7,
+    padding: 15,
     textDecorationLine: 'none',
   },
   placeholderColor: '#666',
   hint: {
     color: '#fff',
     fontFamily: 'montserrat-regular',
-    fontSize: 12,
     marginTop: 3,
   }
 };

@@ -1,4 +1,3 @@
-import { API_URL } from 'react-native-dotenv';
 import { api, sharedActions } from 'app/shared';
 import * as actionTypes from './actionTypes';
 
@@ -53,11 +52,9 @@ export function fetchNodes() {
     try {
       dispatch(requestNodes());
 
-      let response = await api.call({
-        url: '/api/v1/nodes',
-      });
-
-      let nodes = response.data;
+      let response = await fetch('https://api.localfoodnodes.org/v1.0/nodes/data');
+      let jsonResponse = await response.json();
+      let nodes = jsonResponse.data;
 
       dispatch(receiveNodes(nodes));
     } catch (error) {
@@ -100,11 +97,9 @@ export function refreshNodes() {
     try {
       dispatch(refreshingNodes());
 
-      let response = await api.call({
-        url: '/api/v1/nodes',
-      });
-
-      let nodes = response.data;
+      let response = await fetch('https://api.localfoodnodes.org/v1.0/nodes/data');
+      let jsonResponse = await response.json();
+      let nodes = jsonResponse.data;
 
       dispatch(receiveNodes(nodes));
     } catch (error) {

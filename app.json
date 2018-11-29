@@ -1,11 +1,13 @@
 {
+  "name": "local-food-app",
+  "displayName": "local-food-app",
   "expo": {
     "name": "Local Food App",
     "description": "Local Food Nodes connects local food producers to local food consumers as well as strengthening those relationships that already exist. We enable direct transactions, resilient communities and regain control over what we eat and how it is produced. A desire to make food local again.",
     "orientation": "portrait",
     "privacy": "public",
     "version": "1.0.4",
-    "sdkVersion": "26.0.0",
+    "sdkVersion": "31.0.0",
     "slug": "local-food-app",
     "icon": "./assets/images/logo-expo-1024.png",
     "primaryColor": "#bf360c",

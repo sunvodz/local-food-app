@@ -14,7 +14,7 @@ export function fetchLanguages() {
       url: '/api/v1/settings/languages'
     });
 
-    let languages = response.data;
+    let languages = await response.json();
 
     return dispatch(receiveLanguages(languages));
   }

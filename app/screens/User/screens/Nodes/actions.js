@@ -11,7 +11,8 @@ export function fetchUserNodes() {
         url: '/api/v1/users/nodes'
       });
 
-      let nodes = _.sortBy(response.data, node => {
+      let data = await response.json();
+      let nodes = _.sortBy(data, node => {
         return node.name;
       });
 

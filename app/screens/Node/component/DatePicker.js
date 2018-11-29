@@ -18,9 +18,12 @@ class DatePicker extends Component {
       return null;
     }
 
-    let badgeItems = _.map(this.props.dates, (date) => {
+    let badgeItems = _.map(this.props.dates, (date, index) => {
       let isSelected = date === selectedDate;
-      return <BadgeDate key={date} labelTop={moment(date).format('D')} labelBottom={trans(moment(date).format('MMM'), this.props.lang)} selected={isSelected} onPress={this.onSelectDate.bind(this, date)} />;
+      let firstChild = (index === 0) ? true : false;
+      let lastChild = (index === this.props.dates.length - 1) ? true : false;
+
+      return <BadgeDate key={date} labelTop={moment(date).format('D')} labelBottom={trans(moment(date).format('MMM'), this.props.lang)} selected={isSelected} firstChild={firstChild} lastChild={lastChild} onPress={this.onSelectDate.bind(this, date)} />;
     })
 
     return (

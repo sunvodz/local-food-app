@@ -11,7 +11,7 @@ export function fetchNode(nodeId) {
         url: `/api/v1/nodes/${nodeId}`
       });
 
-      let node = response.data;
+      let node = await response.json();
 
       dispatch(receiveNode(node));
     } catch (error) {
@@ -61,7 +61,7 @@ export function fetchProducts(filters) {
         url: url
       });
 
-      let products = response.data;
+      let products = await response.json();
 
       // Shuffle
       for (let i = products.length - 1; i > 0; i--) {
@@ -118,7 +118,8 @@ export function fetchNodeDates(nodeId) {
         url: `/api/v1/nodes/${nodeId}/dates`
       });
 
-      let dates = Object.values(response.data).sort();
+      let data = await response.json();
+      let dates = Object.values(data).sort();
 
       dispatch(receiveNodeDates(dates));
 
@@ -180,11 +181,13 @@ export function addProductToCart(data) {
         data: data
       });
 
+      let jsonResponse = await response.json();
+
       dispatch(addToCartSuccess());
 
       return dispatch({
         type: actionTypes.RECEIVE_CART,
-        cart: response.data,
+        cart: jsonResponse.data,
         loading: false,
         refreshing: false,
       });

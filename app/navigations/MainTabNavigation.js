@@ -1,6 +1,6 @@
 import React from 'react';
 import { TabNavigator } from 'react-navigation';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { FontAwesome as Icon } from '@expo/vector-icons';
 
 import MapStackNavigation from './MapStackNavigation';
 import UserStackNavigation from './UserStackNavigation';

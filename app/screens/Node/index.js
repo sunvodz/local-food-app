@@ -81,8 +81,18 @@ class Node extends React.Component {
     this.setState({addToCart: null});
   }
 
-  navigateToSignIn() {
-    this.props.navigation.navigate('UserStackNavigation');
+  navigateToAuth() {
+    this.props.navigation.navigate('Auth', {
+      auth: this.props.auth,
+      navBackIcon: true,
+    });
+  }
+
+  navigateToMembership() {
+    this.props.navigation.navigate('Membership', {
+      auth: this.props.auth,
+      navBackIcon: true,
+    });
   }
 
   renderProduct(product, rowId) {
@@ -91,7 +101,7 @@ class Node extends React.Component {
       image = product.image_relationship[0].urls.medium;
     }
 
-    return <ProductCard key={product.id} product={product} image={image} auth={this.props.auth} onQuantityChange={this.onQuantityChange.bind(this)} navigateToSignIn={this.navigateToSignIn.bind(this)} lang={this.props.lang} />;
+    return <ProductCard key={product.id} product={product} image={image} auth={this.props.auth} onQuantityChange={this.onQuantityChange.bind(this)} lang={this.props.lang} />;
   }
 
   render() {
@@ -106,22 +116,19 @@ class Node extends React.Component {
       );
     }
 
-    if (!loadingProducts && (!products || products.length === 0)) {
-      return (
-        <View style={styles.view}>
-          <ScreenHeader title={this.props.navigation.state.params.name} left right navigation={this.props.navigation} />
-          <Empty icon="exclamation" header={trans('no_products', this.props.lang)} text={trans('no_products_text', this.props.lang)} />
-        </View>
-      );
-    }
-
     let content = (
-      <View style={{flex: 1}}>
+      <View style={styles.view}>
         <Loader />
       </View>
     );
 
-    if (!loadingProducts) {
+    if (!loadingProducts && (!products || products.length === 0)) {
+      content = (
+        <View style={styles.view}>
+          <Empty icon="exclamation" header={trans('no_products', this.props.lang)} text={trans('no_products_text', this.props.lang)} />
+        </View>
+      );
+    } else if (!loadingProducts && (products || products.length > 0)) {
       productCards = _.map(products, (product, index) => {
         return this.renderProduct(product, index);
       });
@@ -135,12 +142,28 @@ class Node extends React.Component {
 
     let userNotice = null;
     let userNoticeMessage = null;
-    if (this.props.auth.user && !this.props.auth.user.active) {
-      // If logged in but not a member - orders not possible
-      userNoticeMessage = <Text style={styles.userNoticeMessage}>{trans('user_not_member', this.props.lang)}</Text>;
+    if (this.props.auth.user && this.props.auth.user.membership_payments_relationship.length === 0) {
+      // If logged in but not a member
+      userNoticeMessage = (
+        <View>
+          <Button onPress={this.navigateToMembership.bind(this)} title="Become a member to order" />
+        </View>
+      );
+    } if (this.props.auth.user && !this.props.auth.user.active) {
+      // If logged in but not active
+      userNoticeMessage = (
+        <View>
+          <Text style={styles.userNoticeMessage}>{trans('user_not_active', this.props.lang)}</Text>
+          <Button onPress={this.navigateToMembership.bind(this)} title="Activate your account" />
+        </View>
+      );
     } else if (!this.props.auth.user) {
       // If not logged in
-      userNoticeMessage = <Text style={styles.userNoticeMessage}>{trans('user_not_loggedin', this.props.lang)}</Text>;
+      userNoticeMessage = (
+        <View>
+          <Button onPress={this.navigateToAuth.bind(this)} title="Login or create account" />
+        </View>
+      );
     }
 
     if (userNoticeMessage) {
@@ -163,7 +186,7 @@ class Node extends React.Component {
             <Text numberOfLines={1} style={styles.priceText}>{totalPrice}</Text>
           </View>
           <View style={styles.addToCartActionWrapper}>
-            <Button style={styles.addToCartButton} icon='shopping-basket' title={trans('add', this.props.lang)} onPress={this.addToCart.bind(this)} />
+            <Button icon='shopping-basket' title={trans('add', this.props.lang)} onPress={this.addToCart.bind(this)} />
             <Text style={styles.addToCartReset} onPress={this.resetCart.bind(this)}>{trans('reset', this.props.lang)}</Text>
           </View>
         </View>
@@ -172,7 +195,7 @@ class Node extends React.Component {
 
     let subTitle = trans('loading_products', this.props.lang);
     if (products && products.length > 0) {
-      subTitle= products.length + ' ' + trans('products_for_sale', this.props.lang);
+      subTitle = products.length + ' ' + trans('products_for_sale', this.props.lang);
     }
 
     return (
@@ -218,6 +241,7 @@ let styles = {
   userNoticeMessage: {
     color: '#fff',
     fontFamily: 'montserrat-regular',
+    marginBottom: 15,
   },
   addToCartWrapper: {
     backgroundColor: globalStyle.primaryColor,

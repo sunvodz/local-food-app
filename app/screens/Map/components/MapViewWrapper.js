@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import ClusteredMapView from 'react-native-maps-super-cluster';
 import { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import _ from 'lodash';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { FontAwesome as Icon } from '@expo/vector-icons';
 
 import { Loader, Empty, Button } from 'app/components';
 import MapCallout from './MapCallout';
@@ -54,7 +54,7 @@ export default class MapViewWrapper extends React.Component {
     )
   }
 
-  op(node) {
+  openCallout(node) {
     this.setState({callout: node});
   }
 
@@ -69,7 +69,7 @@ export default class MapViewWrapper extends React.Component {
 
   renderMarker(node) {
     return (
-      <Marker key={node.id} coordinate={node.location} onPress={this.op.bind(this, node)}>
+      <Marker key={node.id} coordinate={node.location} onPress={this.openCallout.bind(this, node)}>
         <Icon name="map-marker" size={32} color={globalStyle.primaryColor} />
       </Marker>
     );
@@ -88,6 +88,8 @@ export default class MapViewWrapper extends React.Component {
     }
 
     let mapData = _.map(_.cloneDeep(map.nodes), (node) => {
+      node = node.data;
+
       node.location.latitude = parseFloat(node.location.lat);
       node.location.longitude = parseFloat(node.location.lng);
 

@@ -24,6 +24,7 @@ function alertReducer(state, action) {
       break;
 
     // Success
+    // PAYMENT_SUCCESS doesn't need an alert since a new view is displayed instead
     case 'ADD_TO_CART_SUCCESS':
     case 'CREATE_ORDER_SUCCESS':
     case 'RESEND_EMAIL_SUCCESS':

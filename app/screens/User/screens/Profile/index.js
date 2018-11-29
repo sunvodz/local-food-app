@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { FontAwesome as Icon } from '@expo/vector-icons';
 
 import AuthScreen from 'app/screens/Auth';
 import ProfileTabNavigation from 'app/navigations/ProfileTabNavigation';
@@ -23,7 +23,7 @@ class Profile extends Component {
   render() {
     if (!this.props.auth.user || this.props.auth.loading) {
       return (
-        <AuthScreen {...this.props} fullscreen={true} />
+        <AuthScreen {...this.props} />
       );
     }
 
@@ -32,7 +32,7 @@ class Profile extends Component {
       lang: this.props.lang,
     }
 
-    let helpIcon = <Icon name='question-circle' size={24} color='#fff' onPress={this.navigateToHelp.bind(this)} />;
+    let helpIcon = <Icon name='question-circle-o' size={24} color='#fff' onPress={this.navigateToHelp.bind(this)} />;
 
     return (
       <View style={{flex: 1}}>

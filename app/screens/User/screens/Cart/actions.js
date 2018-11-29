@@ -19,7 +19,7 @@ export function fetchCart(refreshing) {
       url: '/api/v1/users/cart'
     });
 
-    let cart = response.data;
+    let cart = await response.json();
 
     return dispatch(receiveCart(cart));
   }
@@ -65,7 +65,7 @@ export function removeCartItem(cartDateItemLinkId) {
       method: 'delete',
     });
 
-    let updatedCart = response.data;
+    let updatedCart = await response.json();
 
     return dispatch(removedCartItem(updatedCart));
   }
@@ -105,10 +105,12 @@ export function updateCartItem(id, quantity) {
         }
       });
 
-      if (_.isArray(response.data)) {
-        dispatch(updatedCartItems(response.data));
+      let jsonResponse = await response.json();
+
+      if (_.isArray(jsonResponse.data)) {
+        dispatch(updatedCartItems(jsonResponse.data));
       } else {
-        dispatch(updatedCartItem(response.data));
+        dispatch(updatedCartItem(jsonResponse.data));
       }
     } catch (error) {
       dispatch(updatingCartFailed(error));

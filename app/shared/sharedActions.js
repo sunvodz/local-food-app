@@ -3,7 +3,7 @@ import { Permissions, Notifications, Location } from 'expo';
 import api from './api';
 import * as sharedActionTypes from './sharedActionTypes';
 
-import { STRIPE_PUBLISHABLE_KEY } from 'react-native-dotenv';
+import { STRIPE_PUBLISHABLE_KEY } from 'app/env.json';
 var stripe = require('stripe-client')(STRIPE_PUBLISHABLE_KEY);
 
 const PUSH_ENDPOINT = '/api/v1/users/push-token';
@@ -85,7 +85,8 @@ export function loginUser(data) {
         }
       });
 
-      let user = response.data;
+      let user = await response.json();
+
       user.password = data.password;
       await AsyncStorage.setItem('@store:user', JSON.stringify(user));
 
@@ -158,6 +159,7 @@ export function loadUser(refreshing) {
 
       // Check if user object is in storage
       let user = await AsyncStorage.getItem('@store:user');
+
       if (user) {
         user = JSON.parse(user);
 
@@ -170,7 +172,7 @@ export function loadUser(refreshing) {
           }
         });
 
-        user = response.data;
+        user = await response.json();
 
         return dispatch(loginComplete(user));
       } else {
@@ -265,6 +267,7 @@ export function paymentFailed(error) {
 export function paymentSuccess(user) {
   return {
     type: sharedActionTypes.PAYMENT_SUCCESS,
+    paymentInProgress: false,
     user: user,
     title: 'membership',
     message: 'payment_success',

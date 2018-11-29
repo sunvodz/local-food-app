@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ImageBackground, Dimensions } from 'react-native';
 
-import { Link } from 'app/components';
+import Link from './Link';
 import { trans } from 'app/shared';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { FontAwesome as Icon } from '@expo/vector-icons';
 import globalStyle from 'app/styles';
 
 export default class NodeCard extends React.Component {
@@ -20,25 +20,31 @@ export default class NodeCard extends React.Component {
 
     let remove = this.props.removeNode ? <Link title={trans('remove', this.props.lang)} onPress={this.removeNode.bind(this)}/> : null;
 
+    let imageProps = {
+      source: require('../../assets/images/node-placeholder.jpg'), // Product fallback image
+      style: styles.modalHeaderImage,
+    }
+
+    if (node.image_relationship.length > 0) {
+      imageProps.source = {uri: node.image_relationship[0].urls.small};
+    }
+
+    let modalHeader = (
+      <ImageBackground {...imageProps}>
+        <View style={styles.timeBadge}>
+          <Icon style={styles.timeIcon} name='clock-o' />
+          <Text style={styles.timeText}>{trans(node.delivery_weekday, this.props.lang)} {node.delivery_time}</Text>
+        </View>
+      </ImageBackground>
+    );
+
     return (
       <View style={styles.modal}>
-        <View style={styles.modalContent}>
+        {modalHeader}
+        <View style={styles.modalBody}>
           <Text style={styles.title}>{node.name}</Text>
           <View style={styles.row}>
-            <Icon style={styles.icon} name='map-marker' />
-            <Text style={styles.text}>{node.city}</Text>
-          </View>
-          <View style={styles.row}>
-            <Icon style={styles.icon} name='home' />
-            <Text style={styles.text}>{node.address} {node.zip}</Text>
-          </View>
-          <View style={styles.row}>
-            <Icon style={styles.icon} name='clock-o' />
-            <Text style={styles.text}>{trans(node.delivery_weekday, this.props.lang)} {node.delivery_time}</Text>
-          </View>
-          <View style={styles.row}>
-            <Icon style={styles.icon} name='envelope' />
-            <Text style={styles.text}>{node.email}</Text>
+            <Text style={styles.text}>{node.address} {node.zip} {node.city}</Text>
           </View>
         </View>
         <View style={styles.modalFooter}>
@@ -52,12 +58,42 @@ export default class NodeCard extends React.Component {
 
 let styles = {
   modal: {
+    backgroundColor: '#fff',
     elevation: 0,
     marginVertical: 5,
-    backgroundColor: '#fff',
+    overflow: 'hidden',
   },
-  modalContent: {
+  modalHeader: {
+    backgroundColor: '#efcec4',
+    height: 200,
+  },
+  modalHeaderImage: {
+    width: Dimensions.get('window').width - 30,
+    height: Dimensions.get('window').width / 1.5,
+  },
+  modalBody: {
     margin: 15,
+  },
+  timeBadge: {
+    alignSelf: 'flex-start',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    borderRadius: 15,
+    color: '#fff',
+    flexDirection: 'row',
+    marginLeft: 15,
+    marginTop: 15,
+    overflow: 'hidden',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  timeIcon: {
+    color: '#fff',
+    fontSize: 16,
+    marginRight: 5,
+  },
+  timeText: {
+    color: '#fff',
+    fontFamily: 'montserrat-semibold',
   },
   row: {
     alignItems: 'center',
@@ -71,15 +107,15 @@ let styles = {
     width: 16,
   },
   title: {
-    fontFamily: 'montserrat-semibold',
-    fontSize: 20,
+    fontFamily: 'montserrat-regular',
+    fontSize: 24,
   },
   text: {
     fontFamily: 'montserrat-regular',
   },
   modalFooter: {
     borderTopColor: globalStyle.backgroundColor,
-    borderTopWidth: 2,
+    borderTopWidth: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 15,

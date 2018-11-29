@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { FontAwesome as Icon } from '@expo/vector-icons';
 
 import { ScreenHeader } from 'app/components';
 import MapViewWrapper from './components/MapViewWrapper';
@@ -73,10 +73,6 @@ let styles = {
   calloutHeader: {
     fontWeight: 'bold',
   },
-  leftIcon: {
-    paddingVertical: 20,
-    paddingRight: 20,
-  }
 };
 
 export default connect(mapStateToProps)(Map);

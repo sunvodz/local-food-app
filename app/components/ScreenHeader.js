@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, StatusBar, Platform } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { View, Text, StatusBar, Platform, SafeAreaView } from 'react-native';
+import { FontAwesome as Icon } from '@expo/vector-icons';
 
 import { CartIcon } from 'app/containers';
 import globalStyle from 'app/styles';
@@ -39,7 +39,7 @@ class ScreenHeader extends React.Component {
     }
 
     return (
-      <View style={styles.view}>
+      <SafeAreaView style={styles.view}>
         <View style={styles.left}>
           {left}
         </View>
@@ -50,7 +50,7 @@ class ScreenHeader extends React.Component {
         <View style={styles.right}>
           {right}
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 }
@@ -71,18 +71,19 @@ let styles = {
     backgroundColor: globalStyle.primaryColor,
     flexDirection: 'row',
     paddingTop: Platform.OS === 'ios' ? 20 : StatusBar.currentHeight,
-    height: 88,
   },
   left: {
     alignItems: 'flex-start',
     alignSelf: 'center',
     flex: 1,
     marginLeft: 10,
+    paddingBottom: 10,
   },
   middle: {
     alignItems: 'center',
     flex: 3,
     justifyContent: 'center',
+    paddingBottom: 10,
   },
   middleTitle: {
     color: '#fff',
@@ -99,12 +100,11 @@ let styles = {
     alignSelf: 'center',
     flex: 1,
     marginRight: 10,
+    paddingBottom: 10,
   },
   backIcon: {
     color: '#fff',
     fontSize: 20,
-    paddingVertical: 20,
-    paddingRight: 20,
   },
   shoppingIcon: {
     color: '#fff',

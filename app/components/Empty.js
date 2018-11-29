@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ScrollView, RefreshControl, View, Text } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { FontAwesome as Icon } from '@expo/vector-icons';
 import globalStyle from 'app/styles';
 
 class Empty extends Component {

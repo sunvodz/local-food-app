@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { FontAwesome as Icon } from '@expo/vector-icons';
 import globalStyle from 'app/styles';
 
 import { trans, priceHelper, unitHelper } from 'app/shared';
@@ -37,10 +37,6 @@ export default class OrderForm extends React.Component {
     }
   }
 
-  navigateToSignIn() {
-    this.props.navigateToSignIn();
-  }
-
   render() {
     const { product, variant } = this.props;
     const producer = product.producer_relationship;
@@ -60,14 +56,14 @@ export default class OrderForm extends React.Component {
       availableQuantity = variant.available_quantity;
     }
 
+    let packageUnitBadge = null;
     if (packageUnit) {
-      packageUnit = <Text numberOfLines={1} style={styles.packageUnitText}>{packageUnit}</Text>;
+      packageUnitBadge = <View style={styles.priceItem}><Text numberOfLines={1} style={styles.priceText}>{packageUnit}</Text></View>;
     }
 
     let quantityForm = null;
 
-    if (this.props.auth.user && this.props.auth.user.active) {
-      // If logged in and a member - orders are possible
+    if (this.props.auth.user && this.props.auth.user.active && this.props.auth.user.membership_payments_relationship.length > 0) {
       if (parseInt(availableQuantity) > 0) {
         quantityForm = (
           <View style={styles.quantity}>
@@ -100,10 +96,10 @@ export default class OrderForm extends React.Component {
         <View style={styles.priceView}>
           <View>
             <Text numberOfLines={1} style={styles.productName}>{productName}</Text>
-            {packageUnit}
           </View>
           <View style={styles.priceRow}>
             {productPriceItem}
+            {packageUnitBadge}
           </View>
         </View>
         <View style={styles.orderFormRow}>
@@ -117,7 +113,6 @@ export default class OrderForm extends React.Component {
 let styles = {
   view: {
     backgroundColor: '#fff',
-    paddingBottom: 15,
   },
   signin: {
     fontFamily: 'montserrat-regular',
@@ -130,26 +125,21 @@ let styles = {
   },
   quantity: {
     borderColor: '#e4e4e0',
-    justifyContent: 'center',
     flex: 2,
     flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 5,
   },
   priceView: {
     paddingHorizontal: 15,
-    paddingVertical: 5,
   },
   productName: {
     fontFamily: 'montserrat-semibold',
-    marginBottom: 5,
-  },
-  packageUnitText: {
-    fontFamily: 'montserrat-regular',
-    marginTop: -5,
-    marginBottom: 5,
+    marginTop: 10,
+    marginBottom: 10,
   },
   priceRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
   },
   infoItem: {
     flexDirection: 'row',
@@ -164,15 +154,13 @@ let styles = {
   priceItem: {
     backgroundColor: globalStyle.primaryColor,
     borderRadius: 15,
+    marginRight: 15,
     paddingHorizontal: 10,
     paddingVertical: 5,
   },
   priceText: {
     color: '#fff',
     fontFamily: 'montserrat-semibold',
-  },
-  alignRight: {
-    textAlign: 'right',
   },
   decrease: {
     alignItems: 'center',

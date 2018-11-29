@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Image, ImageBackground, Dimensions } from 'react-native';
 import striptags from 'striptags';
 import Swiper from 'react-native-swiper';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { FontAwesome as Icon } from '@expo/vector-icons';
 
 import { trans } from 'app/shared';
 import OrderForm from './OrderForm';
@@ -47,10 +47,6 @@ export default class ProductCard extends React.Component {
     data.producer = this.props.product.producer_relationship;
 
     this.props.onQuantityChange(data);
-  }
-
-  navigateToSignIn() {
-    this.props.navigateToSignIn();
   }
 
   toggleReadMore() {
@@ -116,14 +112,16 @@ export default class ProductCard extends React.Component {
 
     return (
       <View style={styles.product}>
-        <View>
-          <Text numberOfLines={2} style={styles.productTitle}>{product.name}</Text>
-          <Text numberOfLines={1} style={styles.producerTitle}>{product.producer_relationship.name}</Text>
+        <View style={styles.productCard}>
+          <View>
+            <Text numberOfLines={2} style={styles.productTitle}>{product.name}</Text>
+            <Text numberOfLines={1} style={styles.producerTitle}>{product.producer_relationship.name}</Text>
+          </View>
+          {swipe}
+          <OrderForm auth={this.props.auth} product={product} variant={this.state.variant} onQuantityChange={this.onQuantityChange.bind(this)} lang={this.props.lang} />
+          <Text style={styles.info}>{productInfo}</Text>
+          {readMore}
         </View>
-        {swipe}
-        <OrderForm auth={this.props.auth} product={product} variant={this.state.variant} onQuantityChange={this.onQuantityChange.bind(this)} navigateToSignIn={this.navigateToSignIn.bind(this)} lang={this.props.lang} />
-        <Text style={styles.info}>{productInfo}</Text>
-        {readMore}
       </View>
     );
   }
@@ -134,9 +132,11 @@ let styles = {
     flex: 1,
   },
   product: {
-    paddingBottom: 15,
-    borderBottomWidth: 15,
-    borderColor: globalStyle.backgroundColor,
+    borderBottomWidth: 2,
+    borderBottomColor: globalStyle.backgroundColor,
+  },
+  productCard: {
+    backgroundColor: '#fff',
   },
   productTitle: {
     color: '#333',
@@ -150,7 +150,7 @@ let styles = {
     color: '#666',
     fontFamily: 'montserrat-regular',
     paddingHorizontal: 15,
-    paddingTop: 0,
+    paddingTop: 2,
     paddingBottom: 15,
   },
   image: {
@@ -161,6 +161,7 @@ let styles = {
   },
   info: {
     fontFamily: 'montserrat-regular',
+    lineHeight: 20,
     padding: 15,
   },
   readMore: {
