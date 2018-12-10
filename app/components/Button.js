@@ -70,6 +70,6 @@ let styles = {
     marginBottom: 1,
   },
   disabled: {
-    opacity: 0.2,
+    opacity: 0.5,
   },
 };

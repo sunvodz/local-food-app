@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Text, View, Image } from 'react-native';
+import { Switch } from 'react-native-switch';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { FontAwesome as Icon } from '@expo/vector-icons';
 import _ from 'lodash';
 
 import { sharedActions, trans } from 'app/shared';
-import { TextInput, Button, Loader, ScreenHeader } from 'app/components';
+import { TextInput, Button, Loader, ScreenHeader, SelectInput } from 'app/components';
 import globalStyle from 'app/styles';
 
 class AuthScreen extends React.Component {
@@ -18,6 +18,8 @@ class AuthScreen extends React.Component {
       email: null,
       phone: null,
       password: null,
+      terms: false,
+      language: 'en',
     }
   }
 
@@ -41,6 +43,14 @@ class AuthScreen extends React.Component {
 
   toggleForms() {
     this.props.dispatch(sharedActions.toggleAuthForm());
+  }
+
+  onTermsChange() {
+    this.setState({terms: !this.state.terms});
+  }
+
+  onLanguageChange(language) {
+    this.setState({language: language});
   }
 
   render() {
@@ -74,7 +84,39 @@ class AuthScreen extends React.Component {
               <TextInput key='email' label={trans('email', this.props.lang)} defaultValue={this.state.email} editable={!this.props.auth.loading} placeholder="Your email" onChangeText={this.onChange.bind(this, 'email')} autoCapitalize='none' />
               <TextInput key='phone' label={trans('phone', this.props.lang)} defaultValue={this.state.phone} editable={!this.props.auth.loading} placeholder="Your phone number" onChangeText={this.onChange.bind(this, 'phone')} />
               <TextInput key='password' label={trans('password', this.props.lang)} defaultValue={this.state.password} editable={!this.props.auth.loading} placeholder="Choose a password" hint="Minimum 8 characters" onChangeText={this.onChange.bind(this, 'password')} secureTextEntry />
-              <Button icon='user' style={styles.button} onPress={this.onSignup.bind(this)} title="Create account" accessibilityLabel="Create account" loading={this.props.auth.loading} />
+
+              <SelectInput
+                label='Select language'
+                placeholder={{label: 'Select language', value: null}}
+                items={[{
+                  label: 'English',
+                  value: 'en',
+                },
+                {
+                  label: 'Svenska',
+                  value: 'sv',
+                }]}
+                style={{fontSize: 20}}
+                onValueChange={this.onLanguageChange.bind(this)}
+                hideIcon={true}
+                value={this.state.language} />
+
+              <View style={styles.switchWrapper}>
+                <Switch
+                  value={this.state.terms}
+                  onValueChange={this.onTermsChange.bind(this)}
+                  disabled={false}
+                  backgroundActive={'#d58067'}
+                  backgroundInactive={'#d58067'}
+                  circleActiveColor={'#fff'}
+                  circleInActiveColor={'#fff'}
+                  circleBorderWidth={0}
+                  circleSize={24}
+                  />
+                  <Text style={styles.switchLabel}>{this.state.terms ? 'I accept' : 'I dont accept'}</Text>
+              </View>
+              <Text style={{color: '#fff', flex: 1, marginTop: 5, marginBottom: 5, fontFamily: 'montserrat-regular'}}>Before you can become a member you have to accept our terms and privacy policy</Text>
+              <Button icon='user' style={styles.button} onPress={this.onSignup.bind(this)} title="Create account" accessibilityLabel="Create account" loading={this.props.auth.loading} disabled={!this.state.terms}/>
               {toggleText}
             </View>
           </KeyboardAwareScrollView>
@@ -145,4 +187,17 @@ let styles = {
     color: '#fff',
     fontFamily: 'montserrat-semibold',
   },
+  switchWrapper: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+  },
+  switchLabel: {
+    color: '#fff',
+    flex: 1,
+    marginLeft: 10,
+    marginTop: 5,
+    fontFamily: 'montserrat-semibold',
+  }
 };

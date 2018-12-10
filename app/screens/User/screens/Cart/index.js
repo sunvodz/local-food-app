@@ -80,15 +80,10 @@ class Cart extends React.Component {
   renderListSection(cartDateItemLinks, sectionId, rowId) {
     let m = moment(cartDateItemLinks.key);
     let date = m.format('DD') + ' ' + trans(m.format('MMMM'), this.props.lang) + ' ' + m.format('YYYY');
-    // let numberOfListItems = cartDateItemLinks.items.length - 1;
 
     const { updatingCartItems } = this.props.cart;
 
     let listItems = _.map(cartDateItemLinks.items, (cartDateItemLink, index) => {
-      // let dateItem = cartDateItemLink.cart_date_relationship[0];
-      // let cartItem = cartDateItemLink.cart_item_relationship[0];
-      // let isLastListItem = index === numberOfListItems;
-
       let loading = updatingCartItems.indexOf(cartDateItemLink.id) !== -1;
       let cartItemProps = {
         key: cartDateItemLink.id,

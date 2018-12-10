@@ -19,8 +19,10 @@ class Alert extends Component {
     }
 
     if (_.isArray(alert.message)) {
-      alert.message = _.map(alert.message, m => {
-        return trans(m, this.props.lang);
+      alert.message = _.map(alert.message, message => {
+        message = message.charAt(0).toUpperCase() + message.slice(1);
+
+        return trans(message, this.props.lang);
       }).join(' ');
     } else {
       alert.message = trans(alert.message, this.props.lang)

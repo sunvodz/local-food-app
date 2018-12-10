@@ -6,22 +6,13 @@ import _ from 'lodash';
 class Api {
   async call(request) {
     try {
-      let url = request.url = API_URL + request.url; // Add base url
-      if (request.apiUrl) {
-        url = request.apiUrl + request.url; // Add base url
-      }
-
-      options = await this.extendOptions(request.options);
-
-      let response = await sdk.call(url, options); // request, options
+      let url = API_URL + request.url;
+      let options = await this.extendOptions(request);
+      let response = await sdk.call(url, options);
 
       return response;
     } catch (error) {
-      if (error.response && error.response.data) {
-        throw error.response.data;
-      } else {
-        throw 'api_error';
-      }
+      throw error;
     }
   }
 
@@ -47,11 +38,11 @@ class Api {
       user = JSON.parse(user);
 
       if (user) {
-        // User already logged in. Used if new token is needed
+        // Use logged in users credentials
         options.auth.username = user.email;
         options.auth.password = user.password;
       } else if (_.has(options, 'username') && _.has(options, 'password')) {
-        // Login in progress, generate new token
+        // Login new user
         options.auth.username = options.username;
         options.auth.password = options.password;
         options.renewToken = true;

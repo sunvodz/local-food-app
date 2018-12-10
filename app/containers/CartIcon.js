@@ -42,10 +42,7 @@ export default connect(mapStateToProps)(CartIcon);
 
 let styles = {
   wrapper: {
-    paddingTop: 10,
-    paddingRight: 10,
-    paddingBottom: 10,
-    paddingLeft: 10,
+
   },
   notificationWrapper: {
     backgroundColor: '#ff9800',
@@ -55,8 +52,8 @@ let styles = {
     height: 24,
     overflow: 'hidden',
     position: 'absolute',
-    right: 0,
-    top: 0,
+    right: -10,
+    top: -10,
     width: 24,
   },
   notificationText: {

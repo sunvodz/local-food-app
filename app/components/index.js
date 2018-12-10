@@ -14,6 +14,7 @@ import NodeCard from './NodeCard';
 import NumberInput from './NumberInput';
 import Picker from './Picker';
 import ScreenHeader from './ScreenHeader';
+import SelectInput from './SelectInput';
 import TextInput from './TextInput';
 
 export {
@@ -33,5 +34,6 @@ export {
   NumberInput,
   Picker,
   ScreenHeader,
+  SelectInput,
   TextInput,
 }

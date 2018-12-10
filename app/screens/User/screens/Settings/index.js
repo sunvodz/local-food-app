@@ -26,6 +26,12 @@ class Settings extends Component {
     navigate('Membership');
   }
 
+  navigateToHelp(donation) {
+    const { navigate } = this.props.userStackNavigation;
+
+    navigate('Help');
+  }
+
   navigateToDeleteAccount() {
     const { navigate } = this.props.userStackNavigation;
 
@@ -53,20 +59,27 @@ class Settings extends Component {
   }
 
   render() {
-    const { auth } = this.props;
+    const { auth, lang } = this.props;
 
-    let membershipStatus = <Text style={styles.text}>{trans('not_a_member', this.props.lang)}</Text>;
-    let membershipStatusAction = <Link onPress={this.navigateToMembershipPayment.bind(this, false)} title={trans('become_a_member', this.props.lang)} accessibilityLabel="Become a member" />;
+    let membershipStatus = <Text style={styles.text}>{trans('not_a_member', lang)}</Text>;
+    let membershipStatusAction = <Link onPress={this.navigateToMembershipPayment.bind(this, false)} title={trans('become_a_member', lang)} accessibilityLabel="Become a member" />;
     let payments = auth.user.membership_payments_relationship;
 
     if (!auth.user.active) {
-      membershipStatus = <Text style={styles.text}>{trans('activate_account_text', this.props.lang)}</Text>;
-      membershipStatusAction = <Link onPress={this.navigateToMembershipPayment.bind(this, true)} title={trans('activate_account', this.props.lang)} accessibilityLabel="Activate account membership" />;
+      membershipStatus = <Text style={styles.text}>{trans('activate_account_text', lang)}</Text>;
+      membershipStatusAction = <Link onPress={this.navigateToMembershipPayment.bind(this, true)} title={trans('activate_account', lang)} accessibilityLabel="Activate account membership" />;
     } else if (payments.length > 0) {
       let lastPayment = payments[payments.length - 1];
-      let membershipUntil = moment(lastPayment.created_at).add(1, 'y');
-      membershipStatus = <Text style={styles.text}>{trans('member_until', this.props.lang)} {membershipUntil.format('YYYY-MM-DD')}</Text>;
-      membershipStatusAction = <Link onPress={this.navigateToMembershipPayment.bind(this, true)} title={trans('renew_membership', this.props.lang)} accessibilityLabel="Renew membership" />;
+      if (lastPayment.created_at) {
+        // Yearly
+        let membershipUntil = moment(lastPayment.created_at).add(1, 'y');
+        membershipStatus = <Text style={styles.text}>{trans('member_yearly_until', lang)} {membershipUntil.format('YYYY-MM-DD')}</Text>;
+        membershipStatusAction = <Link onPress={this.navigateToMembershipPayment.bind(this, true)} title={trans('renew_membership', lang)} accessibilityLabel="Renew membership" />;
+      } else {
+        // Monthly
+        membershipStatus = <Text style={styles.text}>{trans('member_monthly', lang)}</Text>;
+        membershipStatusAction = <Link onPress={this.navigateToMembershipPayment.bind(this, true)} title={trans('renew_membership', lang)} accessibilityLabel="Renew membership" />;
+      }
     }
 
     let availableLanguages = {
@@ -85,18 +98,23 @@ class Settings extends Component {
       );
     });
 
-    let loggedInAs = `${trans('logged_in_as', this.props.lang)} ${auth.user.name}`;
+    let loggedInAs = `${trans('logged_in_as', lang)} ${auth.user.name}`;
+
+    let helpLink = <Link onPress={this.navigateToHelp.bind(this, true)} title={trans('help', lang)} accessibilityLabel={trans('help', lang)} />;
 
     return (
       <ContentWrapper onRefresh={this.onRefresh.bind(this)} refreshing={auth.refreshing}>
         <Card header={loggedInAs} headerPosition='outside' footer={membershipStatusAction} style={{card: {marginBottom: 0}}}>
           {membershipStatus}
         </Card>
-        <Card header={trans('select_language', this.props.lang)} headerPosition='outside'>
+        <Card header={trans('select_language', lang)} headerPosition='outside'>
           {languageItems}
         </Card>
+        <Card header={trans('help', lang)} headerPosition='outside' footer={helpLink}>
+          <Text>Help section</Text>
+        </Card>
         {/* <Text>Token: {this.props.settings.pushToken}</Text> */}
-        <Button onPress={this.onLogout.bind(this)} icon='sign-out' title={trans('logout', this.props.lang)} accessibilityLabel="Logout" />
+        <Button onPress={this.onLogout.bind(this)} icon='sign-out' title={trans('logout', lang)} accessibilityLabel="Logout" />
         {/*<Text style={styles.deleteAccountLink} onPress={this.navigateToDeleteAccount.bind(this)}>Delete account</Text>*/}
       </ContentWrapper>
     );

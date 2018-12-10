@@ -178,7 +178,7 @@ export function addProductToCart(data) {
       let response = await api.call({
         method: 'post',
         url: '/api/v1/users/cart',
-        data: data
+        body: data
       });
 
       let jsonResponse = await response.json();
@@ -187,7 +187,7 @@ export function addProductToCart(data) {
 
       return dispatch({
         type: actionTypes.RECEIVE_CART,
-        cart: jsonResponse.data,
+        cart: jsonResponse,
         loading: false,
         refreshing: false,
       });

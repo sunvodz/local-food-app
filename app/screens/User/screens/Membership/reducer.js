@@ -9,6 +9,13 @@ function membershipReducer(state, action) {
       });
       break;
 
+    case sharedActionTypes.CURRENCIES_IN_PROGRESS:
+    case sharedActionTypes.CURRENCIES_SUCCESS:
+      return Object.assign({}, state, {
+        currencies: action.currencies,
+      });
+      break;
+
     default:
       return Object.assign({}, state, {
           paymentInProgress: false,

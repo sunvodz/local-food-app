@@ -29,10 +29,25 @@ class LocalFoodNodesSDK {
       });
     }
 
-    return fetch(url, options)
-    .catch(function(error) {
+    if (options.body) {
+      try {
+        JSON.parse(options.body); // Nothing happens if body is already json
+      } catch (e) {
+        options.body = JSON.stringify(options.body); // Convert to json
+      }
+    }
+
+    try {
+      let response = await fetch(url, options);
+
+      if (response.status !== 200) {
+        throw response;
+      }
+
+      return response;
+    } catch (error) {
       throw error;
-    });
+    }
   }
 
   /**

@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, TextInput } from 'react-native';
+import { View, Text } from 'react-native';
 import styleMerger from 'app/shared/utils/styleMerger';
+import RNPickerSelect from 'react-native-picker-select';
 
 export default class TextInputComponent extends React.Component {
   render() {
@@ -16,7 +17,24 @@ export default class TextInputComponent extends React.Component {
     return (
       <View style={mergedStyles.wrapper}>
         {label}
-        <TextInput {...this.props} style={mergedStyles.textInput} underlineColorAndroid='transparent' placeholderTextColor={mergedStyles.placeholderColor} />
+        <RNPickerSelect
+          placeholder={this.props.placeholder}
+          items={this.props.items}
+          onValueChange={this.props.onValueChange}
+          hideIcon={this.props.hideIcon}
+          style={{
+            inputAndroidContainer: {
+              backgroundColor: '#fff',
+              padding: 15,
+            },
+            inputIOSContainer: {
+              backgroundColor: '#fff',
+              padding: 15,
+            },
+          }}
+          placeholderTextColor={'#666'}
+          value={this.props.value}
+        />
         <Text style={mergedStyles.hint}>{hint}</Text>
       </View>
     );
@@ -26,7 +44,6 @@ export default class TextInputComponent extends React.Component {
 let styles = {
   wrapper: {
     flex: 1,
-    marginBottom: 5,
   },
   label: {
     marginBottom: 5,

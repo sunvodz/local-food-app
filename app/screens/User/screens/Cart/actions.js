@@ -99,18 +99,19 @@ export function updateCartItem(id, quantity) {
       let response = await api.call({
         url: '/api/v1/users/cart',
         method: 'put',
-        data: {
+        body: {
           cartDateItemLinkId: id,
           quantity: quantity
         }
       });
 
-      let jsonResponse = await response.json();
+      let cartItemOrItems = await response.json();
+      console.log(cartItemOrItems);
 
-      if (_.isArray(jsonResponse.data)) {
-        dispatch(updatedCartItems(jsonResponse.data));
+      if (_.isArray(cartItemOrItems)) {
+        dispatch(updatedCartItems(cartItemOrItems));
       } else {
-        dispatch(updatedCartItem(jsonResponse.data));
+        dispatch(updatedCartItem(cartItemOrItems));
       }
     } catch (error) {
       dispatch(updatingCartFailed(error));

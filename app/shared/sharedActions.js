@@ -22,19 +22,22 @@ export function createAccount(data) {
     try {
       dispatch(createAccountInProgress());
 
-      await api.call({
+      let response = await api.call({
         url: '/api/v1/users',
         method: 'post',
-        data: {
+        body: {
           name: data.name,
           email: data.email,
           phone: data.phone,
           password: data.password,
+          terms: data.terms,
+          language: data.language,
         }
       });
 
       return dispatch(createAccountComplete());
     } catch (error) {
+      error = await error.json();
       return dispatch(createAccountFailed(error));
     }
   }
@@ -59,13 +62,14 @@ export function createAccountComplete(user) {
 }
 
 export function createAccountFailed(error) {
+  console.log(error);
   return {
     type: sharedActionTypes.CREATE_ACCOUNT_FAILED,
     loading: false,
     refreshing: false,
     user: null,
     title: 'Create account',
-    message: ['failed_create_account', error.message],
+    message: error.message,
   }
 }
 
@@ -79,10 +83,8 @@ export function loginUser(data) {
 
       let response = await api.call({
         url: '/api/v1/users/self',
-        options: {
-          username: data.email,
-          password: data.password
-        }
+        username: data.email,
+        password: data.password
       });
 
       let user = await response.json();
@@ -138,14 +140,14 @@ export function logoutComplete() {
   }
 }
 
-export function loginFailed() {
+export function loginFailed(error) {
   return {
     type: sharedActionTypes.LOGIN_FAILED,
     loading: false,
     refreshing: false,
     user: null,
     title: 'Login',
-    message: 'Authentication failed',
+    message: 'Authentication failed, check your email or password.',
   }
 }
 
@@ -166,10 +168,8 @@ export function loadUser(refreshing) {
         // Authenticate against the API. Fetch user updates
         let response = await api.call({
           url: '/api/v1/users/self',
-          options: {
-            username: user.email,
-            password: user.password
-          }
+          username: user.email,
+          password: user.password,
         });
 
         user = await response.json();
@@ -226,11 +226,14 @@ export function processPayment(data) {
       let response = await api.call({
         url: '/api/v1/users/membership',
         method: 'post',
-        data: {
+        body: {
           stripeToken: token.id,
-          amount: data.amount
+          amount: data.amount,
+          currency: data.currency,
         }
       });
+
+      let userData = await response.json();
 
       if (response.status !== 200) {
         throw response.data;
@@ -238,7 +241,7 @@ export function processPayment(data) {
 
       let storedUser = await AsyncStorage.getItem('@store:user');
       storedUser = JSON.parse(storedUser);
-      let updatedUser = Object.assign({}, storedUser, response.data);
+      let updatedUser = Object.assign({}, storedUser, userData);
       await AsyncStorage.setItem('@store:user', JSON.stringify(updatedUser));
 
       dispatch(paymentSuccess(updatedUser));
@@ -299,7 +302,7 @@ async function registerForPushNotificationsAsync(userEmail) {
   return await api.call({
     url: PUSH_ENDPOINT,
     method: 'post',
-    data: {
+    body: {
       token: token,
       email: userEmail,
     }
@@ -349,4 +352,48 @@ export function resendEmailSuccess() {
     title: 'activate_account',
     message: 'resending_email',
   };
+}
+
+/**
+ * Currencies
+ */
+export function getCurrencies(data) {
+  return async function(dispatch, getState) {
+    try {
+      dispatch(currenciesInProgress());
+
+      let response = await fetch('https://api.localfoodnodes.org/v1.0/currency/rates?enabled=1');
+      let currencies = await response.json();
+
+      return dispatch(currenciesComplete(currencies.data));
+    } catch (error) {
+      return dispatch(currenciesFailed(error));
+    }
+  }
+}
+
+export function currenciesInProgress() {
+  return {
+    type: sharedActionTypes.CURRENCIES_IN_PROGRESS,
+    loading: true,
+    refreshing: false,
+  }
+}
+
+export function currenciesComplete(currencies) {
+  return {
+    type: sharedActionTypes.CURRENCIES_SUCCESS,
+    loading: false,
+    refreshing: false,
+    currencies: currencies
+  }
+}
+
+export function currenciesFailed() {
+  return {
+    type: sharedActionTypes.CURRENCIES_FAILED,
+    loading: false,
+    refreshing: false,
+    currencies: null,
+  }
 }

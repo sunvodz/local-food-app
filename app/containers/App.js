@@ -22,7 +22,13 @@ class App extends Component {
     this.props.dispatch(sharedActions.loadUser());
     this.props.dispatch(mapActions.fetchCurrentLocation());
     this.props.dispatch(mapActions.fetchNodes());
-    this.props.dispatch(userNodesActions.fetchUserNodes());
+    // this.props.dispatch(userNodesActions.fetchUserNodes());
+  }
+
+  componentDidUpdate() {
+    if (this.props.auth.user && !this.props.nodes) {
+      this.props.dispatch(userNodesActions.fetchUserNodes());
+    }
   }
 
   handleNotification = (notification) => {
@@ -66,11 +72,12 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
-  const { map, auth } = state;
+  const { map, auth, nodes } = state;
 
   return {
     map,
-    auth
+    auth,
+    nodes
   }
 }
 
