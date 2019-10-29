@@ -1,4 +1,4 @@
-import * as actionTypes from './actionTypes';
+import * as actionTypes from 'app/screens/Node/actionTypes';
 
 function nodeReducer(state, action) {
   switch (action.type) {

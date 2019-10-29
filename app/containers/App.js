@@ -68,6 +68,7 @@ class App extends Component {
         <Alert lang={currentLang} />
       </View>
     );
+    // return tabbar
   }
 }
 

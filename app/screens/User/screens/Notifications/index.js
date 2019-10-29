@@ -1,14 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, ListView, Text } from 'react-native';
+import { View, Text, SafeAreaView } from 'react-native';
 import _ from 'lodash';
 import moment from 'moment/min/moment-with-locales';
 
 import { Empty, ScreenHeader, Loader, List, ListItem } from 'app/components';
 import { trans } from 'app/shared';
 import * as actions from './actions';
+import globalStyle from 'app/styles';
 
-const DataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+// const DataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
 class Notifications extends React.Component {
   constructor(props) {
@@ -25,10 +26,14 @@ class Notifications extends React.Component {
   }
 
   onRefresh() {
+    
     this.props.dispatch(actions.fetchNotifications());
   }
 
-  renderNotification(notification) {
+  renderNotification(item) {
+    // console.log(notification);
+    const notification = item.item;
+    
     let notificationMessage = trans(notification.message, this.props.lang);
 
     _.each(notification.variables, (value, variable) => {
@@ -50,37 +55,39 @@ class Notifications extends React.Component {
 
   render() {
     const { notifications, loading, refreshing } = this.props.notifications;
+    
 
     if (loading) {
       return (
-        <View style={{flex: 1}}>
-          <ScreenHeader title={trans('notifications', this.props.lang)} right navigation={this.props.navigation} />
+        <SafeAreaView style={{flex: 1, backgroundColor: globalStyle.primaryColor}}>
+          {/* <ScreenHeader title={trans('notifications', this.props.lang)} right navigation={this.props.navigation} /> */}
           <Loader />
-        </View>
+        </SafeAreaView>
       );
     }
 
     if (_.isEmpty(notifications) && !loading) {
       return (
-        <View style={{flex: 1}}>
-          <ScreenHeader title={trans('notifications', this.props.lang)} right navigation={this.props.navigation} />
+        <SafeAreaView style={{flex: 1, backgroundColor: globalStyle.primaryColor}}>
+          {/* <ScreenHeader title={trans('notifications', this.props.lang)} right navigation={this.props.navigation} /> */}
           <Empty icon="bell" header={trans('no_notification', this.props.lang)} text={trans('no_notification_text', this.props.lang)} />
-        </View>
+        </SafeAreaView>
       );
     }
 
     let listProps = {
-      dataSource: DataSource.cloneWithRows(notifications),
-      renderRow: this.renderNotification.bind(this),
+      // dataSource: DataSource.cloneWithRows(notifications),
+      data: notifications,
+      renderItem: this.renderNotification.bind(this),
       onRefresh: this.onRefresh.bind(this),
       refreshing: refreshing,
     }
 
     return (
-      <View style={{flex: 1}}>
-        <ScreenHeader title={trans('notifications', this.props.lang)} right navigation={this.props.navigation} />
+      <SafeAreaView style={{flex: 1, backgroundColor: globalStyle.primaryColor}}>
+        {/* <ScreenHeader title={trans('notifications', this.props.lang)} right navigation={this.props.navigation} /> */}
         <List {...listProps} style={styles.list} />
-      </View>
+      </SafeAreaView>
     );
   }
 }

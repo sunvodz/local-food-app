@@ -21,7 +21,7 @@ class CartIcon extends Component {
     }
 
     return (
-      <TouchableOpacity style={styles.wrapper} activeOpacity={1} onPress={this.props.onPress}>
+      <TouchableOpacity style={[styles.wrapper, this.props.style]} activeOpacity={1} onPress={this.props.onPress}>
         <Icon name="shopping-basket" size={this.props.size} color={this.props.color}/>
         {notification}
       </TouchableOpacity>

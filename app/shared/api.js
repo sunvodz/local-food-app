@@ -1,5 +1,5 @@
 import { AsyncStorage } from 'react-native';
-import { API_URL, CLIENT_ID, CLIENT_SECRET } from 'app/env.json';
+import { API_URL, API_CLIENT_ID, API_CLIENT_SECRET } from 'app/env.json';
 import sdk from 'localfoodnodes-js-sdk';
 import _ from 'lodash';
 
@@ -30,24 +30,25 @@ class Api {
       options.auth = {
         username: null,
         password: null,
-        client_id: CLIENT_ID,
-        client_secret: CLIENT_SECRET,
+        client_id: API_CLIENT_ID,
+        client_secret: API_CLIENT_SECRET,
       };
 
       let user = await AsyncStorage.getItem('@store:user');
       user = JSON.parse(user);
 
-      if (user) {
-        // Use logged in users credentials
-        options.auth.username = user.email;
-        options.auth.password = user.password;
-      } else if (_.has(options, 'username') && _.has(options, 'password')) {
+      if (_.has(options, 'username') && _.has(options, 'password')) {
         // Login new user
         options.auth.username = options.username;
         options.auth.password = options.password;
         options.renewToken = true;
-      }
-
+      } else if (user) {
+        // Use logged in users credentials
+        options.auth.username = user.email;
+        options.auth.password = user.password;
+      } 
+      // console.log(options);
+      
       return options;
     } catch (error) {
       throw error;

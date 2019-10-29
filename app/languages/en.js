@@ -7,6 +7,7 @@ module.exports = {
   'amount': 'Amount',
   'amount_placeholder': 'Any amount',
   'become_a_member': 'Become a member',
+  'donate':'Donate',
   'card_number': 'Card number',
   'card_number_placeholder': '1234 5678 9012 3456',
   'cart': 'Cart',

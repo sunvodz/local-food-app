@@ -1,5 +1,6 @@
 import React from 'react';
 import { TabNavigator } from 'react-navigation';
+import { createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-navigation-tabs';
 import globalStyles from 'app/styles';
 
 import Orders from 'app/screens/User/screens/Orders';
@@ -10,28 +11,32 @@ import { trans } from 'app/shared';
 const RouteConfigs = {
   Orders: {
     screen: (props) => {
-      return <Orders userStackNavigation={props.screenProps.userStackNavigation} lang={props.screenProps.lang} />;
+      return <Orders navigation={props.navigation} lang={props.screenProps.lang} />;
     },
     navigationOptions: (props) => {
       return {
         tabBarLabel: trans('orders', props.screenProps.lang),
+        headerLeftTitle: null,
       };
     }
   },
   Settings: {
     screen: (props) => {
-      return <Settings userStackNavigation={props.screenProps.userStackNavigation} lang={props.screenProps.lang} />;
+      console.log(props);
+      
+      return <Settings navigation={props.navigation} lang={props.screenProps.lang} />;
     },
     navigationOptions: (props) => {
       return {
         tabBarLabel: trans('settings', props.screenProps.lang),
+        headerLeftTitle: null,
       };
     }
   },
 };
 
 const TabNavigatorConfig = {
-  ...TabNavigator.Presets.AndroidTopTabs,
+  // ...TabNavigator.Presets.AndroidTopTabs,
   animationEnabled: true,
   lazy: true,
   swipeEnabled: true,
@@ -55,6 +60,7 @@ const TabNavigatorConfig = {
     }
   },
   tabBarPosition: 'top',
+  headerLeftTitle: null,
 };
 
-export default TabNavigator(RouteConfigs, TabNavigatorConfig);
+export default createMaterialTopTabNavigator(RouteConfigs, TabNavigatorConfig);

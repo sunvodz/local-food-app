@@ -7,7 +7,7 @@
     "orientation": "portrait",
     "privacy": "public",
     "version": "1.0.4",
-    "sdkVersion": "31.0.0",
+    "sdkVersion": "35.0.0",
     "slug": "local-food-app",
     "icon": "./assets/images/logo-expo-1024.png",
     "primaryColor": "#bf360c",

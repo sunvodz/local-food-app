@@ -2,8 +2,8 @@
   "expoServerPort": null,
   "packagerPort": null,
   "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "expoServerNgrokUrl": "https://d4-wb5.axenu.local-food-app.exp.direct",
+  "packagerNgrokUrl": "https://packager.d4-wb5.axenu.local-food-app.exp.direct",
+  "ngrokPid": 89091,
   "devToolsPort": 19002
 }

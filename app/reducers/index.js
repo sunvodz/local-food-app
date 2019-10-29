@@ -2,9 +2,10 @@ import { combineReducers } from 'redux';
 
 import alertReducer from 'app/containers/Alert/reducer';
 
-import authReducer from 'app/screens/Auth/reducer';
-import mapReducer from 'app/screens/Map/reducer';
-import nodeReducer from 'app/screens/Node/reducer';
+import authReducer from './auth';
+import mapReducer from './map';
+import nodeReducer from './node';
+import swishReducer from './swish';
 
 import userReducer from 'app/screens/User/screens/Profile/reducer';
 import cartReducer from 'app/screens/User/screens/Cart/reducer';
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   order: orderReducer,
   settings: settingsReducer,
   notifications: notificationsReducer,
+  swish: swishReducer,
   logger: function(state, action) {
     console.log(action.type);
     return Object.assign({}, state, {});

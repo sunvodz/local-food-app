@@ -130,14 +130,14 @@ class Membership extends Component {
     }
 
     return (
-      <View>
-        <ScreenHeader title={trans('membership', lang)} left navigation={this.props.navigation} />
+      <View style={{flex: 1, backgroundColor: globalStyle.primaryColor}}>
+        {/* <ScreenHeader title={trans('membership', lang)} left navigation={this.props.navigation} /> */}
         <KeyboardAwareScrollView {...scrollViewProps}>
-          <Image style={styles.logo} source={require('../../../../../assets/images/logo-white.png')} />
+          {/* <Image style={styles.logo} source={require('../../../../../assets/images/logo-white.png')} /> */}
           <View style={styles.wrapper}>
-            <Text style={styles.infoHeader}>{trans('membership_info_header', lang)}</Text>
-            <Text style={styles.infoText}>{trans('membership_info_part_1', lang)}</Text>
-            <Text style={styles.infoText}>{trans('membership_info_part_2', lang)}</Text>
+            {/* <Text style={styles.infoHeader}>{trans('membership_info_header', lang)}</Text> */}
+            {/* <Text style={styles.infoText}>{trans('membership_info_part_1', lang)}</Text> */}
+            {/* <Text style={styles.infoText}>{trans('membership_info_part_2', lang)}</Text> */}
             <View style={styles.group}>
               <NumberInput style={textInputGroupItemStyle} label={trans('amount', lang)} placeholder={trans('amount_placeholder', lang)} onChangeText={this.onChange.bind(this, 'amount')} />
               {currencySelect}
@@ -164,7 +164,7 @@ class Membership extends Component {
               <Text style={{color: '#fff', flex: 1, marginLeft: 10, marginTop: 5, fontFamily: 'montserrat-semibold'}}>{this.state.recurring ? trans('membership_monthly', lang) : trans('membership_annual', lang)}</Text>
             </View>
             <View style={{marginTop: 15}}>
-              <Button onPress={this.onPayment.bind(this)} icon='user' title={trans('become_a_member', lang)} accessibilityLabel={trans('become_a_member', lang)} loading={this.props.membership.paymentInProgress} />
+              <Button onPress={this.onPayment.bind(this)} icon='user' title={trans('donate', lang)} accessibilityLabel={trans('donate', lang)} loading={this.props.membership.paymentInProgress} />
             </View>
           </View>
         </KeyboardAwareScrollView>

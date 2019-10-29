@@ -7,6 +7,7 @@ module.exports = {
   'amount': 'Summa',
   'amount_placeholder': 'Valfri summa',
   'become_a_member': 'Bli medlem',
+  'donate':'Donera',
   'card_number': 'Kortnummer',
   'card_number_placeholder': '1234 5678 9012 3456',
   'cart': 'Kundkorg',
