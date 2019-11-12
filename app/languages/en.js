@@ -79,6 +79,8 @@ module.exports = {
   'payment': 'Payment',
   'payment_success_header': 'Thank you for becoming a member!',
   'payment_success': 'Thank you for your payment, you are now a member of Local Food Nodes.',
+  'payment_failiure_header': 'Your purchase failed!',
+  'payment_failiure': 'Try again',
   'phone': 'Phone number',
   'pickup': 'Pickup',
   'pickup_dates': 'Pickup dates',

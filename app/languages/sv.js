@@ -79,6 +79,8 @@ module.exports = {
   'payment': 'Betalning',
   'payment_success_header': 'Tack för att du blivit medlem!',
   'payment_success': 'Tack för din betalning, du är nu medlem av Local Food Nodes.',
+  'payment_failiure_header': 'Ditt köp misslyckades',
+  'payment_failiure': 'Försök igen',
   'phone': 'Telefonnummer',
   'pickup': 'Utlämning',
   'pickup_dates': 'Utlämningsdatum',

@@ -1,4 +1,4 @@
-import { SWISH_STARTED, SWISH_SUCCESS, SWISH_FAILED } from 'app/types/swish'
+import { SWISH_STARTED, SWISH_SUCCESS, SWISH_FAILED, SWISH_DECLINED } from 'app/types/swish'
 import {API_URL} from 'app/env.json'
 import {Linking, AsyncStorage } from 'react-native'
 import api from 'app/shared/api';
@@ -19,6 +19,14 @@ export function swishSuccess(membership_payments_relationship) {
 export function swishFailed() {
   return {
     type: SWISH_FAILED,
+  }
+}
+
+export function swishDeclined() {
+  return {
+    type: SWISH_DECLINED,
+    title: 'payment_failiure_header',
+    message: 'payment_failiure',
   }
 }
 
@@ -49,12 +57,16 @@ export function startSwish(amount) {
   
       const res = await response.json();
       console.log(res);
+
+      Linking.addEventListener('url', (res) => {
+        console.log(res);
+        
+      })
   
       try {
-        const url = `swish://paymentrequest?token=${res.payment_reference}&callbackurl=localfoodapp://swishFinished`
-        console.log(url);
+        const url = `swish://paymentrequest?token=${res.token}&callbackurl=localfoodapp://swishFinished`
         
-        Linking.openURL(url);
+        Linking.openURL(encodeURI(url));
       } catch(e) {
         console.log(e);
         
@@ -86,7 +98,7 @@ async function waitForSwishResponse(dispatch, res, i) {
   });
   // const text = await response.text();
   const jres = await response.json();
-  // console.log(jres);
+  console.log(jres);
   
   // setTimeout(this.waitForSwishResponse, 1000);
   if (jres.status === 'CREATED') {
@@ -104,5 +116,8 @@ async function waitForSwishResponse(dispatch, res, i) {
     // console.log(updatedUser);
     
     dispatch(swishSuccess(jres.user_membership_payment))
+  } else if (jres.status === "DECLINED") {
+    // handle declined  TODO:
+    dispatch(swishDeclined(jres.user_membership_payment))
   }
 }

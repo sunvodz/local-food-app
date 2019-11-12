@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-import {SWISH_SUCCESS} from 'app/types/swish'
+import {SWISH_SUCCESS, SWISH_DECLINED} from 'app/types/swish'
 
 function alertReducer(state, action) {
   switch (action.type) {
@@ -17,6 +17,7 @@ function alertReducer(state, action) {
     case 'RECEIVE_NOTIFICATIONS_FAILED':
     case 'RECEIVE_ORDERS_FAILED':
     case 'RESEND_EMAIL_FAILED':
+    case SWISH_DECLINED:
       return Object.assign({}, state, {
         level: 'error',
         title: action.title,
