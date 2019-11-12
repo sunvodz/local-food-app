@@ -37,6 +37,9 @@ class LocalFoodNodesSDK {
       }
     }
 
+    console.log(options);
+    
+
     try {
       let response = await fetch(url, options);
 

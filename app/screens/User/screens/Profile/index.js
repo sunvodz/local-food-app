@@ -6,9 +6,12 @@ import { FontAwesome as Icon } from '@expo/vector-icons';
 import AuthScreen from 'app/screens/Auth';
 import ProfileTabNavigation from 'app/navigations/ProfileTabNavigation';
 
+
 import { trans } from 'app/shared';
 import { ScreenHeader } from 'app/components';
+import { createAppContainer } from 'react-navigation';
 
+const ProfileTabs = createAppContainer(ProfileTabNavigation)
 class Profile extends Component {
   render() {
     if (!this.props.auth.user || this.props.auth.loading) {
@@ -22,10 +25,13 @@ class Profile extends Component {
       lang: this.props.lang,
     }
 
+    // console.log(this.props.navigation);
+    
+
     return (
       <View style={{flex: 1}}>
         <ScreenHeader title={trans('your_account', this.props.lang)} right navigation={this.props.navigation} />
-        <ProfileTabNavigation screenProps={profileTabNavProps} />
+        <ProfileTabs screenProps={profileTabNavProps} />
       </View>
     );
   }

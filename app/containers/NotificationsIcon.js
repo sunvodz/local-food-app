@@ -35,7 +35,7 @@ class NotificationsIcon extends Component {
     }
 
     return (
-      <View style={styles.wrapper}>
+      <View style={[styles.wrapper, this.props.style]}>
         <Icon name="bell" size={this.props.size} color={this.props.color}/>
         {count}
       </View>
@@ -56,10 +56,7 @@ export default connect(mapStateToProps)(NotificationsIcon);
 
 let styles = {
   wrapper: {
-    paddingTop: 10,
-    paddingRight: 10,
-    paddingBottom: 10,
-    paddingLeft: 10,
+    // padding: 10,
   },
   notificationWrapper: {
     backgroundColor: '#ff9800',

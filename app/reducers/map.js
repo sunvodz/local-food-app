@@ -1,4 +1,4 @@
-import * as actionTypes from './actionTypes';
+import * as actionTypes from 'app/screens/Map/actionTypes';
 import { sharedActionTypes } from 'app/shared';
 
 function mapReducer(state, action) {

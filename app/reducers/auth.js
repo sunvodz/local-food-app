@@ -1,4 +1,5 @@
 import { sharedActionTypes } from 'app/shared';
+import { SWISH_SUCCESS } from 'app/types/swish'
 
 function authReducer(state, action) {
   switch (action.type) {
@@ -44,6 +45,8 @@ function authReducer(state, action) {
       });
       break;
 
+    case SWISH_SUCCESS:
+      return {...state, user: {...state.user, membership_payments_relationship: [action.membership_payments_relationship]}}
     default:
       return Object.assign({}, state);
       break;

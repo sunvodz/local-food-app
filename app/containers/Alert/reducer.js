@@ -1,4 +1,5 @@
 import * as actionTypes from './actionTypes';
+import {SWISH_SUCCESS, SWISH_DECLINED} from 'app/types/swish'
 
 function alertReducer(state, action) {
   switch (action.type) {
@@ -16,12 +17,20 @@ function alertReducer(state, action) {
     case 'RECEIVE_NOTIFICATIONS_FAILED':
     case 'RECEIVE_ORDERS_FAILED':
     case 'RESEND_EMAIL_FAILED':
+    case SWISH_DECLINED:
       return Object.assign({}, state, {
         level: 'error',
         title: action.title,
         message: action.message
       });
       break;
+
+    case SWISH_SUCCESS:
+        return Object.assign({}, state, {
+          level: 'success',
+          title: action.title,
+          message: action.message
+        });
 
     // Success
     // PAYMENT_SUCCESS doesn't need an alert since a new view is displayed instead

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, ListView, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import moment from 'moment';
 import _ from 'lodash';
 
@@ -8,7 +8,7 @@ import { Loader, List, ListSection, ListItem, Empty } from 'app/components';
 import * as actions from './actions';
 import { trans } from 'app/shared';
 
-const DataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+// const DataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
 class Orders extends Component {
   constructor(props) {
@@ -28,12 +28,15 @@ class Orders extends Component {
   }
 
   navigateOrder(orderDateItemLinkId) {
-    const { navigate } = this.props.userStackNavigation;
+    console.log(this.props);
+    
+    const { navigate } = this.props.navigation;
 
     navigate('Order', orderDateItemLinkId);
   }
 
-  renderListSection(orders, sectionId, rowId) {
+  renderListSection(o, sectionId, rowId) {
+    orders = o.item;
     let dateObj = moment(orders.key);
     let date = dateObj.format('DD') + ' ' + trans(dateObj.format('MMMM'), this.props.lang) + ' ' + dateObj.format('YYYY');
     let numberOfListItems = orders.items.length - 1;
@@ -71,8 +74,9 @@ class Orders extends Component {
     }
 
     let listProps = {
-      dataSource: DataSource.cloneWithRows(orders),
-      renderRow: this.renderListSection.bind(this),
+      // dataSource: DataSource.cloneWithRows(orders),
+      data: orders,
+      renderItem: this.renderListSection.bind(this),
       onRefresh: this.onRefresh.bind(this),
       refreshing: refreshing,
     }

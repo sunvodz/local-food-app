@@ -1,7 +1,11 @@
 import React from 'react';
 import { TabNavigator } from 'react-navigation';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { FontAwesome as Icon } from '@expo/vector-icons';
 import { NotificationsIcon } from 'app/containers';
+import {
+  createAppContainer
+} from 'react-navigation';
 
 import MapStackNavigation from './MapStackNavigation';
 import UserStackNavigation from './UserStackNavigation';
@@ -11,39 +15,33 @@ import globalStyle from 'app/styles';
 
 const RouteConfigs = {
   UserStackNavigation: {
-    screen: props => {
-      return <UserStackNavigation screenProps={props.screenProps} />; // Use UserNavigation to get the stack navigation header
-    },
+    screen: UserStackNavigation,
     navigationOptions: ({ navigation }) => {
       return {
-        tabBarLabel: ({ tintColor }) => (<Icon name="user" size={24} color={tintColor} />)
+        tabBarLabel: ({ tintColor }) => (<Icon name="user" style={{alignSelf: 'center'}} size={24} color={tintColor} />)
       };
     }
   },
   MapStackNavigation: {
-    screen: props => {
-      return <MapStackNavigation screenProps={props.screenProps} />;
-    },
+    screen: MapStackNavigation,
     navigationOptions: ({ navigation }) => {
       return {
-        tabBarLabel: ({ tintColor }) => (<Icon name='map-marker' size={24} color={tintColor} />)
+        tabBarLabel: ({ tintColor }) => (<Icon name='map-marker' style={{alignSelf: 'center'}} size={24} color={tintColor} />)
       };
     }
   },
   Notifications: {
-    screen: props => {
-      return <NotificationsStackNavigator screenProps={props.screenProps} />;
-    },
+    screen: NotificationsStackNavigator,
     navigationOptions: ({ navigation }) => {
       return {
-        tabBarLabel: ({ tintColor }) => (<NotificationsIcon size={24} color={tintColor} />)
+        tabBarLabel: ({ tintColor }) => (<NotificationsIcon style={{alignSelf: 'center', justifyContent: 'center'}} size={24} color={tintColor} />),
       };
     }
   },
 };
 
 const TabNavigatorConfig = {
-  ...TabNavigator.Presets.AndroidTopTabs,
+  // ...TabNavigator.Presets.AndroidTopTabs,
   initialRouteName: 'MapStackNavigation',
   animationEnabled: false,
   lazy: true,
@@ -53,17 +51,16 @@ const TabNavigatorConfig = {
     showLabel: true,
     activeTintColor: globalStyle.primaryColor,
     inactiveTintColor: '#999',
-    activeBackgroundColor: globalStyle.primaryColor,
     inactiveBackgroundColor: '#fff',
     indicatorStyle: {
       backgroundColor: '#fff',
     },
     style: {
-      padding: 5,
+      padding: 10,
       backgroundColor: '#fff',
     }
   },
   tabBarPosition: 'bottom',
 };
 
-export default TabNavigator(RouteConfigs, TabNavigatorConfig);
+export default createAppContainer(createBottomTabNavigator(RouteConfigs, TabNavigatorConfig));

@@ -2,21 +2,32 @@ import React, { Component } from 'react';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import { Font, AppLoading } from 'expo'
-import Sentry from 'sentry-expo';
+import {AppLoading, ScreenOrientation } from 'expo'
+import * as Font from 'expo-font';
+import * as Sentry from 'sentry-expo';
 import { SENTRY_PUBLIC_DSN, SENTRY_ENABLE_IN_DEV, PUSHER_LOG_TO_CONSOLE } from 'app/env.json';
 import Pusher from 'pusher-js/react-native';
+import {YellowBox} from 'react-native';
 
-import rootReducer from './rootReducer';
+import rootReducer from 'app/reducers';
 import App from './App';
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
 // Remove this once Sentry is correctly setup.
-Sentry.enableInExpoDevelopment = SENTRY_ENABLE_IN_DEV;
-Pusher.logToConsole = PUSHER_LOG_TO_CONSOLE;
+// Sentry.enableInExpoDevelopment = SENTRY_ENABLE_IN_DEV;
+// Pusher.logToConsole = PUSHER_LOG_TO_CONSOLE;
 
-Sentry.config(SENTRY_PUBLIC_DSN).install();
+// Sentry.config(SENTRY_PUBLIC_DSN).install();
+
+
+// Sentry.init({
+//   dsn: SENTRY_PUBLIC_DSN,
+//   enableInExpoDevelopment: SENTRY_ENABLE_IN_DEV,
+//   debug: true
+// });
+
+YellowBox.ignoreWarnings(['Accessing view manager']);
 
 export default class Root extends Component {
   constructor(props) {
@@ -27,7 +38,7 @@ export default class Root extends Component {
   }
 
   async componentDidMount() {
-    Expo.ScreenOrientation.allowAsync(Expo.ScreenOrientation.Orientation.PORTRAIT);
+    ScreenOrientation.lockAsync(ScreenOrientation.Orientation.PORTRAIT_UP);
     await Font.loadAsync({
       'montserrat-regular': require('../../assets/fonts/Montserrat-Regular.ttf'),
       'montserrat-medium': require('../../assets/fonts/Montserrat-Medium.ttf'),

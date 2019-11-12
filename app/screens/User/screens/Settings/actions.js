@@ -41,6 +41,7 @@ export function setLanguage(lang) {
     // Load
     let user = await AsyncStorage.getItem('@store:user');
     // Set
+    
     user = JSON.parse(user);
     user.language = lang;
     // Store

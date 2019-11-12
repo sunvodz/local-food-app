@@ -21,19 +21,21 @@ class Settings extends Component {
   }
 
   navigateToMembershipPayment(donation) {
-    const { navigate } = this.props.userStackNavigation;
+    console.log(this.props);
+    
+    const { navigate } = this.props.navigation;
 
-    navigate('Membership');
+    navigate('paymentSelect');
   }
 
   navigateToHelp(donation) {
-    const { navigate } = this.props.userStackNavigation;
+    const { navigate } = this.props.navigation;
 
     navigate('Help');
   }
 
   navigateToDeleteAccount() {
-    const { navigate } = this.props.userStackNavigation;
+    const { navigate } = this.props.navigation;
 
     navigate('DeleteAccount', {
       deleteAccount: this.performDeleteAccount,
@@ -86,6 +88,9 @@ class Settings extends Component {
       sv: 'Svenska',
       en: 'English',
     };
+
+    // console.log(auth.user);
+    
 
     let languageItems = _.map(availableLanguages, (name, lang) => {
       let selected = auth.user.language === lang ? <Icon name='check' /> : null;

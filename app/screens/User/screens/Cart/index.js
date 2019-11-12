@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, ListView, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import moment from 'moment';
 import _ from 'lodash';
 
@@ -12,7 +12,7 @@ import * as actions from './actions';
 import { trans, priceHelper } from 'app/shared';
 import globalStyle from 'app/styles';
 
-const DataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+// const DataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
 class Cart extends React.Component {
   constructor(props) {
@@ -77,7 +77,8 @@ class Cart extends React.Component {
     return groupedCartDateItemLinks;
   }
 
-  renderListSection(cartDateItemLinks, sectionId, rowId) {
+  renderListSection(ca, sectionId, rowId) {
+    const cartDateItemLinks = ca.item
     let m = moment(cartDateItemLinks.key);
     let date = m.format('DD') + ' ' + trans(m.format('MMMM'), this.props.lang) + ' ' + m.format('YYYY');
 
@@ -93,11 +94,14 @@ class Cart extends React.Component {
         onUpdate: this.updateCartItem.bind(this)
       }
 
-      return <CartItem {...cartItemProps} lang={this.props.lang} />;
+      return <CartItem {...cartItemProps} lang={this.props.lang} key={rowId} />;
     });
 
+    // console.log(cartDateItemLinks.item.items);
+    
+
     return (
-      <ListSection label={trans('pickup', this.props.lang) + ' ' + date}>
+      <ListSection label={trans('pickup', this.props.lang) + ' ' + date} key={sectionId}>
         {listItems}
       </ListSection>
     );
@@ -113,7 +117,7 @@ class Cart extends React.Component {
     if (loading) {
       return (
         <View style={{flex: 1, backgroundColor: globalStyle.backgroundColor}}>
-          <ScreenHeader title={trans('cart', this.props.lang)} left navigation={this.props.navigation} />
+          {/* <ScreenHeader title={trans('cart', this.props.lang)} left navigation={this.props.navigation} /> */}
           <Loader />
         </View>
       );
@@ -122,7 +126,7 @@ class Cart extends React.Component {
     if (!refreshing && _.isEmpty(cart)) {
       return (
         <View style={{flex: 1, backgroundColor: globalStyle.backgroundColor}}>
-          <ScreenHeader title={trans('cart', this.props.lang)} left navigation={this.props.navigation} />
+          {/* <ScreenHeader title={trans('cart', this.props.lang)} left navigation={this.props.navigation} /> */}
           <Empty icon="shopping-basket" header={trans('cart_empty', this.props.lang)} text={trans('cart_empty_text', this.props.lang)} />
         </View>
       );
@@ -153,15 +157,16 @@ class Cart extends React.Component {
     let cartDateItemLinksByDate = this.groupCartDateItemLinksByDate(cart);
 
     let listProps = {
-      dataSource: DataSource.cloneWithRows(cartDateItemLinksByDate),
-      renderRow: this.renderListSection.bind(this),
+      // dataSource: DataSource.cloneWithRows(cartDateItemLinksByDate),
+      data: cartDateItemLinksByDate,
+      renderItem: this.renderListSection.bind(this),
       onRefresh: this.fetchCart.bind(this, true),
       refreshing: refreshing,
     }
 
     return (
       <View style={{flex: 1}}>
-        <ScreenHeader title={trans('cart', this.props.lang)} left navigation={this.props.navigation} />
+        {/* <ScreenHeader title={trans('cart', this.props.lang)} left navigation={this.props.navigation} /> */}
         <List {...listProps} />
         <View style={styles.orderWrapper}>
           <View style={styles.orderTotals}>{totalCost}</View>

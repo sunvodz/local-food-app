@@ -20,6 +20,7 @@ class Node extends React.Component {
     };
 
     this.renderProduct = this.renderProduct.bind(this);
+    this.props.navigation.setParams({ title: props.navigation.state.params.name, subtitle: trans('loading_products', this.props.lang), count: 0})
   }
 
   componentDidMount() {
@@ -38,6 +39,21 @@ class Node extends React.Component {
     const node = this.props.navigation.state.params;
     const prevFilters = _.get(prevProps, 'node.filters');
     const filters = this.props.node.filters;
+    const { products } = this.props.node;
+
+    if (products && !prevProps.products) {
+      console.log(products.length, prevProps.products);
+      
+      if (products.length !== this.props.navigation.getParam('count', 0)) {
+        setTimeout(() => {
+          this.props.navigation.setParams({ subTitle: products.length + ' ' + trans('products_for_sale', this.props.lang), count: products.length});
+        }, 100);
+      }
+    }
+
+    // if (products && prevProps.products &&  products.length !== prevProps.products.length) {
+    //   this.props.navigation.setParams({ subTitle: products.length + ' ' + trans('products_for_sale', this.props.lang)})
+    // }
 
     if (filters.date && filters.date !== prevFilters.date) {
       this.props.dispatch(actions.fetchProducts({

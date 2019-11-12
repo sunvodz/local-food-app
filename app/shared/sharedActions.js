@@ -1,9 +1,12 @@
 import { AsyncStorage } from 'react-native';
-import { Permissions, Notifications, Location } from 'expo';
+import { Notifications } from 'expo';
 import api from './api';
 import * as sharedActionTypes from './sharedActionTypes';
 
-import { STRIPE_PUBLISHABLE_KEY } from 'app/env.json';
+import * as Permissions from 'expo-permissions';
+import * as Location from 'expo-location';
+
+import { STRIPE_PUBLISHABLE_KEY, API_URL } from 'app/env.json';
 var stripe = require('stripe-client')(STRIPE_PUBLISHABLE_KEY);
 
 const PUSH_ENDPOINT = '/api/v1/users/push-token';
@@ -22,21 +25,37 @@ export function createAccount(data) {
     try {
       dispatch(createAccountInProgress());
 
-      let response = await api.call({
-        url: '/api/v1/users',
+      // console.log(data);
+      
+
+      let response = await fetch(`${API_URL}/api/user/create`, {
         method: 'post',
-        body: {
+        body: JSON.stringify({
           name: data.name,
           email: data.email,
           phone: data.phone,
           password: data.password,
           terms: data.terms,
           language: data.language,
+        }),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
         }
-      });
+      })
 
-      return dispatch(createAccountComplete());
+      if (response.status >= 200 && response.status < 300) {
+        return dispatch(createAccountComplete());
+      } else {
+        json = await response.json();
+        // console.log(json);
+        
+        return dispatch(createAccountFailed(json));
+      }
+
+      
     } catch (error) {
+      console.log(error);
       error = await error.json();
       return dispatch(createAccountFailed(error));
     }
@@ -114,7 +133,7 @@ export function loginComplete(user) {
     type: sharedActionTypes.LOGIN_SUCCESS,
     loading: false,
     refreshing: false,
-    user: user
+    user: {...user}
   }
 }
 
@@ -141,6 +160,8 @@ export function logoutComplete() {
 }
 
 export function loginFailed(error) {
+  console.log(error);
+  
   return {
     type: sharedActionTypes.LOGIN_FAILED,
     loading: false,
