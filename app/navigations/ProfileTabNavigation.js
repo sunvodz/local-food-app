@@ -22,7 +22,7 @@ const RouteConfigs = {
   },
   Settings: {
     screen: (props) => {
-      console.log(props);
+      // console.log(props);
       
       return <Settings navigation={props.navigation} lang={props.screenProps.lang} />;
     },
