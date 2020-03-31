@@ -6,8 +6,6 @@ import * as sharedActionTypes from './sharedActionTypes';
 import * as Permissions from 'expo-permissions';
 import * as Location from 'expo-location';
 
-import { STRIPE_PUBLISHABLE_KEY, API_URL } from 'app/env';
-
 const PUSH_ENDPOINT = '/api/v1/user/push-token';
 
 export function toggleAuthForm() {
