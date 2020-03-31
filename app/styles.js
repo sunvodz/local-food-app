@@ -3,7 +3,9 @@ export default {
     headerStyle: {
       elevation: 0,
       backgroundColor: '#bf360c',
-      borderWidth: 0
+      borderWidth: 0,
+      borderBottomWidth: 0,
+      shadowColor: 'transparent'
     },
     headerTitleStyle: {
       fontFamily: 'montserrat-semibold',

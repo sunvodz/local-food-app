@@ -1,16 +1,16 @@
-import { sharedActionTypes } from 'app/shared';
+import * as actionTypes from './actionTypes';
 
-function membershipReducer(state, action) {
+function stripeReducer(state, action) {
   switch (action.type) {
-    case sharedActionTypes.PAYMENT_IN_PROGRESS:
-    case sharedActionTypes.PAYMENT_SUCCESS:
+    case actionTypes.STRIPE_STARTED:
+    case actionTypes.STRIPE_SUCCESS:
       return Object.assign({}, state, {
         paymentInProgress: action.paymentInProgress,
       });
       break;
 
-    case sharedActionTypes.CURRENCIES_IN_PROGRESS:
-    case sharedActionTypes.CURRENCIES_SUCCESS:
+    case actionTypes.CURRENCIES_IN_PROGRESS:
+    case actionTypes.CURRENCIES_SUCCESS:
       return Object.assign({}, state, {
         currencies: action.currencies,
       });
@@ -24,4 +24,4 @@ function membershipReducer(state, action) {
   }
 }
 
-export default membershipReducer;
+export default stripeReducer;

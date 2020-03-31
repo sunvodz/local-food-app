@@ -25,12 +25,9 @@ class Profile extends Component {
       lang: this.props.lang,
     }
 
-    // console.log(this.props.navigation);
-    
-
     return (
       <View style={{flex: 1}}>
-        <ScreenHeader title={trans('your_account', this.props.lang)} right navigation={this.props.navigation} />
+        <ScreenHeader title={trans('Your account', this.props.lang)} right navigation={this.props.navigation} />
         <ProfileTabs screenProps={profileTabNavProps} />
       </View>
     );

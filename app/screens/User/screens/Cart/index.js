@@ -4,15 +4,11 @@ import { View, Text } from 'react-native';
 import moment from 'moment';
 import _ from 'lodash';
 
-import AuthScreen from 'app/screens/Auth';
-
-import { ContentWrapper, Loader, Button, Empty, List, ListSection, ScreenHeader } from 'app/components';
+import { Loader, Button, Empty, List, ListSection } from 'app/components';
 import CartItem from './components/CartItem';
 import * as actions from './actions';
 import { trans, priceHelper } from 'app/shared';
 import globalStyle from 'app/styles';
-
-// const DataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
 class Cart extends React.Component {
   constructor(props) {
@@ -53,7 +49,7 @@ class Cart extends React.Component {
     let groupedCartDateItemLinks = [];
     for (let i = 0; i < cartDateItemLinks.length; i++) {
       let cartDateItemLink = cartDateItemLinks[i];
-      let cartDate = cartDateItemLink.cart_date_relationship[0];
+      let cartDate = cartDateItemLink.date;
       let key = moment(cartDate.date.date).format('YYYYMMDD');
 
       // Check if key exists
@@ -94,14 +90,11 @@ class Cart extends React.Component {
         onUpdate: this.updateCartItem.bind(this)
       }
 
-      return <CartItem {...cartItemProps} lang={this.props.lang} key={rowId} />;
+      return <CartItem {...cartItemProps} lang={this.props.lang} />;
     });
 
-    // console.log(cartDateItemLinks.item.items);
-    
-
     return (
-      <ListSection label={trans('pickup', this.props.lang) + ' ' + date} key={sectionId}>
+      <ListSection label={trans('Pickup', this.props.lang) + ' ' + date} key={sectionId}>
         {listItems}
       </ListSection>
     );
@@ -110,14 +103,9 @@ class Cart extends React.Component {
   render() {
     const { loading, refreshing, cart } = this.props.cart;
 
-    if (!this.props.auth.user || this.props.auth.loading) {
-      return <AuthScreen {...this.props} />;
-    }
-
     if (loading) {
       return (
         <View style={{flex: 1, backgroundColor: globalStyle.backgroundColor}}>
-          {/* <ScreenHeader title={trans('cart', this.props.lang)} left navigation={this.props.navigation} /> */}
           <Loader />
         </View>
       );
@@ -126,20 +114,19 @@ class Cart extends React.Component {
     if (!refreshing && _.isEmpty(cart)) {
       return (
         <View style={{flex: 1, backgroundColor: globalStyle.backgroundColor}}>
-          {/* <ScreenHeader title={trans('cart', this.props.lang)} left navigation={this.props.navigation} /> */}
-          <Empty icon="shopping-basket" header={trans('cart_empty', this.props.lang)} text={trans('cart_empty_text', this.props.lang)} />
+          <Empty icon="shopping-basket" header={trans('Cart empty', this.props.lang)} text={trans('Visit a node to find available products.', this.props.lang)} />
         </View>
       );
     }
 
     let totalCost = _.chain(cart)
     .groupBy(cartDateItemLink => {
-      let item = cartDateItemLink.cart_item_relationship[0];
+      let item = cartDateItemLink.item;
       return item.producer.currency;
     })
     .mapValues((cartDateItemLinks, currency) => {
       return _.sumBy(cartDateItemLinks, (cartDateItemLink) => {
-        let item = cartDateItemLink.cart_item_relationship[0];
+        let item = cartDateItemLink.item;
         let price = priceHelper.getCalculatedPrice(item.product, item.variant, cartDateItemLink.quantity);
 
         return price;
@@ -157,7 +144,6 @@ class Cart extends React.Component {
     let cartDateItemLinksByDate = this.groupCartDateItemLinksByDate(cart);
 
     let listProps = {
-      // dataSource: DataSource.cloneWithRows(cartDateItemLinksByDate),
       data: cartDateItemLinksByDate,
       renderItem: this.renderListSection.bind(this),
       onRefresh: this.fetchCart.bind(this, true),
@@ -166,11 +152,10 @@ class Cart extends React.Component {
 
     return (
       <View style={{flex: 1}}>
-        {/* <ScreenHeader title={trans('cart', this.props.lang)} left navigation={this.props.navigation} /> */}
         <List {...listProps} />
         <View style={styles.orderWrapper}>
           <View style={styles.orderTotals}>{totalCost}</View>
-          <Button loading={this.props.cart.creating} icon='shopping-basket' title={trans('send_order', this.props.lang)} onPress={this.createOrder.bind(this)} />
+          <Button loading={this.props.cart.creating} icon='shopping-basket' title={trans('Send order', this.props.lang)} onPress={this.createOrder.bind(this)} />
         </View>
       </View>
     );

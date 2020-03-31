@@ -8,7 +8,7 @@ export function fetchUserNodes() {
       dispatch(requestUserNodes());
 
       let response = await api.call({
-        url: '/api/v1/users/nodes'
+        url: '/api/v1/user/nodes'
       });
 
       let data = await response.json();
@@ -54,7 +54,7 @@ export function removeNodeFromUser(nodeId) {
     try {
       let response = await api.call({
         method: 'delete',
-        url: `/api/v1/users/nodes/${nodeId}`
+        url: `/api/v1/user/nodes/${nodeId}`
       });
 
       return dispatch(userNodeRemoved(nodeId));

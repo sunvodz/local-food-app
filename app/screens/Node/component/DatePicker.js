@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import moment from 'moment';
+import moment from 'moment/min/moment-with-locales';
 import _ from 'lodash';
 
 import { BadgeDate, BadgeWrapper } from 'app/components';
@@ -12,6 +12,7 @@ class DatePicker extends Component {
   }
 
   render() {
+    moment.locale(this.props.lang);
     let selectedDate = this.props.selectedDate;
 
     if (!this.props.dates) {
@@ -27,7 +28,7 @@ class DatePicker extends Component {
     })
 
     return (
-      <BadgeWrapper style={badgeWrapperStyle} label={trans('pickup_dates', this.props.lang)}>
+      <BadgeWrapper style={badgeWrapperStyle} label={trans('Pickup dates', this.props.lang)}>
         {badgeItems}
       </BadgeWrapper>
     );

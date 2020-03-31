@@ -37,13 +37,10 @@ class LocalFoodNodesSDK {
       }
     }
 
-    console.log(options);
-    
-
     try {
       let response = await fetch(url, options);
 
-      if (response.status !== 200) {
+      if (!response.ok) {
         throw response;
       }
 
@@ -85,7 +82,7 @@ class LocalFoodNodesSDK {
       let jsonResponse = await response.json();
 
       return jsonResponse;
-    } catch(error) {
+    } catch (error) {
       throw error;
     }
   }

@@ -15,7 +15,7 @@ export function fetchOrders() {
       dispatch(requestOrders());
 
       let response = await api.call({
-        url: '/api/v1/users/orders'
+        url: '/api/v1/user/orders'
       });
 
       let orders = await response.json();
@@ -23,7 +23,7 @@ export function fetchOrders() {
       let orderedOrders = [];
       for (let i = 0; i < orders.length; i++) {
         let order = orders[i];
-        let orderDate = order.order_date_relationship[0];
+        let orderDate = order.date;
         let key = moment(orderDate.date.date).format('YYYYMMDD');
 
         // Check if key exists
@@ -46,6 +46,7 @@ export function fetchOrders() {
 
       return dispatch(receiveOrders(orderedOrders.reverse()));
     } catch (error) {
+      console.error(error);
       dispatch(receiveOrdersFailed(error));
     }
   }

@@ -5,5 +5,6 @@
   "strict": false,
   "minify": false,
   "urlType": "exp",
-  "urlRandomness": "d4-wb5"
+  "urlRandomness": "89-ft3",
+  "https": false
 }

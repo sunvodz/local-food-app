@@ -16,7 +16,7 @@ export function fetchCart(refreshing) {
     }
 
     let response = await api.call({
-      url: '/api/v1/users/cart'
+      url: '/api/v1/user/cart'
     });
 
     let cart = await response.json();
@@ -58,16 +58,21 @@ export function receiveCart(cart) {
  */
 export function removeCartItem(cartDateItemLinkId) {
   return async function(dispatch, getState) {
-    dispatch(removingCartItem());
+    try {
+      dispatch(removingCartItem());
 
-    let response = await api.call({
-      url: `/api/v1/users/cart/${cartDateItemLinkId}`,
-      method: 'delete',
-    });
+      let response = await api.call({
+        url: `/api/v1/user/cart/${cartDateItemLinkId}`,
+        method: 'delete',
+      });
 
-    let updatedCart = await response.json();
+      let updatedCart = await response.json();
 
-    return dispatch(removedCartItem(updatedCart));
+      return dispatch(removedCartItem(updatedCart));
+    } catch (error) {
+      let errorMessage = error.text();
+      dispatch(removeCartItemFailed(errorMessage));
+    }
   }
 }
 
@@ -86,6 +91,14 @@ export function removedCartItem(updatedCart) {
   }
 }
 
+export function removeCartItemFailed(errorMessage) {
+  return {
+    type: actionTypes.REMOVE_CART_ITEM_FAILED,
+    title: 'Cart',
+    message: errorMessage,
+  }
+}
+
 /**
  * Async action - update cart item.
  *
@@ -97,7 +110,7 @@ export function updateCartItem(id, quantity) {
       dispatch(updatingCartItem(id));
 
       let response = await api.call({
-        url: '/api/v1/users/cart',
+        url: '/api/v1/user/cart',
         method: 'put',
         body: {
           cartDateItemLinkId: id,
@@ -106,7 +119,6 @@ export function updateCartItem(id, quantity) {
       });
 
       let cartItemOrItems = await response.json();
-      console.log(cartItemOrItems);
 
       if (_.isArray(cartItemOrItems)) {
         dispatch(updatedCartItems(cartItemOrItems));
@@ -114,7 +126,8 @@ export function updateCartItem(id, quantity) {
         dispatch(updatedCartItem(cartItemOrItems));
       }
     } catch (error) {
-      dispatch(updatingCartFailed(error));
+      let errorMessage = await error.text();
+      dispatch(updatingCartFailed(errorMessage));
     }
   }
 }
@@ -140,11 +153,11 @@ export function updatedCartItems(cartItems) {
   }
 }
 
-export function updatingCartFailed(error) {
+export function updatingCartFailed(errorMessage) {
   return {
     type: actionTypes.UPDATING_CART_FAILED,
-    title: 'cart',
-    message: 'error_updating_cart',
+    title: 'Cart',
+    message: errorMessage,
   }
 }
 
@@ -160,7 +173,7 @@ export function createOrder() {
 
       let response = await api.call({
         method: 'post',
-        url: '/api/v1/users/order'
+        url: '/api/v1/user/order'
       });
 
       dispatch(createOrderSuccess());
@@ -184,7 +197,7 @@ export function createOrderSuccess() {
     creating: false,
     cart: null,
     title: 'order',
-    message: 'order_created',
+    message: 'Your order was created.',
   }
 }
 

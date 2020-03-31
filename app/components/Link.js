@@ -6,7 +6,7 @@ export default class Link extends React.Component {
   render() {
     return (
       <TouchableOpacity onPress={this.props.onPress}>
-        <Text style={styles.link}>{this.props.title.toUpperCase()}</Text>
+        <Text style={this.props.white ? styles.whiteLink : styles.link}>{this.props.title.toUpperCase()}</Text>
       </TouchableOpacity>
     );
   }
@@ -15,6 +15,11 @@ export default class Link extends React.Component {
 let styles = {
   link: {
     color: globalStyle.primaryColor,
+    fontSize: 14,
+    fontFamily: 'montserrat-semibold'
+  },
+  whiteLink: {
+    color: '#fff',
     fontSize: 14,
     fontFamily: 'montserrat-semibold'
   }

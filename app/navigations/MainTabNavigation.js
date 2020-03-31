@@ -1,5 +1,4 @@
 import React from 'react';
-import { TabNavigator } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { FontAwesome as Icon } from '@expo/vector-icons';
 import {
@@ -8,27 +7,19 @@ import {
 
 import MapStackNavigation from './MapStackNavigation';
 import UserStackNavigation from './UserStackNavigation';
-import ProfileScreen from 'app/screens/User/screens/Profile'
 
 import globalStyle from 'app/styles';
 
 const RouteConfigs = {
-  UserStackNavigation: {
-    screen: ProfileScreen,
+  userStackNavigation: {
+    screen: UserStackNavigation,
     navigationOptions: ({ navigation }) => {
       return {
-        tabBarLabel: ({ tintColor }) => (<Icon name='user' size={24} style={{alignSelf: 'center'}} color={tintColor} />),
+        tabBarLabel: ({ tintColor }) => (<Icon name="user" style={{alignSelf: 'center'}} size={24} color={tintColor} />)
       };
-    },
-    defaultNavigationOptions: {
-      headerStyle: globalStyle.stackNavigator.headerStyle,
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-      },
     }
   },
-  MapStackNavigation: {
+  mapStackNavigation: {
     screen: MapStackNavigation,
     navigationOptions: ({ navigation }) => {
       return {
@@ -39,8 +30,7 @@ const RouteConfigs = {
 };
 
 const TabNavigatorConfig = {
-  // ...TabNavigator.Presets.AndroidTopTabs,
-  initialRouteName: 'MapStackNavigation',
+  initialRouteName: 'mapStackNavigation',
   animationEnabled: false,
   lazy: true,
   swipeEnabled: false,
@@ -55,15 +45,10 @@ const TabNavigatorConfig = {
       backgroundColor: '#fafafa',
     },
     style: {
-      padding: 15,
+      alignItems: 'center',
       backgroundColor: '#fafafa',
     }
   },
-  // defaultNavigationOptions: {
-  //   tabBarIcon: {
-
-  //   }
-  // }
   tabBarPosition: 'bottom',
 };
 

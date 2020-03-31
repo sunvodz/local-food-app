@@ -1,28 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { TouchableOpacity, StyleSheet, Image, View, Text, ScrollView } from 'react-native';
-import { FontAwesome as Icon } from '@expo/vector-icons';
-import moment from 'moment';
+import { TouchableOpacity, StyleSheet, Image, View, Text, ScrollView, Dimensions } from 'react-native';
 import _ from 'lodash';
 
-import { ContentWrapper, Card, Button, Link } from 'app/components';
-import { sharedActions, trans } from 'app/shared';
+import { trans } from 'app/shared';
 import globalStyle from 'app/styles';
 
 class PaymentSelect extends Component {
 
   payWithSwish = () => {
     const { navigation } = this.props
-    
     navigation.navigate('payWithSwish')
   }
+
   payWithStripe = () => {
     const { navigation } = this.props
-    
     navigation.navigate('payWithStripe')
   }
-
-
 
   render() {
     const { lang } = this.props;
@@ -31,33 +25,32 @@ class PaymentSelect extends Component {
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.container}>
         <Image style={styles.logo} source={require('../../../../../assets/images/logo-white.png')} />
         <View style={styles.wrapper}>
-          <Text style={styles.infoHeader}>{trans('membership_info_header', lang)}</Text>
-          <Text style={styles.infoText}>{trans('membership_info_part_1', lang)}</Text>
-          <Text style={styles.infoText}>{trans('membership_info_part_2', lang)}</Text>
+          <Text style={styles.infoHeader}>{trans('A desire to make food local again', lang)}</Text>
+          <Text style={styles.infoText}>{trans('Local Food Nodes is built on a gift based enonomy. By supporting with a donation, free of choice, you co-finance efforts to make the food more local again.', lang)}</Text>
+          <Text style={styles.infoText}>{trans('Your donation will be invested into development of the platform Local Food Nodes. Any surplus will be invested in projects that help develop local food. No money will hit the pockets of private interests. Not now, not ever.', lang)}</Text>
         </View>
-        <TouchableOpacity style={styles.button} onPress={this.payWithSwish}>
-        <View style={{flex: 1}}>
-          <Image source={require('../../../../../assets/images/Swish_Logo_Primary_RGB.png')} style={{flex:1, height: undefined, width: undefined}} resizeMode="contain"></Image>
+        <View style={styles.buttonWrapper}>
+          <TouchableOpacity style={styles.button} onPress={this.payWithSwish}>
+            <Image source={require('../../../../../assets/images/swish.png')} style={styles.image} resizeMode="contain"></Image>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.button, styles.buttonLast]} onPress={this.payWithStripe}>
+            <Image source={require('../../../../../assets/images/visamastercard.png')} style={styles.image} resizeMode="contain"></Image>
+          </TouchableOpacity>
         </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={this.payWithStripe}>
-        <Image source={require('../../../../../assets/images/Stripe_logo.png')} style={{flex:1, height: undefined, width: undefined}} resizeMode="contain"></Image>
-        </TouchableOpacity>
       </ScrollView>
     );
   }
 }
 
 function mapStateToProps(state) {
-  const { auth, settings } = state;
-
-  return {
-    // auth,
-    // settings,
-  }
+  return {};
 }
 
 export default connect(mapStateToProps)(PaymentSelect);
+
+const dimensions = Dimensions.get('window');
+// const imageHeight = Math.round(dimensions.width * 9 / 16);
+const imageWidth = (dimensions.width / 2) - 30; // (screen width / 2) - wrapper margin
 
 let styles = StyleSheet.create({
   scrollView: {
@@ -72,13 +65,21 @@ let styles = StyleSheet.create({
     justifyContent: 'center',
     flexWrap: 'wrap'
   },
+  buttonWrapper: {
+    flex: 1,
+    flexDirection: 'row',
+    margin: 15,
+  },
   button: {
-    backgroundColor: globalStyle.backgroundColor,
-    width: '45%',
-    height: 180,
-    padding: 20,
-    marginRight: 10,
-    marginBottom: 10,
+    height: 30,
+    marginRight: 15,
+  },
+  buttonLast: {
+    marginRight: 0,
+  },
+  image: {
+    height: 30,
+    width: imageWidth,
   },
   logo: {
     height: 60,
@@ -97,7 +98,6 @@ let styles = StyleSheet.create({
     color: '#fff',
     fontFamily: 'montserrat-regular',
     marginBottom: 15,
-    // width: '100%',
   },
   wrapper: {
     padding: 15,

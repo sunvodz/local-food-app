@@ -5,7 +5,7 @@ import thunk from 'redux-thunk';
 import {AppLoading, ScreenOrientation } from 'expo'
 import * as Font from 'expo-font';
 import * as Sentry from 'sentry-expo';
-import { SENTRY_PUBLIC_DSN, SENTRY_ENABLE_IN_DEV, PUSHER_LOG_TO_CONSOLE } from 'app/env.json';
+import { SENTRY_PUBLIC_DSN, SENTRY_ENABLE_IN_DEV, PUSHER_LOG_TO_CONSOLE } from 'app/env';
 import Pusher from 'pusher-js/react-native';
 import {YellowBox} from 'react-native';
 

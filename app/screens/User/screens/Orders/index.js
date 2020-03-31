@@ -8,8 +8,6 @@ import { Loader, List, ListSection, ListItem, Empty } from 'app/components';
 import * as actions from './actions';
 import { trans } from 'app/shared';
 
-// const DataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-
 class Orders extends Component {
   constructor(props) {
     super(props);
@@ -23,16 +21,20 @@ class Orders extends Component {
     this.props.dispatch(actions.fetchOrders());
   }
 
+  componentDidUpdate() {
+    if (this.props.orders.reloadOrders) {
+      this.props.dispatch(actions.fetchOrders());
+    }
+  }
+
   onRefresh() {
     this.props.dispatch(actions.fetchOrders());
   }
 
   navigateOrder(orderDateItemLinkId) {
-    console.log(this.props);
-    
     const { navigate } = this.props.navigation;
 
-    navigate('Order', orderDateItemLinkId);
+    navigate('order', orderDateItemLinkId);
   }
 
   renderListSection(o, sectionId, rowId) {
@@ -42,7 +44,7 @@ class Orders extends Component {
     let numberOfListItems = orders.items.length - 1;
 
     let listItems = _.map(orders.items, (order, index) => {
-      let orderItem = order.order_item_relationship[0];
+      let orderItem = order.item;
       let isLastListItem = index === numberOfListItems;
 
       return (
@@ -56,7 +58,7 @@ class Orders extends Component {
     });
 
     return (
-      <ListSection label={trans('pickup', this.props.lang) + ' ' + date}>
+      <ListSection label={trans('Pickup', this.props.lang) + ' ' + date}>
         {listItems}
       </ListSection>
     );
@@ -70,11 +72,10 @@ class Orders extends Component {
     }
 
     if (_.isEmpty(orders)) {
-      return <Empty onRefresh={this.onRefresh.bind(this)} refreshing={refreshing} icon="list" header={trans('no_orders', this.props.lang)} text={trans('no_orders_text', this.props.lang)} />;
+      return <Empty onRefresh={this.onRefresh.bind(this)} refreshing={refreshing} icon="list" header={trans('No orders', this.props.lang)} text={trans('You have no orders. Visit a node to find available products.', this.props.lang)} />;
     }
 
     let listProps = {
-      // dataSource: DataSource.cloneWithRows(orders),
       data: orders,
       renderItem: this.renderListSection.bind(this),
       onRefresh: this.onRefresh.bind(this),
@@ -86,10 +87,11 @@ class Orders extends Component {
 }
 
 function mapStateToProps(state) {
-  const { orders } = state;
+  const { orders, auth } = state;
 
   return {
     orders,
+    auth,
   }
 }
 

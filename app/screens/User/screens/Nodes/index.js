@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { View } from 'react-native';
 import _ from 'lodash';
 
-import AuthScreen from 'app/screens/Auth';
 import { ContentWrapper, Loader, Empty, NodeCard, Button } from 'app/components';
 
 import * as actions from './actions';
@@ -21,7 +20,7 @@ class Nodes extends React.Component {
   }
 
   navigateToNode(node) {
-    this.props.navigation.navigate('Node', node);
+    this.props.navigation.navigate('node', node);
   }
 
   removeNode(nodeId) {
@@ -31,17 +30,13 @@ class Nodes extends React.Component {
   render() {
     const { loading, nodes } = this.props.nodes;
 
-    if (!this.props.auth.user || this.props.auth.loading) {
-      return <AuthScreen {...this.props} />;
-   }
-
     if (loading) {
       return <Loader />;
     }
 
     if (_.isEmpty(nodes)) {
-      let actionButton = <Button icon='globe' title={trans('find_nodes', this.props.lang)} onPress={this.props.toggleMap} />
-      return <Empty icon="map-marker" action={actionButton} header={trans('no_user_nodes', this.props.lang)} text={trans('no_user_nodes_text', this.props.lang)} />;
+      let actionButton = <Button icon='globe' title={trans('Find nodes', this.props.lang)} onPress={this.props.toggleMap} />
+      return <Empty icon="map-marker" action={actionButton} header={trans('Nodes', this.props.lang)} text={trans('You are not following any nodes.', this.props.lang)} />;
     }
 
     let nodeCards = _.map(nodes, node => {

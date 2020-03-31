@@ -63,7 +63,7 @@ export default class MapViewWrapper extends React.Component {
   }
 
   navigateToNode() {
-    this.props.navigation.navigate('Node', this.state.callout);
+    this.props.navigation.navigate('node', this.state.callout);
     this.closeCallout();
   };
 
@@ -83,8 +83,8 @@ export default class MapViewWrapper extends React.Component {
     }
 
     if (!map.nodes && !map.loading) {
-      let actionButton = <Button icon='refresh' title={trans('try_again', this.props.lang)} onPress={this.refreshNodes.bind(this)} loading={map.refresh} />
-      return <Empty icon="map-marker" header={trans('no_nodes', this.props.lang)} text={trans('no_nodes_text', this.props.lang)} action={actionButton} />;
+      let actionButton = <Button icon='refresh' title={trans('Try again', this.props.lang)} onPress={this.refreshNodes.bind(this)} loading={map.refresh} />
+      return <Empty icon="map-marker" header={trans('Find nodes', this.props.lang)} text={trans('You are not following any nodes.', this.props.lang)} action={actionButton} />;
     }
 
     let mapData = _.map(_.cloneDeep(map.nodes), (node) => {

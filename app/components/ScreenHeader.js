@@ -15,20 +15,20 @@ class ScreenHeader extends React.Component {
   navigateToCart() {
     const { navigate } = this.props.navigation;
 
-    navigate('Cart');
+    navigate('cart');
   }
 
   render() {
     let left = null;
     if (this.props.left === true) {
-      left = <Icon name='chevron-left' style={styles.backIcon} size={20} color='#fff' onPress={this.goBack.bind(this)} />;
+      left = <Icon name='chevron-left' style={styles.icon} size={16} color='#fff' onPress={this.goBack.bind(this)} />;
     } else if (this.props.left) {
       left = this.props.left;
     }
 
     let right = null;
     if (this.props.right === true && this.props.auth.user) {
-      right = <CartIcon style={styles.shoppingIcon} size={20} color='#fff' onPress={this.navigateToCart.bind(this)} />;
+      right = <CartIcon style={styles.icon} size={16} color='#fff' onPress={this.navigateToCart.bind(this)} />;
     } else if (this.props.right) {
       right = this.props.right;
     }
@@ -48,6 +48,7 @@ class ScreenHeader extends React.Component {
           {sub}
         </View>
         <View style={styles.right}>
+          {this.props.followNode}
           {right}
         </View>
       </SafeAreaView>
@@ -76,11 +77,6 @@ let styles = {
     alignItems: 'flex-start',
     alignSelf: 'center',
     flex: 1,
-    marginLeft: 10,
-    paddingTop: 10,
-    paddingRight: 10,
-    paddingBottom: 10,
-    paddingLeft: 10,
   },
   middle: {
     alignItems: 'center',
@@ -102,21 +98,15 @@ let styles = {
     fontSize: 12,
   },
   right: {
-    alignItems: 'flex-end',
+    alignItems: 'center',
     alignSelf: 'center',
     flex: 1,
-    marginRight: 10,
-    paddingTop: 10,
-    paddingRight: 10,
-    paddingBottom: 10,
-    paddingLeft: 10,
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
-  backIcon: {
+  icon: {
     color: '#fff',
-    fontSize: 20,
-  },
-  shoppingIcon: {
-    color: '#fff',
-    fontSize: 20,
+    fontSize: 16,
+    padding: 10,
   }
 };

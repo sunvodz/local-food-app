@@ -56,4 +56,4 @@ buck-out/
 *.jsbundle
 
 # Custom
-app/env.json
+app/env.js

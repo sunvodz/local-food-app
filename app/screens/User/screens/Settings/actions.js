@@ -40,12 +40,13 @@ export function setLanguage(lang) {
   return async function(dispatch, getState) {
     // Load
     let user = await AsyncStorage.getItem('@store:user');
+
     // Set
-    
     user = JSON.parse(user);
     user.language = lang;
     // Store
     await AsyncStorage.setItem('@store:user', JSON.stringify(user));
+    await AsyncStorage.setItem('@store:lang', lang);
 
     return dispatch(sharedActions.loginComplete(user));
   }

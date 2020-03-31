@@ -81,14 +81,14 @@ export function receiveNodes(nodes) {
   }
 }
 
-export function receiveNodesFailed() {
+export function receiveNodesFailed(error) {
   return {
     type: actionTypes.RECEIVE_NODES_FAILED,
     loading: false,
     refresh: false,
     nodes: null,
     title: 'nodes',
-    message: 'failed_loading_nodes',
+    message: 'Failed loading nodes',
   }
 }
 

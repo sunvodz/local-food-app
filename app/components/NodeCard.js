@@ -18,23 +18,23 @@ export default class NodeCard extends React.Component {
   render() {
     const { node } = this.props;
 
-    let remove = this.props.removeNode ? <Link title={trans('remove', this.props.lang)} onPress={this.removeNode.bind(this)}/> : null;
+    let remove = this.props.removeNode ? <Link title={trans('Remove', this.props.lang)} onPress={this.removeNode.bind(this)}/> : null;
 
     let imageProps = {
       source: require('../../assets/images/node-placeholder.jpg'), // Product fallback image
       style: styles.modalHeaderImage,
     }
 
-    if (node.image_relationship.length > 0) {
-      imageProps.source = {uri: node.image_relationship[0].urls.small};
+    if (node.images && node.images.length > 0) {
+      imageProps.source = {uri: node.images[0].urls.small};
     }
 
     let modalHeader = (
       <ImageBackground {...imageProps}>
-        <View style={styles.timeBadge}>
+        {/* <View style={styles.timeBadge}>
           <Icon style={styles.timeIcon} name='clock-o' />
           <Text style={styles.timeText}>{trans(node.delivery_weekday, this.props.lang)} {node.delivery_time}</Text>
-        </View>
+        </View> */}
       </ImageBackground>
     );
 
@@ -48,7 +48,7 @@ export default class NodeCard extends React.Component {
           </View>
         </View>
         <View style={styles.modalFooter}>
-          <Link title={trans('go_to_node', this.props.lang)} onPress={this.navigateToNode.bind(this)}/>
+          <Link title={trans('Visit node', this.props.lang)} onPress={this.navigateToNode.bind(this)}/>
           {remove}
         </View>
       </View>

@@ -1,43 +1,38 @@
 import React from 'react';
-import { StackNavigator } from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack'
+import { createStackNavigator } from 'react-navigation-stack'
 
-import Profile from 'app/screens/User/screens/Profile';
 import Order from 'app/screens/User/screens/Order';
 import Cart from 'app/screens/User/screens/Cart';
-import Membership from 'app/screens/User/screens/Membership';
 import DeleteAccount from 'app/screens/User/screens/DeleteAccount';
 import Help from 'app/screens/User/screens/Help';
 import PaymentSelect from 'app/screens/User/screens/PaymentSelect';
+import PayWithStripe from 'app/screens/User/screens/PayWithStripe';
 import PayWithSwish from 'app/screens/User/screens/PayWithSwish';
 import ProfileTabNavigation from 'app/navigations/ProfileTabNavigation';
-import AuthScreen from 'app/screens/Auth';
+import Auth from 'app/screens/Auth';
 import { trans } from 'app/shared';
 import style from 'app/styles';
 
 import CartIcon from 'app/containers/CartIcon';
 
-
 const routeConfig = {
-  Profile: {
+  profile: {
     screen: ProfileTabNavigation,
     navigationOptions: (props) => {
-      // console.log(props.screenProps);
-
       let right = null;
       if (props.screenProps.auth.user) {
-        right = <CartIcon size={20} color='#fff' style={{marginRight: 20}} onPress={() => props.navigation.navigate('Cart')} />
+        right = <CartIcon size={20} color='#fff' style={{marginRight: 20}} onPress={() => props.navigation.navigate('cart')} />
       }
-      
+
       return {
-        // header: null,
-        title: trans('your_account', props.screenProps.lang),
+        title: trans('Your account', props.screenProps.lang),
         headerRight: right,
         headerLeftTitle: null,
+        headerBackTitle: null,
       }
     },
   },
-  Order: {
+  order: {
     screen: (props) => {
       return <Order navigation={props.navigation} lang={props.screenProps.lang} />;
     },
@@ -45,36 +40,23 @@ const routeConfig = {
       return {
         header: null,
         headerLeftTitle: null,
+        headerBackTitle: null,
       }
     }
   },
-  Cart: {
+  cart: {
     screen: (props) => {
       return <Cart navigation={props.navigation} lang={props.screenProps.lang} />;
     },
     navigationOptions: (props) => {
       return {
-        // header: null,
-        title: trans('cart', props.screenProps.lang),
+        title: trans('Cart', props.screenProps.lang),
         headerLeftTitle: null,
-        // header: {
-        //   // backTitle: null,
-        // },
+        headerBackTitle: null,
       }
     }
   },
-  Membership: {
-    screen: (props) => {
-      return <Membership navigation={props.navigation} lang={props.screenProps.lang} />;
-    },
-    navigationOptions: ({navigation}) => {
-      return {
-        header: null,
-        headerLeftTitle: null,
-      }
-    }
-  },
-  DeleteAccount: {
+  deleteAccount: {
     screen: (props) => {
       return <DeleteAccount navigation={props.navigation} lang={props.screenProps.lang} />;
       },
@@ -82,10 +64,11 @@ const routeConfig = {
       return {
         header: null,
         headerLeftTitle: null,
+        headerBackTitle: null,
       }
     }
   },
-  Help: {
+  help: {
     screen: (props) => {
       return <Help navigation={props.navigation} lang={props.screenProps.lang} />;
     },
@@ -93,6 +76,7 @@ const routeConfig = {
       return {
         header: null,
         headerLeftTitle: null,
+        headerBackTitle: null,
       };
     }
   },
@@ -100,8 +84,7 @@ const routeConfig = {
     screen: PaymentSelect,
     navigationOptions: (props) => {
       return {
-        // title: trans('your_account', props.screenProps.lang),
-        title: trans('membership', props.screenProps.lang),
+        title: trans('Donation', props.screenProps.lang),
         headerBackTitle: null,
       }
     },
@@ -114,17 +97,24 @@ const routeConfig = {
     }
   },
   payWithStripe: {
-    screen: Membership,
+    screen: PayWithStripe,
     navigationOptions: (props) => {
       return {
-        title: 'Stripe',
+        title: 'Credit card',
         headerBackTitle: null,
       };
     }
   },
-  Auth: {
-    screen: AuthScreen
-  }
+  auth: {
+    screen: props => {
+      return <Auth navigation={props.navigation} lang={props.screenProps.lang} />
+    },
+    navigationOptions: ({ navigation }) => {
+      return {
+        header: null,
+      };
+    }
+  },
 };
 
 const navigatorConfig = {
@@ -136,8 +126,7 @@ const navigatorConfig = {
     },
     headerLeftTitle: null,
   },
-  // initialRouteName: 'payWithSwish'
 };
 
 export default createStackNavigator(routeConfig, navigatorConfig);
-export const UnauthorizedStackNavigator = createStackNavigator(routeConfig, {...navigatorConfig, initialRouteName: 'Auth'});
+export const UnauthorizedStackNavigator = createStackNavigator(routeConfig, {...navigatorConfig, initialRouteName: 'auth'});

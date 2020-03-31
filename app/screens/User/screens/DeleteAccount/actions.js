@@ -16,7 +16,7 @@ export function deleteOrder(orderDateItemLinkId) {
 
       let response = await api.call({
         method: 'delete',
-        url: `/api/v1/users/order/${orderDateItemLinkId}`
+        url: `/api/v1/user/order/${orderDateItemLinkId}`
       });
 
       let orders = await response.json();

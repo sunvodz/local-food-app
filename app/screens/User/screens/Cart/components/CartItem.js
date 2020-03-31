@@ -31,7 +31,7 @@ export default class CartItem extends React.Component {
   render() {
     const { data } = this.props;
 
-    const cartItem = data.cart_item_relationship[0];
+    const cartItem = data.item;
     const product = cartItem.product;
     const variant = cartItem.variant;
     const producer = cartItem.producer;
@@ -81,7 +81,7 @@ export default class CartItem extends React.Component {
     let trash = (
       <View style={styles.footer}>
         <View style={styles.priceWrapper}>
-          <Text style={styles.priceText}>{trans('price_to_pay', this.props.lang)}: {totalPrice}</Text>
+          <Text style={styles.priceText}>{trans('Total', this.props.lang)}: {totalPrice}</Text>
         </View>
         <Link title={trans('delete', this.props.lang)} onPress={this.removeCartItem.bind(this)} />
       </View>

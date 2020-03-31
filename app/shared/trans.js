@@ -1,8 +1,7 @@
-import en from '../languages/en';
 import sv from '../languages/sv';
 
 export default function trans(string, lang) {
-  let currentLang = en;
+  let currentLang = {};
 
   if (lang === 'sv') {
     currentLang = sv;

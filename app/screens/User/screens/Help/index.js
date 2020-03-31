@@ -9,21 +9,17 @@ class Help extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <ScreenHeader title={trans('help', this.props.lang)} left navigation={this.props.navigation} />
+        <ScreenHeader title={trans('Help', this.props.lang)} left navigation={this.props.navigation} />
         <ContentWrapper>
-          <Card header={trans('your_account', this.props.lang)} headerPosition='outside'>
-            <View style={styles.section}>
-              <Text style={styles.label}>{trans('help_reset_password', this.props.lang)}</Text>
-              <Text style={styles.text}>{trans('help_reset_password_info', this.props.lang)}</Text>
-            </View>
+          <Card header={trans('Your account', this.props.lang)} headerPosition='outside'>
             <View>
-              <Text style={styles.label}>{trans('help_update_user', this.props.lang)}</Text>
-              <Text style={styles.text}>{trans('help_update_user_info', this.props.lang)}</Text>
+              <Text style={styles.label}>{trans('Reset password', this.props.lang)}</Text>
+              <Text style={styles.text}>{trans('Reset password is not a feature in app yet. To restore your password visit localfoodnodes.org.', this.props.lang)}</Text>
             </View>
           </Card>
-          <Card header={trans('need_help', this.props.lang)} headerPosition='outside'>
+          <Card header={trans('Need help?', this.props.lang)} headerPosition='outside'>
             <View>
-              <Text style={styles.text}>{trans('need_help_info', this.props.lang)}</Text>
+              <Text style={styles.text}>{trans('Feel free to contact us on the chat at localfoodnodes.org or email us on info@localfoodnodes.org.', this.props.lang)}</Text>
             </View>
           </Card>
         </ContentWrapper>

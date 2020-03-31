@@ -12,7 +12,7 @@ import globalStyle from 'app/styles';
 
 class Settings extends Component {
   componentDidMount() {
-    this.props.dispatch(actions.fetchLanguages());
+    // this.props.dispatch(actions.fetchLanguages());
     this.props.dispatch(actions.getPushToken());
   }
 
@@ -21,8 +21,6 @@ class Settings extends Component {
   }
 
   navigateToMembershipPayment(donation) {
-    console.log(this.props);
-    
     const { navigate } = this.props.navigation;
 
     navigate('paymentSelect');
@@ -31,13 +29,13 @@ class Settings extends Component {
   navigateToHelp(donation) {
     const { navigate } = this.props.navigation;
 
-    navigate('Help');
+    navigate('help');
   }
 
   navigateToDeleteAccount() {
     const { navigate } = this.props.navigation;
 
-    navigate('DeleteAccount', {
+    navigate('deleteAccount', {
       deleteAccount: this.performDeleteAccount,
     });
   }
@@ -60,37 +58,31 @@ class Settings extends Component {
     this.props.dispatch(sharedActions.loadUser(true)); // Refreshing
   }
 
+  onResendEmail() {
+    this.props.dispatch(sharedActions.resendEmail());
+  }
+
   render() {
     const { auth, lang } = this.props;
 
-    let membershipStatus = <Text style={styles.text}>{trans('not_a_member', lang)}</Text>;
-    let membershipStatusAction = <Link onPress={this.navigateToMembershipPayment.bind(this, false)} title={trans('become_a_member', lang)} accessibilityLabel="Become a member" />;
-    let payments = auth.user.membership_payments_relationship;
+    let membershipStatus = <Text style={styles.text}>{trans('You must make a donation before you can order products on Local Food Nodes. By supporting with a donation, free of choice, you co-finance efforts to make the food more local again.', lang)}</Text>;
+    let membershipStatusAction = <Link onPress={this.navigateToMembershipPayment.bind(this, false)} title={trans('Make a donation', lang)} />;
+    let payments = auth.user.membership_payments;
 
     if (!auth.user.active) {
-      membershipStatus = <Text style={styles.text}>{trans('activate_account_text', lang)}</Text>;
-      membershipStatusAction = <Link onPress={this.navigateToMembershipPayment.bind(this, true)} title={trans('activate_account', lang)} accessibilityLabel="Activate account membership" />;
+      membershipStatus = <Text style={styles.text}>{trans('You have to verify your email address before you can make a donation and order products.', lang)}</Text>;
+      membershipStatusAction = <Link onPress={this.onResendEmail.bind(this)} title={trans('Resend verification email', lang)} />;
     } else if (payments.length > 0) {
-      let lastPayment = payments[payments.length - 1];
-      if (lastPayment.created_at) {
-        // Yearly
-        let membershipUntil = moment(lastPayment.created_at).add(1, 'y');
-        membershipStatus = <Text style={styles.text}>{trans('member_yearly_until', lang)} {membershipUntil.format('YYYY-MM-DD')}</Text>;
-        membershipStatusAction = <Link onPress={this.navigateToMembershipPayment.bind(this, true)} title={trans('renew_membership', lang)} accessibilityLabel="Renew membership" />;
-      } else {
-        // Monthly
-        membershipStatus = <Text style={styles.text}>{trans('member_monthly', lang)}</Text>;
-        membershipStatusAction = <Link onPress={this.navigateToMembershipPayment.bind(this, true)} title={trans('renew_membership', lang)} accessibilityLabel="Renew membership" />;
-      }
+      let lastPayment = payments[0];
+      let membershipUntil = moment(lastPayment.created_at).add(1, 'y');
+      membershipStatus = <Text style={styles.text}>{trans('Donation valid until', lang)} {membershipUntil.format('YYYY-MM-DD')}</Text>;
+      membershipStatusAction = <Link onPress={this.navigateToMembershipPayment.bind(this, true)} title={trans('Make a donation', lang)} />;
     }
 
     let availableLanguages = {
       sv: 'Svenska',
       en: 'English',
     };
-
-    // console.log(auth.user);
-    
 
     let languageItems = _.map(availableLanguages, (name, lang) => {
       let selected = auth.user.language === lang ? <Icon name='check' /> : null;
@@ -103,23 +95,23 @@ class Settings extends Component {
       );
     });
 
-    let loggedInAs = `${trans('logged_in_as', lang)} ${auth.user.name}`;
+    let loggedInAs = `${trans('Logged in as', lang)} ${auth.user.name}`;
 
-    let helpLink = <Link onPress={this.navigateToHelp.bind(this, true)} title={trans('help', lang)} accessibilityLabel={trans('help', lang)} />;
+    let helpLink = <Link onPress={this.navigateToHelp.bind(this, true)} title={trans('Help', lang)} />;
 
     return (
       <ContentWrapper onRefresh={this.onRefresh.bind(this)} refreshing={auth.refreshing}>
         <Card header={loggedInAs} headerPosition='outside' footer={membershipStatusAction} style={{card: {marginBottom: 0}}}>
           {membershipStatus}
         </Card>
-        <Card header={trans('select_language', lang)} headerPosition='outside'>
+        <Card header={trans('Select language', lang)} headerPosition='outside'>
           {languageItems}
         </Card>
-        <Card header={trans('help', lang)} headerPosition='outside' footer={helpLink}>
-          <Text>Help section</Text>
+        <Card header={trans('Help', lang)} headerPosition='outside' footer={helpLink}>
+          <Text>{trans('We have created a small FAQ for you. If there is anything else you need help with please contact us on info@localfoodnodes.org.', lang)}</Text>
         </Card>
         {/* <Text>Token: {this.props.settings.pushToken}</Text> */}
-        <Button onPress={this.onLogout.bind(this)} icon='sign-out' title={trans('logout', lang)} accessibilityLabel="Logout" />
+        <Button onPress={this.onLogout.bind(this)} icon='sign-out' title={trans('Logout', lang)} />
         {/*<Text style={styles.deleteAccountLink} onPress={this.navigateToDeleteAccount.bind(this)}>Delete account</Text>*/}
       </ContentWrapper>
     );

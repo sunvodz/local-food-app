@@ -13,8 +13,8 @@ export default class ProductCard extends React.Component {
     super(props);
 
     let variant = null;
-    if (this.props.product.product_variants_relationship.length > 0) {
-      variant = this.props.product.product_variants_relationship[0];
+    if (this.props.product.variants.length > 0) {
+      variant = this.props.product.variants[0];
     }
 
     this.state = {
@@ -26,7 +26,7 @@ export default class ProductCard extends React.Component {
   onSelectVariant(index) {
     const { product } = this.props;
 
-    let variant = product.product_variants_relationship[index];
+    let variant = product.variants[index];
 
     this.setState({variant: variant});
   }
@@ -44,7 +44,7 @@ export default class ProductCard extends React.Component {
 
     data.product = this.props.product;
     data.variant = this.state.variant ? this.state.variant : null;
-    data.producer = this.props.product.producer_relationship;
+    data.producer = this.props.product.producer;
 
     this.props.onQuantityChange(data);
   }
@@ -60,9 +60,9 @@ export default class ProductCard extends React.Component {
     let readMore = null;
     if (productInfo.length > 100 && !this.state.readMore) {
       productInfo = productInfo.substr(0, 140) + '...';
-      readMore = <Text style={styles.readMore} onPress={this.toggleReadMore.bind(this)}>{trans('read_more', this.props.lang)}</Text>;
+      readMore = <Text style={styles.readMore} onPress={this.toggleReadMore.bind(this)}>{trans('Read more', this.props.lang)}</Text>;
     } else if (productInfo.length > 100 && this.state.readMore) {
-      readMore = <Text style={styles.readMore} onPress={this.toggleReadMore.bind(this)}>{trans('read_less', this.props.lang)}</Text>;
+      readMore = <Text style={styles.readMore} onPress={this.toggleReadMore.bind(this)}>{trans('Read less', this.props.lang)}</Text>;
     }
 
     let imageProps = {
@@ -75,7 +75,7 @@ export default class ProductCard extends React.Component {
     }
 
     let csaIcon = null;
-    if (product.productionType === 'csa') {
+    if (product.stock_type === 'csa') {
       csaIcon = (
         <View style={styles.csaIcon}>
           <Text style={styles.csaIconText}>CSA</Text>
@@ -90,9 +90,9 @@ export default class ProductCard extends React.Component {
       </View>
     );
 
-    if (product.product_variants_relationship.length > 0) {
-      let variantIcon = product.product_variants_relationship.length > 1 ? <Icon name='clone' style={styles.variantIcon} /> : null;
-      let variants = product.product_variants_relationship.map(variant => {
+    if (product.variants.length > 0) {
+      let variantIcon = product.variants.length > 1 ? <Icon name='clone' style={styles.variantIcon} /> : null;
+      let variants = product.variants.map(variant => {
         return (
           <View style={{flex: 1}} key={variant.id}>
             <ImageBackground {...imageProps} style={styles.swiperSlide}>
@@ -115,7 +115,7 @@ export default class ProductCard extends React.Component {
         <View style={styles.productCard}>
           <View>
             <Text numberOfLines={2} style={styles.productTitle}>{product.name}</Text>
-            <Text numberOfLines={1} style={styles.producerTitle}>{product.producer_relationship.name}</Text>
+            <Text numberOfLines={1} style={styles.producerTitle}>{product.producer.name}</Text>
           </View>
           {swipe}
           <OrderForm auth={this.props.auth} product={product} variant={this.state.variant} onQuantityChange={this.onQuantityChange.bind(this)} lang={this.props.lang} />
@@ -178,7 +178,7 @@ let styles = {
     right: 20,
   },
   csaIcon: {
-    backgroundColor: '#8bc34a',
+    backgroundColor: '#bf360c',
     borderRadius: 20,
     left: 10,
     overflow: 'hidden',

@@ -1,6 +1,5 @@
 import React from 'react';
-import { TabNavigator } from 'react-navigation';
-import { createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-navigation-tabs';
+import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 import globalStyles from 'app/styles';
 
 import Orders from 'app/screens/User/screens/Orders';
@@ -22,13 +21,11 @@ const RouteConfigs = {
   },
   Settings: {
     screen: (props) => {
-      // console.log(props);
-      
       return <Settings navigation={props.navigation} lang={props.screenProps.lang} />;
     },
     navigationOptions: (props) => {
       return {
-        tabBarLabel: trans('settings', props.screenProps.lang),
+        tabBarLabel: trans('Settings', props.screenProps.lang),
         headerLeftTitle: null,
       };
     }
@@ -36,7 +33,6 @@ const RouteConfigs = {
 };
 
 const TabNavigatorConfig = {
-  // ...TabNavigator.Presets.AndroidTopTabs,
   animationEnabled: true,
   lazy: true,
   swipeEnabled: true,

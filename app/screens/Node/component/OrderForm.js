@@ -39,7 +39,7 @@ export default class OrderForm extends React.Component {
 
   render() {
     const { product, variant } = this.props;
-    const producer = product.producer_relationship;
+    const producer = product.producer;
 
     let packageUnit = unitHelper.getPackageUnit(product, null, this.props.lang);
 
@@ -63,7 +63,7 @@ export default class OrderForm extends React.Component {
 
     let quantityForm = null;
 
-    if (this.props.auth.user && this.props.auth.user.active && this.props.auth.user.membership_payments_relationship.length > 0) {
+    if (this.props.auth.user && this.props.auth.user.active && this.props.auth.user.membership_payments.length > 0) {
       if (parseInt(availableQuantity) > 0) {
         quantityForm = (
           <View style={styles.quantity}>
@@ -81,7 +81,7 @@ export default class OrderForm extends React.Component {
           </View>
         );
       } else {
-        quantityForm = <Text style={styles.soldout}>{trans('sold_out', this.props.lang)}</Text>;
+        quantityForm = <Text style={styles.soldout}>{trans('Sold out', this.props.lang)}</Text>;
       }
     }
 
@@ -198,6 +198,7 @@ let styles = {
     color: globalStyle.primaryColor,
     flex: 1,
     fontFamily: 'montserrat-semibold',
+    marginTop: 15,
     textAlign: 'center',
   }
 };

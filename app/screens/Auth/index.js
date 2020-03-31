@@ -67,23 +67,20 @@ class AuthScreen extends React.Component {
       }
     };
 
-    let navBackIcon = this.props.navigation.getParam('navBackIcon', false);
-
     let toggleText = <Text style={styles.toggleText} onPress={this.toggleForms.bind(this)}>Create an account</Text>;
     if (this.props.auth.createAccountForm) {
       toggleText = <Text style={styles.toggleText} onPress={this.toggleForms.bind(this)}>Login to your account</Text>;
 
       return (
-        <View style={{flex: 1}}>
-          <ScreenHeader title={trans('create_account', this.props.lang)} left={navBackIcon} navigation={this.props.navigation} />
-          <KeyboardAwareScrollView {...scrollViewProps}>
+        <KeyboardAwareScrollView {...scrollViewProps}>
+          <View style={{flex: 1, marginTop: 30, marginBottom: 5}}>
             <Image style={styles.logo} source={require('../../../assets/images/logo-white.png')} />
             <View style={styles.wrapper}>
-              <Text style={styles.infoText}>Find local food nodes near you and order directly from your local producers</Text>
-              <TextInput key='name' label={trans('name', this.props.lang)} defaultValue={this.state.name} editable={!this.props.auth.loading} placeholder="Your name" onChangeText={this.onChange.bind(this, 'name')} />
-              <TextInput key='email' label={trans('email', this.props.lang)} defaultValue={this.state.email} editable={!this.props.auth.loading} placeholder="Your email" onChangeText={this.onChange.bind(this, 'email')} autoCapitalize='none' />
-              <TextInput key='phone' label={trans('phone', this.props.lang)} defaultValue={this.state.phone} editable={!this.props.auth.loading} placeholder="Your phone number" onChangeText={this.onChange.bind(this, 'phone')} />
-              <TextInput key='password' label={trans('password', this.props.lang)} defaultValue={this.state.password} editable={!this.props.auth.loading} placeholder="Choose a password" hint="Minimum 8 characters" onChangeText={this.onChange.bind(this, 'password')} secureTextEntry />
+              <Text style={styles.infoText}>{trans('Find local food nodes near you and order directly from your local producers', this.props.lang)}</Text>
+              <TextInput key='name' label={trans('Name', this.props.lang)} defaultValue={this.state.name} editable={!this.props.auth.loading} placeholder="Your name" onChangeText={this.onChange.bind(this, 'name')} />
+              <TextInput key='email' label={trans('Email', this.props.lang)} defaultValue={this.state.email} editable={!this.props.auth.loading} placeholder="Your email" onChangeText={this.onChange.bind(this, 'email')} autoCapitalize='none' keyboardType="email-address"/>
+              <TextInput key='phone' label={trans('Phone', this.props.lang)} defaultValue={this.state.phone} editable={!this.props.auth.loading} placeholder="Your phone number" onChangeText={this.onChange.bind(this, 'phone')} />
+              <TextInput key='password' label={trans('Password', this.props.lang)} defaultValue={this.state.password} editable={!this.props.auth.loading} placeholder="Choose a password" hint="Minimum 8 characters" onChangeText={this.onChange.bind(this, 'password')} secureTextEntry />
 
               <SelectInput
                 label='Select language'
@@ -115,29 +112,28 @@ class AuthScreen extends React.Component {
                   />
                   <Text style={styles.switchLabel}>{this.state.terms ? 'I accept' : 'I dont accept'}</Text>
               </View>
-              <Text style={{color: '#fff', flex: 1, marginTop: 5, marginBottom: 5, fontFamily: 'montserrat-regular'}}>Before you can become a member you have to accept our terms and privacy policy</Text>
-              <Button icon='user' style={styles.button} onPress={this.onSignup.bind(this)} title="Create account" accessibilityLabel="Create account" loading={this.props.auth.loading} disabled={!this.state.terms}/>
+              <Text style={{color: '#fff', flex: 1, marginTop: 5, marginBottom: 5, fontFamily: 'montserrat-regular'}}>{trans('Accept our terms and privacy policy')}</Text>
+              <Button icon='user' style={styles.button} onPress={this.onSignup.bind(this)} title={trans('Create account')} loading={this.props.auth.loading} disabled={!this.state.terms}/>
               {toggleText}
             </View>
-          </KeyboardAwareScrollView>
-        </View>
+          </View>
+        </KeyboardAwareScrollView>
       );
     }
 
     return (
-      <View style={{flex: 1}}>
-        <ScreenHeader title={trans('login', this.props.lang)} left={navBackIcon} navigation={this.props.navigation} />
-        <KeyboardAwareScrollView {...scrollViewProps}>
+      <KeyboardAwareScrollView {...scrollViewProps}>
+        <View style={{flex: 1, marginTop: 30, marginBottom: 5}}>
           <Image style={styles.logo} source={require('../../../assets/images/logo-white.png')} />
           <View style={styles.wrapper}>
             <Text style={styles.infoText}>Login to your account to order local food directly from your local producers</Text>
-            <TextInput key='email' label={trans('email', this.props.lang)} defaultValue={this.state.email} editable={!this.props.auth.loading} placeholder='Your email' onChangeText={this.onChange.bind(this, 'email')} autoCapitalize='none' />
-            <TextInput key='password' label={trans('password', this.props.lang)} defaultValue={this.state.password} editable={!this.props.auth.loading} placeholder='Your password' onChangeText={this.onChange.bind(this, 'password')} secureTextEntry />
+            <TextInput key='email' label={trans('Email', this.props.lang)} defaultValue={this.state.email} editable={!this.props.auth.loading} placeholder='Your email' onChangeText={this.onChange.bind(this, 'email')} autoCapitalize='none' keyboardType="email-address" />
+            <TextInput key='password' label={trans('Password', this.props.lang)} defaultValue={this.state.password} editable={!this.props.auth.loading} placeholder='Your password' onChangeText={this.onChange.bind(this, 'password')} secureTextEntry />
             <Button icon='sign-in' style={styles.button} onPress={this.onLogin.bind(this)} title="Login" accessibilityLabel="Login" loading={this.props.auth.loading} />
             {toggleText}
           </View>
-        </KeyboardAwareScrollView>
-      </View>
+        </View>
+      </KeyboardAwareScrollView>
     );
   }
 }

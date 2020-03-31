@@ -1,5 +1,7 @@
 import { sharedActionTypes } from 'app/shared';
-import { SWISH_SUCCESS } from 'app/types/swish'
+import { SWISH_SUCCESS } from 'app/screens/User/screens/PayWithSwish/actionTypes';
+import { STRIPE_SUCCESS } from 'app/screens/User/screens/PayWithStripe/actionTypes';
+import { FOLLOW_NODE_SUCCESS } from 'app/screens/Node/actionTypes';
 
 function authReducer(state, action) {
   switch (action.type) {
@@ -14,12 +16,6 @@ function authReducer(state, action) {
         user: action.user,
         loading: action.loading,
         refreshing: action.refreshing,
-      });
-      break;
-
-    case sharedActionTypes.PAYMENT_SUCCESS:
-      return Object.assign({}, state, {
-        user: action.user,
       });
       break;
 
@@ -45,8 +41,25 @@ function authReducer(state, action) {
       });
       break;
 
+    case STRIPE_SUCCESS:
     case SWISH_SUCCESS:
-      return {...state, user: {...state.user, membership_payments_relationship: [action.membership_payments_relationship]}}
+    case FOLLOW_NODE_SUCCESS:
+      return Object.assign({}, state, {
+        user: action.user,
+      });
+      break;
+
+    case sharedActionTypes.DONATE_NOTHING_STARTED:
+      return Object.assign({}, state, {
+        paymentInProgress: action.paymentInProgress,
+      });
+
+    case sharedActionTypes.DONATE_NOTHING_SUCCESS:
+      return Object.assign({}, state, {
+        paymentInProgress: action.paymentInProgress,
+        user: action.user,
+      });
+
     default:
       return Object.assign({}, state);
       break;

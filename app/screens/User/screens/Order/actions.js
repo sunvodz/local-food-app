@@ -15,7 +15,7 @@ export function fetchOrder(orderDateItemLinkId) {
       dispatch(requestOrder());
 
       let response = await api.call({
-        url: `/api/v1/users/order/${orderDateItemLinkId}`
+        url: `/api/v1/user/order/${orderDateItemLinkId}`
       });
 
       let order = await response.json();
@@ -63,7 +63,7 @@ export function deleteOrder(orderDateItemLinkId) {
 
       let response = await api.call({
         method: 'delete',
-        url: `/api/v1/users/order/${orderDateItemLinkId}`
+        url: `/api/v1/user/order/${orderDateItemLinkId}`
       });
 
       let orders = await response.json();
@@ -71,7 +71,7 @@ export function deleteOrder(orderDateItemLinkId) {
       let orderedOrders = [];
       for (let i = 0; i < orders.length; i++) {
         let order = orders[i];
-        let orderDate = order.order_date_relationship[0];
+        let orderDate = order.date;
         let key = moment(orderDate.date.date).format('YYYYMMDD');
 
         // Check if key exists

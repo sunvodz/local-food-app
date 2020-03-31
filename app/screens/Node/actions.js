@@ -1,3 +1,4 @@
+import { AsyncStorage } from 'react-native';
 import { api } from 'app/shared';
 import * as actionTypes from './actionTypes';
 import _ from 'lodash';
@@ -97,8 +98,8 @@ export function receiveProductsFailed(error) {
     type: actionTypes.RECEIVE_PRODUCTS_FAILED,
     products: null,
     loadingProducts: false,
-    title: 'products',
-    message: 'failed_loading_products'
+    title: 'Products',
+    message: 'Failed loading products'
   }
 }
 
@@ -177,7 +178,7 @@ export function addProductToCart(data) {
 
       let response = await api.call({
         method: 'post',
-        url: '/api/v1/users/cart',
+        url: '/api/v1/user/cart',
         body: data
       });
 
@@ -207,7 +208,7 @@ export function addToCart() {
 export function addToCartFailed(error) {
   return {
     type: actionTypes.ADD_TO_CART_FAILED,
-    title: 'cart',
+    title: 'Cart',
     message: error.error
   }
 }
@@ -215,18 +216,45 @@ export function addToCartFailed(error) {
 export function addToCartSuccess() {
   return {
     type: actionTypes.ADD_TO_CART_SUCCESS,
-    title: 'cart',
-    message: 'product_added_to_cart'
+    title: 'Cart',
+    message: 'Product was added to your cart.'
   }
 }
 
-export function addNodeToUser(nodeId) {
+export function toggleFollowNode(nodeId) {
   return async function (dispatch, getState) {
     try {
       let response = await api.call({
         method: 'post',
-        url: `/api/v1/users/nodes/${nodeId}`
+        url: `/api/v1/user/nodes/${nodeId}`
       });
-    } catch (error) {}
+
+      let userData = await response.json();
+
+      let storedUser = await AsyncStorage.getItem('@store:user');
+      storedUser = JSON.parse(storedUser);
+      let updatedUser = Object.assign({}, storedUser, userData);
+      await AsyncStorage.setItem('@store:user', JSON.stringify(updatedUser));
+
+      dispatch(followNodeSuccess(updatedUser));
+    } catch (error) {
+      let errorMessage = await error.text();
+      dispatch(followNodeFailed(errorMessage));
+    }
+  }
+}
+
+export function followNodeSuccess(user) {
+  return {
+    type: actionTypes.FOLLOW_NODE_SUCCESS,
+    user: user,
+  }
+}
+
+export function followNodeFailed(errorMessage) {
+  return {
+    type: actionTypes.FOLLOW_NODE_FAILED,
+    title: 'Node',
+    message: errorMessage
   }
 }

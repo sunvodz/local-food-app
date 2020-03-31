@@ -6,10 +6,9 @@ import * as sharedActionTypes from './sharedActionTypes';
 import * as Permissions from 'expo-permissions';
 import * as Location from 'expo-location';
 
-import { STRIPE_PUBLISHABLE_KEY, API_URL } from 'app/env.json';
-var stripe = require('stripe-client')(STRIPE_PUBLISHABLE_KEY);
+import { STRIPE_PUBLISHABLE_KEY, API_URL } from 'app/env';
 
-const PUSH_ENDPOINT = '/api/v1/users/push-token';
+const PUSH_ENDPOINT = '/api/v1/user/push-token';
 
 export function toggleAuthForm() {
   return {
@@ -25,39 +24,29 @@ export function createAccount(data) {
     try {
       dispatch(createAccountInProgress());
 
-      // console.log(data);
-      
-
-      let response = await fetch(`${API_URL}/api/user/create`, {
+      let response = await api.call({
+        url: '/api/v1/user',
         method: 'post',
-        body: JSON.stringify({
+        body: {
           name: data.name,
           email: data.email,
           phone: data.phone,
           password: data.password,
-          terms: data.terms,
+          gdpr: data.terms,
           language: data.language,
-        }),
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }
-      })
+        },
+      });
 
       if (response.status >= 200 && response.status < 300) {
         return dispatch(createAccountComplete());
       } else {
         json = await response.json();
-        // console.log(json);
-        
+
         return dispatch(createAccountFailed(json));
       }
-
-      
     } catch (error) {
-      console.log(error);
-      error = await error.json();
-      return dispatch(createAccountFailed(error));
+      let errorMessage = await error.text();
+      return dispatch(createAccountFailed(errorMessage));
     }
   }
 }
@@ -80,15 +69,14 @@ export function createAccountComplete(user) {
   }
 }
 
-export function createAccountFailed(error) {
-  console.log(error);
+export function createAccountFailed(errorMessage) {
   return {
     type: sharedActionTypes.CREATE_ACCOUNT_FAILED,
     loading: false,
     refreshing: false,
     user: null,
     title: 'Create account',
-    message: error.message,
+    message: errorMessage,
   }
 }
 
@@ -101,7 +89,7 @@ export function loginUser(data) {
       dispatch(loginInProgress());
 
       let response = await api.call({
-        url: '/api/v1/users/self',
+        url: '/api/v1/user',
         username: data.email,
         password: data.password
       });
@@ -115,7 +103,7 @@ export function loginUser(data) {
 
       return dispatch(loginComplete(user));
     } catch (error) {
-      return dispatch(loginFailed(error));
+      return dispatch(loginFailed());
     }
   }
 }
@@ -159,16 +147,14 @@ export function logoutComplete() {
   }
 }
 
-export function loginFailed(error) {
-  console.log(error);
-  
+export function loginFailed() {
   return {
     type: sharedActionTypes.LOGIN_FAILED,
     loading: false,
     refreshing: false,
     user: null,
-    title: 'Login',
-    message: 'Authentication failed, check your email or password.',
+    title: 'Login failed',
+    message: 'You have entered an invalid username or password.',
   }
 }
 
@@ -188,7 +174,7 @@ export function loadUser(refreshing) {
 
         // Authenticate against the API. Fetch user updates
         let response = await api.call({
-          url: '/api/v1/users/self',
+          url: '/api/v1/user',
           username: user.email,
           password: user.password,
         });
@@ -197,10 +183,17 @@ export function loadUser(refreshing) {
 
         return dispatch(loginComplete(user));
       } else {
-        throw 'Error in sharedActions.loadUser';
+        return dispatch(loadUserFailed('No user in @store:user.'));
       }
     } catch (error) {
-      return dispatch(loadUserFailed(error));
+      let errorMessage = null;
+      if (typeof error === 'object') {
+        errorMessage = await error.text();
+      } else {
+        errorMessage = error;
+      }
+
+      return dispatch(loadUserFailed(errorMessage));
     }
   }
 }
@@ -213,89 +206,14 @@ export function loadUserInProgress(refreshing) {
   }
 }
 
-export function loadUserFailed(error) {
+export function loadUserFailed(errorMessage) {
   return {
     type: sharedActionTypes.LOAD_USER_FAILED,
     loading: false,
     refreshing: false,
     title: 'User',
-    message: error.error
+    message: errorMessage
   }
-}
-
-/**
- * Payment actions
- */
-export function processPayment(data) {
-  return async function(dispatch, getState) {
-    try {
-      dispatch(paymentInProgress());
-
-      let token = await stripe.createToken({
-        card: {
-          number: data.cardNumber,
-          exp_month: data.expMonth,
-          exp_year: data.expYear,
-          cvc: data.cvc,
-        }
-      });
-
-      if (token.error) {
-        throw token.error.code;
-      }
-
-      let response = await api.call({
-        url: '/api/v1/users/membership',
-        method: 'post',
-        body: {
-          stripeToken: token.id,
-          amount: data.amount,
-          currency: data.currency,
-        }
-      });
-
-      let userData = await response.json();
-
-      if (response.status !== 200) {
-        throw response.data;
-      }
-
-      let storedUser = await AsyncStorage.getItem('@store:user');
-      storedUser = JSON.parse(storedUser);
-      let updatedUser = Object.assign({}, storedUser, userData);
-      await AsyncStorage.setItem('@store:user', JSON.stringify(updatedUser));
-
-      dispatch(paymentSuccess(updatedUser));
-    } catch (error) {
-      dispatch(paymentFailed(error));
-    }
-  }
-}
-
-export function paymentInProgress(user) {
-  return {
-    type: sharedActionTypes.PAYMENT_IN_PROGRESS,
-    paymentInProgress: true,
-  }
-}
-
-export function paymentFailed(error) {
-  // Available error codes: invalid_number, invalid_cvc, invalid_amount
-  return {
-    type: sharedActionTypes.PAYMENT_FAILED,
-    title: 'membership',
-    message: error,
-  }
-}
-
-export function paymentSuccess(user) {
-  return {
-    type: sharedActionTypes.PAYMENT_SUCCESS,
-    paymentInProgress: false,
-    user: user,
-    title: 'membership',
-    message: 'payment_success',
-  };
 }
 
 /**
@@ -348,7 +266,7 @@ export function resendEmail() {
   return async function(dispatch, getState) {
     try {
       let response = await api.call({
-        url: '/api/v1/users/resend-activation-link',
+        url: '/api/v1/user/resend-activation-link',
         method: 'post',
       });
 
@@ -362,59 +280,74 @@ export function resendEmail() {
 export function resendEmailFailed(error) {
   return {
     type: sharedActionTypes.RESEND_EMAIL_FAILED,
-    title: 'activate_account',
-    message: 'failed_resending_email',
+    title: 'Verify email',
+    message: 'Could not send verification email.',
   }
 }
 
 export function resendEmailSuccess() {
   return {
     type: sharedActionTypes.RESEND_EMAIL_SUCCESS,
-    title: 'activate_account',
-    message: 'resending_email',
+    title: 'Verify email',
+    message: 'We have sent a new verification email to you.',
   };
 }
 
 /**
- * Currencies
+ * Donate nothing
  */
-export function getCurrencies(data) {
+export function donateNothing(userId) {
   return async function(dispatch, getState) {
     try {
-      dispatch(currenciesInProgress());
+      dispatch(donateNothingStarted());
 
-      let response = await fetch('https://api.localfoodnodes.org/v1.0/currency/rates?enabled=1');
-      let currencies = await response.json();
+      await api.call({
+        url: '/api/payments/donate-nothing',
+        method: 'post',
+        body: {
+          user_id: userId
+        },
+        lang: false,
+      });
 
-      return dispatch(currenciesComplete(currencies.data));
+      let response = await api.call({
+        url: '/api/v1/user',
+      });
+
+      let userData = await response.json();
+
+      let storedUser = await AsyncStorage.getItem('@store:user');
+      storedUser = JSON.parse(storedUser);
+      let updatedUser = Object.assign({}, storedUser, userData);
+      await AsyncStorage.setItem('@store:user', JSON.stringify(updatedUser));
+
+      dispatch(donateNothingSuccess(updatedUser));
     } catch (error) {
-      return dispatch(currenciesFailed(error));
+      dispatch(donateNothingFailed(error));
     }
   }
 }
 
-export function currenciesInProgress() {
+export function donateNothingStarted() {
   return {
-    type: sharedActionTypes.CURRENCIES_IN_PROGRESS,
-    loading: true,
-    refreshing: false,
-  }
+    type: sharedActionTypes.DONATE_NOTHING_STARTED,
+    paymentInProgress: true,
+  };
 }
 
-export function currenciesComplete(currencies) {
+export function donateNothingSuccess(user) {
   return {
-    type: sharedActionTypes.CURRENCIES_SUCCESS,
-    loading: false,
-    refreshing: false,
-    currencies: currencies
-  }
+    type: sharedActionTypes.DONATE_NOTHING_SUCCESS,
+    paymentInProgress: false,
+    user: user,
+  };
 }
 
-export function currenciesFailed() {
+export function donateNothingFailed(error) {
   return {
-    type: sharedActionTypes.CURRENCIES_FAILED,
-    loading: false,
-    refreshing: false,
-    currencies: null,
+    type: sharedActionTypes.DONATE_NOTHING_FAILED,
+    paymentInProgress: false,
+    title: 'Membership',
+    message: error,
   }
 }

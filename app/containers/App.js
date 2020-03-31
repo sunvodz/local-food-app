@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Image, StatusBar } from 'react-native';
+import { View, StatusBar } from 'react-native';
 import { Notifications } from 'expo';
 
 import MainTabNavigation from 'app/navigations/MainTabNavigation';
-import MainTabAuthNavigation from 'app/navigations/MainTabAuthNavigation';
+import AuthScreen from 'app/screens/Auth';
 import { Alert } from 'app/containers';
+import { Loader } from 'app/components';
 
 import { sharedActions, sharedActionTypes } from 'app/shared';
-import * as mapActions from 'app/screens/Map/actions';
 import * as userNodesActions from 'app/screens/User/screens/Nodes/actions';
 import globalStyle from 'app/styles';
 
@@ -20,12 +20,9 @@ class App extends Component {
 
   componentDidMount() {
     this.props.dispatch(sharedActions.loadUser());
-    this.props.dispatch(mapActions.fetchCurrentLocation());
-    this.props.dispatch(mapActions.fetchNodes());
-    // this.props.dispatch(userNodesActions.fetchUserNodes());
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
     if (this.props.auth.user && !this.props.nodes) {
       this.props.dispatch(userNodesActions.fetchUserNodes());
     }
@@ -45,38 +42,32 @@ class App extends Component {
   render() {
     let currentLang = this.props.auth.user ? this.props.auth.user.language : 'en';
 
-    // Spash
-    if (this.props.map.loading) {
+    if (!this.props.auth.user) {
       return (
-        <View style={styles.splash}>
-          <StatusBar barStyle="light-content" />
-          <Image style={styles.logo} source={require('../../assets/images/logo-white.png')} />
-          <Text style={styles.splashHeader}>LOCAL FOOD APP</Text>
+        <View style={{flex: 1}}>
+          <StatusBar barStyle='light-content' />
+          <AuthScreen {...this.props} />
+          <Alert lang={currentLang} />
         </View>
       );
     }
 
-    let tabbar = <MainTabNavigation screenProps={{auth: this.props.auth, lang: currentLang}} />;
-    if (this.props.auth.user) {
-      tabbar = <MainTabAuthNavigation screenProps={{auth: this.props.auth, lang: currentLang}} />;
-    }
+    let tabBar = <MainTabNavigation screenProps={{auth: this.props.auth, lang: currentLang}} />;
 
     return (
       <View style={{flex: 1, backgroundColor: globalStyle.backgroundColor}}>
         <StatusBar barStyle='light-content' />
-        {tabbar}
+        {tabBar}
         <Alert lang={currentLang} />
       </View>
     );
-    // return tabbar
   }
 }
 
 function mapStateToProps(state) {
-  const { map, auth, nodes } = state;
+  const { auth, nodes } = state;
 
   return {
-    map,
     auth,
     nodes
   }

@@ -46,7 +46,7 @@ const unitHelper = {
    * @param {*} lang
    */
   getPackageUnit(product, variant, lang) {
-    if (!product.package_unit) {
+    if (!product.has_standard_unit && !product.package_unit) {
       return null;
     }
 
@@ -58,9 +58,9 @@ const unitHelper = {
     }
 
     if (packageAmount && this.isWeightUnit(product.package_unit)) {
-      packageUnit = `ca ${packageAmount} ${trans('unit_' + product.package_unit, lang)}`;
+      packageUnit = `ca ${packageAmount} ${trans(product.price_unit, lang)}`;
     } else if (packageAmount) {
-      packageUnit = `${packageAmount} ${trans('unit_' + product.package_unit, lang)}`;
+      packageUnit = `${packageAmount} ${trans(product.price_unit, lang)}`;
     }
 
     return packageUnit;

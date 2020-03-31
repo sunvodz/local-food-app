@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, Text, View } from 'react-native';
 import _ from 'lodash';
+import { FontAwesome as Icon } from '@expo/vector-icons';
 
 import { Loader, Button, Empty, ScreenHeader } from 'app/components';
 import DatePicker from './component/DatePicker';
@@ -20,7 +21,9 @@ class Node extends React.Component {
     };
 
     this.renderProduct = this.renderProduct.bind(this);
-    this.props.navigation.setParams({ title: props.navigation.state.params.name, subtitle: trans('loading_products', this.props.lang), count: 0})
+    this.getFollowNodeIcon = this.getFollowNodeIcon.bind(this);
+    this.toggleFollowNode = this.toggleFollowNode.bind(this);
+    this.props.navigation.setParams({ title: props.navigation.state.params.name, subtitle: trans('Loading products', this.props.lang), count: 0})
   }
 
   componentDidMount() {
@@ -28,7 +31,6 @@ class Node extends React.Component {
 
     this.props.dispatch(actions.fetchNode(node.id));
     this.props.dispatch(actions.fetchNodeDates(node.id));
-    this.props.dispatch(actions.addNodeToUser(node.id));
   }
 
   componentWillUnmount() {
@@ -42,18 +44,12 @@ class Node extends React.Component {
     const { products } = this.props.node;
 
     if (products && !prevProps.products) {
-      console.log(products.length, prevProps.products);
-      
       if (products.length !== this.props.navigation.getParam('count', 0)) {
         setTimeout(() => {
-          this.props.navigation.setParams({ subTitle: products.length + ' ' + trans('products_for_sale', this.props.lang), count: products.length});
+          this.props.navigation.setParams({ subTitle: products.length + ' ' + trans('products for sale', this.props.lang), count: products.length});
         }, 100);
       }
     }
-
-    // if (products && prevProps.products &&  products.length !== prevProps.products.length) {
-    //   this.props.navigation.setParams({ subTitle: products.length + ' ' + trans('products_for_sale', this.props.lang)})
-    // }
 
     if (filters.date && filters.date !== prevFilters.date) {
       this.props.dispatch(actions.fetchProducts({
@@ -98,14 +94,14 @@ class Node extends React.Component {
   }
 
   navigateToAuth() {
-    this.props.navigation.navigate('Auth', {
+    this.props.navigation.navigate('auth', {
       auth: this.props.auth,
       navBackIcon: true,
     });
   }
 
   navigateToMembership() {
-    this.props.navigation.navigate('Membership', {
+    this.props.navigation.navigate('paymentSelect', {
       auth: this.props.auth,
       navBackIcon: true,
     });
@@ -113,21 +109,48 @@ class Node extends React.Component {
 
   renderProduct(product, rowId) {
     let image = null; // Fallback here
-    if (product.image_relationship && product.image_relationship.length > 0) {
-      image = product.image_relationship[0].urls.medium;
+    if (product.images && product.images.length > 0) {
+      image = product.images[0].urls.medium;
     }
 
     return <ProductCard key={product.id} product={product} image={image} auth={this.props.auth} onQuantityChange={this.onQuantityChange.bind(this)} lang={this.props.lang} />;
   }
 
+  getFollowNodeIcon() {
+    let nodeId = this.props.node.node.id;
+    let isActive = this.props.auth.user.node_links.find(nodeLink => {
+      return nodeLink.node_id == nodeId;
+    });
+
+    let icon = 'heart-o';
+    if (isActive) {
+      icon = 'heart';
+    }
+
+    return <Icon style={[styles.icon, {marginRight: 10}]} name={icon} size={16} color='#fff' onPress={this.toggleFollowNode}/>;
+  }
+
+  toggleFollowNode() {
+    let nodeId = this.props.node.node.id;
+    this.props.dispatch(actions.toggleFollowNode(nodeId));
+  }
+
   render() {
-    const { products, loadingProducts, loadingDates, dates } = this.props.node;
+    const { products, loadingNode, loadingProducts, loadingDates, dates } = this.props.node;
+
+    if (loadingNode === undefined || loadingNode) {
+      return (
+        <View style={styles.view}>
+          <Loader />
+        </View>
+      );
+    }
 
     if (!loadingDates && (!dates || dates.length === 0)) {
       return (
         <View style={styles.view}>
-          <ScreenHeader title={this.props.navigation.state.params.name} left right navigation={this.props.navigation} />
-          <Empty icon="exclamation" header={trans('no_delivery_dates', this.props.lang)} text={trans('no_delivery_dates_text', this.props.lang)} />
+          <ScreenHeader title={this.props.navigation.state.params.name} left right followNode={this.getFollowNodeIcon()} navigation={this.props.navigation} />
+          <Empty icon="exclamation" header={trans('No delivery dates', this.props.lang)} text={trans('There are no available delivery dates available for this node.', this.props.lang)} />
         </View>
       );
     }
@@ -141,7 +164,7 @@ class Node extends React.Component {
     if (!loadingProducts && (!products || products.length === 0)) {
       content = (
         <View style={styles.view}>
-          <Empty icon="exclamation" header={trans('no_products', this.props.lang)} text={trans('no_products_text', this.props.lang)} />
+          <Empty icon="exclamation" header={trans('No products', this.props.lang)} text={trans('No available products at the moment.', this.props.lang)} />
         </View>
       );
     } else if (!loadingProducts && (products || products.length > 0)) {
@@ -158,7 +181,7 @@ class Node extends React.Component {
 
     let userNotice = null;
     let userNoticeMessage = null;
-    if (this.props.auth.user && this.props.auth.user.membership_payments_relationship.length === 0) {
+    if (this.props.auth.user && this.props.auth.user.membership_payments.length === 0) {
       // If logged in but not a member
       userNoticeMessage = (
         <View>
@@ -169,15 +192,8 @@ class Node extends React.Component {
       // If logged in but not active
       userNoticeMessage = (
         <View>
-          <Text style={styles.userNoticeMessage}>{trans('user_not_active', this.props.lang)}</Text>
-          <Button onPress={this.navigateToMembership.bind(this)} title="Activate your account" />
-        </View>
-      );
-    } else if (!this.props.auth.user) {
-      // If not logged in
-      userNoticeMessage = (
-        <View>
-          <Button onPress={this.navigateToAuth.bind(this)} title="Login or create account" />
+          <Text style={styles.userNoticeMessage}>{trans('Not verified', this.props.lang)}</Text>
+          <Button onPress={this.navigateToMembership.bind(this)} title="Verify your email" />
         </View>
       );
     }
@@ -202,21 +218,25 @@ class Node extends React.Component {
             <Text numberOfLines={1} style={styles.priceText}>{totalPrice}</Text>
           </View>
           <View style={styles.addToCartActionWrapper}>
-            <Button icon='shopping-basket' title={trans('add', this.props.lang)} onPress={this.addToCart.bind(this)} />
-            <Text style={styles.addToCartReset} onPress={this.resetCart.bind(this)}>{trans('reset', this.props.lang)}</Text>
+            <Button icon='shopping-basket' title={trans('Add', this.props.lang)} onPress={this.addToCart.bind(this)} />
+            <Text style={styles.addToCartReset} onPress={this.resetCart.bind(this)}>{trans('Reset', this.props.lang)}</Text>
           </View>
         </View>
       );
     }
 
-    let subTitle = trans('loading_products', this.props.lang);
+    let subTitle = trans('Loading products', this.props.lang);
     if (products && products.length > 0) {
-      subTitle = products.length + ' ' + trans('products_for_sale', this.props.lang);
+      let productsForSale = trans('products for sale', this.props.lang);
+      if (products.length === 1) {
+        productsForSale = trans('product for sale', this.props.lang)
+      }
+      subTitle = products.length + ' ' + productsForSale;
     }
 
     return (
       <View style={styles.view}>
-        <ScreenHeader title={this.props.navigation.state.params.name} sub={subTitle} left right navigation={this.props.navigation} />
+        <ScreenHeader title={this.props.navigation.state.params.name} sub={subTitle} left right followNode={this.getFollowNodeIcon()} navigation={this.props.navigation} />
         <DatePicker dates={dates} onSelectDate={this.onSelectDate.bind(this)} selectedDate={this.getSelectedDate()} lang={this.props.lang} />
         {content}
         {addToCartNotice}

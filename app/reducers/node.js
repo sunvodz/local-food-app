@@ -10,7 +10,7 @@ function nodeReducer(state, action) {
       return Object.assign({}, state, {
         node: action.node,
         filters: filters,
-        loadingNodes: action.loadingNodes,
+        loadingNode: action.loadingNode,
         loadingProducts: true,
       });
       break;

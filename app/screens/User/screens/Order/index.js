@@ -47,7 +47,7 @@ class Order extends Component {
     if (loading) {
       return (
         <View style={{flex: 1}}>
-          <ScreenHeader title={trans('order_deleted', this.props.lang)} left navigation={this.props.navigation} />
+          <ScreenHeader title={trans('Order', this.props.lang)} sub={trans('Loading order', this.props.lang)} left navigation={this.props.navigation} />
           <Loader />
         </View>
       );
@@ -56,18 +56,18 @@ class Order extends Component {
     if (!order || order.deleting || order.deleted) {
       return (
         <View style={{flex: 1}}>
-          <ScreenHeader title={trans('order_deleted', this.props.lang)} left navigation={this.props.navigation} />
-          <Empty icon='trash-o' header={trans('order_deleted', this.props.lang)} text={trans('order_deleted_text', this.props.lang)} />
+          <ScreenHeader title={trans('Order deleted', this.props.lang)} sub="" left navigation={this.props.navigation} />
+          <Empty icon='trash-o' header={trans('Order deleted', this.props.lang)} text={trans('Your order was successfully deleted.', this.props.lang)} />
         </View>
       );
     }
 
-    const orderItem = order.order_item_relationship[0];
-    const orderDate = order.order_date_relationship[0];
+    const orderItem = order.item;
+    const orderDate = order.date;
     const isDeletable = this.isDeletable(orderItem, orderDate);
 
-    let title = trans('order', this.props.lang) + ' ' + order.ref;
-    let pickup = trans('pickup_on', this.props.lang) + ' ' +  moment(orderDate.date.date).format('YYYY-MM-DD') + ' ' + orderItem.node.delivery_time;
+    let title = trans('Order', this.props.lang) + ' ' + order.ref;
+    let pickup = trans('Pickup on', this.props.lang) + ' ' +  moment(orderDate.date.date).format('YYYY-MM-DD');
 
     let totalPrice = priceHelper.getCalculatedPriceFormatted(orderItem.product, orderItem.variant, order.quantity, orderItem.producer.currency, true);
 
@@ -75,7 +75,7 @@ class Order extends Component {
     if (orderItem.producer.payment_info) {
       paymentInfoSection = (
         <View style={styles.section}>
-          <Text style={styles.label}>{trans('payment', this.props.lang)}</Text>
+          <Text style={styles.label}>{trans('Payment', this.props.lang)}</Text>
           <Text style={styles.text}>{orderItem.producer.payment_info}</Text>
         </View>
       );
@@ -85,30 +85,31 @@ class Order extends Component {
       <View style={{flex: 1}}>
         <ScreenHeader title={title} sub={pickup} left navigation={this.props.navigation} />
         <ContentWrapper>
-          <Card header={orderItem.product.name} headerPosition="outside" footer={<Badge label={`${trans('price_to_pay', this.props.lang)}: ${totalPrice}`} />}>
+          <Card header={orderItem.product.name} headerPosition="outside" footer={<Badge label={`${trans('Total', this.props.lang)}: ${totalPrice}`} />}>
             <View style={styles.section}>
-              <Text style={styles.text}>{trans('quantity', this.props.lang)}: {order.quantity} {orderItem.product.package_unit}</Text>
+              <Text style={styles.text}>{trans('Quantity', this.props.lang)}: {order.quantity} {orderItem.product.package_unit}</Text>
             </View>
 
             <View style={styles.section}>
               <Text style={styles.label}>{orderItem.producer.name}</Text>
               <Text style={styles.text}>{orderItem.producer.address}</Text>
-              <Text style={styles.text}>{orderItem.producer.zip}, {orderItem.producer.city}</Text>
+              <Text style={styles.text}>{orderItem.producer.zip} {orderItem.producer.city}</Text>
+              <Text style={styles.text}>{orderItem.producer.phone}</Text>
             </View>
 
             {paymentInfoSection}
 
           </Card>
 
-          <Card header={trans('pickup', this.props.lang)} headerPosition='outside'>
-            <Text style={styles.label}>{trans(orderItem.node.delivery_weekday, this.props.lang)} {moment(orderDate.date.date).format('YYYY-MM-DD')} {orderItem.node.delivery_time}</Text>
+          <Card header={trans('Pickup', this.props.lang)} headerPosition='outside'>
+            <Text style={styles.label}>{moment(orderDate.date.date).format('YYYY-MM-DD')} {orderItem.node.delivery_time}</Text>
             <Text style={styles.text}>{orderItem.node.name}</Text>
             <Text style={styles.text}>{orderItem.node.address}</Text>
-            <Text style={styles.text}>{orderItem.node.zip}, {orderItem.node.city}</Text>
+            <Text style={styles.text}>{orderItem.node.zip} {orderItem.node.city}</Text>
           </Card>
 
           <View style={{marginTop: 15}}>
-            <Button disabled={!isDeletable} loading={this.props.order.deleting} title={trans('delete_order', this.props.lang)} onPress={this.deleteOrder.bind(this, order.id)} />
+            <Button disabled={!isDeletable} loading={this.props.order.deleting} title={trans('Delete order', this.props.lang)} onPress={this.deleteOrder.bind(this, order.id)} />
           </View>
         </ContentWrapper>
       </View>

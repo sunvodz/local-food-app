@@ -22,6 +22,7 @@ function cartReducer(state, action) {
       break;
 
     case actionTypes.REMOVING_CART_ITEM:
+    case actionTypes.REMOVE_CART_ITEM_FAILED:
       return Object.assign({}, state, {
         loading: action.loading,
       });

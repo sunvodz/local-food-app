@@ -1,12 +1,24 @@
 import { AsyncStorage } from 'react-native';
-import { API_URL, API_CLIENT_ID, API_CLIENT_SECRET } from 'app/env.json';
+import { API_URL, API_CLIENT_ID, API_CLIENT_SECRET } from 'app/env';
 import sdk from 'localfoodnodes-js-sdk';
 import _ from 'lodash';
 
 class Api {
   async call(request) {
     try {
-      let url = API_URL + request.url;
+      let lang = ''; // Fallback
+
+      // API calls with lang prefix is default and option is set to disable it.
+      if (request.lang === undefined || request.lang !== false) {
+        lang = '/en';
+
+        let appLang = await AsyncStorage.getItem('@store:lang');
+        if (appLang) {
+          lang = '/' + appLang;
+        }
+      }
+
+      let url = API_URL + lang + request.url;
       let options = await this.extendOptions(request);
       let response = await sdk.call(url, options);
 
@@ -46,9 +58,8 @@ class Api {
         // Use logged in users credentials
         options.auth.username = user.email;
         options.auth.password = user.password;
-      } 
-      // console.log(options);
-      
+      }
+
       return options;
     } catch (error) {
       throw error;
