@@ -6,7 +6,7 @@
     "description": "Local Food Nodes connects local food producers to local food consumers as well as strengthening those relationships that already exist. We enable direct transactions, resilient communities and regain control over what we eat and how it is produced. A desire to make food local again.",
     "orientation": "portrait",
     "privacy": "public",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "sdkVersion": "35.0.0",
     "slug": "local-food-app",
     "icon": "./assets/images/logo-expo-1024.png",
@@ -18,7 +18,7 @@
     },
     "ios": {
       "bundleIdentifier": "org.localfoodnodes.localfoodapp",
-      "buildNumber": "1.0.5",
+      "buildNumber": "1.0.6",
       "icon": "./assets/images/logo-expo-1024.png",
       "appStoreUrl": "https://itunes.apple.com/us/app/local-food-app/id1400957388",
       "supportsTablet": true,
