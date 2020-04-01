@@ -53,7 +53,7 @@ export function removeNodeFromUser(nodeId) {
   return async function (dispatch, getState) {
     try {
       let response = await api.call({
-        method: 'delete',
+        method: 'post',
         url: `/api/v1/user/nodes/${nodeId}`
       });
 
