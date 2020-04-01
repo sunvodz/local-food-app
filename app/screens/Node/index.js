@@ -136,17 +136,18 @@ class Node extends React.Component {
   }
 
   render() {
-    const { products, loadingNode, loadingProducts, loadingDates, dates } = this.props.node;
+    const { products, loadingProducts, dates } = this.props.node;
 
-    if (loadingNode === undefined || loadingNode) {
+    if (this.props.node.loadingNode === undefined || this.props.node.loadingNode || !this.props.node.node) {
       return (
         <View style={styles.view}>
+          <ScreenHeader title={this.props.navigation.state.params.name} left right sub="" navigation={this.props.navigation} />
           <Loader />
         </View>
       );
     }
 
-    if (!loadingDates && (!dates || dates.length === 0)) {
+    if (!this.props.node.loadingDates && (!dates || dates.length === 0)) {
       return (
         <View style={styles.view}>
           <ScreenHeader title={this.props.navigation.state.params.name} left right followNode={this.getFollowNodeIcon()} navigation={this.props.navigation} />
@@ -232,6 +233,8 @@ class Node extends React.Component {
         productsForSale = trans('product for sale', this.props.lang)
       }
       subTitle = products.length + ' ' + productsForSale;
+    } else if (products && products.length === 0) {
+      subTitle = trans('No products for sale', this.props.lang);
     }
 
     return (

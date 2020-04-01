@@ -55,6 +55,7 @@ const routeConfig = {
       return {
         title: trans('Cart', props.screenProps.lang),
         headerLeftTitle: null,
+        headerBackTitle: null,
       }
     }
   },

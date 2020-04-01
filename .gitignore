@@ -57,3 +57,6 @@ buck-out/
 
 # Custom
 app/env.js
+*.key
+*.p12
+*.mobileprovision
