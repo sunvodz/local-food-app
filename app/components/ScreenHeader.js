@@ -71,7 +71,7 @@ let styles = {
   view: {
     backgroundColor: globalStyle.primaryColor,
     flexDirection: 'row',
-    paddingTop: Platform.OS === 'ios' ? 20 : StatusBar.currentHeight,
+    // paddingTop: Platform.OS === 'ios' ? 20 : StatusBar.currentHeight,
   },
   left: {
     alignItems: 'flex-start',

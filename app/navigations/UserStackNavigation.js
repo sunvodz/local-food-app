@@ -105,16 +105,6 @@ const routeConfig = {
       };
     }
   },
-  auth: {
-    screen: props => {
-      return <Auth navigation={props.navigation} lang={props.screenProps.lang} />
-    },
-    navigationOptions: ({ navigation }) => {
-      return {
-        header: null,
-      };
-    }
-  },
 };
 
 const navigatorConfig = {
@@ -129,4 +119,4 @@ const navigatorConfig = {
 };
 
 export default createStackNavigator(routeConfig, navigatorConfig);
-export const UnauthorizedStackNavigator = createStackNavigator(routeConfig, {...navigatorConfig, initialRouteName: 'auth'});
+export const UnauthorizedStackNavigator = createStackNavigator(routeConfig, {...navigatorConfig, initialRouteName: 'profile'});

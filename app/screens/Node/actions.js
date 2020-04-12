@@ -128,7 +128,8 @@ export function fetchNodeDates(nodeId) {
         dispatch(setDateFilter(dates[0]));
       }
     } catch (error) {
-      dispatch(receiveNodeDatesFailed(error));
+      let errorMessage = await error.text();
+      dispatch(receiveNodeDatesFailed(errorMessage));
     }
   }
 }
@@ -148,13 +149,13 @@ export function receiveNodeDates(dates) {
   }
 }
 
-export function receiveNodeDatesFailed(error) {
+export function receiveNodeDatesFailed(errorMessage) {
   return {
     type: actionTypes.RECEIVE_NODE_DATES_FAILED,
     dates: [],
     loadingDates: false,
-    title: 'node_dates',
-    message: 'failed_loading_node_dates',
+    title: 'Node',
+    message: errorMessage,
   }
 }
 

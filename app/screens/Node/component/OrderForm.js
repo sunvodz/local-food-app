@@ -31,7 +31,9 @@ export default class OrderForm extends React.Component {
 
     let newQuantity = parseInt(this.state.quantity) + 1;
 
-    if (newQuantity <= availableQuantity) {
+    // Allow increase if product doesn't use stock or if new quantity is less or equal
+    // to what's available
+    if (!this.props.product.has_stock || newQuantity <= availableQuantity) {
       this.setState({quantity: newQuantity});
       this.props.onQuantityChange({quantity: newQuantity});
     }
@@ -39,6 +41,7 @@ export default class OrderForm extends React.Component {
 
   render() {
     const { product, variant } = this.props;
+
     const producer = product.producer;
 
     let packageUnit = unitHelper.getPackageUnit(product, null, this.props.lang);
@@ -64,7 +67,13 @@ export default class OrderForm extends React.Component {
     let quantityForm = null;
 
     if (this.props.auth.user && this.props.auth.user.active && this.props.auth.user.membership_payments.length > 0) {
-      if (parseInt(availableQuantity) > 0) {
+      // Always show order form if product doesn't use stock.
+      if (!product.has_stock || parseInt(availableQuantity) > 0) {
+        let availableText = `${this.state.quantity}/${availableQuantity}`;
+        if (!product.has_stock) {
+          availableText = this.state.quantity;
+        }
+
         quantityForm = (
           <View style={styles.quantity}>
             <TouchableOpacity style={styles.decrease} onPress={this.onDecrease.bind(this)}>
@@ -72,7 +81,7 @@ export default class OrderForm extends React.Component {
             </TouchableOpacity>
             <View style={styles.buttonWrapper}>
               <View style={styles.button}>
-                <Text numberOfLines={1} style={styles.buttonText}>{this.state.quantity}/{availableQuantity}</Text>
+                <Text numberOfLines={1} style={styles.buttonText}>{availableText}</Text>
               </View>
             </View>
             <TouchableOpacity style={styles.increase} onPress={this.onIncrease.bind(this)}>

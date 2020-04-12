@@ -144,7 +144,6 @@ class PayWithStripe extends Component {
           items={_.toArray(currencies)}
           onValueChange={this.onCurrencyChange.bind(this)}
           hideIcon={true}
-          style={styles.select}
           value={this.state.currency ? this.state.currency : 'EUR'} />
       );
     }

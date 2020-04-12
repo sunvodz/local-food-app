@@ -5,13 +5,13 @@ export default {
       backgroundColor: '#bf360c',
       borderWidth: 0,
       borderBottomWidth: 0,
-      shadowColor: 'transparent'
+      shadowColor: 'transparent',
     },
     headerTitleStyle: {
       fontFamily: 'montserrat-semibold',
       fontWeight: 'normal',
       fontSize: 20,
-      color: '#fff'
+      color: '#fff',
     },
     headerBackTitleStyle: {
       color: '#fff',

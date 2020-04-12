@@ -19,21 +19,23 @@ export default class TextInputComponent extends React.Component {
         {label}
         <RNPickerSelect
           placeholder={this.props.placeholder}
+          placeholderTextColor='#666'
           items={this.props.items}
           onValueChange={this.props.onValueChange}
           hideIcon={this.props.hideIcon}
+          useNativeAndroidPickerStyle={false}
           style={{
-            inputAndroidContainer: {
+            inputAndroid: {
               backgroundColor: '#fff',
               padding: 15,
+              fontFamily: 'montserrat-regular',
             },
             inputIOSContainer: {
               backgroundColor: '#fff',
               padding: 15,
             },
           }}
-          placeholderTextColor={'#666'}
-          value={this.props.value}
+          // value={this.props.value}
         />
         <Text style={mergedStyles.hint}>{hint}</Text>
       </View>

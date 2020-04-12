@@ -59,24 +59,12 @@ const routeConfig = {
       }
     }
   },
-  auth: {
-    screen: props => {
-      return <Auth navigation={props.navigation} lang={props.screenProps.lang} />
-    },
-    navigationOptions: ({ navigation }) => {
-      return {
-        header: null,
-      };
-    }
-  },
 };
 
 const navigatorConfig = {
   headerMode: 'float',
   initialRouteName: 'map',
   defaultNavigationOptions: (props) => {
-    const navigation = props.navigation;
-
     return {
       headerStyle: style.stackNavigator.headerStyle,
       headerTintColor: '#fff',

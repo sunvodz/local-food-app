@@ -39,7 +39,7 @@
     },
     "android": {
       "package": "org.localfoodnodes.localfoodapp",
-      "versionCode": 6,
+      "versionCode": 8,
       "icon": "./assets/images/logo-expo-1024.png",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/logo-expo-1024-transparent.png",
