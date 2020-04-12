@@ -1,9 +1,9 @@
 {
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 37285,
-  "expoServerNgrokUrl": "https://ny-p9k.davidajnered.local-food-app.exp.direct",
-  "packagerNgrokUrl": "https://packager.ny-p9k.davidajnered.local-food-app.exp.direct",
-  "ngrokPid": 37298,
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
   "devToolsPort": 19002
 }
