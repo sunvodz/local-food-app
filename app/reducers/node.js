@@ -12,14 +12,31 @@ function nodeReducer(state, action) {
         filters: filters,
         loadingNode: action.loadingNode,
         loadingProducts: true,
+        products: [],
       });
       break;
 
     case actionTypes.REQUEST_PRODUCTS:
-    case actionTypes.RECEIVE_PRODUCTS:
       return Object.assign({}, state, {
-        products: action.products,
         loadingProducts: action.loadingProducts,
+      });
+      break;
+
+    case actionTypes.RECEIVE_PRODUCTS:
+      let products = action.products;
+      if (state.products) {
+        products = state.products.concat(action.products)
+      }
+
+      return Object.assign({}, state, {
+        products: products,
+        loadingProducts: action.loadingProducts,
+      });
+      break;
+
+    case actionTypes.RECEIVE_PRODUCTS_COUNT:
+      return Object.assign({}, state, {
+        productsCount: action.productsCount,
       });
       break;
 
@@ -40,14 +57,18 @@ function nodeReducer(state, action) {
       return Object.assign({}, state, {
         filters: Object.assign({}, state.filters, {
           date: action.date
-        })
+        }),
+        // Changing date triggers fetching of products
+        loadingProducts: true,
+        productsCount: null,
+        products: [],
       });
       break;
 
     case actionTypes.RESET_NODE:
       return Object.assign({}, state, {
         node: null,
-        products: null,
+        products: [],
         dates: null,
         filters: {
           node: null,

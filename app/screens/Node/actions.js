@@ -45,6 +45,37 @@ export function receiveNodeFailed(error) {
   }
 }
 
+export function fetchProductsCount(filters) {
+  return async function (dispatch, getState) {
+    try {
+      let url = '/api/v1/products/count';
+
+      if (filters) {
+        url = url + '?' + _.map(filters, (value, type) => {
+          return `${type}=${value}`;
+        }).join('&');
+      }
+
+      let response = await api.call({
+        url: url
+      });
+
+      let productsCount = await response.json();
+
+      dispatch(receiveProductsCount(productsCount));
+    } catch (error) {
+      //
+    }
+  }
+}
+
+export function receiveProductsCount(productsCount) {
+  return {
+    type: actionTypes.RECEIVE_PRODUCTS_COUNT,
+    productsCount: productsCount,
+  }
+}
+
 export function fetchProducts(filters) {
   return async function (dispatch, getState) {
     try {
@@ -64,12 +95,6 @@ export function fetchProducts(filters) {
 
       let products = await response.json();
 
-      // Shuffle
-      for (let i = products.length - 1; i > 0; i--) {
-        let j = Math.floor(Math.random() * (i + 1));
-        [products[i], products[j]] = [products[j], products[i]];
-      }
-
       dispatch(receiveProducts(products));
     } catch (error) {
       dispatch(receiveProductsFailed(error));
@@ -80,7 +105,6 @@ export function fetchProducts(filters) {
 export function requestProducts() {
   return {
     type: actionTypes.REQUEST_PRODUCTS,
-    products: null,
     loadingProducts: true,
   }
 }

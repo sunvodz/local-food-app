@@ -6,7 +6,6 @@ import {View, Text} from 'react-native'
 import Map from 'app/screens/Map';
 import Node from 'app/screens/Node';
 import Cart from 'app/screens/User/screens/Cart';
-import Auth from 'app/screens/Auth';
 import { trans } from 'app/shared';
 import style from 'app/styles';
 import CartIcon from 'app/containers/CartIcon'

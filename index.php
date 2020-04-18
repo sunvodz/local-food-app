@@ -55,6 +55,12 @@ $fp = fopen('translation.json', 'w');
 fwrite($fp, $output);
 fclose($fp);
 
+// Load translations
+$languages = ['sv'];
+// $translations = [];
+foreach ($languages as $language) {
+  $translations[$language] = json_decode(file_get_contents(getcwd() . '/app/languages/' . $language . '.json'), true);
+}
 
 ?>
 
@@ -74,7 +80,18 @@ fclose($fp);
   <h1>Translation strings</h1>
   <table class="table table-striped table-sm">
     <?php foreach($stringKeys as $string): ?>
-      <tr><td><?php echo $string; ?></td></tr>
+      <tr>
+        <td><?php echo $string; ?></td>
+        <?php foreach ($languages as $language): ?>
+          <td>
+            <?php if (isset($translations[$language][$string])): ?>
+              <?php echo $translations[$language][$string]; ?>
+            <?php else: ?>
+              <b>NOT TRANSLATED</b>
+            <?php endif; ?>
+          </td>
+        <?php endforeach; ?>
+      </tr>
     <?php endforeach; ?>
   </table>
 </div>

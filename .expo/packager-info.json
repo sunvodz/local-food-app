@@ -2,8 +2,8 @@
   "expoServerPort": null,
   "packagerPort": null,
   "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "expoServerNgrokUrl": "https://5m-pd8.davidajnered.local-food-app.exp.direct",
+  "packagerNgrokUrl": "https://packager.5m-pd8.davidajnered.local-food-app.exp.direct",
+  "ngrokPid": 24184,
   "devToolsPort": 19002
 }

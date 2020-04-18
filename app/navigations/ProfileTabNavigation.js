@@ -8,7 +8,7 @@ import Settings from 'app/screens/User/screens/Settings';
 import { trans } from 'app/shared';
 
 const RouteConfigs = {
-  Orders: {
+  orders: {
     screen: (props) => {
       return <Orders navigation={props.navigation} lang={props.screenProps.lang} />;
     },
@@ -19,7 +19,7 @@ const RouteConfigs = {
       };
     }
   },
-  Settings: {
+  settings: {
     screen: (props) => {
       return <Settings navigation={props.navigation} lang={props.screenProps.lang} />;
     },

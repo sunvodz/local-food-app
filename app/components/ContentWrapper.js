@@ -13,7 +13,7 @@ class ContentWrapper extends Component {
       contentContainerStyle: styles.scrollView,
       keyboardShouldPersistTaps: 'always',
       enableOnAndroid: true,
-      viewIsInsideTabBar: true,
+      automaticallyAdjustContentInsets: false
     };
 
     if (this.props.onRefresh) {
@@ -40,7 +40,7 @@ let styles = {
   scrollView: {
     paddingTop: 15,
     paddingHorizontal: 15,
-    paddingBottom: 0,
+    paddingBottom: 15,
   }
 };
 

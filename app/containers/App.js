@@ -45,7 +45,7 @@ class App extends Component {
     if (!this.props.auth.user) {
       return (
         <View style={{flex: 1}}>
-          <StatusBar barStyle='light-content' />
+          <StatusBar barStyle='light-content' translucent={true} />
           <AuthScreen {...this.props} />
           <Alert lang={currentLang} />
         </View>
@@ -56,7 +56,7 @@ class App extends Component {
 
     return (
       <View style={{flex: 1, backgroundColor: globalStyle.backgroundColor}}>
-        <StatusBar barStyle='light-content' />
+        <StatusBar barStyle='light-content' translucent={true} />
         {tabBar}
         <Alert lang={currentLang} />
       </View>

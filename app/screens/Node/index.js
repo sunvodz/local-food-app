@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, FlatList, Text, View } from 'react-native';
 import _ from 'lodash';
 import { FontAwesome as Icon } from '@expo/vector-icons';
 
@@ -18,12 +18,15 @@ class Node extends React.Component {
       dataSource: null,
       refreshing: false,
       addToCart: null,
+      scrollLoadingDisabled: false,
     };
 
     this.renderProduct = this.renderProduct.bind(this);
     this.getFollowNodeIcon = this.getFollowNodeIcon.bind(this);
     this.toggleFollowNode = this.toggleFollowNode.bind(this);
     this.props.navigation.setParams({ title: props.navigation.state.params.name, subtitle: trans('Loading products', this.props.lang), count: 0})
+    this.loadMore = this.loadMore.bind(this);
+    this.fetchProducts = this.fetchProducts.bind(this);
   }
 
   componentDidMount() {
@@ -40,21 +43,41 @@ class Node extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     const node = this.props.navigation.state.params;
     const prevFilters = _.get(prevProps, 'node.filters');
+    const prevProducts = _.get(prevProps, 'node.products');
     const filters = this.props.node.filters;
-    const { products } = this.props.node;
 
-    if (products && !prevProps.products) {
-      if (products.length !== this.props.navigation.getParam('count', 0)) {
-        setTimeout(() => {
-          this.props.navigation.setParams({ subTitle: products.length + ' ' + trans('products for sale', this.props.lang), count: products.length});
-        }, 100);
-      }
+    if (this.props.node.products && prevProducts && this.props.node.products.length !== prevProducts.length) {
+      this.setState({
+        scrollLoadingDisabled: false
+      });
     }
 
     if (filters.date && filters.date !== prevFilters.date) {
-      this.props.dispatch(actions.fetchProducts({
-        date: filters.date,
+      this.fetchProducts(node.id, filters.date);
+      this.props.dispatch(actions.fetchProductsCount({
         node: node.id,
+        date: filters.date
+      }));
+    }
+  }
+
+  fetchProducts(nodeId, dateFilter) {
+    if (this.state.scrollLoadingDisabled === false) {
+      this.setState({
+        scrollLoadingDisabled: true
+      });
+
+      let productsToIgnore = [];
+      if (this.props.node.products) {
+        productsToIgnore = this.props.node.products.map(product => {
+          return product.id;
+        });
+      }
+
+      this.props.dispatch(actions.fetchProducts({
+        date: dateFilter,
+        node: nodeId,
+        products_to_ignore: productsToIgnore,
       }));
     }
   }
@@ -135,9 +158,20 @@ class Node extends React.Component {
     this.props.dispatch(actions.toggleFollowNode(nodeId));
   }
 
+  loadMore() {
+    if (!this.props.node.loadingProducts) {
+      this.fetchProducts(this.props.node.node.id, this.props.node.filters.date);
+    }
+  }
+
+  isCloseToBottom({ layoutMeasurement, contentOffset, contentSize }) {
+    return layoutMeasurement.height + contentOffset.y >= contentSize.height - 1;
+  };
+
   render() {
     const { products, loadingProducts, dates } = this.props.node;
 
+    // Show loader when loading node
     if (this.props.node.loadingNode === undefined || this.props.node.loadingNode || !this.props.node.node) {
       return (
         <View style={styles.view}>
@@ -147,6 +181,7 @@ class Node extends React.Component {
       );
     }
 
+    // Show empty screen if node doesn't have any dates
     if (!this.props.node.loadingDates && (!dates || dates.length === 0)) {
       return (
         <View style={styles.view}>
@@ -156,28 +191,49 @@ class Node extends React.Component {
       );
     }
 
-    let content = (
-      <View style={styles.view}>
-        <Loader />
-      </View>
-    );
+    let content = <View></View>;
 
+    // Show empty screen if there are no products
     if (!loadingProducts && (!products || products.length === 0)) {
       content = (
         <View style={styles.view}>
           <Empty icon="exclamation" header={trans('No products', this.props.lang)} text={trans('No available products at the moment.', this.props.lang)} />
         </View>
       );
-    } else if (!loadingProducts && (products || products.length > 0)) {
-      productCards = _.map(products, (product, index) => {
-        return this.renderProduct(product, index);
-      });
+    } else {
+      // Scroll view with products
+      if (products && products.length > 0) {
+        productCards = _.map(products, (product, index) => {
+          return this.renderProduct(product, index);
+        });
 
-      content = (
-        <ScrollView >
-          {productCards}
-        </ScrollView>
-      );
+        let loader = null;
+        if (this.props.node.productsCount > products.length) {
+          loader = <Text style={styles.loadingMore}>{trans('Scroll to load more products', this.props.lang)}</Text>;
+          if (loadingProducts) {
+            loader = <Text style={styles.loadingMore}>{trans('Loading products', this.props.lang)}</Text>;
+          }
+        }
+
+        content = (
+          <ScrollView scrollEventThrottle={1} onScroll={({ nativeEvent }) => {
+              if (this.isCloseToBottom(nativeEvent)) {
+                this.loadMore();
+              }
+            }}
+          >
+            {productCards}
+            {loader}
+          </ScrollView>
+        );
+      } else {
+        // Initial product load - standard view
+        content = (
+          <View style={{flex: 1}}>
+            <Loader />
+          </View>
+        );
+      }
     }
 
     let userNotice = null;
@@ -186,7 +242,7 @@ class Node extends React.Component {
       // If logged in but not a member
       userNoticeMessage = (
         <View>
-          <Button onPress={this.navigateToMembership.bind(this)} title="Become a member to order" />
+          <Button onPress={this.navigateToMembership.bind(this)} title={trans('Donate to be able to order', this.props.lang)} />
         </View>
       );
     } if (this.props.auth.user && !this.props.auth.user.active) {
@@ -227,13 +283,13 @@ class Node extends React.Component {
     }
 
     let subTitle = trans('Loading products', this.props.lang);
-    if (products && products.length > 0) {
+    if (this.props.node.productsCount > 0) {
       let productsForSale = trans('products for sale', this.props.lang);
-      if (products.length === 1) {
+      if (this.props.node.productsCount === 1) {
         productsForSale = trans('product for sale', this.props.lang)
       }
-      subTitle = products.length + ' ' + productsForSale;
-    } else if (products && products.length === 0) {
+      subTitle = this.props.node.productsCount + ' ' + productsForSale;
+    } else if (this.props.node.productsCount === 0) {
       subTitle = trans('No products for sale', this.props.lang);
     }
 
@@ -323,5 +379,11 @@ let styles = {
     fontFamily: 'montserrat-regular',
     marginTop: 5,
     textDecorationLine: 'underline',
+  },
+  loadingMore: {
+    fontFamily: 'montserrat-regular',
+    textAlign: 'center',
+    paddingHorizontal: 5,
+    paddingVertical: 15,
   }
 };

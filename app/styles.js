@@ -6,6 +6,7 @@ export default {
       borderWidth: 0,
       borderBottomWidth: 0,
       shadowColor: 'transparent',
+      marginTop: 0,
     },
     headerTitleStyle: {
       fontFamily: 'montserrat-semibold',

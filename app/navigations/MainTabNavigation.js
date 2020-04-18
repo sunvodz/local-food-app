@@ -11,19 +11,19 @@ import UserStackNavigation from './UserStackNavigation';
 import globalStyle from 'app/styles';
 
 const RouteConfigs = {
-  userStackNavigation: {
-    screen: UserStackNavigation,
-    navigationOptions: ({ navigation }) => {
-      return {
-        tabBarLabel: ({ tintColor }) => (<Icon name="user" style={{alignSelf: 'center'}} size={24} color={tintColor} />)
-      };
-    }
-  },
   mapStackNavigation: {
     screen: MapStackNavigation,
     navigationOptions: ({ navigation }) => {
       return {
         tabBarLabel: ({ tintColor }) => (<Icon name='map-marker' style={{alignSelf: 'center'}} size={24} color={tintColor} />)
+      };
+    }
+  },
+  userStackNavigation: {
+    screen: UserStackNavigation,
+    navigationOptions: ({ navigation }) => {
+      return {
+        tabBarLabel: ({ tintColor }) => (<Icon name="user" style={{alignSelf: 'center'}} size={24} color={tintColor} />)
       };
     }
   },

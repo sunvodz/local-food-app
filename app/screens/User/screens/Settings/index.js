@@ -108,7 +108,7 @@ class Settings extends Component {
           {languageItems}
         </Card>
         <Card header={trans('Help', lang)} headerPosition='outside' footer={helpLink}>
-          <Text>{trans('We have created a small FAQ for you. If there is anything else you need help with please contact us on info@localfoodnodes.org.', lang)}</Text>
+          <Text style={styles.text}>{trans('We have created a small FAQ for you. If there is anything you need help with please contact us on info@localfoodnodes.org.', lang)}</Text>
         </Card>
         {/* <Text>Token: {this.props.settings.pushToken}</Text> */}
         <Button onPress={this.onLogout.bind(this)} icon='sign-out' title={trans('Logout', lang)} />

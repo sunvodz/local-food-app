@@ -39,12 +39,14 @@ class Nodes extends React.Component {
       return <Empty icon="map-marker" action={actionButton} header={trans('Nodes', this.props.lang)} text={trans('You are not following any nodes.', this.props.lang)} />;
     }
 
-    let nodeCards = _.map(nodes, node => {
+    let nodeCards = nodes.map((node, index) => {
+      let marginBottom = nodes.length == (index + 1) ? 0 : 10;
+
       return (
-        <View key={node.id} style={{marginBottom: 15}}>
+        <View key={node.id} style={{marginBottom: marginBottom}}>
           <NodeCard node={node} navigateToNode={this.navigateToNode.bind(this)} removeNode={this.removeNode.bind(this)} lang={this.props.lang} />
         </View>
-        );
+      );
     });
 
     return (
