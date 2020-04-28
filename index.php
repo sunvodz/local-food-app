@@ -48,7 +48,7 @@ sort($stringKeys);
 
 $json = [];
 foreach ($stringKeys as $string) {
-  $json[$string] = '';
+  $json[$string] = '[your-translation-here]';
 }
 $output = json_encode($json, \JSON_PRETTY_PRINT | \JSON_UNESCAPED_UNICODE);
 $fp = fopen('translation.json', 'w');

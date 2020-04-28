@@ -1,5 +1,5 @@
 import { AsyncStorage } from 'react-native';
-import { api } from 'app/shared';
+import { api, sharedActions } from 'app/shared';
 import * as actionTypes from './actionTypes';
 import _ from 'lodash';
 
@@ -16,6 +16,8 @@ export function fetchNode(nodeId) {
 
       dispatch(receiveNode(node));
     } catch (error) {
+      sharedActions.checkMaintenanceMode(dispatch, error);
+
       dispatch(receiveNodeFailed(error));
     }
   }
@@ -64,7 +66,7 @@ export function fetchProductsCount(filters) {
 
       dispatch(receiveProductsCount(productsCount));
     } catch (error) {
-      //
+      sharedActions.checkMaintenanceMode(dispatch, error);
     }
   }
 }
@@ -97,6 +99,8 @@ export function fetchProducts(filters) {
 
       dispatch(receiveProducts(products));
     } catch (error) {
+      sharedActions.checkMaintenanceMode(dispatch, error);
+
       dispatch(receiveProductsFailed(error));
     }
   }
@@ -152,6 +156,8 @@ export function fetchNodeDates(nodeId) {
         dispatch(setDateFilter(dates[0]));
       }
     } catch (error) {
+      sharedActions.checkMaintenanceMode(dispatch, error);
+
       let errorMessage = await error.text();
       dispatch(receiveNodeDatesFailed(errorMessage));
     }
@@ -211,14 +217,16 @@ export function addProductToCart(data) {
 
       dispatch(addToCartSuccess());
 
-      return dispatch({
+      dispatch({
         type: actionTypes.RECEIVE_CART,
         cart: jsonResponse,
         loading: false,
         refreshing: false,
       });
     } catch (error) {
-      return dispatch(addToCartFailed(error));
+      sharedActions.checkMaintenanceMode(dispatch, error);
+
+      dispatch(addToCartFailed(error));
     }
   }
 }
@@ -263,6 +271,8 @@ export function toggleFollowNode(nodeId) {
 
       dispatch(followNodeSuccess(updatedUser));
     } catch (error) {
+      sharedActions.checkMaintenanceMode(dispatch, error);
+
       let errorMessage = await error.text();
       dispatch(followNodeFailed(errorMessage));
     }

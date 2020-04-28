@@ -16,7 +16,7 @@ export function fetchLanguages() {
 
     let languages = await response.json();
 
-    return dispatch(receiveLanguages(languages));
+    dispatch(receiveLanguages(languages));
   }
 }
 
@@ -48,7 +48,7 @@ export function setLanguage(lang) {
     await AsyncStorage.setItem('@store:user', JSON.stringify(user));
     await AsyncStorage.setItem('@store:lang', lang);
 
-    return dispatch(sharedActions.loginComplete(user));
+    dispatch(sharedActions.loginComplete(user));
   }
 }
 

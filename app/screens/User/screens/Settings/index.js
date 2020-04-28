@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Text, TouchableOpacity } from 'react-native';
 import { FontAwesome as Icon } from '@expo/vector-icons';
-import moment from 'moment';
+import moment from 'moment/min/moment-with-locales';
 import _ from 'lodash';
 
 import { ContentWrapper, Card, Button, Link } from 'app/components';

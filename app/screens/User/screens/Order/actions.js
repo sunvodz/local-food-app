@@ -1,8 +1,8 @@
 import _ from 'lodash';
-import moment from 'moment';
+import moment from 'moment/min/moment-with-locales';
 
 import * as actionTypes from './actionTypes';
-import { api } from 'app/shared';
+import { api, sharedActions } from 'app/shared';
 
 /**
  * Async action - fetch order.
@@ -20,9 +20,9 @@ export function fetchOrder(orderDateItemLinkId) {
 
       let order = await response.json();
 
-      return dispatch(receiveOrder(order));
+      dispatch(receiveOrder(order));
     } catch (error) {
-
+      sharedActions.checkMaintenanceMode(dispatch, error);
     }
   }
 }
@@ -92,8 +92,10 @@ export function deleteOrder(orderDateItemLinkId) {
         orderedOrders[index].items.push(order);
       }
 
-      return dispatch(deleteOrderComplete(orderedOrders.reverse()));
-    } catch(error) {}
+      dispatch(deleteOrderComplete(orderedOrders.reverse()));
+    } catch(error) {
+      sharedActions.checkMaintenanceMode(dispatch, error);
+    }
   }
 }
 

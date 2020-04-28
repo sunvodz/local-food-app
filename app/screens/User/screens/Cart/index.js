@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text } from 'react-native';
-import moment from 'moment';
+import moment from 'moment/min/moment-with-locales';
 import _ from 'lodash';
 
 import { Loader, Button, Empty, List, ListSection } from 'app/components';
@@ -102,6 +102,7 @@ class Cart extends React.Component {
 
   render() {
     const { loading, refreshing, cart } = this.props.cart;
+    moment.locale(this.props.lang);
 
     if (loading) {
       return (

@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes'
-import { api } from 'app/shared';
+import { api, sharedActions } from 'app/shared';
 import _ from 'lodash';
 
 /**
@@ -21,7 +21,7 @@ export function fetchCart(refreshing) {
 
     let cart = await response.json();
 
-    return dispatch(receiveCart(cart));
+    dispatch(receiveCart(cart));
   }
 }
 
@@ -68,8 +68,10 @@ export function removeCartItem(cartDateItemLinkId) {
 
       let updatedCart = await response.json();
 
-      return dispatch(removedCartItem(updatedCart));
+      dispatch(removedCartItem(updatedCart));
     } catch (error) {
+      sharedActions.checkMaintenanceMode(dispatch, error);
+
       let errorMessage = error.text();
       dispatch(removeCartItemFailed(errorMessage));
     }
@@ -119,13 +121,10 @@ export function updateCartItem(id, quantity) {
       });
 
       let cartItemOrItems = await response.json();
-
-      if (_.isArray(cartItemOrItems)) {
-        dispatch(updatedCartItems(cartItemOrItems));
-      } else {
-        dispatch(updatedCartItem(cartItemOrItems));
-      }
+      dispatch(updatedCartItems(cartItemOrItems));
     } catch (error) {
+      sharedActions.checkMaintenanceMode(dispatch, error);
+
       let errorMessage = await error.text();
       dispatch(updatingCartFailed(errorMessage));
     }
@@ -136,13 +135,6 @@ export function updatingCartItem(id) {
   return {
     type: actionTypes.UPDATING_CART_ITEM,
     id: id,
-  }
-}
-
-export function updatedCartItem(cartItem) {
-  return {
-    type: actionTypes.UPDATED_CART_ITEM,
-    cartItem: cartItem,
   }
 }
 
@@ -179,7 +171,9 @@ export function createOrder() {
       dispatch(createOrderSuccess());
       dispatch(fetchCart(true));
     } catch (error) {
-      return dispatch(createOrderFailed(error));
+      sharedActions.checkMaintenanceMode(dispatch, error);
+
+      dispatch(createOrderFailed(error));
     }
   }
 }
@@ -196,7 +190,7 @@ export function createOrderSuccess() {
     type: actionTypes.CREATE_ORDER_SUCCESS,
     creating: false,
     cart: null,
-    title: 'order',
+    title: 'Order',
     message: 'Your order was created.',
   }
 }
@@ -205,7 +199,7 @@ export function createOrderFailed(error) {
   return {
     type: actionTypes.CREATE_ORDER_FAILED,
     creating: false,
-    title: 'order',
+    title: 'Order',
     message: error.message
   }
 }

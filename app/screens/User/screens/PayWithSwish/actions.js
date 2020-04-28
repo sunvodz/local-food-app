@@ -1,7 +1,7 @@
 import { APP_ENV } from 'app/env';
 import { SWISH_STARTED, SWISH_SUCCESS, SWISH_FAILED, SWISH_DECLINED } from './actionTypes'
 import { Linking, AsyncStorage } from 'react-native'
-import api from 'app/shared/api';
+import { api, sharedActions } from 'app/shared';
 
 export function startSwish(userId, amount) {
   return async function (dispatch, getState) {
@@ -32,6 +32,8 @@ export function startSwish(userId, amount) {
 
       setTimeout(() => waitForSwishResponse(dispatch, res, 0), 1000);
     } catch (error) {
+      sharedActions.checkMaintenanceMode(dispatch, error);
+
       let errorMessage = await error.text();
       dispatch(swishFailed(errorMessage));
     }

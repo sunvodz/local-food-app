@@ -79,6 +79,10 @@ class LocalFoodNodesSDK {
         }
       });
 
+      if (!response.ok) {
+        throw response;
+      }
+
       let jsonResponse = await response.json();
 
       return jsonResponse;

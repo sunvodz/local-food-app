@@ -36,15 +36,17 @@ export function createAccount(data) {
       });
 
       if (response.status >= 200 && response.status < 300) {
-        return dispatch(createAccountComplete());
+        dispatch(createAccountComplete());
       } else {
         json = await response.json();
 
-        return dispatch(createAccountFailed(json));
+        dispatch(createAccountFailed(json));
       }
     } catch (error) {
+      checkMaintenanceMode(dispatch, error);
+
       let errorMessage = await error.text();
-      return dispatch(createAccountFailed(errorMessage));
+      dispatch(createAccountFailed(errorMessage));
     }
   }
 }
@@ -99,9 +101,10 @@ export function loginUser(data) {
 
       registerForPushNotificationsAsync(data.email);
 
-      return dispatch(loginComplete(user));
+      dispatch(loginComplete(user));
     } catch (error) {
-      return dispatch(loginFailed());
+      checkMaintenanceMode(dispatch, error);
+      dispatch(loginFailed());
     }
   }
 }
@@ -132,6 +135,8 @@ export function logout() {
       await AsyncStorage.removeItem('@store:user');
       dispatch(logoutComplete());
     } catch (error) {
+      checkMaintenanceMode(dispatch, error);
+
       dispatch(logoutFailed());
     }
   }
@@ -179,11 +184,13 @@ export function loadUser(refreshing) {
 
         user = await response.json();
 
-        return dispatch(loginComplete(user));
+        dispatch(loginComplete(user));
       } else {
-        return dispatch(loadUserFailed('No user in @store:user.'));
+        dispatch(loadUserFailed('No user in @store:user.'));
       }
     } catch (error) {
+      checkMaintenanceMode(dispatch, error);
+
       let errorMessage = null;
       if (typeof error === 'object') {
         errorMessage = await error.text();
@@ -191,7 +198,7 @@ export function loadUser(refreshing) {
         errorMessage = error;
       }
 
-      return dispatch(loadUserFailed(errorMessage));
+      dispatch(loadUserFailed(errorMessage));
     }
   }
 }
@@ -270,6 +277,8 @@ export function resendEmail() {
 
       dispatch(resendEmailSuccess());
     } catch (error) {
+      checkMaintenanceMode(dispatch, error);
+
       dispatch(resendEmailFailed(error));
     }
   }
@@ -321,6 +330,8 @@ export function donateNothing(userId) {
 
       dispatch(donateNothingSuccess(updatedUser));
     } catch (error) {
+      checkMaintenanceMode(dispatch, error);
+
       dispatch(donateNothingFailed(error));
     }
   }
@@ -347,5 +358,44 @@ export function donateNothingFailed(error) {
     paymentInProgress: false,
     title: 'Membership',
     message: error,
+  }
+}
+
+/**
+ *
+ * @param {*} error
+ * @param {*} dispatch
+ */
+export function checkMaintenanceMode(dispatch, error) {
+  if (error && error.status === 503) {
+    dispatch(maintenanceModeEnabled());
+  } else {
+    dispatch(maintenanceModeDisabled());
+  }
+}
+
+export function maintenanceModeEnabled() {
+  return {
+    type: sharedActionTypes.MAINTENANCE_MODE_ENABLED,
+  }
+}
+
+export function maintenanceModeDisabled() {
+  return {
+    type: sharedActionTypes.MAINTENANCE_MODE_DISABLED,
+  }
+}
+
+export function checkIfBackendIsBack() {
+  return async function(dispatch, getState) {
+    try {
+      await api.call({
+        url: '/',
+      });
+
+      dispatch(maintenanceModeDisabled());
+    } catch (error) {
+      dispatch(maintenanceModeEnabled());
+    }
   }
 }

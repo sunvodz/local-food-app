@@ -5,6 +5,7 @@ import alertReducer from 'app/containers/Alert/reducer';
 import authReducer from './auth';
 import mapReducer from './map';
 import nodeReducer from './node';
+import systemReducer from './system';
 
 import userReducer from 'app/screens/User/screens/Profile/reducer';
 import cartReducer from 'app/screens/User/screens/Cart/reducer';
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   settings: settingsReducer,
   stripe: stripeReducer,
   swish: swishReducer,
+  system: systemReducer,
   logger: function(state, action) {
     console.log(action.type);
     return Object.assign({}, state, {});

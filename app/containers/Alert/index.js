@@ -28,7 +28,7 @@ class Alert extends Component {
       alert.message = trans(alert.message, this.props.lang)
     }
 
-    this.dropdown.alertWithType(alert.level, trans(alert.title, this.props.lang), alert.message);
+    this.dropdown.alertWithType(alert.level, trans(alert.title, this.props.lang), trans(alert.message));
     this.resetAlert();
   }
 

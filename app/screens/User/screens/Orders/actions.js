@@ -1,8 +1,8 @@
 import _ from 'lodash';
-import moment from 'moment';
+import moment from 'moment/min/moment-with-locales';
 
 import * as actionTypes from './actionTypes';
-import { api } from 'app/shared';
+import { api, sharedActions } from 'app/shared';
 
 /**
  * Async action - fetch orders.
@@ -44,9 +44,10 @@ export function fetchOrders() {
         orderedOrders[index].items.push(order);
       }
 
-      return dispatch(receiveOrders(orderedOrders.reverse()));
+      dispatch(receiveOrders(orderedOrders.reverse()));
     } catch (error) {
-      console.error(error);
+      sharedActions.checkMaintenanceMode(dispatch, error);
+
       dispatch(receiveOrdersFailed(error));
     }
   }

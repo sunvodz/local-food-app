@@ -1,8 +1,8 @@
 import _ from 'lodash';
-import moment from 'moment';
+import moment from 'moment/min/moment-with-locales';
 
 import * as actionTypes from './actionTypes';
-import { api } from 'app/shared';
+import { api, sharedActions } from 'app/shared';
 
 /**
  * Async action - delete order.
@@ -25,8 +25,10 @@ export function deleteOrder(orderDateItemLinkId) {
         return moment(order.date.date.date).format('YYYYMMDD');
       });
 
-      return dispatch(deleteOrderComplete(groupedOrders));
-    } catch(error) {}
+      dispatch(deleteOrderComplete(groupedOrders));
+    } catch(error) {
+      sharedActions.checkMaintenanceMode(dispatch, error);
+    }
   }
 }
 

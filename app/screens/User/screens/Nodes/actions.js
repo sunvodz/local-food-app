@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes'
-import { api } from 'app/shared';
+import { api, sharedActions } from 'app/shared';
 import _ from 'lodash';
 
 export function fetchUserNodes() {
@@ -16,9 +16,11 @@ export function fetchUserNodes() {
         return node.name;
       });
 
-      return dispatch(receiveUserNodes(nodes));
+      dispatch(receiveUserNodes(nodes));
     } catch(error) {
-      return dispatch(receiveUserNodesFailed(error));
+      sharedActions.checkMaintenanceMode(dispatch, error);
+
+      dispatch(receiveUserNodesFailed(error));
     }
   }
 }
@@ -57,7 +59,7 @@ export function removeNodeFromUser(nodeId) {
         url: `/api/v1/user/nodes/${nodeId}`
       });
 
-      return dispatch(userNodeRemoved(nodeId));
+      dispatch(userNodeRemoved(nodeId));
     } catch (error) {}
   }
 }

@@ -6,7 +6,7 @@ import { Notifications } from 'expo';
 import MainTabNavigation from 'app/navigations/MainTabNavigation';
 import AuthScreen from 'app/screens/Auth';
 import { Alert } from 'app/containers';
-import { Loader } from 'app/components';
+import { MaintenanceMode } from 'app/components';
 
 import { sharedActions, sharedActionTypes } from 'app/shared';
 import * as userNodesActions from 'app/screens/User/screens/Nodes/actions';
@@ -42,6 +42,15 @@ class App extends Component {
   render() {
     let currentLang = this.props.auth.user ? this.props.auth.user.language : 'en';
 
+    if (this.props.system.maintenance_mode) {
+      return (
+        <View style={{flex: 1, backgroundColor: globalStyle.backgroundColor}}>
+          <MaintenanceMode dispatch={this.props.dispatch} />
+          <Alert lang={currentLang} />
+        </View>
+      );
+    }
+
     if (!this.props.auth.user) {
       return (
         <View style={{flex: 1}}>
@@ -65,11 +74,12 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
-  const { auth, nodes } = state;
+  const { auth, nodes, system } = state;
 
   return {
     auth,
-    nodes
+    nodes,
+    system
   }
 }
 

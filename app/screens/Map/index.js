@@ -50,16 +50,12 @@ class Map extends React.Component {
       if (this.state.showMap) { // Show map
         left = <Icon style={styles.leftIcon} name='list' size={24} color='#fff' onPress={this.toggleMap.bind(this)}/>;
         return (
-          // <SafeAreaView style={{flex: 1, backgroundColor: globalStyle.primaryColor}}>
-            <MapViewWrapper {...this.props} lang={this.props.lang} />
-          // </SafeAreaView>
+          <MapViewWrapper {...this.props} lang={this.props.lang} />
         );
       } else { // Show user nodes
         left = <Icon style={styles.leftIcon} name='globe' size={24} color='#fff' onPress={this.toggleMap.bind(this)}/>;
         return (
-          // <SafeAreaView style={{flex: 1, backgroundColor: globalStyle.primaryColor}}>
-            <NodesScreen toggleMap={this.toggleMap.bind(this)} lang={this.props.lang} navigation={this.props.navigation}/>
-          // </SafeAreaView>
+          <NodesScreen toggleMap={this.toggleMap.bind(this)} lang={this.props.lang} navigation={this.props.navigation}/>
         );
       }
     }

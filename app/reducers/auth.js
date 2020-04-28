@@ -19,12 +19,12 @@ function authReducer(state, action) {
       });
       break;
 
-    case sharedActionTypes.LOAD_USER_IN_PROGRESS:
-      return Object.assign({}, state, {
-        loading: action.loading,
-        refreshing: action.refreshing,
-      });
-      break;
+    // case sharedActionTypes.LOAD_USER_IN_PROGRESS:
+    //   return Object.assign({}, state, {
+    //     loading: action.loading,
+    //     refreshing: action.refreshing,
+    //   });
+    //   break;
 
     case sharedActionTypes.CREATE_ACCOUNT_SUCCESS:
       return Object.assign({}, state, {

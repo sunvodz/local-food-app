@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Text, View } from 'react-native';
-import moment from 'moment';
+import moment from 'moment/min/moment-with-locales';
 
 import { ContentWrapper, Card, Badge, Button, ScreenHeader, Empty, Loader } from 'app/components';
 import * as actions from './actions';

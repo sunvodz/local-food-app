@@ -88,8 +88,6 @@ export default class MapViewWrapper extends React.Component {
     }
 
     let mapData = _.map(_.cloneDeep(map.nodes), (node) => {
-      node = node.data;
-
       node.location.latitude = parseFloat(node.location.lat);
       node.location.longitude = parseFloat(node.location.lng);
 

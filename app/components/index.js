@@ -10,6 +10,7 @@ import List from './List';
 import ListSection from './ListSection';
 import ListItem from './ListItem';
 import Loader from './Loader';
+import MaintenanceMode from './MaintenanceMode';
 import NodeCard from './NodeCard';
 import NumberInput from './NumberInput';
 import Picker from './Picker';
@@ -30,6 +31,7 @@ export {
   ListSection,
   ListItem,
   Loader,
+  MaintenanceMode,
   NodeCard,
   NumberInput,
   Picker,

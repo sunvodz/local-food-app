@@ -1,5 +1,5 @@
 import { AsyncStorage } from 'react-native';
-import api from 'app/shared/api';
+import { api, sharedActions } from 'app/shared';
 import * as actionTypes from './actionTypes'
 
 /**
@@ -45,6 +45,8 @@ export function startStripe(userId, data) {
 
       dispatch(stripeSuccess(updatedUser));
     } catch (error) {
+      sharedActions.checkMaintenanceMode(dispatch, error);
+
       errorMessage = await error.text();
       dispatch(stripeFailed(errorMessage));
     }
@@ -85,9 +87,11 @@ export function getCurrencies(data) {
       let response = await fetch('https://api.localfoodnodes.org/v1.0/currency/rates?enabled=1');
       let currencies = await response.json();
 
-      return dispatch(currenciesComplete(currencies.data));
+      dispatch(currenciesComplete(currencies.data));
     } catch (error) {
-      return dispatch(currenciesFailed(error));
+      sharedActions.checkMaintenanceMode(dispatch, error);
+
+      dispatch(currenciesFailed(error));
     }
   }
 }

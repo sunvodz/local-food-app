@@ -8,6 +8,8 @@ export function fetchCurrentLocation() {
       let location = await sharedActions.getLocationAsync();
       dispatch(receiveCurrentLocation(location));
     } catch (error) {
+      sharedActions.checkMaintenanceMode(dispatch, error);
+
       dispatch(receiveDefaultLocation({
         coords: {
           accuracy: 5,
@@ -52,12 +54,15 @@ export function fetchNodes() {
     try {
       dispatch(requestNodes());
 
-      let response = await fetch('https://api.localfoodnodes.org/v1.0/nodes/data');
-      let jsonResponse = await response.json();
-      let nodes = jsonResponse.data;
+      let response = await api.call({
+        url: '/api/v1/nodes'
+      });
+
+      let nodes = await response.json();
 
       dispatch(receiveNodes(nodes));
     } catch (error) {
+      sharedActions.checkMaintenanceMode(dispatch, error);
       dispatch(receiveNodes(null)); // No nodes will show server error warning
     }
   }
@@ -97,12 +102,15 @@ export function refreshNodes() {
     try {
       dispatch(refreshingNodes());
 
-      let response = await fetch('https://api.localfoodnodes.org/v1.0/nodes/data');
-      let jsonResponse = await response.json();
-      let nodes = jsonResponse.data;
+      let response = await api.call({
+        url: '/api/v1/nodes'
+      });
+
+      let nodes = await response.json();
 
       dispatch(receiveNodes(nodes));
     } catch (error) {
+      sharedActions.checkMaintenanceMode(dispatch, error);
       dispatch(receiveNodesFailed(null)); // No nodes will show server error warning
     }
   }
