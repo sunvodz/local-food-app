@@ -60,3 +60,4 @@ app/env.js
 *.key
 *.p12
 *.mobileprovision
+.expo
