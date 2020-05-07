@@ -98,7 +98,11 @@ class LocalFoodNodesSDK {
    */
   formData(data) {
     return Object.keys(data).map(function(d) {
-      return encodeURIComponent(d) + '=' + encodeURIComponent(data[d]);
+      if (!data[d]) {
+        return encodeURIComponent(d) + '=';
+      } else {
+        return encodeURIComponent(d) + '=' + encodeURIComponent(data[d]);
+      }
     }).join('&');
   }
 }

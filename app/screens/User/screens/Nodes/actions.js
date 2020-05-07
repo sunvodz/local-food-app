@@ -20,7 +20,8 @@ export function fetchUserNodes() {
     } catch(error) {
       sharedActions.checkMaintenanceMode(dispatch, error);
 
-      dispatch(receiveUserNodesFailed(error));
+      let errorMessage = await error.text();
+      dispatch(receiveUserNodesFailed(errorMessage));
     }
   }
 }

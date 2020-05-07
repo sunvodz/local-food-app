@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native';
 import { API_URL, API_CLIENT_ID, API_CLIENT_SECRET } from 'app/env';
-import sdk from 'localfoodnodes-js-sdk';
+import sdk from './sdk';
 import _ from 'lodash';
 
 class Api {

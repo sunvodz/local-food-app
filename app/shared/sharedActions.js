@@ -23,7 +23,7 @@ export function createAccount(data, lang) {
     try {
       dispatch(createAccountInProgress());
 
-      let formData = api.formData(data)
+      let formData = api.formData(data);
 
       let lang = '/en';
       if (data.language) {
