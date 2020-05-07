@@ -59,11 +59,14 @@ export default class NodeCard extends React.Component {
     let toggleInfoLinkText = trans('Read more', this.props.lang);
     if (this.state.showInfo) {
       info = (
-        // <ScrollView style={styles.infoScrollView}>
-          <Text style={styles.info}>{node.infoRaw}</Text>
-        // </ScrollView>
+        <Text style={styles.info}>{node.infoRaw}</Text>
       );
       toggleInfoLinkText = trans('Read less', this.props.lang);
+    }
+
+    let onClose = null;
+    if (this.props.onClose) {
+      onClose = <Link title={trans('Close', this.props.lang)} onPress={this.props.onClose}/>
     }
 
     return (
@@ -84,6 +87,7 @@ export default class NodeCard extends React.Component {
         <View style={styles.modalFooter}>
           <Link title={trans('Visit node', this.props.lang)} onPress={this.navigateToNode.bind(this)}/>
           {remove}
+          {onClose}
         </View>
       </View>
     );
@@ -94,9 +98,8 @@ let styles = {
   modal: {
     backgroundColor: '#fff',
     elevation: 0,
-    flex: 1,
-    marginVertical: 5,
     overflow: 'hidden',
+    position: 'relative',
   },
   modalHeader: {
     backgroundColor: '#efcec4',
@@ -152,5 +155,5 @@ let styles = {
   info: {
     fontFamily: 'montserrat-regular',
     marginTop: 15,
-  }
+  },
 };

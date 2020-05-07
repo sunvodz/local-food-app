@@ -1,8 +1,9 @@
 import { AsyncStorage } from 'react-native';
 import { Notifications } from 'expo';
 import api from './api';
+import trans from './trans';
 import * as sharedActionTypes from './sharedActionTypes';
-
+import { API_URL } from 'app/env';
 import * as Permissions from 'expo-permissions';
 import * as Location from 'expo-location';
 
@@ -17,36 +18,37 @@ export function toggleAuthForm() {
 /**
  * Create account actions
  */
-export function createAccount(data) {
+export function createAccount(data, lang) {
   return async function(dispatch, getState) {
     try {
       dispatch(createAccountInProgress());
 
-      let response = await api.call({
-        url: '/api/v1/user',
+      let formData = api.formData(data)
+
+      let lang = '/en';
+      if (data.language) {
+        lang = '/' + data.language;
+      }
+
+      let response = await fetch(API_URL + lang + '/api/v1/user', {
         method: 'post',
-        body: {
-          name: data.name,
-          email: data.email,
-          phone: data.phone,
-          password: data.password,
-          gdpr: data.terms,
-          language: data.language,
-        },
+        body: formData,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
+        }
       });
 
-      if (response.status >= 200 && response.status < 300) {
-        dispatch(createAccountComplete());
-      } else {
-        json = await response.json();
-
-        dispatch(createAccountFailed(json));
+      if (!response.ok) {
+        throw response;
       }
+
+      dispatch(createAccountComplete(lang));
     } catch (error) {
       checkMaintenanceMode(dispatch, error);
 
       let errorMessage = await error.text();
-      dispatch(createAccountFailed(errorMessage));
+      dispatch(createAccountFailed(errorMessage, lang));
     }
   }
 }
@@ -59,23 +61,23 @@ export function createAccountInProgress() {
   }
 }
 
-export function createAccountComplete(user) {
+export function createAccountComplete(user, lang) {
   return {
     type: sharedActionTypes.CREATE_ACCOUNT_SUCCESS,
     loading: false,
     refreshing: false,
-    title: 'your_account',
-    message: 'your_account_created'
+    title: trans('Account', lang),
+    message: trans('Your account has been created', lang)
   }
 }
 
-export function createAccountFailed(errorMessage) {
+export function createAccountFailed(errorMessage, lang) {
   return {
     type: sharedActionTypes.CREATE_ACCOUNT_FAILED,
     loading: false,
     refreshing: false,
     user: null,
-    title: 'Create account',
+    title: trans('Create account', lang),
     message: errorMessage,
   }
 }
@@ -156,8 +158,8 @@ export function loginFailed() {
     loading: false,
     refreshing: false,
     user: null,
-    title: 'Login failed',
-    message: 'You have entered an invalid username or password.',
+    title: trans('Login failed'),
+    message: trans('You have entered an invalid username or password.'),
   }
 }
 
@@ -216,7 +218,7 @@ export function loadUserFailed(errorMessage) {
     type: sharedActionTypes.LOAD_USER_FAILED,
     loading: false,
     refreshing: false,
-    title: 'User',
+    title: trans('User'),
     message: errorMessage
   }
 }
@@ -260,7 +262,7 @@ export async function getLocationAsync() {
     let location =  await Location.getCurrentPositionAsync({enableHighAccuracy: true});
     return location;
   } else {
-    throw new Error('Location permission not granted');
+    throw new Error(trans('Location permission not granted'));
   }
 }
 
@@ -287,16 +289,16 @@ export function resendEmail() {
 export function resendEmailFailed(error) {
   return {
     type: sharedActionTypes.RESEND_EMAIL_FAILED,
-    title: 'Verify email',
-    message: 'Could not send verification email.',
+    title: trans('Verify email'),
+    message: trans('Could not send verification email.'),
   }
 }
 
 export function resendEmailSuccess() {
   return {
     type: sharedActionTypes.RESEND_EMAIL_SUCCESS,
-    title: 'Verify email',
-    message: 'We have sent a new verification email to you.',
+    title: trans('Verify email'),
+    message: trans('We have sent a new verification email to you.'),
   };
 }
 
@@ -356,7 +358,7 @@ export function donateNothingFailed(error) {
   return {
     type: sharedActionTypes.DONATE_NOTHING_FAILED,
     paymentInProgress: false,
-    title: 'Membership',
+    title: trans('Membership'),
     message: error,
   }
 }

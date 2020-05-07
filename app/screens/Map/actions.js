@@ -1,4 +1,4 @@
-import { api, sharedActions } from 'app/shared';
+import { api, sharedActions, trans } from 'app/shared';
 import * as actionTypes from './actionTypes';
 
 export function fetchCurrentLocation() {
@@ -92,8 +92,8 @@ export function receiveNodesFailed(error) {
     loading: false,
     refresh: false,
     nodes: null,
-    title: 'nodes',
-    message: 'Failed loading nodes',
+    title: trans('Nodes'),
+    message: trans('Failed loading nodes'),
   }
 }
 

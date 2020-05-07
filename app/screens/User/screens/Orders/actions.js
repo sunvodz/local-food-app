@@ -2,7 +2,7 @@ import _ from 'lodash';
 import moment from 'moment/min/moment-with-locales';
 
 import * as actionTypes from './actionTypes';
-import { api, sharedActions } from 'app/shared';
+import { api, sharedActions, trans } from 'app/shared';
 
 /**
  * Async action - fetch orders.
@@ -73,7 +73,7 @@ export function receiveOrdersFailed() {
     type: actionTypes.RECEIVE_ORDERS_FAILED,
     orders: null,
     loading: false,
-    title: 'orders',
-    message: 'failed_loading_orders',
+    title: trans('Orders'),
+    message: trans('Failed loading orders'),
   }
 }

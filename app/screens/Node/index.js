@@ -130,6 +130,13 @@ class Node extends React.Component {
     });
   }
 
+  navigateToSettings() {
+    this.props.navigation.navigate('settings', {
+      auth: this.props.auth,
+      navBackIcon: true,
+    });
+  }
+
   renderProduct(product, rowId) {
     let image = null; // Fallback here
     if (product.images && product.images.length > 0) {
@@ -242,15 +249,16 @@ class Node extends React.Component {
       // If logged in but not a member
       userNoticeMessage = (
         <View>
-          <Button onPress={this.navigateToMembership.bind(this)} title={trans('Donate to be able to order', this.props.lang)} />
+          <Text style={styles.userNoticeMessage}>{trans('Before you can order you need to make a donation.', this.props.lang)}</Text>
+          <Button onPress={this.navigateToMembership.bind(this)} title={trans('Make a donation', this.props.lang)} />
         </View>
       );
     } if (this.props.auth.user && !this.props.auth.user.active) {
       // If logged in but not active
       userNoticeMessage = (
         <View>
-          <Text style={styles.userNoticeMessage}>{trans('Not verified', this.props.lang)}</Text>
-          <Button onPress={this.navigateToMembership.bind(this)} title="Verify your email" />
+          <Text style={styles.userNoticeMessage}>{trans('Before you can order you need to verify your email address and make a donation.', this.props.lang)}</Text>
+          <Button onPress={this.navigateToSettings.bind(this)} title="Verify your email" />
         </View>
       );
     }

@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Text, View, Image } from 'react-native';
-import { Switch } from 'react-native-switch';
+import { Text, View, Image, Switch } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import _ from 'lodash';
 
@@ -38,7 +37,7 @@ class AuthScreen extends React.Component {
   }
 
   onSignup() {
-    this.props.dispatch(sharedActions.createAccount(this.state));
+    this.props.dispatch(sharedActions.createAccount(this.state, this.state.language));
   }
 
   toggleForms() {
@@ -101,14 +100,9 @@ class AuthScreen extends React.Component {
               <View style={styles.switchWrapper}>
                 <Switch
                   value={this.state.terms}
-                  onValueChange={this.onTermsChange.bind(this)}
-                  disabled={false}
-                  backgroundActive={'#d58067'}
-                  backgroundInactive={'#d58067'}
-                  circleActiveColor={'#fff'}
-                  circleInActiveColor={'#fff'}
-                  circleBorderWidth={0}
-                  circleSize={24}
+                  onChange={this.onTermsChange.bind(this)}
+                  trackColor={{false:'#d58067', true:'#d58067'}}
+                  ios_backgroundColor={'#d58067'}
                   />
                   <Text style={styles.switchLabel}>{this.state.terms ? 'I accept' : 'I dont accept'}</Text>
               </View>

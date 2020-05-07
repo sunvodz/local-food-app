@@ -67,6 +67,7 @@ let styles = {
     color: '#fff',
     alignSelf: 'center',
     fontFamily: 'montserrat-semibold',
+    fontSize: 12,
     marginBottom: 1,
   },
   disabled: {

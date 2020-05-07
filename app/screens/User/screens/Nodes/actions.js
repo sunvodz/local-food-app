@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes'
-import { api, sharedActions } from 'app/shared';
+import { api, sharedActions, trans } from 'app/shared';
 import _ from 'lodash';
 
 export function fetchUserNodes() {
@@ -46,8 +46,8 @@ export function receiveUserNodesFailed(error) {
     type: actionTypes.RECEIVE_USER_NODES_FAILED,
     nodes: null,
     loading: false,
-    title: 'nodes',
-    message: 'failed_loading_nodes',
+    title: trans('Nodes'),
+    message: trans('Failed loading nodes'),
   }
 }
 

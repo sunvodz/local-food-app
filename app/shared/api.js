@@ -29,7 +29,7 @@ class Api {
   }
 
   formData(data) {
-    return sdk.formatData(data);
+    return sdk.formData(data);
   }
 
   async extendOptions(options) {

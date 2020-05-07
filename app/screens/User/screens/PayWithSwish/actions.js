@@ -1,7 +1,7 @@
 import { APP_ENV } from 'app/env';
 import { SWISH_STARTED, SWISH_SUCCESS, SWISH_FAILED, SWISH_DECLINED } from './actionTypes'
 import { Linking, AsyncStorage } from 'react-native'
-import { api, sharedActions } from 'app/shared';
+import { api, sharedActions, trans } from 'app/shared';
 
 export function startSwish(userId, amount) {
   return async function (dispatch, getState) {
@@ -87,7 +87,7 @@ export function swishSuccess(user) {
 export function swishFailed(errorMessage) {
   return {
     type: SWISH_FAILED,
-    title: 'Donation failed',
+    title: trans('Donation failed'),
     message: errorMessage,
   }
 }
@@ -95,7 +95,7 @@ export function swishFailed(errorMessage) {
 export function swishDeclined() {
   return {
     type: SWISH_DECLINED,
-    title: 'payment_failiure_header',
-    message: 'payment_failiure',
+    title: trans('Swish'),
+    message: trans('Swish payment failed.'),
   }
 }

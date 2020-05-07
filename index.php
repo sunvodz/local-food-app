@@ -48,10 +48,15 @@ sort($stringKeys);
 
 $json = [];
 foreach ($stringKeys as $string) {
-  $json[$string] = '[your-translation-here]';
+  $key = preg_replace('/[^a-z0-9]+/i', ' ', $string);
+  $key = trim($key);
+  $key = str_replace(" ", "_", $key);
+  $key = strtolower($key);
+
+  $json[$key] = $string;
 }
 $output = json_encode($json, \JSON_PRETTY_PRINT | \JSON_UNESCAPED_UNICODE);
-$fp = fopen('translation.json', 'w');
+$fp = fopen('app-translatable-strings.json', 'w');
 fwrite($fp, $output);
 fclose($fp);
 

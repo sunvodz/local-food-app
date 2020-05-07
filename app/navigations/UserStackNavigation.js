@@ -100,7 +100,7 @@ const routeConfig = {
     screen: PayWithStripe,
     navigationOptions: (props) => {
       return {
-        title: 'Credit card',
+        title: trans('Credit card', props.screenProps.lang),
         headerBackTitle: null,
       };
     }

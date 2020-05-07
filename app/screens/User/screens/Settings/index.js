@@ -95,7 +95,7 @@ class Settings extends Component {
       );
     });
 
-    let loggedInAs = `${trans('Logged in as', lang)} ${auth.user.name}`;
+    let loggedInAs = `${trans('Logged in as', lang)} ${auth.user.email}`;
 
     let helpLink = <Link onPress={this.navigateToHelp.bind(this, true)} title={trans('Help', lang)} />;
 

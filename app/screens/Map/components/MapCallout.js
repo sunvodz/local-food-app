@@ -1,7 +1,6 @@
 import React from 'react';
 import { ScrollView, Dimensions } from 'react-native';
 import Modal from 'react-native-modal';
-
 import { NodeCard } from 'app/components';
 
 export default class MapCallout extends React.Component {
@@ -22,7 +21,7 @@ export default class MapCallout extends React.Component {
     return (
       <Modal {...modalProps}>
         <ScrollView style={styles.wrapper} showsVerticalScrollIndicator={false}>
-          <NodeCard node={node} navigateToNode={this.navigateToNode.bind(this)} lang={this.props.lang} />
+          <NodeCard onClose={this.props.onClose} node={node} navigateToNode={this.navigateToNode.bind(this)} lang={this.props.lang} />
         </ScrollView>
       </Modal>
     );
@@ -31,7 +30,7 @@ export default class MapCallout extends React.Component {
 
 const styles = {
   wrapper: {
-    flex: 1,
-    maxHeight: Dimensions.get('window').height
-  }
+    marginTop: 65,
+    maxHeight: Dimensions.get('window').height - 65,
+  },
 }

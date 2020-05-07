@@ -1,5 +1,5 @@
 import { AsyncStorage } from 'react-native';
-import { api, sharedActions } from 'app/shared';
+import { api, sharedActions, trans } from 'app/shared';
 import * as actionTypes from './actionTypes';
 import _ from 'lodash';
 
@@ -126,8 +126,8 @@ export function receiveProductsFailed(error) {
     type: actionTypes.RECEIVE_PRODUCTS_FAILED,
     products: null,
     loadingProducts: false,
-    title: 'Products',
-    message: 'Failed loading products'
+    title: trans('Products'),
+    message: trans('Failed loading products')
   }
 }
 
@@ -184,7 +184,7 @@ export function receiveNodeDatesFailed(errorMessage) {
     type: actionTypes.RECEIVE_NODE_DATES_FAILED,
     dates: [],
     loadingDates: false,
-    title: 'Node',
+    title: trans('Node'),
     message: errorMessage,
   }
 }
@@ -241,7 +241,7 @@ export function addToCart() {
 export function addToCartFailed(error) {
   return {
     type: actionTypes.ADD_TO_CART_FAILED,
-    title: 'Cart',
+    title: trans('Cart'),
     message: error.error
   }
 }
@@ -249,8 +249,8 @@ export function addToCartFailed(error) {
 export function addToCartSuccess() {
   return {
     type: actionTypes.ADD_TO_CART_SUCCESS,
-    title: 'Cart',
-    message: 'Product was added to your cart.'
+    title: trans('Cart'),
+    message: trans('Product was added to your cart.')
   }
 }
 
@@ -289,7 +289,7 @@ export function followNodeSuccess(user) {
 export function followNodeFailed(errorMessage) {
   return {
     type: actionTypes.FOLLOW_NODE_FAILED,
-    title: 'Node',
+    title: trans('Node'),
     message: errorMessage
   }
 }

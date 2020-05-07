@@ -1,5 +1,5 @@
 import { AsyncStorage } from 'react-native';
-import { api, sharedActions } from 'app/shared';
+import { api, sharedActions, trans } from 'app/shared';
 import * as actionTypes from './actionTypes'
 
 /**
@@ -63,7 +63,7 @@ export function stripeStarted(user) {
 export function stripeFailed(errorMessage) {
   return {
     type: actionTypes.STRIPE_FAILED,
-    title: 'Donation failed',
+    title: trans('Donation failed'),
     message: errorMessage,
   }
 }

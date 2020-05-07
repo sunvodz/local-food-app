@@ -27,11 +27,12 @@ export default class TextInputComponent extends React.Component {
           style={{
             inputAndroid: {
               backgroundColor: '#fff',
-              padding: 15,
               fontFamily: 'montserrat-regular',
+              padding: 15,
             },
-            inputIOSContainer: {
+            inputIOS: {
               backgroundColor: '#fff',
+              fontFamily: 'montserrat-regular',
               padding: 15,
             },
           }}

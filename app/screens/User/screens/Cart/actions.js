@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes'
-import { api, sharedActions } from 'app/shared';
+import { api, sharedActions, trans } from 'app/shared';
 import _ from 'lodash';
 
 /**
@@ -96,7 +96,7 @@ export function removedCartItem(updatedCart) {
 export function removeCartItemFailed(errorMessage) {
   return {
     type: actionTypes.REMOVE_CART_ITEM_FAILED,
-    title: 'Cart',
+    title: trans('Cart'),
     message: errorMessage,
   }
 }
@@ -148,7 +148,7 @@ export function updatedCartItems(cartItems) {
 export function updatingCartFailed(errorMessage) {
   return {
     type: actionTypes.UPDATING_CART_FAILED,
-    title: 'Cart',
+    title: trans('Cart'),
     message: errorMessage,
   }
 }
@@ -190,8 +190,8 @@ export function createOrderSuccess() {
     type: actionTypes.CREATE_ORDER_SUCCESS,
     creating: false,
     cart: null,
-    title: 'Order',
-    message: 'Your order was created.',
+    title: trans('Order'),
+    message: trans('Your order was created.'),
   }
 }
 
@@ -199,7 +199,7 @@ export function createOrderFailed(error) {
   return {
     type: actionTypes.CREATE_ORDER_FAILED,
     creating: false,
-    title: 'Order',
+    title: trans('Order'),
     message: error.message
   }
 }
