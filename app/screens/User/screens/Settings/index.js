@@ -12,7 +12,6 @@ import globalStyle from 'app/styles';
 
 class Settings extends Component {
   componentDidMount() {
-    // this.props.dispatch(actions.fetchLanguages());
     this.props.dispatch(actions.getPushToken());
   }
 
@@ -62,6 +61,10 @@ class Settings extends Component {
     this.props.dispatch(sharedActions.resendEmail());
   }
 
+  enablePushNotifications() {
+    sharedActions.registerForPushNotificationsAsync(this.props.auth.email);
+  }
+
   render() {
     const { auth, lang } = this.props;
 
@@ -96,8 +99,12 @@ class Settings extends Component {
     });
 
     let loggedInAs = `${trans('Logged in as', lang)} ${auth.user.email}`;
-
     let helpLink = <Link onPress={this.navigateToHelp.bind(this, true)} title={trans('Help', lang)} />;
+
+    // let enablePushToken = null;
+    // if (!auth.pushToken || auth.pushToken.length == 0) {
+    //   enablePushToken = <Button onPress={this.enablePushNotifications.bind(this)} title={trans('Enable push notifications', lang)} />;
+    // }
 
     return (
       <ContentWrapper onRefresh={this.onRefresh.bind(this)} refreshing={auth.refreshing}>
@@ -110,7 +117,7 @@ class Settings extends Component {
         <Card header={trans('Help', lang)} headerPosition='outside' footer={helpLink}>
           <Text style={styles.text}>{trans('We have created a small FAQ for you. If there is anything you need help with please contact us on info@localfoodnodes.org.', lang)}</Text>
         </Card>
-        {/* <Text>Token: {this.props.settings.pushToken}</Text> */}
+        {/* {enablePushToken} */}
         <Button onPress={this.onLogout.bind(this)} icon='sign-out' title={trans('Logout', lang)} />
         {/*<Text style={styles.deleteAccountLink} onPress={this.navigateToDeleteAccount.bind(this)}>Delete account</Text>*/}
       </ContentWrapper>

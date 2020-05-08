@@ -6,6 +6,7 @@ import * as sharedActionTypes from './sharedActionTypes';
 import { API_URL } from 'app/env';
 import * as Permissions from 'expo-permissions';
 import * as Location from 'expo-location';
+import * as Device from 'expo-device';
 
 const PUSH_ENDPOINT = '/api/v1/user/push-token';
 
@@ -227,7 +228,7 @@ export function loadUserFailed(errorMessage) {
  * Set notification permission
  * @param {*} userEmail
  */
-async function registerForPushNotificationsAsync(userEmail) {
+export async function registerForPushNotificationsAsync(userEmail) {
   const { status: existingStatus } = await Permissions.getAsync(
     Permissions.NOTIFICATIONS
   );
@@ -245,14 +246,19 @@ async function registerForPushNotificationsAsync(userEmail) {
 
   let token = await Notifications.getExpoPushTokenAsync();
 
-  return await api.call({
-    url: PUSH_ENDPOINT,
-    method: 'post',
-    body: {
-      token: token,
-      email: userEmail,
-    }
-  });
+  try {
+    let response = await api.call({
+      url: PUSH_ENDPOINT,
+      method: 'post',
+      body: {
+        device_name: Device.deviceName,
+        email: userEmail,
+        token: token,
+      }
+    });
+  } catch (error) {
+    let errorMessage = await error.text();
+  }
 }
 
 export async function getLocationAsync() {
