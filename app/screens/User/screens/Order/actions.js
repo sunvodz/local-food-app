@@ -22,7 +22,7 @@ export function fetchOrder(orderDateItemLinkId) {
 
       dispatch(receiveOrder(order));
     } catch (error) {
-      sharedActions.checkMaintenanceMode(dispatch, error);
+      sharedActions.systemActions.checkMaintenanceMode(dispatch, error);
     }
   }
 }
@@ -94,7 +94,7 @@ export function deleteOrder(orderDateItemLinkId) {
 
       dispatch(deleteOrderComplete(orderedOrders.reverse()));
     } catch(error) {
-      sharedActions.checkMaintenanceMode(dispatch, error);
+      sharedActions.systemActions.checkMaintenanceMode(dispatch, error);
     }
   }
 }

@@ -12,6 +12,12 @@ import { sharedActions, sharedActionTypes } from 'app/shared';
 import * as userNodesActions from 'app/screens/User/screens/Nodes/actions';
 import globalStyle from 'app/styles';
 
+const statusBarProps = {
+  barStyle: 'light-content',
+  bgColor: 'transparent',
+  translucent: true
+};
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +25,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(sharedActions.loadUser());
+    this.props.dispatch(sharedActions.userActions.loadUser());
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -29,13 +35,12 @@ class App extends Component {
   }
 
   handleNotification = (notification) => {
-    // Om det är "hämta notifikation" så visa på ett mer permanent sätt
     const { dispatch } = this.props;
 
     dispatch({
       type: sharedActionTypes.NOTIFICATION_RECEIVED,
       title: notification.data.title,
-      message: notification.data.message,
+      message: notification.data.body,
     });
   };
 
@@ -54,7 +59,7 @@ class App extends Component {
     if (!this.props.auth.user) {
       return (
         <View style={{flex: 1}}>
-          <StatusBar barStyle='light-content' translucent={true} />
+          <StatusBar {...statusBarProps} />
           <AuthScreen {...this.props} />
           <Alert lang={currentLang} />
         </View>
@@ -65,7 +70,7 @@ class App extends Component {
 
     return (
       <View style={{flex: 1, backgroundColor: globalStyle.backgroundColor}}>
-        <StatusBar barStyle='light-content' translucent={true} />
+        <StatusBar {...statusBarProps} />
         {tabBar}
         <Alert lang={currentLang} />
       </View>

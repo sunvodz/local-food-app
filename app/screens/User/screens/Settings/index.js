@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { FontAwesome as Icon } from '@expo/vector-icons';
 import moment from 'moment/min/moment-with-locales';
 import _ from 'lodash';
@@ -12,11 +12,11 @@ import globalStyle from 'app/styles';
 
 class Settings extends Component {
   componentDidMount() {
-    this.props.dispatch(actions.getPushToken());
+    this.props.dispatch(sharedActions.locationActions.getLocationPermission());
   }
 
   onLogout() {
-    this.props.dispatch(sharedActions.logout());
+    this.props.dispatch(sharedActions.userActions.logout());
   }
 
   navigateToMembershipPayment(donation) {
@@ -54,7 +54,7 @@ class Settings extends Component {
   }
 
   onRefresh() {
-    this.props.dispatch(sharedActions.loadUser(true)); // Refreshing
+    this.props.dispatch(sharedActions.userActions.loadUser(true)); // Refreshing
   }
 
   onResendEmail() {
@@ -62,7 +62,15 @@ class Settings extends Component {
   }
 
   enablePushNotifications() {
-    sharedActions.registerForPushNotificationsAsync(this.props.auth.email);
+    this.props.dispatch(sharedActions.notificationActions.registerForPushNotificationsAsync(this.props.auth.email));
+  }
+
+  disablePushNotifications() {
+    this.props.dispatch(sharedActions.notificationActions.unregisterForPushNotificationsAsync(this.props.auth.user.push_token[0].id));
+  }
+
+  enableLocation() {
+    this.props.dispatch(sharedActions.locationActions.askLocationPermission(true));
   }
 
   render() {
@@ -78,7 +86,7 @@ class Settings extends Component {
     } else if (payments.length > 0) {
       let lastPayment = payments[0];
       let membershipUntil = moment(lastPayment.created_at).add(1, 'y');
-      membershipStatus = <Text style={styles.text}>{trans('Donation valid until', lang)} {membershipUntil.format('YYYY-MM-DD')}</Text>;
+      membershipStatus = <Text style={styles.text}>{trans('Your donation is valid until', lang)} {membershipUntil.format('YYYY-MM-DD')}</Text>;
       membershipStatusAction = <Link onPress={this.navigateToMembershipPayment.bind(this, true)} title={trans('Make a donation', lang)} />;
     }
 
@@ -87,12 +95,12 @@ class Settings extends Component {
       en: 'English',
     };
 
-    let languageItems = _.map(availableLanguages, (name, lang) => {
+    let languageItems = Object.keys(availableLanguages).map((lang) => {
       let selected = auth.user.language === lang ? <Icon name='check' /> : null;
 
       return (
         <TouchableOpacity style={styles.languageItem} key={lang} onPress={this.changeLanguage.bind(this, lang)}>
-          <Text style={styles.text}>{name}</Text>
+          <Text style={styles.text}>{availableLanguages[lang]}</Text>
           {selected}
         </TouchableOpacity>
       );
@@ -101,10 +109,20 @@ class Settings extends Component {
     let loggedInAs = `${trans('Logged in as', lang)} ${auth.user.email}`;
     let helpLink = <Link onPress={this.navigateToHelp.bind(this, true)} title={trans('Help', lang)} />;
 
-    // let enablePushToken = null;
-    // if (!auth.pushToken || auth.pushToken.length == 0) {
-    //   enablePushToken = <Button onPress={this.enablePushNotifications.bind(this)} title={trans('Enable push notifications', lang)} />;
-    // }
+    let togglePushNotifications = null;
+    if (!auth.user.push_token || auth.user.push_token.length == 0) {
+      togglePushNotifications = <Link onPress={this.enablePushNotifications.bind(this)} title={trans('Enable push notifications', lang)} />;
+    } else {
+      togglePushNotifications = <Link onPress={this.disablePushNotifications.bind(this)} title={trans('Disable push notifications', lang)} />;
+    }
+
+    let locationText = trans('You have granted permission for Local Food App to use your position.', lang);
+    let toggleLocation = null;
+
+    if (auth.locationPermission !== 'granted') {
+      locationText = trans('Local Food App is using your location to automatically show nodes close to you on the map.', lang);
+      toggleLocation = <Link onPress={this.enableLocation.bind(this)} title={trans('Enable location', lang)} />;
+    }
 
     return (
       <ContentWrapper onRefresh={this.onRefresh.bind(this)} refreshing={auth.refreshing}>
@@ -114,10 +132,19 @@ class Settings extends Component {
         <Card header={trans('Select language', lang)} headerPosition='outside'>
           {languageItems}
         </Card>
+        <Card header={trans('Permissions', lang)} headerPosition='outside'>
+          <View style={{marginBottom: 15}}>
+            <Text style={[styles.text, {marginBottom: 15}]}>{trans('Local Food App is using push notifications to notify you when you have orders to pickup and other important information.', lang)}</Text>
+            {togglePushNotifications}
+          </View>
+          <View style={{marginTop: 5, paddingTop: 15, borderTopWidth: 1, borderColor: '#ddd'}}>
+            <Text style={[styles.text, {marginBottom: 15}]}>{locationText}</Text>
+            {toggleLocation}
+          </View>
+        </Card>
         <Card header={trans('Help', lang)} headerPosition='outside' footer={helpLink}>
           <Text style={styles.text}>{trans('We have created a small FAQ for you. If there is anything you need help with please contact us on info@localfoodnodes.org.', lang)}</Text>
         </Card>
-        {/* {enablePushToken} */}
         <Button onPress={this.onLogout.bind(this)} icon='sign-out' title={trans('Logout', lang)} />
         {/*<Text style={styles.deleteAccountLink} onPress={this.navigateToDeleteAccount.bind(this)}>Delete account</Text>*/}
       </ContentWrapper>

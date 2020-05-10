@@ -21,6 +21,8 @@ function alertReducer(state, action) {
     case 'SWISH_DECLINED':
     case 'DONATE_NOTHING_FAILED':
     case 'FOLLOW_NODE_FAILED':
+    case 'REGISTER_PUSH_NOTIFICATIONS_FAILED':
+    case 'ENABLING_LOCATION_SERVICES_FAILED':
       return Object.assign({}, state, {
         level: 'error',
         title: action.title,
@@ -33,6 +35,9 @@ function alertReducer(state, action) {
     case 'CREATE_ORDER_SUCCESS':
     case 'RESEND_EMAIL_SUCCESS':
     case 'CREATE_ACCOUNT_SUCCESS':
+    case 'NOTIFICATION_RECEIVED':
+    case 'REGISTER_PUSH_NOTIFICATIONS_SUCCESS':
+    case 'UNREGISTER_PUSH_NOTIFICATIONS_SUCCESS':
       return Object.assign({}, state, {
         level: 'success',
         title: action.title,
@@ -47,6 +52,7 @@ function alertReducer(state, action) {
         message: null
       });
       break;
+
 
     default:
       return Object.assign({}, state, {});

@@ -18,7 +18,7 @@ export function fetchUserNodes() {
 
       dispatch(receiveUserNodes(nodes));
     } catch(error) {
-      sharedActions.checkMaintenanceMode(dispatch, error);
+      sharedActions.systemActions.checkMaintenanceMode(dispatch, error);
 
       let errorMessage = await error.text();
       dispatch(receiveUserNodesFailed(errorMessage));

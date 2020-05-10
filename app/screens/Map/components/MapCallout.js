@@ -21,7 +21,7 @@ export default class MapCallout extends React.Component {
     return (
       <Modal {...modalProps}>
         <ScrollView style={styles.wrapper} showsVerticalScrollIndicator={false}>
-          <NodeCard onClose={this.props.onClose} node={node} navigateToNode={this.navigateToNode.bind(this)} lang={this.props.lang} />
+          <NodeCard onClose={this.props.onClose} imageFallback node={node} navigateToNode={this.navigateToNode.bind(this)} lang={this.props.lang} />
         </ScrollView>
       </Modal>
     );

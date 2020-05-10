@@ -40,7 +40,7 @@ class Nodes extends React.Component {
     }
 
     let nodeCards = nodes.map((node, index) => {
-      let marginBottom = nodes.length == (index + 1) ? 0 : 10;
+      let marginBottom = nodes.length == (index + 1) ? 0 : 15;
 
       return (
         <View key={node.id} style={{marginBottom: marginBottom}}>

@@ -27,7 +27,7 @@ export function deleteOrder(orderDateItemLinkId) {
 
       dispatch(deleteOrderComplete(groupedOrders));
     } catch(error) {
-      sharedActions.checkMaintenanceMode(dispatch, error);
+      sharedActions.systemActions.checkMaintenanceMode(dispatch, error);
     }
   }
 }

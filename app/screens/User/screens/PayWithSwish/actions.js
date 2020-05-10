@@ -32,7 +32,7 @@ export function startSwish(userId, amount) {
 
       setTimeout(() => waitForSwishResponse(dispatch, res, 0), 1000);
     } catch (error) {
-      sharedActions.checkMaintenanceMode(dispatch, error);
+      sharedActions.systemActions.checkMaintenanceMode(dispatch, error);
 
       let errorMessage = await error.text();
       dispatch(swishFailed(errorMessage));

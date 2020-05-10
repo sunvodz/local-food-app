@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import DropdownAlert from 'react-native-dropdownalert';
-import _ from 'lodash';
-
-import * as actionTypes from './actionTypes';
 import { trans } from 'app/shared';
+import globalStyle from 'app/styles';
+import * as actionTypes from './actionTypes';
 
 class Alert extends Component {
   componentDidUpdate() {
@@ -18,8 +17,8 @@ class Alert extends Component {
       alert.title = alert.level;
     }
 
-    if (_.isArray(alert.message)) {
-      alert.message = _.map(alert.message, message => {
+    if (Array.isArray(alert.message)) {
+      alert.message = alert.message.map(message => {
         message = message.charAt(0).toUpperCase() + message.slice(1);
 
         return trans(message, this.props.lang);
@@ -38,45 +37,42 @@ class Alert extends Component {
     });
   }
 
-  onClose(data) {
-    // data = {type, title, message, action}
-    // action means how the alert was closed.
-    // returns: automatic, programmatic, tap, pan or cancel
-  }
-
   render() {
     let titleStyle = {
-      fontSize: 14,
-      textAlign: 'left',
+      color: '#fff',
       fontFamily: 'montserrat-semibold',
-      color: '#333',
-      backgroundColor: 'transparent'
+      fontSize: 14,
+      marginBottom: 3,
+      textAlign: 'left',
     };
 
     let messageStyle = {
+      color: '#fff',
+      fontFamily: 'montserrat-regular',
       fontSize: 14,
       textAlign: 'left',
-      fontFamily: 'montserrat-regular',
-      color: '#333',
-      backgroundColor: 'transparent'
     };
 
     let props = {
+      closeInterval: 5000,
       messageStyle: messageStyle,
       titleStyle: titleStyle,
       successImageSrc: null,
       infoImageSrc: null,
       warnImageSrc: null,
       errorImageSrc: null,
-      successColor: '#fff',
-      infoColor: '#fff',
-      warnColor: '#fff',
-      errorColor: '#fff',
-      activeStatusBarStyle: 'dark-content',
+      successColor: globalStyle.primaryColor,
+      infoColor: globalStyle.primaryColor,
+      warnColor: globalStyle.primaryColor,
+      errorColor: globalStyle.primaryColor,
+      activeStatusBarStyle: 'light-content',
+      inactiveStatusBarStyle: 'light-content',
+      showCancel: true,
+      cancelBtnImageStyle: { padding: 8, width: 20, height: 20, alignSelf: 'center' }
     }
 
     return (
-      <DropdownAlert {...props} ref={component => this.dropdown = component} onClose={data => this.onClose(data)} translucent={true} />
+      <DropdownAlert {...props} ref={component => this.dropdown = component} translucent={true} />
     );
   }
 }

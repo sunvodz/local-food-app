@@ -9,7 +9,7 @@ export default class NodeCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showInfo: false
+      readMore: false
     };
   }
 
@@ -23,7 +23,7 @@ export default class NodeCard extends React.Component {
 
   toggleInfo() {
     this.setState({
-      showInfo: !this.state.showInfo
+      readMore: !this.state.readMore
     });
   }
 
@@ -32,18 +32,17 @@ export default class NodeCard extends React.Component {
 
     let remove = this.props.removeNode ? <Link title={trans('Remove', this.props.lang)} onPress={this.removeNode.bind(this)}/> : null;
 
-    let imageProps = {
-      source: require('../../assets/images/node-placeholder.jpg'), // Node fallback image
-      style: styles.modalHeaderImage,
-    }
-
+    let modalHeader = null;
     if (node.images && node.images.length > 0) {
-      imageProps.source = {uri: node.images[0].urls.small};
+      modalHeader = (
+        <ImageBackground style={styles.modalHeaderImage} source={{uri: node.images[0].urls.small}}></ImageBackground>
+      );
+    } else if (this.props.imageFallback) {
+      modalHeader = (
+        <ImageBackground style={styles.modalHeaderImage} source={require('../../assets/images/node-placeholder.jpg')}></ImageBackground>
+      );
     }
 
-    let modalHeader = (
-      <ImageBackground {...imageProps}></ImageBackground>
-    );
 
     let nextDelivery = null;
     if (node.next_delivery) {
@@ -55,13 +54,13 @@ export default class NodeCard extends React.Component {
       );
     }
 
-    let info = null;
-    let toggleInfoLinkText = trans('Read more', this.props.lang);
-    if (this.state.showInfo) {
-      info = (
-        <Text style={styles.info}>{node.infoRaw}</Text>
-      );
-      toggleInfoLinkText = trans('Read less', this.props.lang);
+    let nodeInfo = node.infoRaw;
+    let toggleInfo = null;
+    if (nodeInfo.length > 100 && !this.state.readMore) {
+      nodeInfo = nodeInfo.substr(0, 140) + '...';
+      toggleInfo = <Text style={styles.toggleInfoLink} onPress={this.toggleInfo.bind(this)}>{trans('Read more', this.props.lang)}</Text>;
+    } else if (nodeInfo.length > 100 && this.state.readMore) {
+      toggleInfo = <Text style={styles.toggleInfoLink} onPress={this.toggleInfo.bind(this)}>{trans('Read less', this.props.lang)}</Text>;
     }
 
     let onClose = null;
@@ -80,8 +79,8 @@ export default class NodeCard extends React.Component {
               <Icon style={styles.locationIcon} name='map-marker' />
               <Text style={styles.text}>{node.address}, {node.zip} {node.city}</Text>
             </View>
-            {info}
-            <Text style={styles.toggleInfoLink} onPress={this.toggleInfo.bind(this)}>{toggleInfoLinkText}</Text>
+            <Text style={styles.info}>{nodeInfo}</Text>
+            {toggleInfo}
           </View>
         </View>
         <View style={styles.modalFooter}>

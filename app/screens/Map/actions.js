@@ -1,14 +1,14 @@
 import { api, sharedActions, trans } from 'app/shared';
 import * as actionTypes from './actionTypes';
+import * as Permissions from 'expo-permissions';
+import * as Location from 'expo-location';
 
 export function fetchCurrentLocation() {
   return async function(dispatch, getState) {
     try {
-      dispatch(requestCurrentLocation());
-      let location = await sharedActions.getLocationAsync();
-      dispatch(receiveCurrentLocation(location));
+      dispatch(sharedActions.locationActions.askLocationPermission(false));
     } catch (error) {
-      sharedActions.checkMaintenanceMode(dispatch, error);
+      sharedActions.systemActions.checkMaintenanceMode(dispatch, error);
 
       dispatch(receiveDefaultLocation({
         coords: {
@@ -33,14 +33,6 @@ export function requestCurrentLocation() {
   }
 }
 
-export function receiveCurrentLocation(location) {
-  return {
-    type: actionTypes.RECEIVE_CURRENT_LOCATION,
-    location: location,
-    loading: false,
-  }
-}
-
 export function receiveDefaultLocation(location) {
   return {
     type: actionTypes.RECEIVE_DEFAULT_LOCATION,
@@ -62,7 +54,7 @@ export function fetchNodes() {
 
       dispatch(receiveNodes(nodes));
     } catch (error) {
-      sharedActions.checkMaintenanceMode(dispatch, error);
+      sharedActions.systemActions.checkMaintenanceMode(dispatch, error);
       dispatch(receiveNodes(null)); // No nodes will show server error warning
     }
   }
@@ -110,7 +102,7 @@ export function refreshNodes() {
 
       dispatch(receiveNodes(nodes));
     } catch (error) {
-      sharedActions.checkMaintenanceMode(dispatch, error);
+      sharedActions.systemActions.checkMaintenanceMode(dispatch, error);
       dispatch(receiveNodesFailed(null)); // No nodes will show server error warning
     }
   }

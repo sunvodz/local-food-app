@@ -16,7 +16,7 @@ export function fetchNode(nodeId) {
 
       dispatch(receiveNode(node));
     } catch (error) {
-      sharedActions.checkMaintenanceMode(dispatch, error);
+      sharedActions.systemActions.checkMaintenanceMode(dispatch, error);
 
       dispatch(receiveNodeFailed(error));
     }
@@ -66,7 +66,7 @@ export function fetchProductsCount(filters) {
 
       dispatch(receiveProductsCount(productsCount));
     } catch (error) {
-      sharedActions.checkMaintenanceMode(dispatch, error);
+      sharedActions.systemActions.checkMaintenanceMode(dispatch, error);
     }
   }
 }
@@ -99,7 +99,7 @@ export function fetchProducts(filters) {
 
       dispatch(receiveProducts(products));
     } catch (error) {
-      sharedActions.checkMaintenanceMode(dispatch, error);
+      sharedActions.systemActions.checkMaintenanceMode(dispatch, error);
 
       dispatch(receiveProductsFailed(error));
     }
@@ -156,7 +156,7 @@ export function fetchNodeDates(nodeId) {
         dispatch(setDateFilter(dates[0]));
       }
     } catch (error) {
-      sharedActions.checkMaintenanceMode(dispatch, error);
+      sharedActions.systemActions.checkMaintenanceMode(dispatch, error);
 
       let errorMessage = await error.text();
       dispatch(receiveNodeDatesFailed(errorMessage));
@@ -224,7 +224,7 @@ export function addProductToCart(data) {
         refreshing: false,
       });
     } catch (error) {
-      sharedActions.checkMaintenanceMode(dispatch, error);
+      sharedActions.systemActions.checkMaintenanceMode(dispatch, error);
 
       dispatch(addToCartFailed(error));
     }
@@ -271,7 +271,7 @@ export function toggleFollowNode(nodeId) {
 
       dispatch(followNodeSuccess(updatedUser));
     } catch (error) {
-      sharedActions.checkMaintenanceMode(dispatch, error);
+      sharedActions.systemActions.checkMaintenanceMode(dispatch, error);
 
       let errorMessage = await error.text();
       dispatch(followNodeFailed(errorMessage));

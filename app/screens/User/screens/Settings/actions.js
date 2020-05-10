@@ -51,21 +51,3 @@ export function setLanguage(lang) {
     dispatch(sharedActions.loginComplete(user));
   }
 }
-
-export function getPushToken() {
-  return async function(dispatch, getState) {
-    let pushToken = await Notifications.getExpoPushTokenAsync();
-
-    dispatch({
-      type: actionTypes.GET_PUSH_TOKEN,
-      pushToken: pushToken,
-    })
-  }
-}
-
-// export function setPushToken(pushToken) {
-//   return {
-//     type: actionTypes.SET_PUSH_TOKEN,
-//     languages: languages,
-//   }
-// }

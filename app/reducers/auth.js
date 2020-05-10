@@ -12,19 +12,13 @@ function authReducer(state, action) {
     case sharedActionTypes.LOGIN_SUCCESS:
     case sharedActionTypes.LOGIN_FAILED:
     case sharedActionTypes.LOGOUT_SUCCESS:
+    case sharedActionTypes.REFRESH_USER:
       return Object.assign({}, state, {
         user: action.user,
         loading: action.loading,
         refreshing: action.refreshing,
       });
       break;
-
-    // case sharedActionTypes.LOAD_USER_IN_PROGRESS:
-    //   return Object.assign({}, state, {
-    //     loading: action.loading,
-    //     refreshing: action.refreshing,
-    //   });
-    //   break;
 
     case sharedActionTypes.CREATE_ACCOUNT_SUCCESS:
       return Object.assign({}, state, {
@@ -53,12 +47,21 @@ function authReducer(state, action) {
       return Object.assign({}, state, {
         paymentInProgress: action.paymentInProgress,
       });
+      break;
 
     case sharedActionTypes.DONATE_NOTHING_SUCCESS:
       return Object.assign({}, state, {
         paymentInProgress: action.paymentInProgress,
         user: action.user,
       });
+      break;
+
+    case sharedActionTypes.LOCATION_PERMISSION_GRANTED:
+    case sharedActionTypes.LOCATION_PERMISSION_DENIED:
+      return Object.assign({}, state, {
+        locationPermission: action.locationPermission,
+      });
+      break;
 
     default:
       return Object.assign({}, state);

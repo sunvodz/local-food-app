@@ -84,7 +84,7 @@ class PayWithStripe extends Component {
   }
 
   onDonateNothing() {
-    this.props.dispatch(sharedActions.donateNothing(this.props.auth.user.id));
+    this.props.dispatch(sharedActions.donationActions.donateNothing(this.props.auth.user.id));
   }
 
   render() {

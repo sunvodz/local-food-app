@@ -3,8 +3,8 @@ import { sharedActionTypes } from 'app/shared';
 
 function mapReducer(state, action) {
   switch (action.type) {
-    case actionTypes.REQUEST_CURRENT_LOCATION:
-    case actionTypes.RECEIVE_CURRENT_LOCATION:
+    // case actionTypes.REQUEST_CURRENT_LOCATION:
+    case sharedActionTypes.RECEIVE_CURRENT_LOCATION:
     case actionTypes.RECEIVE_DEFAULT_LOCATION:
       return Object.assign({}, state, {
         location: action.location,

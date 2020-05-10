@@ -46,7 +46,7 @@ export function fetchOrders() {
 
       dispatch(receiveOrders(orderedOrders.reverse()));
     } catch (error) {
-      sharedActions.checkMaintenanceMode(dispatch, error);
+      sharedActions.systemActions.checkMaintenanceMode(dispatch, error);
 
       dispatch(receiveOrdersFailed(error));
     }

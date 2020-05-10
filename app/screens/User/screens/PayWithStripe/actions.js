@@ -45,7 +45,7 @@ export function startStripe(userId, data) {
 
       dispatch(stripeSuccess(updatedUser));
     } catch (error) {
-      sharedActions.checkMaintenanceMode(dispatch, error);
+      sharedActions.systemActions.checkMaintenanceMode(dispatch, error);
 
       errorMessage = await error.text();
       dispatch(stripeFailed(errorMessage));
@@ -89,7 +89,7 @@ export function getCurrencies(data) {
 
       dispatch(currenciesComplete(currencies.data));
     } catch (error) {
-      sharedActions.checkMaintenanceMode(dispatch, error);
+      sharedActions.systemActions.checkMaintenanceMode(dispatch, error);
 
       dispatch(currenciesFailed(error));
     }

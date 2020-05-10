@@ -70,7 +70,7 @@ export function removeCartItem(cartDateItemLinkId) {
 
       dispatch(removedCartItem(updatedCart));
     } catch (error) {
-      sharedActions.checkMaintenanceMode(dispatch, error);
+      sharedActions.systemActions.checkMaintenanceMode(dispatch, error);
 
       let errorMessage = error.text();
       dispatch(removeCartItemFailed(errorMessage));
@@ -123,7 +123,7 @@ export function updateCartItem(id, quantity) {
       let cartItemOrItems = await response.json();
       dispatch(updatedCartItems(cartItemOrItems));
     } catch (error) {
-      sharedActions.checkMaintenanceMode(dispatch, error);
+      sharedActions.systemActions.checkMaintenanceMode(dispatch, error);
 
       let errorMessage = await error.text();
       dispatch(updatingCartFailed(errorMessage));
@@ -171,7 +171,7 @@ export function createOrder() {
       dispatch(createOrderSuccess());
       dispatch(fetchCart(true));
     } catch (error) {
-      sharedActions.checkMaintenanceMode(dispatch, error);
+      sharedActions.systemActions.checkMaintenanceMode(dispatch, error);
 
       dispatch(createOrderFailed(error));
     }
