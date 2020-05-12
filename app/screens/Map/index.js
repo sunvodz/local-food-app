@@ -34,8 +34,10 @@ class Map extends React.Component {
     if (!this.state.showMap) {
       this.props.navigation.setParams({ title: trans('Find nodes', this.props.lang), icon: 'list'})
     } else {
+      this.props.dispatch(mapActions.fetchNodes());
       this.props.navigation.setParams({ title: trans('Your nodes', this.props.lang), icon: 'globe'})
     }
+
     this.setState({showMap: !this.state.showMap});
   }
 

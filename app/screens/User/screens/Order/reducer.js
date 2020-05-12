@@ -8,6 +8,8 @@ function orderReducer(state, action) {
       return Object.assign({}, state, {
         loading: action.loading,
         order: action.order,
+        deleting: false,
+        deleted: false,
       });
       break;
 
@@ -20,7 +22,7 @@ function orderReducer(state, action) {
     case actionTypes.DELETE_ORDER_SUCCESS:
       return Object.assign({}, state, {
         order: null,
-        deleting: action.deleting,
+        deleting: false,
         deleted: true,
       });
       break;
@@ -28,6 +30,7 @@ function orderReducer(state, action) {
     case actionTypes.RESET_DELETE:
       return Object.assign({}, state, {
         loading: false,
+        deleting: false,
         deleted: false,
       });
       break;

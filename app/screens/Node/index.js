@@ -46,14 +46,14 @@ class Node extends React.Component {
     const prevProducts = _.get(prevProps, 'node.products');
     const filters = this.props.node.filters;
 
-    if (this.props.node.products && prevProducts && this.props.node.products.length !== prevProducts.length) {
+    if ((this.props.node.products && prevProducts && this.props.node.products.length !== prevProducts.length)) {
       this.setState({
         scrollLoadingDisabled: false
       });
     }
 
     if (filters.date && filters.date !== prevFilters.date) {
-      this.fetchProducts(node.id, filters.date);
+      this.fetchProducts(node.id, filters.date, true);
       this.props.dispatch(actions.fetchProductsCount({
         node: node.id,
         date: filters.date
@@ -61,10 +61,11 @@ class Node extends React.Component {
     }
   }
 
-  fetchProducts(nodeId, dateFilter) {
-    if (this.state.scrollLoadingDisabled === false) {
+  fetchProducts(nodeId, dateFilter, ignoreScrollLoading = false) {
+    if (this.state.scrollLoadingDisabled === false || ignoreScrollLoading) {
+
       this.setState({
-        scrollLoadingDisabled: true
+        scrollLoadingDisabled: true // This is to avoid sending multiple request when lazy loading products
       });
 
       let productsToIgnore = [];
@@ -210,7 +211,7 @@ class Node extends React.Component {
     } else {
       // Scroll view with products
       if (products && products.length > 0) {
-        productCards = _.map(products, (product, index) => {
+        let productCards = _.map(products, (product, index) => {
           return this.renderProduct(product, index);
         });
 

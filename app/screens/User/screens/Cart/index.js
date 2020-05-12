@@ -45,6 +45,10 @@ class Cart extends React.Component {
     this.props.dispatch(actions.createOrder());
   }
 
+  navigateToOrders() {
+    this.props.navigation.navigate('orders');
+  }
+
   groupCartDateItemLinksByDate(cartDateItemLinks) {
     let groupedCartDateItemLinks = [];
     for (let i = 0; i < cartDateItemLinks.length; i++) {
@@ -112,10 +116,20 @@ class Cart extends React.Component {
       );
     }
 
+    if (this.props.cart.created) {
+      let action = <Button title={trans('View orders', this.props.lang)} onPress={this.navigateToOrders.bind(this)} />;
+
+      return (
+        <View style={{flex: 1, backgroundColor: globalStyle.backgroundColor}}>
+          <Empty icon="shopping-basket" header={trans('Created!', this.props.lang)} text={trans('Your order is created.', this.props.lang)} action={action} />
+        </View>
+      );
+    }
+
     if (!refreshing && _.isEmpty(cart)) {
       return (
         <View style={{flex: 1, backgroundColor: globalStyle.backgroundColor}}>
-          <Empty icon="shopping-basket" header={trans('Cart empty', this.props.lang)} text={trans('Visit a node to find available products.', this.props.lang)} />
+          <Empty icon="shopping-basket" header={trans('Cart is empty', this.props.lang)} text={trans('Visit a node to find available products.', this.props.lang)} />
         </View>
       );
     }

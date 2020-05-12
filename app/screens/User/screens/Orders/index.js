@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text } from 'react-native';
 import moment from 'moment/min/moment-with-locales';
-import _ from 'lodash';
-
 import { Loader, List, ListSection, ListItem, Empty } from 'app/components';
 import * as actions from './actions';
 import { trans } from 'app/shared';
@@ -21,12 +19,6 @@ class Orders extends Component {
     this.props.dispatch(actions.fetchOrders());
   }
 
-  componentDidUpdate() {
-    if (this.props.orders.reloadOrders) {
-      this.props.dispatch(actions.fetchOrders());
-    }
-  }
-
   onRefresh() {
     this.props.dispatch(actions.fetchOrders());
   }
@@ -38,12 +30,12 @@ class Orders extends Component {
   }
 
   renderListSection(o, sectionId, rowId) {
-    orders = o.item;
+    let orders = o.item;
     let dateObj = moment(orders.key);
     let date = dateObj.format('DD') + ' ' + trans(dateObj.format('MMMM'), this.props.lang) + ' ' + dateObj.format('YYYY');
     let numberOfListItems = orders.items.length - 1;
 
-    let listItems = _.map(orders.items, (order, index) => {
+    let listItems = orders.items.map((order, index) => {
       let orderItem = order.item;
       let isLastListItem = index === numberOfListItems;
 
@@ -65,13 +57,13 @@ class Orders extends Component {
   }
 
   render() {
-    const  { loading, refreshing, orders } = this.props.orders;
+    const { loading, refreshing, orders } = this.props.orders;
 
     if (loading) {
       return <Loader />;
     }
 
-    if (_.isEmpty(orders)) {
+    if (orders && orders.length === 0) {
       return <Empty onRefresh={this.onRefresh.bind(this)} refreshing={refreshing} icon="list" header={trans('No orders', this.props.lang)} text={trans('You have no orders. Visit a node to find available products.', this.props.lang)} />;
     }
 

@@ -89,30 +89,3 @@ export function receiveNodesFailed(error) {
   }
 }
 
-export function refreshNodes() {
-  return async function (dispatch, getState) {
-    try {
-      dispatch(refreshingNodes());
-
-      let response = await api.call({
-        url: '/api/v1/nodes'
-      });
-
-      let nodes = await response.json();
-
-      dispatch(receiveNodes(nodes));
-    } catch (error) {
-      sharedActions.systemActions.checkMaintenanceMode(dispatch, error);
-      dispatch(receiveNodesFailed(null)); // No nodes will show server error warning
-    }
-  }
-}
-
-export function refreshingNodes() {
-  return {
-    type: actionTypes.REFRESH_NODES,
-    loading: false,
-    refresh: true,
-    nodes: null,
-  }
-}

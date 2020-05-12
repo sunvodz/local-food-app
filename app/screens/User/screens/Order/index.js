@@ -12,12 +12,17 @@ class Order extends Component {
     this.props.dispatch(actions.fetchOrder(this.props.navigation.state.params));
   }
 
-  componentWillUnmount() {
-    this.props.dispatch(actions.resetOrder());
+  componentDidUpdate() {
+    const { loading } = this.props.order;
+
+    if (!loading && this.props.order.deleted) {
+      this.props.dispatch(actions.resetOrder());
+      this.props.navigation.goBack();
+    }
   }
 
-  getOrder() {
-    return this.props.navigation.state.params || null;
+  componentWillUnmount() {
+    this.props.dispatch(actions.resetOrder());
   }
 
   isDeletable(orderItem, orderDate) {
@@ -44,20 +49,11 @@ class Order extends Component {
   render() {
     const { order, loading } = this.props.order;
 
-    if (loading) {
+    if (loading || !order) {
       return (
         <View style={{flex: 1}}>
           <ScreenHeader title={trans('Order', this.props.lang)} sub={trans('Loading order', this.props.lang)} left navigation={this.props.navigation} />
           <Loader />
-        </View>
-      );
-    }
-
-    if (!order || order.deleting || order.deleted) {
-      return (
-        <View style={{flex: 1}}>
-          <ScreenHeader title={trans('Order deleted', this.props.lang)} sub="" left navigation={this.props.navigation} />
-          <Empty icon='trash-o' header={trans('Order deleted', this.props.lang)} text={trans('Your order was successfully deleted.', this.props.lang)} />
         </View>
       );
     }

@@ -37,8 +37,8 @@ export default class MapViewWrapper extends React.Component {
     }
   }
 
-  refreshNodes() {
-    this.props.dispatch(actions.refreshNodes());
+  fetchNodes() {
+    this.props.dispatch(actions.fetchNodes());
   }
 
   renderCluster = (cluster, onPress) => {
@@ -83,7 +83,7 @@ export default class MapViewWrapper extends React.Component {
     }
 
     if (!map.nodes && !map.loading) {
-      let actionButton = <Button icon='refresh' title={trans('Try again', this.props.lang)} onPress={this.refreshNodes.bind(this)} loading={map.refresh} />
+      let actionButton = <Button icon='refresh' title={trans('Try again', this.props.lang)} onPress={this.fetchNodes.bind(this)} loading={map.refresh} />
       return <Empty icon="map-marker" header={trans('Find nodes', this.props.lang)} text={trans('You are not following any nodes.', this.props.lang)} action={actionButton} />;
     }
 

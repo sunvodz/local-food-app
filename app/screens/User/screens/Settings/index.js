@@ -116,7 +116,7 @@ class Settings extends Component {
       togglePushNotifications = <Link onPress={this.disablePushNotifications.bind(this)} title={trans('Disable push notifications', lang)} />;
     }
 
-    let locationText = trans('You have granted permission for Local Food App to use your position.', lang);
+    let locationText = trans('You have granted permission for Local Food App to use your position. Disable the use of your location in your phones settings.', lang);
     let toggleLocation = null;
 
     if (auth.locationPermission !== 'granted') {

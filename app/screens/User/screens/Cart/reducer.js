@@ -49,6 +49,7 @@ function cartReducer(state, action) {
         cart: action.cart,
         loading: action.loading,
         creating: action.creating,
+        created: action.created,
       });
       break;
 

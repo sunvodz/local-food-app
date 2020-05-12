@@ -2,6 +2,7 @@ import _ from 'lodash';
 import moment from 'moment/min/moment-with-locales';
 
 import * as actionTypes from './actionTypes';
+import * as orderActions from '../Order/actions';
 import { api, sharedActions, trans } from 'app/shared';
 
 /**

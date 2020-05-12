@@ -1,4 +1,5 @@
 import * as actionTypes from './actionTypes'
+import * as ordersActions from '../Orders/actions'
 import { api, sharedActions, trans } from 'app/shared';
 import _ from 'lodash';
 
@@ -169,11 +170,12 @@ export function createOrder() {
       });
 
       dispatch(createOrderSuccess());
-      dispatch(fetchCart(true));
+      dispatch(ordersActions.fetchOrders());
     } catch (error) {
       sharedActions.systemActions.checkMaintenanceMode(dispatch, error);
 
-      dispatch(createOrderFailed(error));
+      let errorMessage = await error.text();
+      dispatch(createOrderFailed(errorMessage));
     }
   }
 }
@@ -189,17 +191,18 @@ export function createOrderSuccess() {
   return {
     type: actionTypes.CREATE_ORDER_SUCCESS,
     creating: false,
+    created: true,
     cart: null,
     title: trans('Order'),
     message: trans('Your order was created.'),
   }
 }
 
-export function createOrderFailed(error) {
+export function createOrderFailed(errorMessage) {
   return {
     type: actionTypes.CREATE_ORDER_FAILED,
     creating: false,
     title: trans('Order'),
-    message: error.message
+    message: errorMessage
   }
 }
