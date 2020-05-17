@@ -7,7 +7,10 @@ export default class TextInputComponent extends React.Component {
     let mergedStyles = styleMerger.merge(styles, this.props.style);
 
     let label = null;
-    let hint = this.props.hint || '';
+    let hint = null;
+    if (this.props.hint) {
+      hint = <Text style={mergedStyles.hint}>{this.props.hint}</Text>
+    }
 
     if (this.props.label) {
       label = <Text style={mergedStyles.label}>{this.props.label}</Text>;
@@ -17,7 +20,7 @@ export default class TextInputComponent extends React.Component {
       <View style={mergedStyles.wrapper}>
         {label}
         <TextInput {...this.props} style={mergedStyles.textInput} underlineColorAndroid='transparent' placeholderTextColor={mergedStyles.placeholderColor} />
-        <Text style={mergedStyles.hint}>{hint}</Text>
+        {hint}
       </View>
     );
   }
@@ -26,7 +29,7 @@ export default class TextInputComponent extends React.Component {
 let styles = {
   wrapper: {
     flex: 1,
-    marginBottom: 5,
+    marginBottom: 15,
   },
   label: {
     marginBottom: 5,
@@ -35,16 +38,17 @@ let styles = {
   },
   textInput: {
     backgroundColor: '#fff',
-    borderRadius: 2,
     elevation: 0,
     fontFamily: 'montserrat-regular',
-    padding: 15,
+    paddingHorizontal: 15,
+    paddingVertical: 15,
     textDecorationLine: 'none',
   },
   placeholderColor: '#666',
   hint: {
     color: '#fff',
     fontFamily: 'montserrat-regular',
+    fontSize: 12,
     marginTop: 3,
   }
 };

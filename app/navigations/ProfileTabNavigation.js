@@ -1,41 +1,12 @@
 import React from 'react';
-import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import globalStyles from 'app/styles';
-
-import Orders from 'app/screens/User/screens/Orders';
-import Settings from 'app/screens/User/screens/Settings';
-
+import Orders from 'app/screens/User/Orders';
+import Settings from 'app/screens/User/Settings';
 import { trans } from 'app/shared';
 
-const RouteConfigs = {
-  orders: {
-    screen: (props) => {
-      return <Orders navigation={props.navigation} lang={props.screenProps.lang} />;
-    },
-    navigationOptions: (props) => {
-      return {
-        tabBarLabel: trans('orders', props.screenProps.lang),
-        headerLeftTitle: null,
-      };
-    }
-  },
-  settings: {
-    screen: (props) => {
-      return <Settings navigation={props.navigation} lang={props.screenProps.lang} />;
-    },
-    navigationOptions: (props) => {
-      return {
-        tabBarLabel: trans('Settings', props.screenProps.lang),
-        headerLeftTitle: null,
-      };
-    }
-  },
-};
-
-const TabNavigatorConfig = {
-  animationEnabled: true,
-  lazy: true,
-  swipeEnabled: true,
+const MaterialTopTabNavigator = createMaterialTopTabNavigator();
+const MaterialTopTabNavigatorConfig = {
   tabBarOptions: {
     showIcon: false,
     showLabel: true,
@@ -55,8 +26,27 @@ const TabNavigatorConfig = {
       backgroundColor: '#fff',
     }
   },
-  tabBarPosition: 'top',
-  headerLeftTitle: null,
 };
 
-export default createMaterialTopTabNavigator(RouteConfigs, TabNavigatorConfig);
+export default function profileTabNavigator({navigation, route}) {
+  const lang = route.params.lang;
+
+  return (
+    <MaterialTopTabNavigator.Navigator tabBarOptions={MaterialTopTabNavigatorConfig.tabBarOptions}>
+      <MaterialTopTabNavigator.Screen
+        name="Orders"
+        component={Orders}
+        options={{
+          title: trans('Orders', lang)
+        }}
+      />
+      <MaterialTopTabNavigator.Screen
+        name="Settings"
+        component={Settings}
+        options={{
+          title: trans('Settings', lang)
+        }}
+      />
+    </MaterialTopTabNavigator.Navigator>
+  );
+}

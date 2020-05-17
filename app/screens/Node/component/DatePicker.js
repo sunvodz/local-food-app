@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import moment from 'moment/min/moment-with-locales';
-import _ from 'lodash';
-
 import { BadgeDate, BadgeWrapper } from 'app/components';
 import { trans } from 'app/shared';
 import globalStyle from 'app/styles';
@@ -19,7 +17,7 @@ class DatePicker extends Component {
       return null;
     }
 
-    let badgeItems = _.map(this.props.dates, (date, index) => {
+    let badgeItems = this.props.dates.map((date, index) => {
       let isSelected = date === selectedDate;
       let firstChild = (index === 0) ? true : false;
       let lastChild = (index === this.props.dates.length - 1) ? true : false;

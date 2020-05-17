@@ -9,7 +9,7 @@ export {
   api,
   sharedActions,
   sharedActionTypes,
-  trans,
   priceHelper,
+  trans,
   unitHelper,
 }

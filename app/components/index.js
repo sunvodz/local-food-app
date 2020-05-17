@@ -14,7 +14,6 @@ import MaintenanceMode from './MaintenanceMode';
 import NodeCard from './NodeCard';
 import NumberInput from './NumberInput';
 import Picker from './Picker';
-import ScreenHeader from './ScreenHeader';
 import SelectInput from './SelectInput';
 import TextInput from './TextInput';
 
@@ -35,7 +34,6 @@ export {
   NodeCard,
   NumberInput,
   Picker,
-  ScreenHeader,
   SelectInput,
   TextInput,
 }

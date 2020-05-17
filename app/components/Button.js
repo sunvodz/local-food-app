@@ -58,14 +58,12 @@ let styles = {
     paddingVertical: 8,
   },
   icon: {
-    alignSelf: 'center',
     color: '#fff',
     fontSize: 12,
     paddingRight: 5,
   },
   title: {
     color: '#fff',
-    alignSelf: 'center',
     fontFamily: 'montserrat-semibold',
     fontSize: 12,
     marginBottom: 1,

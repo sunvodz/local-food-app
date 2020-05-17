@@ -14,6 +14,18 @@ function systemReducer(state, action) {
       });
       break;
 
+    case sharedActionTypes.GET_LANGS_SUCCESS:
+      return Object.assign({}, state, {
+        availableLanguages: action.availableLanguages,
+      });
+      break;
+
+    case sharedActionTypes.SET_LANG_SUCCESS:
+      return Object.assign({}, state, {
+        lang: action.lang,
+      });
+      break;
+
     default:
       return Object.assign({}, state);
       break;

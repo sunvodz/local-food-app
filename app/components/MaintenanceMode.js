@@ -6,7 +6,7 @@ import { sharedActions } from 'app/shared';
 
 export default class Badge extends React.Component {
   check() {
-    this.props.dispatch(sharedActions.checkIfBackendIsBack());
+    this.props.dispatch(sharedActions.systemActions.checkIfBackendIsBack());
   }
 
   render() {

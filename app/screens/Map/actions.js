@@ -1,7 +1,5 @@
 import { api, sharedActions, trans } from 'app/shared';
 import * as actionTypes from './actionTypes';
-import * as Permissions from 'expo-permissions';
-import * as Location from 'expo-location';
 
 export function fetchCurrentLocation() {
   return async function(dispatch, getState) {
@@ -41,7 +39,7 @@ export function receiveDefaultLocation(location) {
   }
 }
 
-export function fetchNodes() {
+export function fetchNodes(lang) {
   return async function (dispatch, getState) {
     try {
       dispatch(requestNodes());
@@ -78,14 +76,13 @@ export function receiveNodes(nodes) {
   }
 }
 
-export function receiveNodesFailed(error) {
-  return {
-    type: actionTypes.RECEIVE_NODES_FAILED,
-    loading: false,
-    refresh: false,
-    nodes: null,
-    title: trans('Nodes'),
-    message: trans('Failed loading nodes'),
-  }
-}
-
+// export function receiveNodesFailed(error, lang) {
+//   return {
+//     type: actionTypes.RECEIVE_NODES_FAILED,
+//     loading: false,
+//     refresh: false,
+//     nodes: null,
+//     title: trans('Nodes', lang),
+//     message: trans('Failed loading nodes', lang),
+//   }
+// }

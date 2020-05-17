@@ -1,17 +1,20 @@
 import { sharedActionTypes } from 'app/shared';
-import { SWISH_SUCCESS } from 'app/screens/User/screens/PayWithSwish/actionTypes';
-import { STRIPE_SUCCESS } from 'app/screens/User/screens/PayWithStripe/actionTypes';
+import * as loginActionTypes from 'app/screens/Auth/Login/actionTypes';
+import * as signupActionTypes from 'app/screens/Auth/SignUp/actionTypes';
+import { SWISH_SUCCESS } from 'app/screens/User/PayWithSwish/actionTypes';
+import { STRIPE_SUCCESS } from 'app/screens/User/PayWithStripe/actionTypes';
 import { FOLLOW_NODE_SUCCESS } from 'app/screens/Node/actionTypes';
 
 function authReducer(state, action) {
   switch (action.type) {
-    case sharedActionTypes.CREATE_ACCOUNT_IN_PROGRESS:
-    case sharedActionTypes.CREATE_ACCOUNT_FAILED:
-    case sharedActionTypes.LOAD_USER_FAILED:
-    case sharedActionTypes.LOGIN_IN_PROGRESS:
-    case sharedActionTypes.LOGIN_SUCCESS:
-    case sharedActionTypes.LOGIN_FAILED:
+    case signupActionTypes.CREATE_ACCOUNT_IN_PROGRESS:
+    case signupActionTypes.CREATE_ACCOUNT_FAILED:
+    case loginActionTypes.LOGIN_IN_PROGRESS:
+    case loginActionTypes.LOGIN_SUCCESS:
+    case loginActionTypes.LOGIN_FAILED:
     case sharedActionTypes.LOGOUT_SUCCESS:
+      case sharedActionTypes.LOAD_USER_SUCCESS:
+    case sharedActionTypes.LOAD_USER_FAILED:
     case sharedActionTypes.REFRESH_USER:
       return Object.assign({}, state, {
         user: action.user,
@@ -25,13 +28,6 @@ function authReducer(state, action) {
         user: action.user,
         loading: action.loading,
         refreshing: action.refreshing,
-        createAccountForm: false,
-      });
-      break;
-
-    case sharedActionTypes.TOGGLE_AUTH_FORM:
-      return Object.assign({}, state, {
-        createAccountForm: state.createAccountForm ? !state.createAccountForm : true,
       });
       break;
 

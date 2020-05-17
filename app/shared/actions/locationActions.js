@@ -3,7 +3,7 @@ import * as Location from 'expo-location';
 import trans from './../trans';
 import * as sharedActionTypes from './../sharedActionTypes';
 
-export function getLocationPermission() {
+export function getLocationPermission(lang) {
   return async function(dispatch, getState) {
     try {
       const locationPermission = await Permissions.getAsync(Permissions.LOCATION);
@@ -11,7 +11,7 @@ export function getLocationPermission() {
       if (locationPermission.status === 'granted') {
         dispatch(locationPermissionGranted());
       } else {
-        throw new Error(trans('Location permission not granted'));
+        throw new Error(trans('Location permission not granted', lang));
       }
     } catch(error) {
       dispatch(locationPermissionDenied());
@@ -33,7 +33,7 @@ export function locationPermissionDenied() {
   }
 }
 
-export function askLocationPermission(showAlert) {
+export function askLocationPermission(showAlert, lang) {
   return async function(dispatch, getState) {
     try {
       const { status } = await Permissions.askAsync(Permissions.LOCATION);
@@ -43,13 +43,13 @@ export function askLocationPermission(showAlert) {
         dispatch(receiveCurrentLocation(location));
         dispatch(locationPermissionGranted());
       } else {
-        throw new Error(trans('Location permission not granted'));
+        throw new Error(trans('Location permission not granted', lang));
       }
     } catch(error) {
       dispatch(locationPermissionDenied());
 
       if (showAlert) {
-        dispatch(failedEnablingLocationServices());
+        dispatch(failedEnablingLocationServices(lang));
       }
     }
   }
@@ -63,10 +63,10 @@ export function receiveCurrentLocation(location) {
   }
 }
 
-export function failedEnablingLocationServices() {
+export function failedEnablingLocationServices(lang) {
   return {
     type: sharedActionTypes.ENABLING_LOCATION_SERVICES_FAILED,
-    title: trans('Location'),
-    message: trans('Failed enabling location services. Please check you phones settings.'),
+    title: trans('Location', lang),
+    message: trans('Failed enabling location services. Please check you phones settings.', lang),
   }
 }

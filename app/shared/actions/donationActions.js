@@ -5,7 +5,7 @@ import trans from './../trans';
 /**
  * Donate nothing
  */
-export function donateNothing(userId) {
+export function donateNothing(userId, lang) {
   return async function(dispatch, getState) {
     try {
       dispatch(donateNothingStarted());
@@ -34,7 +34,7 @@ export function donateNothing(userId) {
     } catch (error) {
       systemActions.checkMaintenanceMode(dispatch, error);
 
-      dispatch(donateNothingFailed(error));
+      dispatch(donateNothingFailed(error, lang));
     }
   }
 }
@@ -54,11 +54,11 @@ export function donateNothingSuccess(user) {
   };
 }
 
-export function donateNothingFailed(error) {
+export function donateNothingFailed(error, lang) {
   return {
     type: sharedActionTypes.DONATE_NOTHING_FAILED,
     paymentInProgress: false,
-    title: trans('Membership'),
+    title: trans('Membership', lang),
     message: error,
   }
 }

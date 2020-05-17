@@ -38,7 +38,7 @@ export default class MapViewWrapper extends React.Component {
   }
 
   fetchNodes() {
-    this.props.dispatch(actions.fetchNodes());
+    this.props.dispatch(actions.fetchNodes(this.props.system.lang));
   }
 
   renderCluster = (cluster, onPress) => {
@@ -63,7 +63,9 @@ export default class MapViewWrapper extends React.Component {
   }
 
   navigateToNode() {
-    this.props.navigation.navigate('node', this.state.callout);
+    this.props.navigation.navigate('Node', {
+      node: this.state.callout
+    });
     this.closeCallout();
   };
 
@@ -77,14 +79,15 @@ export default class MapViewWrapper extends React.Component {
 
   render() {
     const { map } = this.props;
+    const lang = this.props.system.lang;
 
     if (map.loading) {
       return <Loader />;
     }
 
     if (!map.nodes && !map.loading) {
-      let actionButton = <Button icon='refresh' title={trans('Try again', this.props.lang)} onPress={this.fetchNodes.bind(this)} loading={map.refresh} />
-      return <Empty icon="map-marker" header={trans('Find nodes', this.props.lang)} text={trans('You are not following any nodes.', this.props.lang)} action={actionButton} />;
+      let actionButton = <Button icon='refresh' title={trans('Try again', lang)} onPress={this.fetchNodes.bind(this)} loading={map.refresh} />
+      return <Empty icon="map-marker" header={trans('Find nodes', lang)} text={trans('You are not following any nodes.', lang)} action={actionButton} />;
     }
 
     let mapData = _.map(_.cloneDeep(map.nodes), (node) => {
@@ -96,12 +99,14 @@ export default class MapViewWrapper extends React.Component {
 
     let callout = null;
     if (this.state.callout) {
-      callout = <MapCallout
-        node={this.state.callout}
-        navigateToNode={this.navigateToNode.bind(this)}
-        onClose={this.closeCallout.bind(this)}
-        lang={this.props.lang}
-        />;
+      callout = (
+        <MapCallout
+          node={this.state.callout}
+          navigateToNode={this.navigateToNode.bind(this)}
+          onClose={this.closeCallout.bind(this)}
+          lang={this.props.system.lang}
+        />
+      );
     }
 
     return (
@@ -116,7 +121,7 @@ export default class MapViewWrapper extends React.Component {
           renderCluster={this.renderCluster.bind(this)}
           provider={PROVIDER_GOOGLE}
           customMapStyle={mapStyle}
-          />
+        />
       </View>
     );
   }

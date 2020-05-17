@@ -1,75 +1,32 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { SafeAreaView } from 'react-native';
-import { FontAwesome as Icon } from '@expo/vector-icons';
-
 import MapViewWrapper from './components/MapViewWrapper';
-import NodesScreen from 'app/screens/User/screens/Nodes';
-import { trans } from 'app/shared';
-import globalStyle from 'app/styles';
 import * as mapActions from 'app/screens/Map/actions';
 import { Loader } from 'app/components';
 
 class Map extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      showMap: false,
-    };
-
-    if (props.auth && props.auth.user) {
-      this.props.navigation.setParams({ title: trans('Your nodes', this.props.lang), leftOnPress: this.toggleMap, icon: 'globe'})
-    } else {
-      this.props.navigation.setParams({ title: trans('Find nodes', this.props.lang), leftOnPress: this.toggleMap, icon: 'list'})
-    }
-  }
-
   componentDidMount() {
     this.props.dispatch(mapActions.fetchCurrentLocation());
     this.props.dispatch(mapActions.fetchNodes());
   }
 
-  toggleMap = () => {
-    if (!this.state.showMap) {
-      this.props.navigation.setParams({ title: trans('Find nodes', this.props.lang), icon: 'list'})
-    } else {
-      this.props.dispatch(mapActions.fetchNodes());
-      this.props.navigation.setParams({ title: trans('Your nodes', this.props.lang), icon: 'globe'})
-    }
-
-    this.setState({showMap: !this.state.showMap});
-  }
-
   render() {
-    let left;
-
-    if (!this.props.auth || this.props.auth.loading || this.props.map.loading) {
+    if (this.props.map.loading) {
       return <Loader />;
     }
 
-    if (this.props.auth && this.props.auth.user) {
-      if (this.state.showMap) { // Show map
-        left = <Icon style={styles.leftIcon} name='list' size={24} color='#fff' onPress={this.toggleMap.bind(this)}/>;
-        return (
-          <MapViewWrapper {...this.props} lang={this.props.lang} />
-        );
-      } else { // Show user nodes
-        left = <Icon style={styles.leftIcon} name='globe' size={24} color='#fff' onPress={this.toggleMap.bind(this)}/>;
-        return (
-          <NodesScreen toggleMap={this.toggleMap.bind(this)} lang={this.props.lang} navigation={this.props.navigation}/>
-        );
-      }
-    }
+    return (
+      <MapViewWrapper {...this.props} />
+    );
   }
 }
 
 function mapStateToProps(state) {
-  const { map, auth } = state;
+  const { map, system } = state;
 
   return {
     map,
-    auth
+    system,
   }
 }
 
@@ -81,9 +38,9 @@ Map.defaultProps = {
 };
 
 let styles = {
-  calloutHeader: {
-    fontWeight: 'bold',
-  },
+  headerLeftIcon: {
+    marginLeft: 15,
+  }
 };
 
 export default connect(mapStateToProps)(Map);

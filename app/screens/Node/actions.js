@@ -78,7 +78,7 @@ export function receiveProductsCount(productsCount) {
   }
 }
 
-export function fetchProducts(filters) {
+export function fetchProducts(filters, lang) {
   return async function (dispatch, getState) {
     try {
       dispatch(requestProducts());
@@ -101,7 +101,7 @@ export function fetchProducts(filters) {
     } catch (error) {
       sharedActions.systemActions.checkMaintenanceMode(dispatch, error);
 
-      dispatch(receiveProductsFailed(error));
+      dispatch(receiveProductsFailed(error, lang));
     }
   }
 }
@@ -121,13 +121,13 @@ export function receiveProducts(products) {
   }
 }
 
-export function receiveProductsFailed(error) {
+export function receiveProductsFailed(error, lang) {
   return {
     type: actionTypes.RECEIVE_PRODUCTS_FAILED,
     products: null,
     loadingProducts: false,
-    title: trans('Products'),
-    message: trans('Failed loading products')
+    title: trans('Products', lang),
+    message: trans('Failed loading products', lang)
   }
 }
 
@@ -138,7 +138,7 @@ export function receiveProductQuantity(products) {
   }
 }
 
-export function fetchNodeDates(nodeId) {
+export function fetchNodeDates(nodeId, lang) {
   return async function (dispatch, getState) {
     try {
       dispatch(requestNodeDates());
@@ -159,7 +159,7 @@ export function fetchNodeDates(nodeId) {
       sharedActions.systemActions.checkMaintenanceMode(dispatch, error);
 
       let errorMessage = await error.text();
-      dispatch(receiveNodeDatesFailed(errorMessage));
+      dispatch(receiveNodeDatesFailed(errorMessage, lang));
     }
   }
 }
@@ -179,12 +179,12 @@ export function receiveNodeDates(dates) {
   }
 }
 
-export function receiveNodeDatesFailed(errorMessage) {
+export function receiveNodeDatesFailed(errorMessage, lang) {
   return {
     type: actionTypes.RECEIVE_NODE_DATES_FAILED,
     dates: [],
     loadingDates: false,
-    title: trans('Node'),
+    title: trans('Node', lang),
     message: errorMessage,
   }
 }
@@ -202,7 +202,7 @@ export function resetNode() {
   }
 }
 
-export function addProductToCart(data) {
+export function addProductToCart(data, lang) {
   return async function (dispatch, getState) {
     try {
       dispatch(addToCart());
@@ -215,7 +215,7 @@ export function addProductToCart(data) {
 
       let jsonResponse = await response.json();
 
-      dispatch(addToCartSuccess());
+      dispatch(addToCartSuccess(lang));
 
       dispatch({
         type: actionTypes.RECEIVE_CART,
@@ -226,7 +226,7 @@ export function addProductToCart(data) {
     } catch (error) {
       sharedActions.systemActions.checkMaintenanceMode(dispatch, error);
 
-      dispatch(addToCartFailed(error));
+      dispatch(addToCartFailed(error, lang));
     }
   }
 }
@@ -238,23 +238,23 @@ export function addToCart() {
   }
 }
 
-export function addToCartFailed(error) {
+export function addToCartFailed(error, lang) {
   return {
     type: actionTypes.ADD_TO_CART_FAILED,
-    title: trans('Cart'),
+    title: trans('Shopping cart', lang),
     message: error.error
   }
 }
 
-export function addToCartSuccess() {
+export function addToCartSuccess(lang) {
   return {
     type: actionTypes.ADD_TO_CART_SUCCESS,
-    title: trans('Cart'),
-    message: trans('Product was added to your cart.')
+    title: trans('Shopping cart', lang),
+    message: trans('Product was added to your cart.', lang)
   }
 }
 
-export function toggleFollowNode(nodeId) {
+export function toggleFollowNode(nodeId, lang) {
   return async function (dispatch, getState) {
     try {
       let response = await api.call({
@@ -274,7 +274,7 @@ export function toggleFollowNode(nodeId) {
       sharedActions.systemActions.checkMaintenanceMode(dispatch, error);
 
       let errorMessage = await error.text();
-      dispatch(followNodeFailed(errorMessage));
+      dispatch(followNodeFailed(errorMessage, lang));
     }
   }
 }
@@ -286,10 +286,10 @@ export function followNodeSuccess(user) {
   }
 }
 
-export function followNodeFailed(errorMessage) {
+export function followNodeFailed(errorMessage, lang) {
   return {
     type: actionTypes.FOLLOW_NODE_FAILED,
-    title: trans('Node'),
+    title: trans('Node', lang),
     message: errorMessage
   }
 }

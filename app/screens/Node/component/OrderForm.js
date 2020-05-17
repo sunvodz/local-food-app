@@ -90,7 +90,7 @@ export default class OrderForm extends React.Component {
           </View>
         );
       } else {
-        quantityForm = <Text style={styles.soldout}>{trans('Sold out', this.props.lang)}</Text>;
+        quantityForm = <Text style={styles.soldout}>{trans('Sold out')}</Text>;
       }
     }
 

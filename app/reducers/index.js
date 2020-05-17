@@ -7,14 +7,13 @@ import mapReducer from './map';
 import nodeReducer from './node';
 import systemReducer from './system';
 
-import userReducer from 'app/screens/User/screens/Profile/reducer';
-import cartReducer from 'app/screens/User/screens/Cart/reducer';
-import ordersReducer from 'app/screens/User/screens/Orders/reducer';
-import orderReducer from 'app/screens/User/screens/Order/reducer';
-import nodesReducer from 'app/screens/User/screens/Nodes/reducer';
-import settingsReducer from 'app/screens/User/screens/Settings/reducer';
-import stripeReducer from 'app/screens/User/screens/PayWithStripe/reducer';
-import swishReducer from 'app/screens/User/screens/PayWithSwish/reducer';
+import cartReducer from 'app/screens/User/Cart/reducer';
+import ordersReducer from 'app/screens/User/Orders/reducer';
+import orderReducer from 'app/screens/User/Order/reducer';
+import nodesReducer from 'app/screens/User/Nodes/reducer';
+import settingsReducer from 'app/screens/User/Settings/reducer';
+import stripeReducer from 'app/screens/User/PayWithStripe/reducer';
+import swishReducer from 'app/screens/User/PayWithSwish/reducer';
 
 const rootReducer = combineReducers({
   alert: alertReducer,
@@ -22,7 +21,6 @@ const rootReducer = combineReducers({
   map: mapReducer,
   node: nodeReducer,
   cart: cartReducer,
-  user: userReducer,
   nodes: nodesReducer,
   orders: ordersReducer,
   order: orderReducer,
@@ -31,7 +29,7 @@ const rootReducer = combineReducers({
   swish: swishReducer,
   system: systemReducer,
   logger: function(state, action) {
-    console.log(action.type);
+    // console.log(action.type);
     return Object.assign({}, state, {});
   }
 });

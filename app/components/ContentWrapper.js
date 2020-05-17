@@ -39,7 +39,7 @@ let styles = {
   },
   scrollView: {
     paddingTop: 15,
-    paddingHorizontal: 15,
+    paddingHorizontal: 20,
     paddingBottom: 15,
   }
 };

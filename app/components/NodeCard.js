@@ -128,8 +128,8 @@ let styles = {
   },
   title: {
     fontFamily: 'montserrat-regular',
-    fontSize: 24,
-    marginBottom: 15,
+    fontSize: 20,
+    marginBottom: 5,
   },
   text: {
     flex: 1,

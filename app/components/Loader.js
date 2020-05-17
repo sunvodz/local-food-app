@@ -6,7 +6,7 @@ export default class Loader extends React.Component {
   render() {
     return (
       <View style={styles.view}>
-        <ActivityIndicator color='#333' size='large' />
+        <ActivityIndicator color='#333' />
       </View>
     );
   }

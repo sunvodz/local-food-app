@@ -1,8 +1,7 @@
+import { ReactReduxContext } from 'react-redux'
 import sv from '../languages/sv';
 
 export default function trans(string, lang) {
-  // Useful for wrapping translatable strings in some places before
-  // we know selected lang
   if (!lang) {
     return string;
   }
