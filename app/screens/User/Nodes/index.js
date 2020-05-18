@@ -7,10 +7,6 @@ import * as actions from './actions';
 import { trans } from 'app/shared';
 
 class Nodes extends React.Component {
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   return !_.isEqual(nextProps.nodes, this.props.nodes) || !_.isEqual(nextProps.auth, this.props.auth);
-  // }
-
   componentDidMount() {
     this.props.dispatch(actions.fetchUserNodes(this.props.system.lang));
   }
@@ -19,6 +15,10 @@ class Nodes extends React.Component {
     this.props.navigation.navigate('Node', {
       node: node
     });
+  }
+
+  navigateToMap() {
+    this.props.navigation.navigate('Map');
   }
 
   removeNode(nodeId) {
@@ -33,8 +33,8 @@ class Nodes extends React.Component {
     }
 
     if (_.isEmpty(nodes)) {
-      let actionButton = <Button icon='globe' title={trans('Find nodes', this.props.system.lang)} onPress={this.props.toggleMap} />
-      return <Empty icon="map-marker" action={actionButton} header={trans('Nodes', this.props.system.lang)} text={trans('You are not following any nodes.')} />;
+      let actionButton = <Button icon='globe' title={trans('Find nodes', this.props.system.lang)} onPress={this.navigateToMap.bind(this)} />
+      return <Empty icon="map-marker" action={actionButton} header={trans('Nodes', this.props.system.lang)} text={trans('You are not following any nodes.', this.props.system.lang)} />;
     }
 
     let nodeCards = nodes.map((node, index) => {

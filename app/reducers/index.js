@@ -2,9 +2,9 @@ import { combineReducers } from 'redux';
 
 import alertReducer from 'app/containers/Alert/reducer';
 
-import authReducer from './auth';
-import mapReducer from './map';
-import nodeReducer from './node';
+import authReducer from 'app/screens/Auth/reducer';
+import mapReducer from 'app/screens/Map/reducer';
+import nodeReducer from 'app/screens/Node/reducer';
 import systemReducer from './system';
 
 import cartReducer from 'app/screens/User/Cart/reducer';

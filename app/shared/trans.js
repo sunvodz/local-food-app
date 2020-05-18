@@ -1,4 +1,3 @@
-import { ReactReduxContext } from 'react-redux'
 import sv from '../languages/sv';
 
 export default function trans(string, lang) {

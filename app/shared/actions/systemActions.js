@@ -66,7 +66,7 @@ export function getLanguages(lang) {
         {
           key: 'en',
           label: 'English',
-          selected: lang === 'en'
+          selected: lang === 'en' || !lang // Fallback
         }
       ];
 

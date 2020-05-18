@@ -1,4 +1,4 @@
-import * as actionTypes from 'app/screens/Node/actionTypes';
+import * as actionTypes from './actionTypes';
 
 function nodeReducer(state, action) {
   switch (action.type) {
@@ -73,8 +73,21 @@ function nodeReducer(state, action) {
         filters: {
           node: null,
         },
-        loadingNodes: false,
+        loadingNode: false,
         loadingDates: false,
+      });
+      break;
+
+    case actionTypes.FOLLOW_NODE_IN_PROGRESS:
+      return Object.assign({}, state, {
+        followNodeInProgress: true,
+      });
+      break;
+
+    case actionTypes.FOLLOW_NODE_SUCCESS:
+    case actionTypes.FOLLOW_NODE_FAILED:
+      return Object.assign({}, state, {
+        followNodeInProgress: false,
       });
       break;
 

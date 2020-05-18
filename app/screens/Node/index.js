@@ -1,10 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
-import { CommonActions } from '@react-navigation/native';
 import _ from 'lodash';
 import { FontAwesome as Icon } from '@expo/vector-icons';
-
 import { Loader, Button, Empty } from 'app/components';
 import DatePicker from './component/DatePicker';
 import ProductCard from './component/ProductCard';
@@ -61,14 +59,19 @@ class Node extends React.Component {
       }));
     }
 
-    let isActive = this.props.auth.user.node_links.find(nodeLink => {
-      return nodeLink.node_id == node.id;
-    });
+    let followNodeIcon = <ActivityIndicator style={{marginRight: 15}} color="#fff" />;
+    if (!this.props.node.loadingNode && !this.props.node.followNodeInProgress) {
+      let isActive = this.props.auth.user.node_links.find(nodeLink => {
+        return nodeLink.node_id == node.id;
+      });
 
-    let icon = isActive ? 'heart' : 'heart-o';
+      let icon = isActive ? 'heart' : 'heart-o';
+      followNodeIcon = <Icon style={{marginRight: 15}} name={icon} size={16} color='#fff' onPress={this.toggleFollowNode.bind(this)} />
+    }
+
     this.props.navigation.setOptions({
       headerRight: () => (
-        <Icon style={{marginRight: 15}} name={icon} size={16} color='#fff' onPress={this.toggleFollowNode.bind(this)} />
+        followNodeIcon
       ),
     });
 

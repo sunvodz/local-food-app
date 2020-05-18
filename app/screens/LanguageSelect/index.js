@@ -38,7 +38,7 @@ class LanguageSelect extends Component {
 
     return (
       <TouchableOpacity style={styles.listItem} onPress={() => this.setLanguage(item.key)}>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'centerw'}}>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
           <Text style={styles.listItemContent}>{item.label}</Text>
           {selected}
         </View>
@@ -58,7 +58,7 @@ class LanguageSelect extends Component {
     }
 
     return (
-      <View>
+      <View style={{flex: 1}}>
         {content}
       </View>
     );

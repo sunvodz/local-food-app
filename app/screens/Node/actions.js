@@ -252,6 +252,8 @@ export function addToCartSuccess(lang) {
 
 export function toggleFollowNode(nodeId, lang) {
   return async function (dispatch, getState) {
+    dispatch(followNodeInProgress());
+
     try {
       let response = await api.call({
         method: 'post',
@@ -272,6 +274,12 @@ export function toggleFollowNode(nodeId, lang) {
       let errorMessage = await error.text();
       dispatch(followNodeFailed(errorMessage, lang));
     }
+  }
+}
+
+export function followNodeInProgress() {
+  return {
+    type: actionTypes.FOLLOW_NODE_IN_PROGRESS,
   }
 }
 

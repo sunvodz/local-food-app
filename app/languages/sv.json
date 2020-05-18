@@ -182,5 +182,8 @@
     "system_status": "Driftstatus",
     "email_is_required_to_create_an_account_on_local_food_nodes_it_is_used_a_unique_identifier_for_your_account_for_order_confirmations_and_communication_from_your_nodes_and_producers_as_well_as_from_us_once_in_a_while_local_food_sends_you_a_newsletter": "Email är nödvändigt för att kunna skapa ett konto hos Local Food Nodes. Det används för att identifiera din användare i systemet men också för att systemet, producenter och nodadministratörer ska kunna skicka e-post till dig. Local Food Nodes skickar ibland ut nyhetsbrev.",
     "password_is_required_to_create_an_account_on_local_food_nodes_your_password_is_stored_encrypted_in_our_database": "Lösenord är obligatoriskt för att kunna skapa ett konto hos Local Food Nodes. Ditt lösenord sparas krypterat i vår databas.",
-    "sentry_collects_error_logs_from_the_site_so_when_something_crashes_we_get_an_email_it_is_possible_that_personal_information_is_included_in_the_error_an_error_is_stored_for_30_days": "Sentry samlar in felmeddelanden, och när någonting kraschar så får vi som jobbar med systemet ett meddelande. I vissa fall följer information om din användare med i dessa felmeddelanden. Ett felmeddelande sparas i 30 dagar."
+    "sentry_collects_error_logs_from_the_site_so_when_something_crashes_we_get_an_email_it_is_possible_that_personal_information_is_included_in_the_error_an_error_is_stored_for_30_days": "Sentry samlar in felmeddelanden, och när någonting kraschar så får vi som jobbar med systemet ett meddelande. I vissa fall följer information om din användare med i dessa felmeddelanden. Ett felmeddelande sparas i 30 dagar.",
+    "could_not_disable_push_notifications_check_the_settings_for_your_phone_or_for_this_app": "Kunde inte inaktivera pushnotifikationer. Kontrollera telefonens inställningarna för Local Food App.",
+    "support": "Support",
+    "there_was_a_problem_loading_nodes": "Kunde inte ladda noder."
 }

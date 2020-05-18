@@ -58,6 +58,7 @@ let styles = {
     paddingVertical: 8,
   },
   icon: {
+    alignSelf: 'center',
     color: '#fff',
     fontSize: 12,
     paddingRight: 5,

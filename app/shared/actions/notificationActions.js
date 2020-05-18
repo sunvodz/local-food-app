@@ -24,9 +24,9 @@ export function registerForPushNotificationsAsync(userEmail, lang) {
       }
 
       if (finalStatus !== 'granted') {
-        dispatch(couldNotRegisterForPushNotifications());
+        dispatch(registerForPushNotificationsFailed());
       } else {
-        let token = await Notifications.getExpoPushTokenAsync();
+        let pushToken = await Notifications.getExpoPushTokenAsync();
 
         let response = await api.call({
           url: '/api/v1/user/push-token',
@@ -34,7 +34,7 @@ export function registerForPushNotificationsAsync(userEmail, lang) {
           body: {
             device_name: Device.deviceName,
             email: userEmail,
-            token: token,
+            token: pushToken,
           }
         });
 
@@ -44,7 +44,7 @@ export function registerForPushNotificationsAsync(userEmail, lang) {
         dispatch(userActions.refreshUser(user));
       }
     } catch (error) {
-      dispatch(couldNotRegisterForPushNotifications(lang));
+      dispatch(registerForPushNotificationsFailed(lang));
     }
   }
 }
@@ -62,15 +62,8 @@ export function unregisterForPushNotificationsAsync(pushTokenId, lang) {
       dispatch(userActions.refreshUser(user));
     } catch (error) {
       systemActions.checkMaintenanceMode(dispatch, error);
+      dispatch(unregisterPushNotificationFailed(lang));
     }
-  }
-}
-
-export function couldNotRegisterForPushNotifications(lang) {
-  return {
-    type: sharedActionTypes.FAILED_REGISTER_PUSH_NOTIFICATIONS,
-    title: trans('Push notifications', lang),
-    message: trans('Could not enable push notifications. Check the settings for your phone or for this app.', lang),
   }
 }
 
@@ -82,10 +75,26 @@ export function registerPushNotificationSuccess(lang) {
   }
 }
 
+export function registerForPushNotificationsFailed(lang) {
+  return {
+    type: sharedActionTypes.REGISTER_PUSH_NOTIFICATIONS_FAILED,
+    title: trans('Push notifications', lang),
+    message: trans('Could not enable push notifications. Check the settings for your phone or for this app.', lang),
+  }
+}
+
 export function unregisterPushNotificationSuccess(lang) {
   return {
     type: sharedActionTypes.UNREGISTER_PUSH_NOTIFICATIONS_SUCCESS,
     title: trans('Push notifications', lang),
     message: trans('Push notifications are disabled.', lang),
+  }
+}
+
+export function unregisterForPushNotificationsFailed(lang) {
+  return {
+    type: sharedActionTypes.UNREGISTER_PUSH_NOTIFICATIONS_FAILED,
+    title: trans('Push notifications', lang),
+    message: trans('Could not disable push notifications. Check the settings for your phone or for this app.', lang),
   }
 }

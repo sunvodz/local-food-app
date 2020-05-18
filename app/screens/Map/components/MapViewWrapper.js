@@ -87,7 +87,7 @@ export default class MapViewWrapper extends React.Component {
 
     if (!map.nodes && !map.loading) {
       let actionButton = <Button icon='refresh' title={trans('Try again', lang)} onPress={this.fetchNodes.bind(this)} loading={map.refresh} />
-      return <Empty icon="map-marker" header={trans('Find nodes', lang)} text={trans('You are not following any nodes.', lang)} action={actionButton} />;
+      return <Empty icon="map-marker" header={trans('Find nodes', lang)} text={trans('There was a problem loading nodes.', lang)} action={actionButton} />;
     }
 
     let mapData = _.map(_.cloneDeep(map.nodes), (node) => {
