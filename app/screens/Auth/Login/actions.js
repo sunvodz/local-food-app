@@ -20,7 +20,7 @@ export function loginUser(data, lang) {
       user.password = data.password;
       await AsyncStorage.setItem('@store:user', JSON.stringify(user));
 
-      dispatch(sharedActions.notificationActions.registerForPushNotificationsAsync(data.email));
+      dispatch(sharedActions.notificationActions.registerForPushNotificationsAsync(data.email, lang, true));
       dispatch(loginComplete(user));
     } catch (error) {
       sharedActions.systemActions.checkMaintenanceMode(dispatch, error);

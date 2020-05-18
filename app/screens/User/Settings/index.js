@@ -61,7 +61,7 @@ class Settings extends Component {
   }
 
   enablePushNotifications() {
-    this.props.dispatch(sharedActions.notificationActions.registerForPushNotificationsAsync(this.props.auth.email, this.props.system.lang));
+    this.props.dispatch(sharedActions.notificationActions.registerForPushNotificationsAsync(this.props.auth.email, this.props.system.lang, false));
   }
 
   disablePushNotifications() {
