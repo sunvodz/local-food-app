@@ -7,6 +7,7 @@ import LanguageSelect from 'app/screens/LanguageSelect';
 import PaymentSelect from 'app/screens/User/PaymentSelect';
 import PayWithStripe from 'app/screens/User/PayWithStripe';
 import PayWithSwish from 'app/screens/User/PayWithSwish';
+import DonateNothing from 'app/screens/User/DonateNothing';
 import ProfileTabNavigation from 'app/navigations/ProfileTabNavigation';
 import { trans } from 'app/shared';
 import globalStyle from 'app/styles';
@@ -77,6 +78,13 @@ export default function userStackNavigator({navigation, route}) {
         component={PayWithStripe}
         options={{
           title: trans('Pay with card', lang)
+        }}
+      />
+      <StackNavigator.Screen
+        name='DonateNothing'
+        component={DonateNothing}
+        options={{
+          title: trans('Donate nothing', lang)
         }}
       />
     </StackNavigator.Navigator>

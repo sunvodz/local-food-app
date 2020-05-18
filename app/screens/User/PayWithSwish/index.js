@@ -17,12 +17,8 @@ class PayWithSwish extends Component {
     super(props);
     this.state = {
       amount: null,
-      donateNothing: false,
       paymentSuccess: false,
     }
-
-    this.onChangeAmount = this.onChangeAmount.bind(this);
-    this.onDonateNothing = this.onDonateNothing.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -46,20 +42,12 @@ class PayWithSwish extends Component {
     const { amount } = this.state;
 
     if (amount == 0) {
-      this.setState({donateNothing: true});
+      this.props.navigation.navigate('DonateNothing', {
+        lang: this.props.route.params.lang
+      });
     } else {
       this.props.dispatch(actions.startSwish(this.props.auth.user.id, amount, this.props.route.params.lang));
     }
-  }
-
-  onChangeAmount() {
-    this.setState({
-      donateNothing: false,
-    });
-  }
-
-  onDonateNothing() {
-    this.props.dispatch(sharedActions.donationActions.donateNothing(this.props.auth.user.id, this.props.route.params.lang));
   }
 
   render() {
@@ -71,7 +59,7 @@ class PayWithSwish extends Component {
       let viewProps = {
         style: {
           alignItems: 'center',
-          backgroundColor: globalStyle.primaryColor,
+          backgroundColor: globalStyle.mainPrimaryColor,
           flex: 1,
           justifyContent: 'center',
           paddingHorizontal: 15,
@@ -88,21 +76,6 @@ class PayWithSwish extends Component {
       );
     }
 
-    // Donate nothing
-    if (this.state.donateNothing) {
-      return (
-        <View style={styles.container}>
-          <View style={{alignItems: 'center'}}>
-            <Icon style={styles.icon} name='frown-o' />
-            <Text style={styles.infoText}>{trans('Local Food Nodes is built on a gift based enonomy. By supporting with a donation, free of choice, you co-finance efforts to make the food more local again.', lang)}</Text>
-            <Button style={styles.button}  onPress={this.onChangeAmount} title={trans('Change amount', lang)} />
-            <Text style={styles.donateNothing} onPress={this.onDonateNothing}>{trans('Donate nothing', lang)}</Text>
-            {auth.paymentInProgress && <ActivityIndicator style={{top: '50%'}} color="#fff" />}
-          </View>
-        </View>
-      );
-    }
-
     let scrollViewProps = {
       contentContainerStyle: {
         paddingBottom: 100,
@@ -110,7 +83,7 @@ class PayWithSwish extends Component {
       keyboardShouldPersistTaps: 'always',
       enableOnAndroid: true,
       style: {
-        backgroundColor: globalStyle.primaryColor,
+        backgroundColor: globalStyle.mainPrimaryColor,
       }
     };
 
@@ -139,7 +112,7 @@ export default connect(mapStateToProps)(PayWithSwish);
 
 let styles = {
   container: {
-    backgroundColor: globalStyle.primaryColor,
+    backgroundColor: globalStyle.mainPrimaryColor,
     flex: 1,
     padding: 10,
   },
@@ -156,12 +129,6 @@ let styles = {
       marginBottom: 10,
       marginTop: 10,
     }
-  },
-  donateNothing: {
-    color: '#fff',
-    fontFamily: 'montserrat-regular',
-    lineHeight: 18,
-    textAlign: 'center',
   },
   icon: {
     color: '#fff',

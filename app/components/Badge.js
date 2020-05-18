@@ -15,7 +15,7 @@ export default class Badge extends React.Component {
 
 let styles = {
   badge: {
-    backgroundColor: globalStyle.primaryColor,
+    backgroundColor: globalStyle.mainPrimaryColor,
     borderRadius: 15,
     color: '#fff',
     alignSelf: 'flex-start',

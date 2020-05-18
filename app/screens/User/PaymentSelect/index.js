@@ -58,11 +58,11 @@ const imageWidth = (dimensions.width / 2) - 30; // (screen width / 2) - wrapper 
 
 let styles = StyleSheet.create({
   scrollView: {
-    backgroundColor: globalStyle.primaryColor,
+    backgroundColor: globalStyle.mainPrimaryColor,
     flex: 1,
   },
   container: {
-    backgroundColor: globalStyle.primaryColor,
+    backgroundColor: globalStyle.mainPrimaryColor,
     flex: 1,
     padding: 10,
     flexDirection: 'row',

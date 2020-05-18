@@ -161,7 +161,7 @@ let styles = {
     fontFamily: 'montserrat-regular',
   },
   priceItem: {
-    backgroundColor: globalStyle.primaryColor,
+    backgroundColor: globalStyle.mainPrimaryColor,
     borderRadius: 15,
     marginRight: 15,
     paddingHorizontal: 10,
@@ -191,7 +191,7 @@ let styles = {
   },
   button: {
     justifyContent: 'center',
-    backgroundColor: globalStyle.primaryColor,
+    backgroundColor: globalStyle.mainPrimaryColor,
     borderRadius: 100,
     padding: 10,
     width: 60,
@@ -204,7 +204,7 @@ let styles = {
     textAlign: 'center',
   },
   soldout: {
-    color: globalStyle.primaryColor,
+    color: globalStyle.mainPrimaryColor,
     flex: 1,
     fontFamily: 'montserrat-semibold',
     marginTop: 15,

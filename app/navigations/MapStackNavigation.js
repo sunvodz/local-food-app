@@ -3,7 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import Map from 'app/screens/Map';
 import Node from 'app/screens/Node';
 import Nodes from 'app/screens/User/Nodes';
-import { FontAwesome as Icon } from '@expo/vector-icons';
+import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 import globalStyle from 'app/styles';
 import { trans } from 'app/shared';
 
@@ -28,7 +28,7 @@ export default function mapStackNavigation({navigation, route}) {
           return {
             title: trans('Find nodes', lang),
             headerLeft: () => (
-              <Icon style={{marginLeft: 15}} name='list' size={24} color='#fff' onPress={() => navigation.navigate('Nodes')} />
+              <FontAwesome5 style={{marginLeft: 15}} name='list' size={24} color='#fff' onPress={() => navigation.navigate('Nodes')} />
             ),
           }
         }}
@@ -40,7 +40,7 @@ export default function mapStackNavigation({navigation, route}) {
           return {
             title: trans('Your nodes', lang),
             headerLeft: () => (
-              <Icon style={{marginLeft: 15}} name='globe' size={24} color='#fff' onPress={() => navigation.navigate('Map')} />
+              <FontAwesome style={{marginLeft: 15}} name='globe' size={24} color='#fff' onPress={() => navigation.navigate('Map')} />
             ),
           }
         }}

@@ -17,7 +17,13 @@ export default class FAQ extends Component {
               <Text style={styles.text}>{trans('Reset password is not a feature in app yet. To restore your password visit localfoodnodes.org.', lang)}</Text>
             </View>
           </Card>
-          <Card header={trans('Need help?', lang)} headerPosition='outside'>
+          <Card header={trans('System status', lang)} headerPosition='outside'>
+            <View>
+              <Text style={styles.text}>{trans('Sometimes we and our external services have techinal problems. We appreciate you contacting us telling us about your problem. We inform you about known issues on our twitter account', lang)}</Text>
+              <Text style={[styles.textBold, {marginTop: 15}]}>{trans('Twitter: @localfoodnodes', lang)}</Text>
+            </View>
+          </Card>
+          <Card header={trans('Support', lang)} headerPosition='outside'>
             <View>
               <Text style={styles.text}>{trans('Feel free to contact us on the chat at localfoodnodes.org or email us on info@localfoodnodes.org.', lang)}</Text>
             </View>
@@ -41,5 +47,10 @@ let styles = {
   },
   text: {
     fontFamily: 'montserrat-regular',
+    lineHeight: 20,
+  },
+  textBold: {
+    fontFamily: 'montserrat-semibold',
+    lineHeight: 20,
   },
 };

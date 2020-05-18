@@ -1,6 +1,6 @@
 import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import globalStyles from 'app/styles';
+import globalStyle from 'app/styles';
 import Orders from 'app/screens/User/Orders';
 import Settings from 'app/screens/User/Settings';
 import { trans } from 'app/shared';
@@ -15,7 +15,7 @@ const MaterialTopTabNavigatorConfig = {
     activeBackgroundColor: '#fff',
     inactiveBackgroundColor: '#fff',
     indicatorStyle: {
-      backgroundColor: globalStyles.primaryColor,
+      backgroundColor: globalStyle.mainPrimaryColor,
     },
     labelStyle: {
       fontSize: 12,

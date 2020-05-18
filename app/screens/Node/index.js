@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
+import { CommonActions } from '@react-navigation/native';
 import _ from 'lodash';
 import { FontAwesome as Icon } from '@expo/vector-icons';
 
@@ -131,7 +132,7 @@ class Node extends React.Component {
     this.setState({addToCart: null});
   }
 
-  navigateToMembership() {
+  navigateToPaymentSelect() {
     this.props.navigation.navigate('PaymentSelect', {
       auth: this.props.auth,
       navBackIcon: true,
@@ -139,9 +140,8 @@ class Node extends React.Component {
   }
 
   navigateToSettings() {
-    this.props.navigation.navigate('Settings', {
-      auth: this.props.auth,
-      navBackIcon: true,
+    this.props.navigation.navigate('UserStackNavigation', {
+      screen: 'Settings',
     });
   }
 
@@ -250,7 +250,7 @@ class Node extends React.Component {
       userNoticeMessage = (
         <View>
           <Text style={styles.userNoticeMessage}>{trans('Before you can order you need to make a donation.', lang)}</Text>
-          <Button onPress={this.navigateToMembership.bind(this)} title={trans('Make a donation', lang)} />
+          <Button onPress={this.navigateToPaymentSelect.bind(this)} title={trans('Make a donation', lang)} />
         </View>
       );
     } if (this.props.auth.user && !this.props.auth.user.active) {
@@ -324,7 +324,7 @@ let styles = {
     paddingVertical: 15,
   },
   userNotice: {
-    backgroundColor: globalStyle.primaryColor,
+    backgroundColor: globalStyle.mainPrimaryColor,
     bottom: 0,
     padding: 15,
     position: 'absolute',
@@ -336,7 +336,7 @@ let styles = {
     marginBottom: 15,
   },
   addToCartWrapper: {
-    backgroundColor: globalStyle.primaryColor,
+    backgroundColor: globalStyle.mainPrimaryColor,
     bottom: 0,
     flexDirection: 'row',
     padding: 15,

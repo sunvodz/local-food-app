@@ -8,10 +8,13 @@ export default class TextInputComponent extends React.Component {
     let mergedStyles = styleMerger.merge(styles, this.props.style);
 
     let label = null;
-    let hint = this.props.hint || '';
-
     if (this.props.label) {
       label = <Text style={mergedStyles.label}>{this.props.label}</Text>;
+    }
+
+    let hint = null;
+    if (this.props.hint) {
+      hint = <Text style={mergedStyles.hint}>{this.props.hint}</Text>;
     }
 
     return (
@@ -38,7 +41,7 @@ export default class TextInputComponent extends React.Component {
           }}
           // value={this.props.value}
         />
-        <Text style={mergedStyles.hint}>{hint}</Text>
+        {hint}
       </View>
     );
   }
@@ -53,18 +56,11 @@ let styles = {
     fontFamily: 'montserrat-semibold',
     color: '#fff',
   },
-  textInput: {
-    backgroundColor: '#fff',
-    borderRadius: 2,
-    elevation: 0,
-    fontFamily: 'montserrat-regular',
-    padding: 15,
-    textDecorationLine: 'none',
-  },
   placeholderColor: '#666',
   hint: {
     color: '#fff',
     fontFamily: 'montserrat-regular',
+    fontSize: 12,
     marginTop: 3,
   }
 };

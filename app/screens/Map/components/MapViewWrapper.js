@@ -72,7 +72,7 @@ export default class MapViewWrapper extends React.Component {
   renderMarker(node) {
     return (
       <Marker key={node.id} coordinate={node.location} onPress={this.openCallout.bind(this, node)}>
-        <Icon name="map-marker" size={32} color={globalStyle.primaryColor} />
+        <Icon name="map-marker" size={32} color={globalStyle.mainPrimaryColor} />
       </Marker>
     );
   }
@@ -130,7 +130,7 @@ export default class MapViewWrapper extends React.Component {
 let styles = {
   clusterIcon: {
     alignItems: 'center',
-    backgroundColor: globalStyle.primaryColor,
+    backgroundColor: globalStyle.mainPrimaryColor,
     borderRadius: 50,
     height: 32,
     justifyContent: 'center',

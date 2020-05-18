@@ -1,6 +1,7 @@
 import { AsyncStorage } from 'react-native';
 import { api, sharedActions, trans } from 'app/shared';
 import * as actionTypes from './actionTypes';
+import * as cartActions from 'app/screens/User/Cart/actions';
 import _ from 'lodash';
 
 export function fetchNode(nodeId) {
@@ -213,20 +214,15 @@ export function addProductToCart(data, lang) {
         body: data
       });
 
-      let jsonResponse = await response.json();
+      let cart = await response.json();
 
       dispatch(addToCartSuccess(lang));
-
-      dispatch({
-        type: actionTypes.RECEIVE_CART,
-        cart: jsonResponse,
-        loading: false,
-        refreshing: false,
-      });
+      dispatch(cartActions.receiveCart(cart));
     } catch (error) {
+      let errorMessage = await error.text();
       sharedActions.systemActions.checkMaintenanceMode(dispatch, error);
 
-      dispatch(addToCartFailed(error, lang));
+      dispatch(addToCartFailed(errorMessage, lang));
     }
   }
 }
@@ -238,11 +234,11 @@ export function addToCart() {
   }
 }
 
-export function addToCartFailed(error, lang) {
+export function addToCartFailed(errorMessage, lang) {
   return {
     type: actionTypes.ADD_TO_CART_FAILED,
     title: trans('Shopping cart', lang),
-    message: error.error
+    message: errorMessage
   }
 }
 

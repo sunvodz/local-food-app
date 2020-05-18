@@ -26,14 +26,14 @@ class Settings extends Component {
     this.props.dispatch(sharedActions.userActions.logout());
   }
 
-  navigateToMembershipPayment() {
+  navigateToPaymentSelect() {
     this.props.navigation.navigate('PaymentSelect', {
       lang: this.props.system.lang
     });
   }
 
-  navigateToHelp() {
-    this.props.navigation.navigate('Help', {
+  navigateToFAQ() {
+    this.props.navigation.navigate('FAQ', {
       lang: this.props.system.lang
     });
   }
@@ -57,7 +57,7 @@ class Settings extends Component {
   }
 
   onResendEmail() {
-    this.props.dispatch(sharedActions.resendEmail(this.props.system.lang));
+    this.props.dispatch(sharedActions.userActions.resendEmail(this.props.system.lang));
   }
 
   enablePushNotifications() {
@@ -82,29 +82,28 @@ class Settings extends Component {
     const { auth } = this.props;
     const lang = this.props.system.lang;
 
-    let membershipStatus = <Text style={styles.text}>{trans('You must make a donation before you can order products on Local Food Nodes. By supporting with a donation, free of choice, you co-finance efforts to make the food more local again.', lang)}</Text>;
-    let membershipStatusAction = <Link onPress={this.navigateToMembershipPayment.bind(this, false)} title={trans('Make a donation', lang)} />;
+    let donationStatus = <Text style={styles.text}>{trans('You must make a donation before you can order products on Local Food Nodes. By supporting with a donation, free of choice, you co-finance efforts to make the food more local again.', lang)}</Text>;
+    let donationStatusAction = <Link onPress={this.navigateToPaymentSelect.bind(this, false)} title={trans('Make a donation', lang)} />;
     let payments = auth.user.membership_payments;
 
     if (!auth.user.active) {
-      membershipStatus = <Text style={styles.text}>{trans('You have to verify your email address before you can make a donation and order products.', lang)}</Text>;
-      membershipStatusAction = <Link onPress={this.onResendEmail.bind(this)} title={trans('Resend verification email', lang)} />;
+      donationStatus = <Text style={styles.text}>{trans('You have to verify your email address before you can make a donation and order products.', lang)}</Text>;
+      donationStatusAction = <Link onPress={this.onResendEmail.bind(this)} title={trans('Resend verification email', lang)} />;
     } else if (payments.length > 0) {
       let lastPayment = payments[0];
-      let membershipUntil = moment(lastPayment.created_at).add(1, 'y');
-      membershipStatus = <Text style={styles.text}>{trans('Your donation is valid until', lang)} {membershipUntil.format('YYYY-MM-DD')}</Text>;
-      membershipStatusAction = <Link onPress={this.navigateToMembershipPayment.bind(this, true)} title={trans('Make a donation', lang)} />;
+      let membershipUntil = moment(lastPayment.expire_at);
+      donationStatus = <Text style={styles.text}>{trans('Your donation is valid until', lang)} {membershipUntil.format('YYYY-MM-DD')}</Text>;
+      donationStatusAction = <Link onPress={this.navigateToPaymentSelect.bind(this, true)} title={trans('Make a donation', lang)} />;
     }
 
     let languageSelect = (
       <TouchableOpacity style={globalStyle.settingsRow} onPress={this.navigateToLanguageSelect.bind(this)}>
-        <Text style={styles.text}>{trans('Change language')}</Text>
+        <Text style={styles.text}>{trans('Change language', lang)}</Text>
         <Icon name="chevron-right" />
       </TouchableOpacity>
     );
 
-    let loggedInAs = `${trans('Logged in as', lang)} ${auth.user.email}`;
-    let helpLink = <Link onPress={this.navigateToHelp.bind(this, true)} title={trans('Help', lang)} />;
+    let helpLink = <Link onPress={this.navigateToFAQ.bind(this, true)} title={trans('FAQ', lang)} />;
 
     let togglePushNotifications = null;
     if (!auth.user.push_token || auth.user.push_token.length == 0) {
@@ -123,8 +122,8 @@ class Settings extends Component {
 
     return (
       <ContentWrapper onRefresh={this.onRefresh.bind(this)} refreshing={auth.refreshing}>
-        <Card header={loggedInAs} headerPosition='outside' footer={membershipStatusAction} style={{card: {marginBottom: 0}}}>
-          {membershipStatus}
+        <Card headerPosition='outside' footer={donationStatusAction} style={{card: {marginBottom: 0}}}>
+          {donationStatus}
         </Card>
         {languageSelect}
         <Card header={trans('Permissions', lang)} headerPosition='outside'>
@@ -195,7 +194,7 @@ let styles = {
     padding: 5,
   },
   languageItemSelected: {
-    color: globalStyle.primaryColor
+    color: globalStyle.mainPrimaryColor
   },
   text: {
     fontFamily: 'montserrat-regular',
@@ -206,6 +205,6 @@ let styles = {
     right: 15,
   },
   help: {
-    color: globalStyle.primaryColor,
+    color: globalStyle.mainPrimaryColor,
   }
 };

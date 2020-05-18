@@ -16,7 +16,7 @@ const scrollViewProps = {
   keyboardShouldPersistTaps: 'always',
   enableOnAndroid: true,
   style: {
-    backgroundColor: globalStyle.primaryColor,
+    backgroundColor: globalStyle.mainPrimaryColor,
   }
 };
 
@@ -53,13 +53,13 @@ class SignUp extends React.Component {
   }
 
   render() {
-    const lang = this.props.lang;
+    const lang = this.props.system.lang;
 
     if (!this.state.terms) {
       return <Terms lang={lang} onAcceptTerms={this.onAcceptTerms.bind(this)} />;
     }
 
-    let button = <Button icon='user' onPress={this.onSignup.bind(this)} title={trans('Create account', lang)} loading={this.props.loading} disabled={!this.state.terms}/>;
+    let button = <Button style={styles.button} icon='user' onPress={this.onSignup.bind(this)} title={trans('Create account', lang)} />;
     if (this.props.auth.loading) {
       button = <ActivityIndicator color="#fff" />;
     }
@@ -112,9 +112,6 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps)(SignUp);
 
 let styles = {
-  scrollView: {
-    minHeight: '100%'
-  },
   logo: {
     height: 60,
     width: 70,
@@ -122,24 +119,9 @@ let styles = {
     justifyContent: 'center',
     alignSelf: 'center',
   },
-  infoText: {
-    color: '#fff',
-    flex: 1,
-    fontFamily: 'montserrat-regular',
-    lineHeight: 18,
-    marginBottom: 30,
-    textAlign: 'center',
-  },
-  toggleText: {
-    color: '#fff',
-    flex: 1,
-    fontFamily: 'montserrat-semibold',
-    lineHeight: 18,
-    textAlign: 'center',
-  },
   button: {
     button: {
-      marginVertical: 15,
+      marginTop: 15,
     }
   },
   wrapper: {
@@ -149,33 +131,5 @@ let styles = {
   header: {
     color: '#fff',
     fontFamily: 'montserrat-semibold',
-  },
-  switchWrapper: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 10,
-  },
-  switchLabel: {
-    color: '#fff',
-    flex: 1,
-    marginTop: 5,
-    fontFamily: 'montserrat-regular',
-  },
-  needHelpLink: {
-    color: '#fff',
-    fontFamily: 'montserrat-regular',
-    marginBottom: 15,
-    textAlign: 'center',
-  },
-  needHelpWrapper: {
-    color: '#fff',
-    fontFamily: 'montserrat-regular',
-    padding: 15,
-  },
-  needHelpText: {
-    color: '#fff',
-    fontFamily: 'montserrat-regular',
-    marginBottom: 15,
   },
 };

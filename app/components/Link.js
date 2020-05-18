@@ -14,7 +14,7 @@ export default class Link extends React.Component {
 
 let styles = {
   link: {
-    color: globalStyle.primaryColor,
+    color: globalStyle.mainPrimaryColor,
     fontSize: 14,
     fontFamily: 'montserrat-semibold'
   },

@@ -14,7 +14,7 @@ const scrollViewProps = {
   keyboardShouldPersistTaps: 'always',
   enableOnAndroid: true,
   style: {
-    backgroundColor: globalStyle.primaryColor,
+    backgroundColor: globalStyle.mainPrimaryColor,
   }
 };
 
@@ -56,10 +56,9 @@ class Login extends React.Component {
   }
 
   render() {
-    const lang = this.props.lang;
+    const lang = this.props.system.lang;
 
     let button = <Button icon='sign-in' onPress={this.onLogin.bind(this)} title={trans('Login', lang)} loading={this.props.loading} />;
-
     if (this.props.auth.loading) {
       button = <ActivityIndicator color="#fff" />;
     }
@@ -71,7 +70,7 @@ class Login extends React.Component {
             <Image style={styles.logo} source={require('../../../../assets/images/logo-white.png')} />
             <View style={[styles.wrapper]}>
               <TextInput key='email' label={trans('Email', lang)} defaultValue={this.state.email} editable={!this.props.loading} placeholder={trans('Your email', lang)} onChangeText={this.onChange.bind(this, 'email')} autoCapitalize='none' keyboardType="email-address" />
-              <TextInput key='password' label={trans('Password', lang)} defaultValue={this.state.password} editable={!this.props.loading} placeholder={trans('Your password')} onChangeText={this.onChange.bind(this, 'password')} secureTextEntry />
+              <TextInput key='password' label={trans('Password', lang)} defaultValue={this.state.password} editable={!this.props.loading} placeholder={trans('Your password', lang)} onChangeText={this.onChange.bind(this, 'password')} secureTextEntry />
               {button}
             </View>
           </View>
@@ -103,61 +102,8 @@ let styles = {
     justifyContent: 'center',
     alignSelf: 'center',
   },
-  infoText: {
-    color: '#fff',
-    flex: 1,
-    fontFamily: 'montserrat-regular',
-    lineHeight: 18,
-    marginBottom: 30,
-    textAlign: 'center',
-  },
-  toggleText: {
-    color: '#fff',
-    flex: 1,
-    fontFamily: 'montserrat-semibold',
-    lineHeight: 18,
-    textAlign: 'center',
-  },
-  button: {
-    button: {
-      marginVertical: 15,
-    }
-  },
   wrapper: {
     flex: 1,
     padding: 15,
-  },
-  header: {
-    color: '#fff',
-    fontFamily: 'montserrat-semibold',
-  },
-  switchWrapper: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 10,
-  },
-  switchLabel: {
-    color: '#fff',
-    flex: 1,
-    marginLeft: 10,
-    marginTop: 5,
-    fontFamily: 'montserrat-semibold',
-  },
-  needHelpLink: {
-    color: '#fff',
-    fontFamily: 'montserrat-regular',
-    marginBottom: 15,
-    textAlign: 'center',
-  },
-  needHelpWrapper: {
-    color: '#fff',
-    fontFamily: 'montserrat-regular',
-    padding: 15,
-  },
-  needHelpText: {
-    color: '#fff',
-    fontFamily: 'montserrat-regular',
-    marginBottom: 15,
   },
 };

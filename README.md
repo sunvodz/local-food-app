@@ -2,12 +2,12 @@
 Local Food Nodes connects local food producers to local food consumers as well as strengthening those relationships that already exist. We enable direct transactions, resilient communities and regain control over what we eat and how it is produced. A desire to make food local again.
 
 # Local Food App
-Local Food App is a React Native app that lets you browser and order products, manage your orders and pay your yearly membership.
+Local Food App is a React Native app that lets you browser and order products, manage your orders and make donations.
 
 # Development notes
-If .env is not updartng run npm start with --reset-cache or add to start command in package.json.
+If .env is not updating run npm start with --reset-cache or add to start command in package.json.
 
-For local dev change oauth callback endpoint (if using ngrok)
+For local dev tunnel your environment using ngrok or similar and change API_URL in .env.
 
 # Release new version
 * Update version number in app.json
@@ -26,7 +26,7 @@ Until automated testing is in place, make sure that the app can...
 ## Basics
 * Create account
 * Login to account
-* Pay membership
+* Donate
 * Ask for location and notification permission
 
 ## Browse and order

@@ -33,8 +33,8 @@ let styles = {
     width: 60,
   },
   activeBadge: {
-    backgroundColor: globalStyle.primaryColor,
-    borderColor: globalStyle.primaryColor,
+    backgroundColor: globalStyle.mainPrimaryColor,
+    borderColor: globalStyle.mainPrimaryColor,
   },
   labelTop: {
     fontFamily: 'montserrat-semibold',

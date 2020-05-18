@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, ImageBackground, Dimensions, ScrollView } from 'react-native';
+import { View, Text, ImageBackground, Dimensions } from 'react-native';
+import * as ScreenOrientation from 'expo-screen-orientation';
 import { FontAwesome as Icon } from '@expo/vector-icons';
 import Link from './Link';
 import { trans } from 'app/shared';
@@ -11,6 +12,12 @@ export default class NodeCard extends React.Component {
     this.state = {
       readMore: false
     };
+  }
+
+  componentDidMount() {
+    ScreenOrientation.addOrientationChangeListener((orientationChangeEvent) => {
+
+    });
   }
 
   navigateToNode() {

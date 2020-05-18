@@ -143,9 +143,10 @@ export function resendEmail(lang) {
 
       dispatch(resendEmailSuccess(lang));
     } catch (error) {
+      let errorMessage = await error.text();
       systemActions.checkMaintenanceMode(dispatch, error);
 
-      dispatch(resendEmailFailed(error, lang));
+      dispatch(resendEmailFailed(errorMessage, lang));
     }
   }
 }
@@ -154,11 +155,11 @@ export function resendEmail(lang) {
  *
  * @param {*} error
  */
-export function resendEmailFailed(error, lang) {
+export function resendEmailFailed(errorMessage, lang) {
   return {
     type: sharedActionTypes.RESEND_EMAIL_FAILED,
     title: trans('Verify email', lang),
-    message: trans('Could not send verification email.', lang),
+    message: errorMessage,
   }
 }
 

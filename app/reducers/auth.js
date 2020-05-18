@@ -3,6 +3,7 @@ import * as loginActionTypes from 'app/screens/Auth/Login/actionTypes';
 import * as signupActionTypes from 'app/screens/Auth/SignUp/actionTypes';
 import { SWISH_SUCCESS } from 'app/screens/User/PayWithSwish/actionTypes';
 import { STRIPE_SUCCESS } from 'app/screens/User/PayWithStripe/actionTypes';
+import { DONATE_NOTHING_STARTED, DONATE_NOTHING_SUCCESS } from 'app/screens/User/DonateNothing/actionTypes';
 import { FOLLOW_NODE_SUCCESS } from 'app/screens/Node/actionTypes';
 
 function authReducer(state, action) {
@@ -13,7 +14,7 @@ function authReducer(state, action) {
     case loginActionTypes.LOGIN_SUCCESS:
     case loginActionTypes.LOGIN_FAILED:
     case sharedActionTypes.LOGOUT_SUCCESS:
-      case sharedActionTypes.LOAD_USER_SUCCESS:
+    case sharedActionTypes.LOAD_USER_SUCCESS:
     case sharedActionTypes.LOAD_USER_FAILED:
     case sharedActionTypes.REFRESH_USER:
       return Object.assign({}, state, {
@@ -39,15 +40,17 @@ function authReducer(state, action) {
       });
       break;
 
-    case sharedActionTypes.DONATE_NOTHING_STARTED:
+    case DONATE_NOTHING_STARTED:
       return Object.assign({}, state, {
         paymentInProgress: action.paymentInProgress,
+        paymentSuccess: false,
       });
       break;
 
-    case sharedActionTypes.DONATE_NOTHING_SUCCESS:
+    case DONATE_NOTHING_SUCCESS:
       return Object.assign({}, state, {
         paymentInProgress: action.paymentInProgress,
+        paymentSuccess: action.paymentSuccess,
         user: action.user,
       });
       break;

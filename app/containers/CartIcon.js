@@ -58,11 +58,11 @@ let styles = {
     },
   },
   counter: {
-    backgroundColor: globalStyle.primaryColor,
+    backgroundColor: globalStyle.mainAccentColor,
     borderRadius: 10,
     height: 16,
     justifyContent: 'center',
-    right: -5,
+    right: -10,
     position: 'absolute',
     top: -5,
     width: 16,

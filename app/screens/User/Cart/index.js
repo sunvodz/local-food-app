@@ -93,7 +93,7 @@ class Cart extends React.Component {
         onUpdate: this.updateCartItem.bind(this)
       }
 
-      return <CartItem {...cartItemProps} lang={this.props.lang} />;
+      return <CartItem {...cartItemProps} lang={this.props.system.lang} />;
     });
 
     return (
@@ -193,7 +193,7 @@ let styles = {
     alignSelf: 'center',
   },
   orderWrapper: {
-    backgroundColor: globalStyle.primaryColor,
+    backgroundColor: globalStyle.mainPrimaryColor,
     flexDirection: 'row',
     padding: 15,
 

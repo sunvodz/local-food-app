@@ -12,7 +12,7 @@ export default function trans(string, lang) {
     currentLang = sv;
   }
 
-  let key = string.replace(/[^\w\s!?]/g, ' ');
+  let key = string.replace(/[^\w\s]/g, ' ');
   key = key.replace(/  +/g, ' ');
   key = key.trim();
   key = key.replace(/ /g, '_');

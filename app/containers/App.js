@@ -26,7 +26,7 @@ const BottomTabNavigatorConfig = {
   tabBarOptions: {
     showIcon: true,
     showLabel: false,
-    activeTintColor: globalStyle.primaryColor,
+    activeTintColor: globalStyle.mainPrimaryColor,
     inactiveTintColor: '#999',
     activeBackgroundColor: '#fafafa',
     inactiveBackgroundColor: '#fafafa',
@@ -101,7 +101,7 @@ class App extends Component {
 
     if (this.props.auth.loading === undefined) {
       return (
-        <View style={{flex: 1, backgroundColor: globalStyle.primaryColor}}>
+        <View style={{flex: 1, backgroundColor: globalStyle.mainPrimaryColor}}>
           <ActivityIndicator style={{flex: 1}} color="#fff" />
         </View>
       );

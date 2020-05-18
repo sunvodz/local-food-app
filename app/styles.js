@@ -26,5 +26,6 @@ export default {
     padding: 15,
   },
   backgroundColor: '#efeadf',
-  primaryColor: '#bf360c',
+  mainPrimaryColor: '#bf360c',
+  mainAccentColor: '#ff9800',
 };

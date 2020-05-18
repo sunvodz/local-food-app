@@ -22,11 +22,7 @@ class PayWithStripe extends Component {
       cvc: null,
       paymentSuccess: false,
       currency: props.auth.user.currency ? props.auth.user.currency : 'EUR',
-      donateNothing: false,
     }
-
-    this.onChangeAmount = this.onChangeAmount.bind(this);
-    this.onDonateNothing = this.onDonateNothing.bind(this);
   }
 
   componentDidMount() {
@@ -51,7 +47,9 @@ class PayWithStripe extends Component {
 
   onPayment() {
     if (this.state.amount == 0) {
-      this.setState({donateNothing: true});
+      this.props.navigation.navigate('DonateNothing', {
+        lang: this.props.route.params.lang
+      });
     } else {
       this.props.dispatch(actions.startStripe(this.props.auth.user.id, this.state, this.props.route.params.lang));
     }
@@ -77,16 +75,6 @@ class PayWithStripe extends Component {
     }
   }
 
-  onChangeAmount() {
-    this.setState({
-      donateNothing: false,
-    });
-  }
-
-  onDonateNothing() {
-    this.props.dispatch(sharedActions.donationActions.donateNothing(this.props.auth.user.id));
-  }
-
   render() {
     const { auth, stripe } = this.props;
     const lang = this.props.route.params.lang;
@@ -96,7 +84,7 @@ class PayWithStripe extends Component {
       let viewProps = {
         style: {
           alignItems: 'center',
-          backgroundColor: globalStyle.primaryColor,
+          backgroundColor: globalStyle.mainPrimaryColor,
           flex: 1,
           justifyContent: 'center',
           paddingHorizontal: 15,
@@ -108,21 +96,6 @@ class PayWithStripe extends Component {
           <View {...viewProps}>
             <Icon style={styles.icon} name='birthday-cake' />
             <Text style={styles.infoText}>{trans('Thank you for your donation!', lang)}</Text>
-          </View>
-        </View>
-      );
-    }
-
-    // Donate nothing
-    if (this.state.donateNothing) {
-      return (
-        <View style={styles.container}>
-          <View style={{alignItems: 'center'}}>
-            <Icon style={styles.icon} name='frown-o' />
-            <Text style={styles.infoText}>{trans('Local Food Nodes is built on a gift based enonomy. By supporting with a donation, free of choice, you co-finance efforts to make the food more local again.', lang)}</Text>
-            <Button style={styles.button} onPress={this.onChangeAmount} title={trans('Change amount', lang)} />
-            <Text style={styles.donateNothing} onPress={this.onDonateNothing}>{trans('Donate nothing', lang)}</Text>
-            {auth.paymentInProgress && <ActivityIndicator style={{top: '50%'}} color="#fff" />}
           </View>
         </View>
       );
@@ -145,39 +118,39 @@ class PayWithStripe extends Component {
           items={_.toArray(currencies)}
           onValueChange={this.onCurrencyChange.bind(this)}
           hideIcon={true}
-          value={this.state.currency ? this.state.currency : 'EUR'} />
+          value={this.state.currency ? this.state.currency : 'EUR'}
+        />
       );
     }
 
     let scrollViewProps = {
-      contentContainerStyle: {
-        paddingBottom: 100,
-      },
       keyboardShouldPersistTaps: 'always',
       enableOnAndroid: true,
       style: {
-        backgroundColor: globalStyle.primaryColor,
+        backgroundColor: globalStyle.mainPrimaryColor,
       }
     };
+
+    let button = <Button onPress={this.onPayment.bind(this)} title={trans('Donate with card', lang)} />;
+    if (stripe.paymentInProgress) {
+      button = <ActivityIndicator color="#fff" />;
+    }
 
     return (
       <KeyboardAwareScrollView {...scrollViewProps}>
         <View style={styles.wrapper}>
-          <View style={styles.group}>
+          <View style={styles.inputGroup}>
             <NumberInput style={textInputGroupItemStyle} label={trans('Amount', lang)} placeholder={trans('Any amount', lang)} onChangeText={this.onChange.bind(this, 'amount')} />
             {currencySelect}
           </View>
           <NumberInput label={trans('Card number', lang)} value={this.state.cardNumber} placeholder={trans('xxxx xxxx xxxx xxxx', lang)} onChangeText={this.onChange.bind(this, 'cardNumber')} />
-          <View style={styles.group}>
+          <View style={styles.inputGroup}>
             <NumberInput style={textInputGroupItemStyle} label={trans('Month', lang)} placeholder={trans('xx', lang)} onChangeText={this.onChange.bind(this, 'expMonth')} />
             <NumberInput style={textInputGroupItemStyle} label={trans('Year', lang)} placeholder={trans('xx', lang)} onChangeText={this.onChange.bind(this, 'expYear')} />
-            <NumberInput style={textInputLastGroupItemStyle} label="CVC" placeholder="xxx" onChangeText={this.onChange.bind(this, 'cvc')} />
-          </View>
-          <View style={{marginTop: 15}}>
-            <Button onPress={this.onPayment.bind(this)} title={trans('Donate with card', lang)} loading={this.props.stripe.paymentInProgress} />
+            <NumberInput style={textInputLastGroupItemStyle} label="CVC" placeholder={trans('xxx', lang)} onChangeText={this.onChange.bind(this, 'cvc')} />
           </View>
         </View>
-        {stripe.paymentInProgress && <ActivityIndicator color="#fff" />}
+        {button}
       </KeyboardAwareScrollView>
     );
   }
@@ -196,7 +169,7 @@ export default connect(mapStateToProps)(PayWithStripe);
 
 let styles = {
   container: {
-    backgroundColor: globalStyle.primaryColor,
+    backgroundColor: globalStyle.mainPrimaryColor,
     flex: 1,
     padding: 10,
   },
@@ -233,7 +206,7 @@ let styles = {
     paddingBottom: 0,
     textDecorationLine: 'underline',
   },
-  group: {
+  inputGroup: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -241,12 +214,6 @@ let styles = {
   selectWrapper: {
     backgroundColor: '#fff',
     flex: 1,
-  },
-  donateNothing: {
-    color: '#fff',
-    fontFamily: 'montserrat-regular',
-    lineHeight: 18,
-    textAlign: 'center',
   },
   icon: {
     color: '#fff',

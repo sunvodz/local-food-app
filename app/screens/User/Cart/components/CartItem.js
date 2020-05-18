@@ -29,6 +29,7 @@ export default class CartItem extends React.Component {
   }
 
   render() {
+    const lang = this.props.lang;
     const { data } = this.props;
 
     const cartItem = data.item;
@@ -81,9 +82,9 @@ export default class CartItem extends React.Component {
     let trash = (
       <View style={styles.footer}>
         <View style={styles.priceWrapper}>
-          <Text style={styles.priceText}>{trans('Total')}: {totalPrice}</Text>
+          <Text style={styles.priceText}>{trans('Total', lang)}: {totalPrice}</Text>
         </View>
-        <Link title={trans('delete')} onPress={this.removeCartItem.bind(this)} />
+        <Link title={trans('delete', lang)} onPress={this.removeCartItem.bind(this)} />
       </View>
     );
 
@@ -146,7 +147,7 @@ let styles = {
     justifyContent: 'space-between',
   },
   priceWrapper: {
-    backgroundColor: globalStyle.primaryColor,
+    backgroundColor: globalStyle.mainPrimaryColor,
     borderRadius: 15,
     paddingHorizontal: 10,
     paddingVertical: 5,
@@ -191,7 +192,7 @@ const quantityStyle = {
   },
   button: {
     justifyContent: 'center',
-    backgroundColor: globalStyle.primaryColor,
+    backgroundColor: globalStyle.mainPrimaryColor,
     borderRadius: 100,
     padding: 10,
     width: 60,

@@ -31,7 +31,7 @@ let styles = {
   },
   view: {
     alignItems: 'center',
-    backgroundColor: globalStyle.primaryColor,
+    backgroundColor: globalStyle.mainPrimaryColor,
     flex: 1,
     justifyContent: 'center',
     padding: 15,
